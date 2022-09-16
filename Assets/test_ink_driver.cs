@@ -17,6 +17,7 @@ public class test_ink_driver : MonoBehaviour
     public int lines_happened;
     public double lineswitch_wait_ms;
     private double next_time_to_proceed;
+    private int random_proceeding;
 
     void Awake()
     {
@@ -48,7 +49,20 @@ public class test_ink_driver : MonoBehaviour
             }
             else
             {
-                Debug.Log("story is stuck not continuing");
+                if (story.currentChoices.Count > 0)
+                {
+                    for (int i = 0; i < story.currentChoices.Count; i++)
+                    {
+                        Choice choice = story.currentChoices[i];
+                        Debug.Log("Can choose:" + choice.text);
+                    }
+                    random_proceeding = UnityEngine.Random.Range(0, story.currentChoices.Count);
+                    story.ChooseChoiceIndex(random_proceeding);
+                }
+                else
+                {
+                    Debug.Log("story stuck unable to continue");
+                }
             }
         }
     }
