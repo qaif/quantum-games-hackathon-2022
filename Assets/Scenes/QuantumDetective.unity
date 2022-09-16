@@ -349,6 +349,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inkJSONAsset: {fileID: 4900000, guid: 2588a41e2ee3b8242ae0d0ae1414997c, type: 3}
   text_shower: {fileID: 644636262}
+  lines_happened: 0
+  lineswitch_wait_ms: 1000
 --- !u!4 &1116481352
 Transform:
   m_ObjectHideFlags: 0
