@@ -519,10 +519,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e37be7be47c4746898f14e2d35b56f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSONAsset: {fileID: 4900000, guid: 2588a41e2ee3b8242ae0d0ae1414997c, type: 3}
+  inkJSONAsset: {fileID: 4900000, guid: 7628b05570edfc441be0482479e0e960, type: 3}
   text_shower: {fileID: 644636262}
   lines_happened: 0
-  lineswitch_wait_ms: 1000
+  lineswitch_wait_ms: 2000
 --- !u!4 &1116481352
 Transform:
   m_ObjectHideFlags: 0
