@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Ink.Runtime;
+using TMPro;
 
 public class test_ink_driver : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class test_ink_driver : MonoBehaviour
     [SerializeField]
     private TextAsset inkJSONAsset = null;
     public Story story;
+
+    public TextMeshProUGUI text_shower;
 
     void Awake()
     {
@@ -29,6 +32,7 @@ public class test_ink_driver : MonoBehaviour
     void ThenThisHappens()
     {
         string text = story.Continue();
+        text_shower.SetText(text);
         Debug.Log(text);
     }
 
