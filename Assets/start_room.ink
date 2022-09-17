@@ -1,5 +1,8 @@
 // INCLUDE Testing_dialog.ink
+// INCLUDE introduction.ink
 INCLUDE body.ink
+INCLUDE introduction.ink
+
 lets tell a story
 -> startingScene
 
