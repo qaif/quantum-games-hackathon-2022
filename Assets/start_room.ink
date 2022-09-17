@@ -19,6 +19,15 @@ VAR weapon = "knife"
 
 lets tell a story
 
+->titleLine
+
+=titleLine
+Welcome to play Quantum Detective.
++ wait
+   -> titleLine
++ start
+  ->startingScene
+
 -> startingScene
 
 === startingScene ===

@@ -36,9 +36,8 @@ public class superposition_manager : MonoBehaviour
             classical_story fresh= new classical_story();
             fresh.story = new Story(line_template.text);
             fresh.force_add("story "+i.ToString());
-            //fresh.ForwardFlow();
-            //fresh.story.variablesState["world"] = world_letters[i];
             fresh.ForwardFlow();
+            fresh.story.variablesState["world"] = world_letters[i];
             linears.Add(fresh);
             Debug.Log("plop");
 
