@@ -4,6 +4,7 @@ INCLUDE introduction.ink
 INCLUDE hallway.ink
 INCLUDE cleaning_cellar.ink
 INCLUDE butler.ink
+INCLUDE world_a.ink
 
 VAR world = "A"
 ~ world = "{~A|B|C|D|E}"

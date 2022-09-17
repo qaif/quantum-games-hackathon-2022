@@ -1,4 +1,4 @@
-=WorldA=
+=WorldA
 injury="trauma"
 
 -> startingScene
