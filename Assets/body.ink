@@ -25,4 +25,4 @@ The body lies on the floor, twisted from its neck.
         Go back to hallway
             -> hallway
 *  Go back
-    -> startingScene
+    -> hallway

@@ -1,4 +1,4 @@
-﻿==Butler==
+==Butler==
 Stylish as ever {protagonist_name} approaches a calm servant that could be mistaken for a statue, if they would not breathe.
 "You are the one investigating the murder..."
 "...and why have you come to see me?"
