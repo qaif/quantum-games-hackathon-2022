@@ -16,13 +16,14 @@ public class test_ink_driver : MonoBehaviour
 
     public int lines_happened;
     public double lineswitch_wait_ms;
+    public TMP_InputField commander;
     private double next_time_to_proceed;
     private int random_proceeding;
 
     void Awake()
     {
         // Debug.Log("I am awake");
-        // Remove the default message
+        commander.onSubmit.AddListener(CommandParsing);
         StartStory();
     }
 
@@ -31,20 +32,25 @@ public class test_ink_driver : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
+
+    void CommandParsing(string babble)
+    {
+        Debug.Log("commanded to: "+babble);
+    }
+
 
     void ThenThisHappens()
     {
         next_time_to_proceed = lines_happened * (lineswitch_wait_ms*(1.0/1000.0));
-        Debug.Log(next_time_to_proceed.ToString()+ "lines "+ lines_happened.ToString());
+        //Debug.Log(next_time_to_proceed.ToString()+ "lines "+ lines_happened.ToString());
         if (next_time_to_proceed < UnityEngine.Time.fixedTime)
         {
             if (story.canContinue)
             {
                 string text = story.Continue();
                 text_shower.SetText(text);
-                Debug.Log(text);
+                //Debug.Log(text);
                 lines_happened = lines_happened + 1;
             }
             else
@@ -61,7 +67,7 @@ public class test_ink_driver : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("story stuck unable to continue");
+                    //Debug.Log("story stuck unable to continue");
                 }
             }
         }
