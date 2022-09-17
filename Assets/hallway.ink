@@ -1,3 +1,5 @@
+INCLUDE student.ink
+
 === hallway ===
 
 The hallway seems empty. There is a door to the cleaning cellar,
@@ -20,5 +22,8 @@ a door to a classroom and a door to the auditorium.
     
     === auditorium ===
     The auditorium seems empty
+    ...except for a lone figure jumping up and down
+    + [Engage]
+        -> Student
     + Return to hallway
     -> hallway
