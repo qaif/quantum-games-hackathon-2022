@@ -1,4 +1,4 @@
-==Student==
+===Rascal===
 Almost as active as if bored out of their mind in a full lecture hall {~2|3|4} hours straight.
 "What took you so long?"
 "They have not been letting me leave until the case is solved."
@@ -44,7 +44,7 @@ Almost as active as if bored out of their mind in a full lecture hall {~2|3|4} h
   "Not on the verge of flunking?"
 *[Guilt]
   "Did you do it?"
-  {quilty=="student":
+  {guilty=="student":
   "Off course not"
   - else:
   "I wish I had"

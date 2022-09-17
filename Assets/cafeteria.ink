@@ -6,7 +6,7 @@ INCLUDE suspect_e.ink
 Some people are lazily biding their time.
 This seems like a good place to address a large crowd.
 Am I ready to crack this case?
-*{guilty!="protagonist"}[Yes]
+*{not guilty=="protagonist"}[Yes]
   -> Resolution
 *[I have to]
   -> Resolution

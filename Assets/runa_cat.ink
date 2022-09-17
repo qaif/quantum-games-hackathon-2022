@@ -38,7 +38,7 @@ A purring cat sits on the shoulder of the young woman.
   ""
 *[Guilt]
   "Did you do it?"
-  {quilty=="runa_cat":
+  {guilty=="runa_cat":
   "Of course not"
   -else:
   "Is the question about doing or thinking more important for you than the question about being?"
