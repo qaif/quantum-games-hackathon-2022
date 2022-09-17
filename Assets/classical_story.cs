@@ -25,6 +25,17 @@ public class classical_story
         chronons = new List<string>();
     }
 
+    public string AsOneText()
+    {
+        string blob = "";
+        for (int i = 0; i < chronons.Count; i++) 
+        {
+            blob = blob + "\n" + chronons[i];
+        }
+        return blob;
+    }
+
+
     public void ForwardFlow()
     {
         while (story.canContinue)

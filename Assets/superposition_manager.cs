@@ -10,6 +10,7 @@ public class superposition_manager : MonoBehaviour
     private List<classical_story> linears;
     public TMP_InputField commander;
     public int current_display;
+    public TextMeshProUGUI current_prose;
     
         // Start is called before the first frame update
     void Start()
@@ -50,12 +51,21 @@ public class superposition_manager : MonoBehaviour
         {
             current_display = 0;
         }
+        current_prose.SetText("");
+        current_prose.SetText(linears[current_display].AsOneText());
+
+
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        
+        double time_phase = Time.time % (5000 * linears.Count);
+        if (time_phase > (5000 * current_display))
+        {
+            Debug.Log("whoosh");
+            ShowNext();
+        }
     }
 }
