@@ -5,6 +5,10 @@ INCLUDE hallway.ink
 INCLUDE cleaning_cellar.ink
 INCLUDE butler.ink
 INCLUDE office.ink
+INCLUDE auditorium.ink
+INCLUDE characterlist.ink
+
+
 
 
 VAR world = "A"
