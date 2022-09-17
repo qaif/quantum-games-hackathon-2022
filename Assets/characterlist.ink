@@ -21,8 +21,8 @@
         +   Piia Marini         //Professor of Zoology          
         +   Rab Aikema          //Student of Ecology                                access to scopolomine
         +   Rolf Olivier        //Student of Finances
-        +   Runa Coello         //Student of Philosophy
-        +   Silja Das           //Student of Mathemathicks                          Has a cat
+        +   Runa Coello         //Student of Philosophy                             has a cat
+        +   Silja Das           //Student of Mathemathicks                          maybe werewolf, maybe in debt
         +   Simon Baumgartner   //Student of Law
         +   Tomislava Dreher    //Professor of Digital Art
         +   Urvi Belluomo       //Student of Medicine

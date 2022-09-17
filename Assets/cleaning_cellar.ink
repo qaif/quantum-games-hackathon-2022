@@ -14,7 +14,5 @@ an earring, a hat and a feather'
 //    You picked up the hat.
 //+ Pick up feather
 //    You picked up the feather.
-+ Open book
-    You read a wall of text
-    -> CleaningItems
--> body
+
+ -> body

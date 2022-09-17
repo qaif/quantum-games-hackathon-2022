@@ -1,4 +1,4 @@
-﻿==Student==
+==Student==
 Almost as active as if bored out of their mind in a full lecture hall {~2|3|4} hours straight.
 "What took you so long?"
 "They have not been letting me leave until the case is solved."
