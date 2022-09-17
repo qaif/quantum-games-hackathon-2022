@@ -22,7 +22,7 @@ The body lies on the floor, twisted from its neck.
             The shoulder is crushed
             -> inspect
         * *  -> 
-        Go back 
-            -> startingScene
+        Go back to hallway
+            -> hallway
 *  Go back
-    -> startingScene
+    -> hallway
