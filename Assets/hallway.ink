@@ -1,15 +1,19 @@
 INCLUDE student.ink
+INCLUDE murder_bathroom.ink
 
 === hallway ===
 
 The hallway seems empty. There is a door to the cleaning cellar,
 a door to a classroom and a door to the auditorium.
+In addition to the usual facilities.
     + Enter cleaning cellar
         -> cleaning_cellar
     + Enter classroom
       -> classroom
     + Enter auditorium
         ->auditorium 
+    + Enter toilet
+        ->MurderBathroom 
     
     
     
