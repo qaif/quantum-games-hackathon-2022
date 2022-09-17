@@ -25,11 +25,19 @@ public class superposition_manager : MonoBehaviour
         current_display = 0;
         last_rollover = 0.0;
         linears = new List<classical_story>();
+        List<string> world_letters = new List<string>();
+        world_letters.Add("A");
+        world_letters.Add("B");
+        world_letters.Add("C");
+        world_letters.Add("D");
+        world_letters.Add("E");
         for (int i=0;i<5; i++)
         {
             classical_story fresh= new classical_story();
             fresh.story = new Story(line_template.text);
             fresh.force_add("story "+i.ToString());
+            //fresh.ForwardFlow();
+            //fresh.story.variablesState["world"] = world_letters[i];
             fresh.ForwardFlow();
             linears.Add(fresh);
             Debug.Log("plop");
