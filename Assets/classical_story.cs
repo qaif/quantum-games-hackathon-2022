@@ -30,6 +30,7 @@ public class classical_story
         while (story.canContinue)
         {
             string scribble = story.Continue();
+            Debug.Log("chronon: "+ scribble);
             chronons.Add(scribble);
         }
     }

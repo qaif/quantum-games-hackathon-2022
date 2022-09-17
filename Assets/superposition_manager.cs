@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ink.Runtime;
+using TMPro;
 
 public class superposition_manager : MonoBehaviour
 {
     public TextAsset line_template;
     private List<classical_story> linears;
-    // Start is called before the first frame update
-    void Start()
+    public TMP_InputField commander;
+    
+        // Start is called before the first frame update
+        void Start()
     {
         
     }
@@ -26,6 +29,7 @@ public class superposition_manager : MonoBehaviour
 
         }
         HeedAction("test");
+        commander.onSubmit.AddListener(HeedAction);
     }
 
     void HeedAction(string word)
