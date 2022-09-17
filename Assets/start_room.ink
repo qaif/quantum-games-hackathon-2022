@@ -1,4 +1,4 @@
-//INCLUDE Testing_dialog.ink
+// INCLUDE Testing_dialog.ink
 INCLUDE body.ink
 -> startingScene
 
@@ -11,10 +11,9 @@ At the crime scene there are clues about who is the killer.
 -> bodyOverview
 
 = bodyOverview
-The body lies on the floor, twisted from its neck.
-    * inspect body
+    * [Inspect body]
          -> body
-    * go back 
+    * Go back 
         -> startDescription
     
    
