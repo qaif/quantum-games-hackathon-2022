@@ -1,3 +1,4 @@
+/*
 === dialog === 
 
 
@@ -18,4 +19,4 @@ In the room there was a lot of interesting people
         * * Mary 
         * * Go back
         -> startingScene
-
+*/
