@@ -67,7 +67,7 @@ public class classical_story
             for (int i = 0; i < story.currentChoices.Count; i++)
             {
                 Choice choice = story.currentChoices[i];
-                if (choice.text == word)
+                if (choice.text.ToLower() == word.ToLower())
                 {
                     story.ChooseChoiceIndex(i);
                 }
