@@ -5,12 +5,6 @@ INCLUDE hallway.ink
 INCLUDE cleaning_cellar.ink
 INCLUDE butler.ink
 INCLUDE office.ink
-INCLUDE auditorium.ink
-INCLUDE characterlist.ink
-INCLUDE runa_cat.ink
-
-
-
 
 
 VAR world = "A"
@@ -21,8 +15,8 @@ VAR storm = false
 ~ storm = "{~false|true}"
 VAR werewolf = false
 ~ werewolf="{~false|true}"
-VAR quilty = "butler"
-~ quilty="{butler|boy}"
+VAR guilty = "butler"
+~ guilty="{butler|boy}"
 VAR weapon = "knife"
 ~ weapon="{knife|baseball bat}"
 VAR protagonist_name = "Detective"

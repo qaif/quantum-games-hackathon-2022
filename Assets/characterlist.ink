@@ -29,11 +29,3 @@
         +   Vasu Reis           //Professor of Computer Science
         +   Vidya Chalupa       //Student of Creative Sustainability
         +   Zdravka Brauer      //Student of Nanotechnology
- 
-     === auditorium ===
-    Most of the students, faculty and visitors present at the time are gathered in the auditorium.
-    
-    Talk to
-    
-        + Return to hallway
-        -> hallway
