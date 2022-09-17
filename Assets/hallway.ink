@@ -18,7 +18,4 @@ a door to a classroom and a door to the auditorium.
     + Return to hallway
     -> hallway
     
-    === auditorium ===
-    The auditorium seems empty
-    + Return to hallway
-    -> hallway
+
