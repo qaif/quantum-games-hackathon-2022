@@ -156,6 +156,7 @@ MonoBehaviour:
   commander: {fileID: 579393102}
   current_display: 0
   current_prose: {fileID: 801249034}
+  time_to_keep_stable: 2
 --- !u!4 &12590338
 Transform:
   m_ObjectHideFlags: 0

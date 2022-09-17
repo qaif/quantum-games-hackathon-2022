@@ -12,6 +12,7 @@ public class superposition_manager : MonoBehaviour
     public int current_display;
     public TextMeshProUGUI current_prose;
     public double time_to_keep_stable;
+    private double last_rollover;
     
         // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class superposition_manager : MonoBehaviour
     void Awake()
     {
         current_display = 0;
+        last_rollover = 0.0;
         linears = new List<classical_story>();
         for (int i=0;i<5; i++)
         {
@@ -52,6 +54,7 @@ public class superposition_manager : MonoBehaviour
         if (current_display >= linears.Count)
         {
             current_display = 0;
+            last_rollover = Time.time;
         }
         current_prose.SetText("");
         current_prose.SetText(linears[current_display].AsOneText());
@@ -63,8 +66,9 @@ public class superposition_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        double time_phase = Time.time % (time_to_keep_stable * linears.Count);
-        if (time_phase > (time_to_keep_stable * current_display))
+        double time_phase = Time.time - last_rollover;
+        Debug.Log(time_phase+ (time_to_keep_stable * (current_display+1)).ToString());
+        if (time_phase > (time_to_keep_stable * (current_display+1)))
         {
             Debug.Log("whoosh");
             ShowNext();
