@@ -25,6 +25,10 @@ VAR weapon = "knife"
 ~ weapon="{knife|baseball bat}"
 VAR protagonist_name = "Detective"
 ~ protagonist_name = "{~Mary|Charles|Stanley|Ada}"
+VAR debt= false
+~ debt="{~false|true}"
+VAR affair= false
+~ affair="{~false|true}"
 
 lets tell a story
 
