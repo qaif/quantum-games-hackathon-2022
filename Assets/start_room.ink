@@ -1,5 +1,6 @@
 // INCLUDE Testing_dialog.ink
 INCLUDE body.ink
+lets tell a story
 -> startingScene
 
 === startingScene ===
