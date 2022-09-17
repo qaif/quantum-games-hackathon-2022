@@ -32,6 +32,14 @@ public class classical_story
         {
             blob = blob + "\n" + chronons[i];
         }
+        if (story.currentChoices.Count > 0)
+        {
+            blob = blob + "\nHow shall I proceed?";
+            for (int i = 0; i < story.currentChoices.Count; i++)
+            {
+                blob = blob + "\n" + story.currentChoices[i].text;
+            }
+        }
         return blob;
     }
 
