@@ -5,6 +5,13 @@ INCLUDE hallway.ink
 INCLUDE cleaning_cellar.ink
 INCLUDE butler.ink
 INCLUDE office.ink
+INCLUDE auditorium.ink
+INCLUDE characterlist.ink
+INCLUDE runa_cat.ink
+INCLUDE student.ink
+INCLUDE cafeteria.ink
+
+
 
 
 VAR world = "A"
@@ -15,8 +22,8 @@ VAR storm = false
 ~ storm = "{~false|true}"
 VAR werewolf = false
 ~ werewolf="{~false|true}"
-VAR guilty = "butler"
-~ guilty="{butler|boy}"
+VAR quilty = "butler"
+~ quilty="{butler|boy}"
 VAR weapon = "knife"
 ~ weapon="{knife|baseball bat}"
 VAR protagonist_name = "Detective"
@@ -36,6 +43,11 @@ Welcome to play Quantum Detective.
    -> titleLine
 + start
   ->startingScene
++ credits
+  Antti Salo
+  Riikka-Lotta Pehkonen
+  Mich
+  -> titleLine
 
 -> startingScene
 
