@@ -92,7 +92,7 @@ public class superposition_manager : MonoBehaviour
         Debug.Log(time_phase+ (time_to_keep_stable * (current_display+1)).ToString());
         if (time_phase > (time_to_keep_stable * (current_display+1)))
         {
-            Debug.Log("whoosh");
+            //Debug.Log("whoosh");
             ShowNext();
         }
     }
