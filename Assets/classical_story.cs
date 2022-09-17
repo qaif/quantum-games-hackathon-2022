@@ -20,6 +20,12 @@ public class classical_story
         chronons = new List<string>();
     }
 
+    public void force_add(string lol)
+    {
+        chronons.Add(lol);
+    }
+
+
     void Awake()
     {
         chronons = new List<string>();

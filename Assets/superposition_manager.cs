@@ -11,6 +11,7 @@ public class superposition_manager : MonoBehaviour
     public TMP_InputField commander;
     public int current_display;
     public TextMeshProUGUI current_prose;
+    public double time_to_keep_stable;
     
         // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class superposition_manager : MonoBehaviour
         {
             classical_story fresh= new classical_story();
             fresh.story = new Story(line_template.text);
+            fresh.force_add("story "+i.ToString());
             fresh.ForwardFlow();
             linears.Add(fresh);
             Debug.Log("plop");
@@ -61,8 +63,8 @@ public class superposition_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        double time_phase = Time.time % (5000 * linears.Count);
-        if (time_phase > (5000 * current_display))
+        double time_phase = Time.time % (time_to_keep_stable * linears.Count);
+        if (time_phase > (time_to_keep_stable * current_display))
         {
             Debug.Log("whoosh");
             ShowNext();
