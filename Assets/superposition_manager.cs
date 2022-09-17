@@ -11,6 +11,10 @@ public class superposition_manager : MonoBehaviour
     public TMP_InputField commander;
     public int current_display;
     public TextMeshProUGUI current_prose;
+    public TextMeshProUGUI current_prose_2;
+    public TextMeshProUGUI current_prose_3;
+    public TextMeshProUGUI current_prose_4;
+    public TextMeshProUGUI current_prose_5;
     public double time_to_keep_stable;
     private double last_rollover;
     
@@ -52,7 +56,7 @@ public class superposition_manager : MonoBehaviour
         {
             line.HeedAction(word);
         }
-        current_prose.SetText(linears[current_display].AsOneText());
+        RefreshDisplays();
     }
 
     void ShowNext()
@@ -64,9 +68,19 @@ public class superposition_manager : MonoBehaviour
             last_rollover = Time.time;
         }
         current_prose.SetText("");
-        current_prose.SetText(linears[current_display].AsOneText());
+        RefreshDisplays();
 
 
+    }
+
+    void RefreshDisplays()
+    {
+        string payload = linears[current_display].AsOneText();
+        current_prose.SetText(payload);
+        current_prose_2.SetText(payload);
+        current_prose_3.SetText(payload);
+        current_prose_4.SetText(payload);
+        current_prose_5.SetText(payload);
     }
 
 
