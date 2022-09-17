@@ -4,6 +4,8 @@ INCLUDE introduction.ink
 INCLUDE hallway.ink
 INCLUDE cleaning_cellar.ink
 INCLUDE butler.ink
+INCLUDE office.ink
+
 
 VAR world = "A"
 ~ world = "{~A|B|C|D|E}"
@@ -38,7 +40,7 @@ Welcome to play Quantum Detective.
 = startDescription
 There is a murder, the character must find out who it was.
 Our hero had just received a grade of {world}.
-In a school, a student sees  a corpse.
+
 At the crime scene there are clues about who is the killer.
 + Enter the university
 
