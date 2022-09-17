@@ -9,15 +9,17 @@ public class superposition_manager : MonoBehaviour
     public TextAsset line_template;
     private List<classical_story> linears;
     public TMP_InputField commander;
+    public int current_display;
     
         // Start is called before the first frame update
-        void Start()
+    void Start()
     {
         
     }
 
     void Awake()
     {
+        current_display = 0;
         linears = new List<classical_story>();
         for (int i=0;i<5; i++)
         {
@@ -40,6 +42,16 @@ public class superposition_manager : MonoBehaviour
         }
         
     }
+
+    void ShowNext()
+    {
+        current_display = current_display + 1;
+        if (current_display >= linears.Count)
+        {
+            current_display = 0;
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
