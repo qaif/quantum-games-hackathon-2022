@@ -1,4 +1,4 @@
-﻿==MurderBathroom==
+==MurderBathroom==
 This is quite a relief. {protagonist_name} was just about to burst for holding things in.
 ...something isn't quite right
 You watch in horror that the bathroom is already occupied.

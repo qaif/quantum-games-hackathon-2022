@@ -8,6 +8,8 @@ INCLUDE office.ink
 INCLUDE auditorium.ink
 INCLUDE characterlist.ink
 INCLUDE runa_cat.ink
+INCLUDE book.ink
+
 
 
 
