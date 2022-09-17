@@ -3,6 +3,7 @@ INCLUDE body.ink
 INCLUDE introduction.ink
 INCLUDE hallway.ink
 INCLUDE cleaning_cellar.ink
+INCLUDE butler.ink
 
 VAR world = "A"
 ~ world = "{~A|B|C|D|E}"
@@ -16,6 +17,8 @@ VAR quilty = "butler"
 ~ quilty="{butler|boy}"
 VAR weapon = "knife"
 ~ weapon="{knife|baseball bat}"
+VAR protagonist_name = "Detective"
+~ protagonist_name = "{~Mary|Charles|Stanley|Ada}"
 
 lets tell a story
 
