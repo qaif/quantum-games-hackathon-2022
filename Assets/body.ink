@@ -7,10 +7,11 @@ The body lies on the floor, twisted from its neck.
 
 
 = inspect
-+ Open book
-    You read a wall of text
-    -> inspect
 + [Inspect] 
+        + + book
+            You read a wall of text. 
+            -> book.page1
+            -> inspect
         + +  torso
             There are slices in the left side of the stomach
             -> inspect

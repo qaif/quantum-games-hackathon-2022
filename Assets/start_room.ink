@@ -10,6 +10,11 @@ INCLUDE characterlist.ink
 INCLUDE runa_cat.ink
 INCLUDE student.ink
 INCLUDE cafeteria.ink
+INCLUDE characterlist.ink
+INCLUDE runa_cat.ink
+INCLUDE book.ink
+
+
 
 
 
@@ -22,8 +27,8 @@ VAR storm = false
 ~ storm = "{~false|true}"
 VAR werewolf = false
 ~ werewolf="{~false|true}"
-VAR guilty = "butler"
-~ guilty="{butler|boy}"
+VAR quilty = "butler"
+~ quilty="{butler|boy}"
 VAR weapon = "knife"
 ~ weapon="{knife|baseball bat}"
 VAR protagonist_name = "Detective"
