@@ -4,8 +4,8 @@
 
 
 = protagonist
-Introduction: our protagonist is called A, 
-is a cleaning staff at a university and 
+Introduction: Our protagonist is called A, 
+They are a student and part-time cleaning staff at a university. 
 A must find the killer of a professor.
 + Enter hallway
 -> hallway
