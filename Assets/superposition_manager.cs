@@ -41,7 +41,7 @@ public class superposition_manager : MonoBehaviour
         {
             line.HeedAction(word);
         }
-        
+        current_prose.SetText(linears[current_display].AsOneText());
     }
 
     void ShowNext()
