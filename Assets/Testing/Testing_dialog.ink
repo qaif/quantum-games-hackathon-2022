@@ -1,9 +1,10 @@
-=== knot1 ===
+=== knot1 === 
+
 
 In the room there was a lot of interesting people
--> stitch1
+-> done
 
-= stitch1 
+= stitch1
  * Talk to
         * * Roy
             Ask
@@ -18,5 +19,5 @@ In the room there was a lot of interesting people
         
  * Inspect corpse
 
-- They lived happily ever after.
-    -> END
+-> done 
+
