@@ -57,6 +57,7 @@ public class superposition_manager : MonoBehaviour
             line.HeedAction(word);
         }
         RefreshDisplays();
+        commander.ActivateInputField();
     }
 
     void ShowNext()
