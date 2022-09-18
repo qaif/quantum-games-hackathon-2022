@@ -1,4 +1,6 @@
 ==MurderBathroom==
+
+=EnteringBathroom
 This is quite a relief. {protagonist_name} was just about to burst for holding things in.
 ...something isn't quite right
 You watch in horror that the bathroom is already occupied.
@@ -17,6 +19,9 @@ This seems like a mystery you need to get to the bottom of.
 *[Lipstick]
    Atleast they went out with a bang. Too bad the party friend didn't stick around to help.
   -> Cavader
+* Inspect body
+    -> body.inspect 
+  
 * ->
    That is not a sight one forgets for some time.
    -> hallway

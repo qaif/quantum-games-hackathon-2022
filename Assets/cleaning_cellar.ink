@@ -1,18 +1,26 @@
 === cleaning_cellar ===
 
 = aEntersACleaning
-{protagonist_name} enters a cleaning cellar 
-and finds a professor’s cadaver. 
--> CleaningItems
+{protagonist_name} enters a cleaning cellar.
+-> CellarItems
 
-= CleaningItems
-In the same cellar is a book with the name "B", 
-an earring, a hat and a feather'
-//: + Pick up earring
-//    You picked up the earring.
-//+ Pick up hat
-//    You picked up the hat.
-//+ Pick up feather
-//    You picked up the feather.
+= CellarItems
+On the floor, besides all the bottles of cleaning liquids, brushes and swabs
+is a book with the name "Bernard Tar", 
+an earring, a hat and a feather.
+-> CellarActions
 
- -> body
+= CellarActions
+        + Open book
+            -> book.page1
+        + Inspect earring
+            The earring seems a spiral made of golden, with a small amethyst in the center.
+            -> CellarActions
+        + Inspect hat
+            The hat is brown, with a broad brim.
+            -> CellarActions
+        + Inspect feather
+            The feather is large and coloured in brilliant red and blue.
+            -> CellarActions
+        + Return to hallway
+            -> hallway

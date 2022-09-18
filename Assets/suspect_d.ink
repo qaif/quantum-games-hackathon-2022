@@ -1,3 +1,3 @@
-﻿==SuspectD==
-Chemistry teacher seems jolty.
+==SuspectD==
+Chemistry teacher Deep Tamura seems jolty.
 -> Cafeteria

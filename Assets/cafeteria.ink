@@ -1,4 +1,4 @@
-﻿INCLUDE suspect_C.ink
+INCLUDE suspect_C.ink
 INCLUDE suspect_d.ink
 INCLUDE suspect_e.ink
 

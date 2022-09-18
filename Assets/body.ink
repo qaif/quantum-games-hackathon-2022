@@ -1,17 +1,7 @@
 === body ===
 
-The body lies on the floor, twisted from its neck.
--> inspect 
-
-
-
-
 = inspect
 + [Inspect] 
-        + + book
-            You read a wall of text. 
-            -> book.page1
-            -> inspect
         + +  torso
             There are slices in the left side of the stomach
             -> inspect
@@ -25,8 +15,7 @@ The body lies on the floor, twisted from its neck.
         + + shoulder
             The shoulder is crushed
             -> inspect
-        * *  -> 
-        Go back to hallway
-            -> hallway
+        * *  -> MurderBathroom.Cavader 
+        
 *  Go back
-    -> hallway
+    -> MurderBathroom.Cavader 

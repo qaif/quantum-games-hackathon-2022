@@ -1,3 +1,3 @@
-﻿==SuspectC==
-History teacher seems dusty.
+==SuspectC==
+History teacher Chloe Greenberg seems dusty.
 -> Cafeteria

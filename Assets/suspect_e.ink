@@ -1,3 +1,3 @@
-﻿==SuspectE==
-Math teacher seems calculating.
+==SuspectE==
+Math teacher Enrico Mwangi seems calculating.
 -> Cafeteria
