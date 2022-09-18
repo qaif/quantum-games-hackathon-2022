@@ -36,22 +36,32 @@ VAR debt= false
 VAR affair= false
 ~ affair="{~false|true}"
 
-lets tell a story
-
 ->titleLine
 
 =titleLine
-Welcome to play Quantum Detective.
+Quantum Detective
+
+This game is played by entering text into the textbox (and submitting by enter).
+
 + wait
+   {You take a while looking at the marvelous title screen.|Yes, it is really quite grand. You are excited to see how it plays.|Eager to cling to the smallest details you are spending way more time at the title line than the developers expected|Like the developers in the game jam, you don't have infinite amount of time to use.}
+   {titleLine==3:
+       {protagonist_name=="Stanley":
+            This brings you fond memories of various closets you have been in.
+       }
+   }
    -> titleLine
 + start
   ->startingScene
 + credits
+  Created as part of Global Quantum Game Jam 2022
   Antti Salo
   Riikka-Lotta Pehkonen
   Mich
   -> titleLine
-
++ quit
+  You are supposed to solve a murder and not terminate programs.
+  ->titleLine
 -> startingScene
 
 === startingScene ===
