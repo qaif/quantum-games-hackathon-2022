@@ -1,4 +1,4 @@
-﻿===HallOfFame===
+===HallOfFame===
 Only the worthy may pass.
 The walls are lined up with various persons.
 There is a sign warning about over studying tearing you apart.

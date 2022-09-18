@@ -44,5 +44,5 @@ A purring cat sits on the shoulder of the young woman.
   "Is the question about doing or thinking more important for you than the question about being?"
   }
  - 
--> hallway
+-> classroom
 

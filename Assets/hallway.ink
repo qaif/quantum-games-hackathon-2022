@@ -11,6 +11,8 @@ In addition to the usual facilities.
       -> classroom
     + Enter auditorium
         ->auditorium 
+    + Enter office
+        ->office
     + Enter toilet
         ->MurderBathroom
     + Enter hall of fame
@@ -21,7 +23,9 @@ In addition to the usual facilities.
     
     
     === classroom ===
-    The classroom seems empty
+    The classroom seems echoing, but there is someone behind a high bookstack
+    + [Engage]
+        -> Runa_cat
     + Return to hallway
     -> hallway
     
