@@ -1,7 +1,15 @@
 === office ===
+There is something like a statue in the corner of the room. Oh, wait. It breathes!
++ [Engage]
+    ->Butler
++ Look at the table
+    -> officeTable
++ Go back
+    -> hallway
+
 
 = officeTable
-On the office table lays a registry of all staff in the university.
+On the office table lays a heavy registry book. Someone seems to have touched it recently.
 + Open registry
     You see a list of staff and students in the university
     -> registry
