@@ -25,3 +25,4 @@ Stylish as ever {protagonist_name} approaches a calm servant that could be mista
   "Did you do it?"
   "Off course, not!"
   "It isn't exactly serving if you cause your master demise."
+  - ->office

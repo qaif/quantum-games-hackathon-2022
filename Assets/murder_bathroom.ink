@@ -25,3 +25,4 @@ This seems like a mystery you need to get to the bottom of.
 * ->
    That is not a sight one forgets for some time.
    -> hallway
+   
