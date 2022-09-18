@@ -3,7 +3,7 @@ INCLUDE murder_bathroom.ink
 === hallway ===
 
 The hallway seems empty. There is a door to the cleaning cellar,
-a door to a classroom and a door to the auditorium.
+a door to a classroom, a wide opening to a cafeteria and a door to the auditorium.
 In addition to the usual facilities.
     + Enter cleaning cellar
         -> cleaning_cellar.aEntersACleaning
@@ -13,11 +13,18 @@ In addition to the usual facilities.
         ->auditorium 
     + Enter office
         ->office
+    + Usual facilities
+        -> Facilities
+
+=Facilities    
     + Enter toilet
         ->MurderBathroom
     + Enter hall of fame
        -> HallOfFame
-    
+    + Enter cafeteria
+       -> Coffee
+    + Unusual facilities
+       -> hallway
     
     
     

@@ -1,3 +1,23 @@
 ==SuspectC==
 History teacher Chloe Greenberg seems dusty.
--> Cafeteria
+
+*[Alibi]
+   "Where were you when the murder took place?"
+   "Studying books"
+*[Motive]
+   "Where you on good terms with the victim?"
+   "We were on good enough terms that we even got married."
+   {not guilty=="history":
+   "They even still me as the benefactor of their will."
+   - else:
+    "But we grew more distant with time."
+   }
+*[Guilt]
+  "Did you do it?"
+  {debt:
+      "No, I didn't"
+  - else:
+      "I did not."
+  }
+
+-> Coffee
