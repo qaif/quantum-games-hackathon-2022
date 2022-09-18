@@ -30,7 +30,7 @@ VAR guilty = "butler"
 VAR weapon = "knife"
 ~ weapon="{knife|baseball bat}"
 VAR protagonist_name = "Detective"
-~ protagonist_name = "{~Mary|Charles|Stanley|Ada}"
+~ protagonist_name = "{~Mary|Charles|Stanley|Ada|Lisa}"
 VAR debt= false
 ~ debt="{~false|true}"
 VAR affair= false
@@ -55,7 +55,7 @@ This game is played by entering text into the textbox (and submitting by enter).
   Created as part of Global Quantum Game Jam 2022
   Antti Salo
   Riikka-Lotta Pehkonen
-  Mich
+  Michelle Alexandra
   -> titleLine
 + quit
   You are supposed to solve a murder and not terminate programs.
