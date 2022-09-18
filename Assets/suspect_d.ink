@@ -1,4 +1,5 @@
-==SuspectD==
+=== SuspectD ===
+=chemistryTeacher
 Chemistry teacher Deep Tamura seems jolty.
 *Alibi
     "Where were you when the murder took place?"
@@ -7,6 +8,7 @@ Chemistry teacher Deep Tamura seems jolty.
     - else:
         " Supervising my student study group."
     }
+    -> Coffee.coffeetable
 *Motive
    "Did you get along with the victim well?"
    {affair:
@@ -19,6 +21,7 @@ Chemistry teacher Deep Tamura seems jolty.
    - else:
       "I think everybody can say that."
    }
+   -> Coffee.coffeetable
 *Guilt
    "Did you do it?"
    {guilty=="chemistry":
@@ -26,4 +29,4 @@ Chemistry teacher Deep Tamura seems jolty.
    - else:
        "Yes. He was too good for this earth.
    }
--> Coffee
+-> Coffee.coffeetable

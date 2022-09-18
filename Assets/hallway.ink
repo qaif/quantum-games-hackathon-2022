@@ -22,7 +22,7 @@ In addition to the usual facilities.
     + Enter hall of fame
        -> HallOfFame
     + Enter cafeteria
-       -> Coffee
+       -> Coffee.coffeetable
     + Unusual facilities
        -> hallway
     

@@ -1,9 +1,11 @@
-==SuspectC==
+=== SuspectC ===
+=historySuspect
 History teacher Chloe Greenberg seems dusty.
 
 *[Alibi]
    "Where were you when the murder took place?"
    "Studying books"
+   -> Coffee.coffeetable
 *[Motive]
    "Where you on good terms with the victim?"
    "We were on good enough terms that we even got married."
@@ -12,6 +14,7 @@ History teacher Chloe Greenberg seems dusty.
    - else:
     "But we grew more distant with time."
    }
+   -> Coffee.coffeetable
 *[Guilt]
   "Did you do it?"
   {debt:
@@ -20,5 +23,5 @@ History teacher Chloe Greenberg seems dusty.
       "I did not."
   }
 
--> Coffee
+-> Coffee.coffeetable
 
