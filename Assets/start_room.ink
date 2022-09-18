@@ -11,7 +11,7 @@ INCLUDE runa_cat.ink
 INCLUDE student.ink
 INCLUDE cafeteria.ink
 INCLUDE book.ink
-
+INCLUDE FameHall.ink
 
 
 
