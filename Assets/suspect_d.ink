@@ -26,4 +26,5 @@ Chemistry teacher Deep Tamura seems jolty.
    - else:
        "Yes. He was too good for this earth.
    }
+-
 -> Cafeteria
