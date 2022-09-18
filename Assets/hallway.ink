@@ -12,7 +12,9 @@ In addition to the usual facilities.
     + Enter auditorium
         ->auditorium 
     + Enter toilet
-        ->MurderBathroom 
+        ->MurderBathroom
+    + Enter hall of fame
+       -> HallOfFame
     
     
     

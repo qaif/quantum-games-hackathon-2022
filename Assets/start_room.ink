@@ -11,7 +11,7 @@ INCLUDE runa_cat.ink
 INCLUDE student.ink
 INCLUDE cafeteria.ink
 INCLUDE book.ink
-
+INCLUDE FameHall.ink
 
 
 
@@ -45,10 +45,8 @@ This game is played by entering text into the textbox (and submitting by enter).
 
 + wait
    {You take a while looking at the marvelous title screen.|Yes, it is really quite grand. You are excited to see how it plays.|Eager to cling to the smallest details you are spending way more time at the title line than the developers expected|Like the developers in the game jam, you don't have infinite amount of time to use.}
-   {titleLine==3:
-       {protagonist_name=="Stanley":
-            This brings you fond memories of various closets you have been in.
-       }
+   {protagonist_name=="Stanley":
+       This brings you fond memories of various closets you have been in.
    }
    -> titleLine
 + start
@@ -68,7 +66,11 @@ This game is played by entering text into the textbox (and submitting by enter).
 
 = startDescription
 You wake up with the strangest feeling as if somebody has departed this earth.
-Luckily your day deals with much simpler matters.
+{protagonist_name=="Charles":
+   You feel majestic despite your long life.
+- else:
+   Luckily your day deals with much simpler matters.
+}
 The university comfortability is on your shoulders as its janitor.
 Yesterday performance review gave you a grade of {world}.
 

@@ -7,10 +7,13 @@ Almost as active as if bored out of their mind in a full lecture hall {~2|3|4} h
 * [Calming]
    "Hey, its not like you are in a hurry for exams as the question source just left the mortal coil"
    "But this still sucks highly"
-   {werewolf:
      "I don't even like these books"
      You glance at a book resting on the table which seems to be about the mathematics of lunar phases.
+   {werewolf:
      "Hey you never know when you might need some knowledge. So better prepare while you still can"
+   }
+   {protagonist_name=="Ada":
+     It seems to only concern Luna. Nothing on Europa on it. So "new world" of them.
    }
 * [Impulse Control]
    "One way of getting rid of distractions is to bulldoze them out of the way."
