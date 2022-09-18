@@ -57,11 +57,13 @@ Welcome to play Quantum Detective.
 === startingScene ===
 
 = startDescription
-There is a murder, the character must find out who it was.
-Our hero had just received a grade of {world}.
+You wake up with the strangest feeling as if somebody has departed this earth.
+Luckily your day deals with much simpler matters.
+The university comfortability is on your shoulders as its janitor.
+Yesterday performance review gave you a grade of {world}.
 
-At the crime scene there are clues about who is the killer.
-+ Enter the university
+Well, time to earn the next grade.
++ Enter university
 
 -> janitor.protagonist
 
@@ -73,5 +75,5 @@ At the crime scene there are clues about who is the killer.
          -> body
     * Go back 
         -> startDescription
-    
+-> DONE
    
