@@ -1,8 +1,15 @@
 === resolution ===
 =Resolutionstart
+
 So what evidence do I have?
 * Zip. Nada
-* everything, 100% speedrun
+  Should I just give up on the case?
+  ** Yes, this is hopeless
+      All this mystery is hurting my brain. Screw you guys I am going home!
+     -> Abandon
+  ** No, I can do this if I put my mind into it
+      ->Coffee
+* Everything, 100% speedrun
 * Enough
 -
 
@@ -72,9 +79,25 @@ How they did it?
 =Win
 You win.
 Case cracked wide open.
--> DONE
+All the mysteries of the universe reveal themselfs under your careful eye.
+Now go figure out the real one.
+* Step into the light through the fourth wall.
+  -> DONE
+* No. This is too fun. I think there are still mysteries to figure out about it.
+  So, here we go again for the {1003645th|1003646th|1003647th|1003648th|1003649th|1003650th|umpfteenth} time.
+  ->titleLine
 
 =Loss
-You lose.
 The mystery was too tough a nut to crack.
+The misleading theories allowed for the perpatrator to hide so well they were not found.
+Having meddled in so important matters beyond your duties
+the university doesn't renew your work contract.
+You lose.
 -> DONE
+
+=Abandon
+You went and slept it off.
+Next days newspaper had a big article of the impenetrable mystery of the murder.
+Your performance grade for that day was F.
+Apparently they don't like blood on their floors.
+Your day begins a totally unconnected adventure.

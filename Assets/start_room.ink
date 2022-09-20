@@ -13,6 +13,11 @@ INCLUDE cafeteria.ink
 INCLUDE book.ink
 INCLUDE FameHall.ink
 
+INCLUDE HistoryTeacher.ink
+INCLUDE MathTeacher.ink
+INCLUDE ChemistryTeacher.ink
+
+INCLUDE resolution.ink
 
 
 

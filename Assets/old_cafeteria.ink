@@ -1,8 +1,8 @@
-INCLUDE suspect_C.ink
-INCLUDE suspect_d.ink
-INCLUDE suspect_e.ink
+//INCLUDE suspect_C.ink
+//INCLUDE suspect_d.ink
+//INCLUDE suspect_e.ink
 
-//===Coffee===
+===Coffee===
 Some people are lazily biding their time.
 
 This seems like a good place to address a large crowd.
@@ -16,5 +16,5 @@ Am I ready to crack this case?
   -> Resolution
 + {guilty=="protagonist"} Naaaaah. No way.
    -> hallway
-   /*
+
 
