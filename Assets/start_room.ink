@@ -19,8 +19,7 @@ INCLUDE ChemistryTeacher.ink
 
 INCLUDE resolution.ink
 
-
-
+VAR retry=false
 
 VAR world = "A"
 ~ world = "{~A|B|C|D|E}"
@@ -64,7 +63,11 @@ This game is played by entering text into the textbox (and submitting by enter).
   -> titleLine
 + quit
   You are supposed to solve a murder and not terminate programs.
-  ->titleLine
+  Are you sure?
+  *yes
+     ->END
+  *no
+    ->titleLine
 -> startingScene
 
 === startingScene ===

@@ -8,6 +8,7 @@ public class classical_story
     public Story story;
 
     private List<string> chronons;
+    public bool the_end_is_here;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,7 @@ public class classical_story
     public classical_story()
     {
         chronons = new List<string>();
+        the_end_is_here = false;
     }
 
     public void force_add(string lol)
@@ -57,6 +59,10 @@ public class classical_story
             string scribble = story.Continue();
             //Debug.Log("chronon: "+ scribble);
             chronons.Add(scribble);
+        }
+        if (story.currentChoices.Count <= 0)
+        {
+            the_end_is_here = true;
         }
     }
 
