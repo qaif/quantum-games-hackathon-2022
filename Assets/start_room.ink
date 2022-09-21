@@ -30,15 +30,34 @@ VAR storm = false
 VAR werewolf = false
 ~ werewolf="{~false|true}"
 VAR guilty = "butler"
-~ guilty="{~butler|student|history|chemistry|math|protagonist|victim|accident}"
+~ guilty="{~butler|student|history|chemistry|math|protagonist|victim|accident|runa|merry}"
 VAR weapon = "knife"
-~ weapon="{~knife|baseball bat|chop|kobra|brain|words}"
+~ weapon="{~knife|bat|chop|kobra|brain|words}"
 VAR protagonist_name = "Detective"
 ~ protagonist_name = "{~Mary|Charles|Stanley|Ada|Lisa}"
 VAR debt= false
 ~ debt="{~false|true}"
 VAR affair= false
 ~ affair="{~false|true}"
+
+{weapon == "knife":
+    ~injury="slice"
+}
+{weapon == "kobra":
+    ~injury="slice"
+}
+{weapon == "bat":
+    ~injury="blunt"
+}
+{weapon == "chop":
+    ~injury="blunt"
+}
+{weapon=="brain":
+    ~injury="plain"
+}
+{weapon=="words":
+    ~injury="plain"
+}
 
 ->titleLine
 
@@ -81,8 +100,16 @@ You wake up with the strangest feeling as if somebody has departed this earth.
 }
 The university comfortability is on your shoulders as its janitor.
 Yesterday performance review gave you a grade of {world}.
+Some students were complaining about the toilets.
+So better start with that.
+Lets write that down...
+Luckily you carry an amble supply of pens with you.
+{guilty=="protagonist":
+     Well, you try to have lots.
+     You seem to be down to only two.
+}
 
-Well, time to earn the next grade.
+With days priorities set, time to go earn the next grade.
 + Enter university
 
 -> janitor.protagonist

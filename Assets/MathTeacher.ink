@@ -9,7 +9,12 @@ Math teacher Enrico Mwangi seems calculating.
    {guilty=="Math":
         "Yes, we were close"
    -else:
-        Very closely"
+        "Very closely"
+   }
+   {affair==true:
+       Atleast when they bothered to be around.
+   -else:
+       I have a hard time thinking of time without them.
    }
      -> Coffee.coffeetable
 *Guilt

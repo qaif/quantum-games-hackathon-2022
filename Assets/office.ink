@@ -26,7 +26,7 @@ On the office table lays a heavy registry book. Someone seems to have touched it
         + + Ciar Portelli       
         Student of Water and Environmental Engineering
              -> registry
-        + + Dalton Devin        
+        + + {not guilty=="protagonist"}Dalton Devin        
         Student of New Media
              -> registry
         + + Deep Tamura         
@@ -39,7 +39,10 @@ On the office table lays a heavy registry book. Someone seems to have touched it
         + + Firuza Dwight       
         Student of Chemical Engineering 
              -> registry
-        + + Graziano Waltz      
+        + + {not guilty=="protagonist"}Graziano Waltz      
+        Professor of Chemical Engineering.
+             -> registry
+        + + {guilty=="protagonist"}Gerry Woodlet      
         Professor of Chemical Engineering.
              -> registry
         + + Hroderich Duncan    
@@ -57,7 +60,7 @@ On the office table lays a heavy registry book. Someone seems to have touched it
         + + Kristel Cohen       
         Student of Design
              -> registry
-        + + Liva Quirke         
+        + + {not guilty=="protagonist"}Liva Quirke         
         Student of Economics                
              -> registry
         + + Marje Ott           

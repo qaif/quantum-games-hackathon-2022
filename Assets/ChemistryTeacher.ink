@@ -7,6 +7,10 @@ Chemistry teacher Deep Tamura seems jolty.
     - else:
         " Supervising my student study group."
     }
+    {werewolf:
+        Do tell me if in your investigation you find a purple potion.
+        I think one of the students stole one from me.
+    }
     -> Coffee.coffeetable
 *Motive
    "Did you get along with the victim well?"

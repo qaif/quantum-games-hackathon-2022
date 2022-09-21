@@ -37,6 +37,14 @@ Who I think did it?
     {guilty=="student":
         ~ win_why = true
     }
+* Cat lady
+    {guilty=="runa":
+        ~ win_why = true
+    }
+* That totally random student
+    {guilty=="merry":
+        ~ win_why = true
+    }
 * Butler
    It's always the butler.
     {guilty=="butler":
