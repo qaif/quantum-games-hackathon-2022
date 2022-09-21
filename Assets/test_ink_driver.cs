@@ -61,7 +61,7 @@ public class test_ink_driver : MonoBehaviour
                 string text = story.Continue();
                 string old_text = text_shower.text;
                 text_shower.SetText(old_text+"\n"+text);
-                Debug.Log(text);
+                //Debug.Log(text);
                 lines_happened = lines_happened + 1;
             }
             else

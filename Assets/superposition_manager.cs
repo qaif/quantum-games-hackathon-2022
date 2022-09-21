@@ -40,6 +40,10 @@ public class superposition_manager : MonoBehaviour
             classical_story fresh= new classical_story();
             fresh.story = new Story(line_template.text);
             //fresh.force_add("story "+i.ToString());
+            fresh.story.onError += (huuto, what) =>
+            {
+                catchError(world_letters[i], huuto, what);
+            };
             fresh.ForwardFlow();
             fresh.story.variablesState["world"] = world_letters[i];
             linears.Add(fresh);
@@ -86,12 +90,17 @@ public class superposition_manager : MonoBehaviour
         current_prose_5.SetText(payload);
     }
 
+    void catchError(string storyid,string huuto, Ink.ErrorType what)
+    {
+        Debug.Log("story "+storyid+" "+what.ToString() + " : " + huuto);
+    }
+
 
     // Update is called once per frame
     void Update()
     {
         double time_phase = Time.time - last_rollover;
-        Debug.Log(time_phase+ (time_to_keep_stable * (current_display+1)).ToString());
+        //Debug.Log(time_phase+ (time_to_keep_stable * (current_display+1)).ToString());
         if (time_phase > (time_to_keep_stable * (current_display+1)))
         {
             //Debug.Log("whoosh");
