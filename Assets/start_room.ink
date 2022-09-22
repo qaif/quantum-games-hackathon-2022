@@ -41,6 +41,15 @@ VAR affair= false
 ~ affair="{~false|true}"
 
 VAR priority_note=true
+VAR lucan_potion=false
+VAR lucan_extort=false
+VAR lucan_cure=false
+VAR lucan_borrow=false
+VAR lucan_identity=false
+VAR lucan_formula=false
+VAR lucan_points=0
+
+
 
 {weapon == "knife":
     ~injury="slice"

@@ -17,7 +17,7 @@ Almost as active as if bored out of their mind in a full lecture hall {~2|3|4} h
 * [Impulse Control]
    "One way of getting rid of distractions is to bulldoze them out of the way."
    "You didn't happen to have a clash with the boredom stuffer?"
-   {debt:
+   {debt==true:
    "You trying catching me riding dirty. But I am a survivor."
     -else:
    "I might flame up but I also cool down fast"
@@ -50,7 +50,12 @@ Almost as active as if bored out of their mind in a full lecture hall {~2|3|4} h
 *[Motive]
   "So did you get along with the professor?"
   "Not on the verge of flunking?"
-  "Not more than usual."
+  {werewolf==true:
+       "Atleast our department does not extort money from us for secret drinks"
+       ~ lucan_extort=true
+  -else:
+      "Not more than usual."
+  }
   ->Plea
 *[Guilt]
   "Did you do it?"
@@ -60,5 +65,7 @@ Almost as active as if bored out of their mind in a full lecture hall {~2|3|4} h
   "I wish I had"
   }
   ->Plea
++ Leave
+   -> auditorium
 -
 -> auditorium

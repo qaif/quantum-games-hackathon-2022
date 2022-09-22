@@ -30,6 +30,10 @@ The advances in nanotechnology suggest great possibilities for invention in the 
 Cooperation within fields of science and art is essential for understanding the need of a more holistic education, for truly transformative learning to happen.
 {werewolf==true:
 Handwriting underneath reads: Maybe mix polypinkiloid with grey paint?
+~lucan_formula=true
+}
+{lucan_cure==true:
+Is polypinkiloid a kiloid?
 }
 
     + Close book

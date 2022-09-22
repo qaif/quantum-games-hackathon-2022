@@ -41,7 +41,8 @@ Who I think did it?
     {guilty=="runa":
         ~ win_who = true
     }
-* That totally random student
+* {lucan_identity==false} That totally random student
+* {lucan_identity==true} Merry Bieber
     {guilty=="merry":
         ~ win_who = true
     }
@@ -128,7 +129,6 @@ How they did it?
 {debt} {affair} {werewolf}
 */
 =scoring
-
 VAR points = 0
 {win_who==true:
     I got who did it
@@ -167,7 +167,7 @@ Now go figure out the real one.
    So, here we go again for the {1003645th|1003646th|1003647th|1003648th|1003649th|   1003650th|umpfteenth} time.
    ~ retry = true
    ** I will never get bored of this
-   ** oh I won? I knew it, was not guesswork
+   ** oh I won? I knew it was not guesswork
    -
    -> END 
 

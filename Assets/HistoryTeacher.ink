@@ -6,6 +6,10 @@ History teacher Chloe Greenberg seems dusty.
 *[Alibi]
    "Where were you when the murder took place?"
    "Studying books"
+   {werewolf==true:
+       Let Merry know that if he doesn't give the Tar book back I am going to roll them in tar.
+       ~ lucan_borrow=true
+   }
    -> questioning
 *[Motive]
    "Where you on good terms with the victim?"

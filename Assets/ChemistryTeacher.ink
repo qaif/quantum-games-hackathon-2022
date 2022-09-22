@@ -12,6 +12,8 @@ Chemistry teacher Deep Tamura seems jolty.
     {werewolf==true:
         Do tell me if in your investigation you find a purple potion.
         I think one of the students stole one from me.
+        Marini suddenly asked for it, so its kind of urgent.
+        ~ lucan_potion=true
     }
     -> questioning
 *Motive

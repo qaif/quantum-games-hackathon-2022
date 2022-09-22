@@ -68,13 +68,29 @@ On the office table lays a heavy registry book. Someone seems to have touched it
              -> registry
         Student of Architecture
         + Merry Bieber        
-        Student of Zoology        
+        Student of Zoology
+        {lucan_cure==true:
+             ~ lucan_points= lucan_points +1
+        }
+        {lucan_formula==true:
+             ~ lucan_points= lucan_points +1
+        }
+        {lucan_extort==true:
+             ~ lucan_points= lucan_points +1
+        }
+        {lucan_points>2:
+              Who would have thought that zoology would be so close to astrology.
+              ~ lucan_identity=true
+        }
              -> registry
         + Nyree Velazquez     
         Student of Electrical Engineering
              -> registry
         + Piia Marini         
-        Professor of Zoology    
+        Professor of Zoology
+        {lucan_extort==true:
+             While lucration from some liquids could be a crime, I am going to give this a pass while the murder investigation is ongoing.
+        }
              -> registry
         + Rab Aikema          
         Student of Ecology      

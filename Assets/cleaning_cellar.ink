@@ -8,6 +8,9 @@
 On the floor, besides all the bottles of cleaning liquids, brushes and swabs
 is a book with the name "Bernard Tar", 
 an earring, a hat and a feather.
+{lucan_borrow==true:
+There are not enough feathers to pose a threat to anyones dignity.
+}
 -> CellarActions
 
 = CellarActions

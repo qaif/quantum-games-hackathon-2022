@@ -5,6 +5,16 @@ Math teacher Enrico Mwangi seems calculating.
 *Alibi
    "Where were you when the murder took place?"
    "I was overseeing reexamination of previously failed students"
+   {werewolf==true:
+   "I thought I would engage them more if I made the vaccination question deal with something cool. "
+   "Seems lycantropy is not a cool enough fiction to sell math interest. "
+   "Well kiloid sellers are also going to miss out on the free advertising. "
+   ~ lucan_cure=true
+   }
+   {lucan_formula==true:
+   "Like polypinkiloid?
+   "Yes, like polypinkiloid."
+   }
     -> questioning
 *Motive
    "Did you get along with the victim well?"
