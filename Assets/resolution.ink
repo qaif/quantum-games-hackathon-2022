@@ -23,44 +23,44 @@ VAR win_how=false
 Who I think did it?
 * Math teacher
     {guilty=="math":
-         ~ win_why = true
+         ~ win_who = true
     }
 * Chemistry teacher
     {guilty=="chemistry":
-        ~ win_why = true
+        ~ win_who = true
     }
 * History teacher
     {guilty=="history":
-        ~ win_why = true
+        ~ win_who = true
     }
-* Student
+* Rebellious student
     {guilty=="student":
-        ~ win_why = true
+        ~ win_who = true
     }
 * Cat lady
     {guilty=="runa":
-        ~ win_why = true
+        ~ win_who = true
     }
 * That totally random student
     {guilty=="merry":
-        ~ win_why = true
+        ~ win_who = true
     }
 * Butler
    It's always the butler.
     {guilty=="butler":
-         ~ win_why = true
+         ~ win_who = true
     }
 * Me
     {guilty=="protagonist":
-         ~ win_why = true
+         ~ win_who = true
     }
 * Suicide
     {guilty=="victim":
-         ~ win_why=true
+         ~ win_who=true
     }
 * Accident. A really bad case of diarea.
     {guilty=="accident":
-         ~ win_why=true
+         ~ win_who=true
     }
 -
 -> whyResolution

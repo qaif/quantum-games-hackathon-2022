@@ -3,13 +3,12 @@ Almost as active as if bored out of their mind in a full lecture hall {~2|3|4} h
 "What took you so long?"
 "They have not been letting me leave until the case is solved."
 "So hurry up"
-
 * [Calming]
    "Hey, its not like you are in a hurry for exams as the question source just left the mortal coil"
    "But this still sucks highly"
      "I don't even like these books"
      You glance at a book resting on the table which seems to be about the mathematics of lunar phases.
-   {werewolf:
+   {werewolf==true:
      "Hey you never know when you might need some knowledge. So better prepare while you still can"
    }
    {protagonist_name=="Ada":
@@ -27,6 +26,11 @@ Almost as active as if bored out of their mind in a full lecture hall {~2|3|4} h
    "If you put such effort into studying as you put into rebelling you might get somewhere"
    "What do you know about studying?"
    "And as the System itself you are the last one to advice about rebellion"
+   {affair==true:
+       "It is not like the teachers are any more focused than we are."
+   -else:
+       "So be a nice little obient gear in the machine before I burst the whole thing wide open."
+   }
 * [Official]
    "It is going to take as long as it will take"
    "With cooperation it will take less time"
@@ -42,9 +46,12 @@ Almost as active as if bored out of their mind in a full lecture hall {~2|3|4} h
    "Ah don't remind me how close to eternity this torture is."
    "I was and I wish I wasn't."
    }
+   ->Plea
 *[Motive]
   "So did you get along with the professor?"
   "Not on the verge of flunking?"
+  "Not more than usual."
+  ->Plea
 *[Guilt]
   "Did you do it?"
   {guilty=="student":
@@ -52,5 +59,6 @@ Almost as active as if bored out of their mind in a full lecture hall {~2|3|4} h
   - else:
   "I wish I had"
   }
+  ->Plea
 -
 -> auditorium

@@ -41,8 +41,10 @@ public class superposition_manager : MonoBehaviour
 
     void HeedAction(string word)
     {
+        Debug.Log("start heed");
         foreach (classical_story line in linears)
         {
+            Debug.Log("heed");
             line.HeedAction(word);
         }
         RefreshDisplays();

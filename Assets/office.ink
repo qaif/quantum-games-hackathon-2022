@@ -13,99 +13,100 @@ On the office table lays a heavy registry book. Someone seems to have touched it
 + Open registry
     You see a list of staff and students in the university
     -> registry
-    = registry
-        + +   Annette Dias
+
+= registry
+        +   Annette Dias
             Professor of Education
             -> registry
-        + +  Bernard Tar        
+        +  Bernard Tar        
             Professor of mathemathics.
              -> registry
-        + + Chloe Greenberg
+        + Chloe Greenberg
             Student of Water and Environmental Engineering
              -> registry
-        + + Ciar Portelli       
+        + Ciar Portelli       
         Student of Water and Environmental Engineering
              -> registry
-        + + {not guilty=="protagonist"}Dalton Devin        
+        + {guilty!="protagonist"}Dalton Devin        
         Student of New Media
              -> registry
-        + + Deep Tamura         
+        + Deep Tamura         
         Professor of Chemistry.
              -> registry
-        + + Enrico Mwangi
+        + Enrico Mwangi
              -> registry
         Professor of Mathemathics.
              -> registry
-        + + Firuza Dwight       
+        + Firuza Dwight       
         Student of Chemical Engineering 
              -> registry
-        + + {not guilty=="protagonist"}Graziano Waltz      
+        + {guilty!="protagonist"}Graziano Waltz      
         Professor of Chemical Engineering.
              -> registry
-        + + {guilty=="protagonist"}Gerry Woodlet      
+        + {guilty=="protagonist"}Gerry Woodlet      
         Professor of Chemical Engineering.
              -> registry
-        + + Hroderich Duncan    
+        + Hroderich Duncan    
         Student of Quantum Technology.
              -> registry
-        + + Iou Pond            
+        + Iou Pond            
         Student of Data Science
              -> registry
-        + + Isidora Harlan      
+        + Isidora Harlan      
         Student of Digital systems and Design
              -> registry
-        + + Jetta Ravenna       
+        + Jetta Ravenna       
         Student of Computational Engineering
              -> registry
-        + + Kristel Cohen       
+        + Kristel Cohen       
         Student of Design
              -> registry
-        + + {not guilty=="protagonist"}Liva Quirke         
+        + {guilty!="protagonist"}Liva Quirke         
         Student of Economics                
              -> registry
-        + + Marje Ott           
+        + Marje Ott           
              -> registry
         Student of Architecture
-        + + Merry Bieber        
+        + Merry Bieber        
         Student of Zoology        
              -> registry
-        + + Nyree Velazquez     
+        + Nyree Velazquez     
         Student of Electrical Engineering
              -> registry
-        + + Piia Marini         
+        + Piia Marini         
         Professor of Zoology    
              -> registry
-        + + Rab Aikema          
+        + Rab Aikema          
         Student of Ecology      
              -> registry
-        + + Rolf Olivier        
+        + Rolf Olivier        
         Student of Finances
              -> registry
-        + + Runa Coello         
+        + Runa Coello         
         Student of Philosophy                       
              -> registry
-        + + Silja Das           
+        + Silja Das           
         Student of Mathemathicks                    
              -> registry
-        + + Simon Baumgartner   
+        + Simon Baumgartner   
         Student of Law
              -> registry
-        + + Tomislava Dreher    
+        + Tomislava Dreher    
         Professor of Digital Art
              -> registry
-        + + Urvi Belluomo       
+        + Urvi Belluomo       
         Student of Medicine
             -> registry
-        + + Vasu Reis           
+        + Vasu Reis           
         Professor of Computer Science
              -> registry
-        + + Vidya Chalupa       
+        + Vidya Chalupa       
         Student of Creative Sustainability
              -> registry
-        + +  Zdravka Brauer      
+        +  Zdravka Brauer      
         Student of Nanotechnology
              -> registry
-        + + Close registry 
+        + Close registry 
             -> officeTable
 + Return to hallway
--> hallway
+  -> hallway

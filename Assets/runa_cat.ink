@@ -33,9 +33,11 @@ A purring cat sits on the shoulder of the young woman.
 *[Alibi]
   "Were you here already when the murder took place?"
     "You'd need to define here, and also 'there'.
+    -> Plea
 *[Motive]
   "So is the death a truly relativistic concept for you?"
   ""
+  -> Plea
 *[Guilt]
   "Did you do it?"
   {guilty=="runa_cat":
@@ -43,6 +45,8 @@ A purring cat sits on the shoulder of the young woman.
   -else:
   "Is the question about doing or thinking more important for you than the question about being?"
   }
- - 
--> classroom
+   -> Plea
+*Disengage
+   -> classroom
+- 
 

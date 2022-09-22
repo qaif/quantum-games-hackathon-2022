@@ -23,6 +23,6 @@ Time to pick your favorite subject.
   ->HistoryTeacher
 * Chemistry
   ->ChemistryTeacher
-* Math
+* Mathematics
   ->MathTeacher
 

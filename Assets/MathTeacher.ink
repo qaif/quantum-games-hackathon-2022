@@ -1,9 +1,11 @@
 ﻿=== MathTeacher ===
 Math teacher Enrico Mwangi seems calculating.
+-> questioning
+=questioning
 *Alibi
    "Where were you when the murder took place?"
    "I was overseeing reexamination of previously failed students"
-   -> Coffee.coffeetable
+    -> questioning
 *Motive
    "Did you get along with the victim well?"
    {guilty=="Math":
@@ -16,7 +18,7 @@ Math teacher Enrico Mwangi seems calculating.
    -else:
        I have a hard time thinking of time without them.
    }
-     -> Coffee.coffeetable
+   -> questioning
 *Guilt
    "Did you do it?"
    {werewolf:
@@ -27,5 +29,8 @@ Math teacher Enrico Mwangi seems calculating.
    -else: 
       "I would not off my friend."
    }
+   -> questioning
++Leave
+  -> Coffee.coffeetable
 
--> Coffee.coffeetable
+-

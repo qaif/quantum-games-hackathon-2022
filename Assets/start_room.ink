@@ -83,9 +83,9 @@ This game is played by entering text into the textbox (and submitting by enter).
 + quit
   You are supposed to solve a murder and not terminate programs.
   Are you sure?
-  *yes
+  **yes
      ->END
-  *no
+  **no
     ->titleLine
 -> startingScene
 

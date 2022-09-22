@@ -1,5 +1,7 @@
 ﻿=== ChemistryTeacher ===
 Chemistry teacher Deep Tamura seems jolty.
+-> questioning
+=questioning
 *Alibi
     "Where were you when the murder took place?"
     {affair:
@@ -7,11 +9,11 @@ Chemistry teacher Deep Tamura seems jolty.
     - else:
         " Supervising my student study group."
     }
-    {werewolf:
+    {werewolf==true:
         Do tell me if in your investigation you find a purple potion.
         I think one of the students stole one from me.
     }
-    -> Coffee.coffeetable
+    -> questioning
 *Motive
    "Did you get along with the victim well?"
    {affair:
@@ -24,7 +26,7 @@ Chemistry teacher Deep Tamura seems jolty.
    - else:
       "I think everybody can say that."
    }
-   -> Coffee.coffeetable
+   -> questioning
 *Guilt
    "Did you do it?"
    {guilty=="chemistry":
@@ -32,4 +34,6 @@ Chemistry teacher Deep Tamura seems jolty.
    - else:
        "Yes. He was too good for this earth.
    }
--> Coffee.coffeetable
+   -> questioning
++Leave
+   -> Coffee.coffeetable
