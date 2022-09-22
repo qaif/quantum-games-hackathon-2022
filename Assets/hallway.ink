@@ -5,23 +5,29 @@ INCLUDE murder_bathroom.ink
 The hallway seems empty. There is a door to the cleaning cellar,
 a door to a classroom, a wide opening to a cafeteria and a door to the auditorium.
 In addition to the usual facilities.
-    + Enter cleaning cellar
+{priority_note==true:
+   Better get started with that toilet.
+}
+    + {priority_note==false} Enter cleaning cellar
         -> cleaning_cellar.aEntersACleaning
-    + Enter classroom
+    + {priority_note==false} Enter classroom
       -> classroom
-    + Enter auditorium
+    + {priority_note==false} Enter auditorium
         ->auditorium 
-    + Enter office
+    + {priority_note==false} Enter office
         ->office
     + Usual facilities
         -> Facilities
 
-=Facilities    
+=Facilities
+    {guilty=="merry":
+    That is funny. I thought I cleaned up this end of the hallway yesterday.
+    }
     + Enter toilet
         ->MurderBathroom
-    + Enter hall of fame
+    + {priority_note==false} Enter hall of fame
        -> HallOfFame
-    + Enter cafeteria
+    + {priority_note==false} Enter cafeteria
        -> Coffee.coffeetable
     + Unusual facilities
        -> hallway

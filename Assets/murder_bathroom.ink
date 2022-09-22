@@ -1,11 +1,13 @@
 ==MurderBathroom==
 
 =EnteringBathroom
-This is quite a relief. {protagonist_name} was just about to burst for holding things in.
+Make a mess, {protagonist_name} will clean it up.
+{protagonist_name} do this. {protagonist_name} do that.
+Allways the same old. No sense to be mindful of the floor cause we allways got...
 ...something isn't quite right
 You watch in horror that the bathroom is already occupied.
 Not by somebody but something that used to be human.
-After coming to terms with reality you discover that the victim has been pierced by red lipstick, a pink page separtor and a blue pen.
+After coming to terms with reality you discover that the victim has been pierced by red lipstick, a pink page separator and a blue pen.
 This seems like a mystery you need to get to the bottom of.
 -> Cavader
 =Cavader
@@ -24,5 +26,6 @@ This seems like a mystery you need to get to the bottom of.
   
 * ->
    That is not a sight one forgets for some time.
+   ~ priority_note=false
    -> hallway
    

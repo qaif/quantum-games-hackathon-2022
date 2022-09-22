@@ -40,6 +40,8 @@ VAR debt= false
 VAR affair= false
 ~ affair="{~false|true}"
 
+VAR priority_note=true
+
 {weapon == "knife":
     ~injury="slice"
 }
