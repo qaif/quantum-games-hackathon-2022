@@ -92,7 +92,8 @@ Why they did it?
         ~ win_why = true
     }
 -
--> howResolution
+-> scoring
+/*
 =howResolution
 How they did it?
 * With style
@@ -125,7 +126,8 @@ How they did it?
 {guilty}
 {weapon}
 {debt} {affair} {werewolf}
-
+*/
+=scoring
 
 VAR points = 0
 {win_who==true:
@@ -141,7 +143,7 @@ VAR points = 0
    ~ points = points + 1
 }
 
-{points>=3:
+{points>=2:
     ->Win
 }
 {points>0:
@@ -165,7 +167,7 @@ Now go figure out the real one.
    So, here we go again for the {1003645th|1003646th|1003647th|1003648th|1003649th|   1003650th|umpfteenth} time.
    ~ retry = true
    ** I will never get bored of this
-   ** oh I won? I knew it was not guesswork
+   ** oh I won? I knew it, was not guesswork
    -
    -> END 
 

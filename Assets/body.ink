@@ -10,7 +10,7 @@
             }
             -> inspect
         + +  neck 
-            {guilty=="suicide":
+            {guilty=="victim":
                The neck has rope marks on the front. 
                It is twisted back, like someone pulled hard
             -else:

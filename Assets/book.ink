@@ -27,7 +27,10 @@ The advances in nanotechnology suggest great possibilities for invention in the 
         -> cleaning_cellar.CellarItems
 
 = page5
-Cooperation within fields of science and art is essential for understanding the need of a more holistic education, for truly transformative learning to happen. 
+Cooperation within fields of science and art is essential for understanding the need of a more holistic education, for truly transformative learning to happen.
+{werewolf==true:
+Handwriting underneath reads: Maybe mix polypinkiloid with grey paint?
+}
 
     + Close book
         -> cleaning_cellar.CellarItems
