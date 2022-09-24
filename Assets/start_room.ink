@@ -12,10 +12,14 @@ INCLUDE student.ink
 INCLUDE cafeteria.ink
 INCLUDE book.ink
 INCLUDE FameHall.ink
+INCLUDE cat_boxing.ink
+
 
 INCLUDE HistoryTeacher.ink
 INCLUDE MathTeacher.ink
 INCLUDE ChemistryTeacher.ink
+
+
 
 INCLUDE resolution.ink
 
@@ -40,6 +44,9 @@ VAR debt= false
 VAR affair= false
 ~ affair="{~false|true}"
 
+VAR critter=false
+~ critter="{~true|false}"
+
 VAR priority_note=true
 VAR lucan_potion=false
 VAR lucan_extort=false
@@ -49,7 +56,15 @@ VAR lucan_identity=false
 VAR lucan_formula=false
 VAR lucan_points=0
 
-
+VAR post_task=false
+VAR post_revenge=false
+VAR post_box_label="animal"
+VAR post_cat_up=false
+VAR post_cat_dead=false
+VAR post_neurotoxin=10
+VAR post_bomb_armed=false
+VAR post_probe=false
+VAR post_china=false
 
 {weapon == "knife":
     ~injury="slice"

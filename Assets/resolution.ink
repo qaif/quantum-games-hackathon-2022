@@ -185,8 +185,28 @@ You lose.
    -> END
 
 =Abandon
-You went and slept it off.
-Next days newspaper had a big article of the impenetrable mystery of the murder.
-Your performance grade for that day was F.
-Apparently they don't like blood on their floors.
-Your day begins a totally unconnected adventure.
+{post_revenge==true:
+     You went home.
+     Before you got inside a jaguar jumped on you.
+     With your puny unmotivated human hands you had no chance to win the fight.
+     You die.
+-else:
+     You went and slept it off.
+     Next days newspaper had a big article of the impenetrable mystery of the murder.
+     Your performance grade for that day was F.
+     Apparently they don't like blood on their floors.
+    Your day begins a totally unconnected adventure.
+}
+
+=Demise
+    You die.
+    * Accept outcome
+        -> END
+    * Retry
+        ~ retry=true
+        -> END
+    * Use half of your smash coins to continue
+        You don't have enough smash coins to continue
+        * Master this hand!
+        * Ben is a hoe anyway
+        -> END
