@@ -23,6 +23,8 @@ INCLUDE ChemistryTeacher.ink
 
 INCLUDE resolution.ink
 
+EXTERNAL coherentLottery(lotterytype)
+
 VAR retry=false
 
 VAR world = "A"

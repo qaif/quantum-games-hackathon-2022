@@ -40,6 +40,8 @@ A hurried worker is sorting letters with quite some fervor.
 
 =taskExplain
 "There are animals, handle with care and express"
+* Lets go
+   -> taskExecute
 * What I do with animals?
    "For animals check that the transition sedation is working."
    "Then if it is not put the animal to sleep."
@@ -114,12 +116,13 @@ A hurried worker is sorting letters with quite some fervor.
 =taskExecute
 You go get {a|yet another} box from the sorting chute.
 ~ post_box_label="{~animal|handle with care|express}"
+~ post_box_label=coherentLottery("box_label")
 The label on it reads {post_box_label}
 {post_box_label=="animal":
           ~ post_cat_up = true //request split post_cat_up
 }
 {post_box_label=="hand with care":
-          ~ post_bomb_armed="{~true|false}"
+          ~ post_bomb_armed=coherentLottery("bomb_fuse") // {~true|false}
 }
 {post_box_label=="express":
           ~ post_china=false

@@ -22,7 +22,11 @@ This seems like a mystery you need to get to the bottom of.
    Atleast they went out with a bang. Too bad the party friend didn't stick around to help.
   -> Cavader
 * Inspect body
-    -> body.inspect 
+    -> body.inspect
+* Retreat outside
+   That is not a sight one forgets for some time.
+   ~ priority_note=false
+   ->hallway
   
 * ->
    That is not a sight one forgets for some time.

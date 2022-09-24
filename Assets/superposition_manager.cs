@@ -18,6 +18,8 @@ public class superposition_manager : MonoBehaviour
     public double time_to_keep_stable;
     private double last_rollover;
     private List<string> world_letters;
+
+    public Dictionary<string, Lottery> lotto;
     
         // Start is called before the first frame update
     void Start()
@@ -41,10 +43,10 @@ public class superposition_manager : MonoBehaviour
 
     void HeedAction(string word)
     {
-        Debug.Log("start heed");
+        //Debug.Log("start heed");
         foreach (classical_story line in linears)
         {
-            Debug.Log("heed");
+            //Debug.Log("heed");
             line.HeedAction(word);
         }
         RefreshDisplays();
@@ -103,16 +105,36 @@ public class superposition_manager : MonoBehaviour
 
     void FromTheTop()
     {
+        lotto = new Dictionary<string, Lottery>();
+        string[] dual = new string[] { "true","false"};
+        Lottery a = new Lottery(dual,5);
+        //Debug.Log(dual);
+        Lottery b = new Lottery(dual,5);
+        Lottery c = new Lottery(new string[]{"animal","handle with care","express"},5);
+        lotto.Add("atomic_fact",a);
+        lotto.Add("bomb_fuse",b);
+        lotto.Add("box_label", c);
+
         linears = new List<classical_story>();
         for (int i = 0; i < 5; i++)
         {
-            classical_story fresh = new classical_story();
-            fresh.story = new Story(line_template.text);
+            classical_story fresh = new classical_story(this,line_template);
             //fresh.force_add("story "+i.ToString());
             fresh.story.onError += (huuto, what) =>
             {
                 catchError(world_letters[i], huuto, what);
             };
+            superposition_manager echo_copy = this;
+            int j = i;
+            fresh.story.BindExternalFunction("coherentLottery", (string ticket) => {
+                Debug.Log("inside bind");
+                Debug.Log(ticket);
+                Debug.Log(linears.Count.ToString());
+                Debug.Log(i);
+                Debug.Log(j);
+                string midway = echo_copy.CoherentLottery(linears[j], ticket);
+                return midway;
+            });
             fresh.ForwardFlow();
             fresh.story.variablesState["world"] = world_letters[i];
             linears.Add(fresh);
@@ -139,6 +161,21 @@ public class superposition_manager : MonoBehaviour
     void catchError(string storyid,string huuto, Ink.ErrorType what)
     {
         Debug.Log("story "+storyid+" "+what.ToString() + " : " + huuto);
+    }
+
+    public string CoherentLottery(classical_story river,string lotterytype)
+    {
+        for (int i=0; i < linears.Count; i++)
+        {
+            if (linears[i] == river)
+            {
+                string result= lotto[lotterytype].provide(i);
+                Debug.Log(result + " " + i);
+                return result;
+            }
+        }
+        Debug.Log("failed to identify lottery");
+        return "The player is not supposed to see this";
     }
 
 

@@ -9,6 +9,7 @@ public class classical_story
 
     private List<string> chronons;
     public bool the_end_is_here;
+    public superposition_manager quantumLord;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,10 +17,12 @@ public class classical_story
 
     }
 
-    public classical_story()
+    public classical_story(superposition_manager lord,TextAsset script)
     {
+        story = new Story(script.text);
         chronons = new List<string>();
         the_end_is_here = false;
+        quantumLord = lord;
     }
 
     public void force_add(string lol)
@@ -91,6 +94,11 @@ public class classical_story
         {
             Debug.Log("classical story stuck in non-choice");
         }
+    }
+
+    public string CoherentLottery(string lottery_type)
+    {
+        return quantumLord.CoherentLottery(this, lottery_type);
     }
 
 
