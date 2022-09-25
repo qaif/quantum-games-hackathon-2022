@@ -116,7 +116,14 @@ public class classical_story
                             }
                             else
                             {
-                                chronons.Add("You have run out of pages in your playbook to try that trick.");
+                                if (text_number == "2845")
+                                {
+                                    story.variablesState["keypad"] = true;
+                                }
+                                else
+                                {
+                                    chronons.Add("You have run out of pages in your playbook to try that trick.");
+                                }
                             }
                         }
                     }

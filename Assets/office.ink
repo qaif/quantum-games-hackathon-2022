@@ -4,6 +4,8 @@ There is something like a statue in the corner of the room. Oh, wait. It breathe
     ->Butler
 + Look at the table
     -> officeTable
++ Look at small wall fixture
+    -> keypad
 + Go back
     -> hallway
 
@@ -13,6 +15,22 @@ On the office table lays a heavy registry book. Someone seems to have touched it
 + Open registry
     You see a list of staff and students in the university
     -> registry
+
+
+=keypad
+~ passcode=false
+It is a small keypad.
+You have absolutely no way to know what is its passcode.
+{protagonist_name=="Stanley":
+"Like I wouldn't remember"
+}
++ {passcode==true} Lets see what is inside
+      There is nothing inside.
+      I guess the real prize is the references we got along the way.
++ Try to figure it out a bit longer
+    ->keypad
++ Leave
+    -> office
 
 = registry
         +   Annette Dias

@@ -40,7 +40,7 @@ VAR guilty = "butler"
 VAR weapon = "knife"
 ~ weapon="{~knife|bat|chop|kobra|brain|words}"
 VAR protagonist_name = "Detective"
-~ protagonist_name = "{~Mary|Charles|Stanley|Ada|Lisa}"
+~ protagonist_name = "{~Mary|Charles|Stanley|Ada|Lisa|Harry}"
 VAR debt= false
 ~ debt="{~false|true}"
 VAR affair= false
@@ -75,6 +75,8 @@ VAR post_cat_error=0
 
 VAR post_bomb_error=0
 VAR post_bomb_burden=0
+
+VAR passcode=false
 
 
 {weapon == "knife":
@@ -129,6 +131,47 @@ This game is played by entering text into the textbox (and submitting by enter).
 === startingScene ===
 
 = startDescription
+You are asleep
+Every journey is a series of choices. The first is to begin the journey.
+* Wake up
+   -> bedUp
+* Don't wake up
+   -> resolution.Demise
+* That's it two lines?
+   Oh, you want an artsy fancy pants indie game.
+   I will give you fancy pants...
+   ...
+   There is primordial blackness.
+   A reptilian brain drinks it in like a beer.
+   An unimaginably hoarse sound booms what would be all over if there was anything.
+  The is no Innocence, not even one with glowing lungs.
+  Soon a smile will spring as icon for the ages to keep the ex-wives away.
+  It is not sponsored by a mad hatter, not for lack of not being mad enough.
+  And definetely not for the tea for not being strong enough.
+  The man whose job it is to find the naked truth
+   rather escapes trying to sunset his brain into tequila.
+   **Oh that is a cool game I want to play that
+         Well you have to get your ass up from the chair if you want to get to that flashy disco.
+         The prince has not even set a keeper... clearly anarch lands.
+	*** I shall go embrace that game tonight
+	*** You are being too cryptid for my tastes. I am leaving.
+	--- 
+         	-> END
+   **This is terribly confusing I don't want this
+         Good.
+         We are going to do this nice and simple.
+         Figure out piece by piece.
+         And not frontloading with useless information.
+         {protagonist_name=="Stanley":
+             I am not going to draw you any more adventure lines.
+         }
+         ->bedUp
+   
+* Too much curiosity can get the best of us.
+   Some events happen whether we want them to or not.
+   ->bedUp
+
+=bedUp
 You wake up with the strangest feeling as if somebody has departed this earth.
 {protagonist_name=="Charles":
    You feel majestic despite your long life.
