@@ -15,9 +15,16 @@ public class superposition_manager : MonoBehaviour
     public TextMeshProUGUI current_prose_3;
     public TextMeshProUGUI current_prose_4;
     public TextMeshProUGUI current_prose_5;
+    public List<GameObject> display_grids;
     public double time_to_keep_stable;
     private double last_rollover;
     private List<string> world_letters;
+
+    public TextMeshProUGUI ProgramSlateFactory;
+    public TextMeshProUGUI ProtagonistSlateFactory;
+    public TextMeshProUGUI NarrationSlateFactory;
+
+    public Canvas paint_wall;
 
     public Dictionary<string, Lottery> lotto;
     
@@ -37,6 +44,7 @@ public class superposition_manager : MonoBehaviour
         world_letters.Add("C");
         world_letters.Add("D");
         world_letters.Add("E");
+        display_grids = new List<GameObject>();
         FromTheTop();
 
     }
@@ -145,6 +153,38 @@ public class superposition_manager : MonoBehaviour
 
     void RefreshDisplays()
     {
+        for (int i=0; i < display_grids.Count; i++)
+        {
+            GameObject.Destroy(display_grids[i]);
+        }
+        display_grids = new List<GameObject>();
+        float vertical_spacing=0.5f;
+        float height_start = (linears[current_display].chronons.Count*vertical_spacing)-3.0f;
+        for (int i=0; i < linears[current_display].chronons.Count; i++)
+        {
+            TextMeshProUGUI noob = null;
+            if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "protagonist"))
+            {
+                noob=Instantiate(ProtagonistSlateFactory, new Vector3(0, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+            }
+            if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "narration"))
+            {
+                noob=Instantiate(NarrationSlateFactory, new Vector3(0, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+            }
+            if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "program"))
+            {
+                noob=Instantiate(ProgramSlateFactory, new Vector3(0, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+            }
+            if (noob == null)
+            {
+                noob=Instantiate(ProgramSlateFactory, new Vector3(0, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+            }
+            noob.SetText(linears[current_display].chronons[i].prose);
+            noob.transform.SetParent(paint_wall.transform,true);
+            noob.transform.localScale = new Vector3(1.0f,1.0f,1.0f);
+            display_grids.Add(noob.gameObject);
+        }
+
         string payload = linears[current_display].AsOneText();
         current_prose.SetText(payload);
         current_prose_2.SetText(payload);

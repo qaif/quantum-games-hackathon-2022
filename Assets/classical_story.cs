@@ -7,7 +7,7 @@ public class classical_story
 {
     public Story story;
 
-    private List<Chronon> chronons;
+    public List<Chronon> chronons;
     public bool the_end_is_here;
     public superposition_manager quantumLord;
     private char[] numeral_glyphs;
