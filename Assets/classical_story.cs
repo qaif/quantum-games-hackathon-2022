@@ -10,6 +10,7 @@ public class classical_story
     private List<string> chronons;
     public bool the_end_is_here;
     public superposition_manager quantumLord;
+    private char[] numeral_glyphs;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,7 @@ public class classical_story
         chronons = new List<string>();
         the_end_is_here = false;
         quantumLord = lord;
+        numeral_glyphs = new char[] { '0','1', '2', '3', '4', '5', '6', '7', '8', '9' };
     }
 
     public void force_add(string lol)
@@ -48,7 +50,7 @@ public class classical_story
             blob = blob + "\nHow shall I proceed?";
             for (int i = 0; i < story.currentChoices.Count; i++)
             {
-                blob = blob + "\n" + story.currentChoices[i].text;
+                blob = blob + "\n" + (i+1).ToString()+") "+ story.currentChoices[i].text;
             }
         }
         return blob;
@@ -83,7 +85,50 @@ public class classical_story
             }
             if (!story.canContinue)
             {
-                chronons.Add(word+" doesn't make sense here");
+                if (word.Length > 0)
+                {
+                    int numerals = 0;
+                    int i = 0;
+                    string text_number = "";
+                    while (System.Array.Exists(numeral_glyphs, x => x == word[i]))
+                    {
+                        text_number = text_number + word[i].ToString();
+                        numerals = numerals + 1;
+                        i++;
+                        if (i >= word.Length)
+                        {
+                            break;
+                        }
+                    }
+                    if (text_number.Length > 0)
+                    {
+                        int choice_index = System.Int32.Parse(text_number)-1;
+                        if (choice_index < 0)
+                        {
+                            chronons.Add("You do nothing.");
+                        }
+                        else
+                        {
+                            if (choice_index <= story.currentChoices.Count)
+                            {
+                                story.ChooseChoiceIndex(choice_index);
+                                ForwardFlow();
+                            }
+                            else
+                            {
+                                chronons.Add("You have run out of pages in your playbook to try that trick.");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        chronons.Add(word + " doesn't make sense here");
+                    }
+                }
+                else
+                {
+                    chronons.Add("Well this time Time insists and waits for you to do something.");
+                }
             }
             else
             {

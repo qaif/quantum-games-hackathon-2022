@@ -97,3 +97,5 @@ Meme, Lemme Smash
 Mere, Superior siege engine
                 mailroom task, express label - put the box in the superior siege engine
 
+Saying, Time waits for no one
+	empty string as command - Well this time Time insists and waits for you to do something.

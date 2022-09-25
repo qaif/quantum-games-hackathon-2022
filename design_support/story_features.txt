@@ -1,6 +1,6 @@
 Quick suggestion selection
 	use number keys to quickly take a suggested action
-	NOT IMPLEMENTED
+
 
 Character recall
 	Use stat like Wis or memory to control how far back the story can be referenced to

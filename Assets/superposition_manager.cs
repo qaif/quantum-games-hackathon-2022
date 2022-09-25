@@ -127,11 +127,6 @@ public class superposition_manager : MonoBehaviour
             superposition_manager echo_copy = this;
             int j = i;
             fresh.story.BindExternalFunction("coherentLottery", (string ticket) => {
-                Debug.Log("inside bind");
-                Debug.Log(ticket);
-                Debug.Log(linears.Count.ToString());
-                Debug.Log(i);
-                Debug.Log(j);
                 string midway = echo_copy.CoherentLottery(linears[j], ticket);
                 return midway;
             });
