@@ -27,18 +27,13 @@ public class Lottery
         occurrences[river] = occurrences[river] + 1;
         if (occurrences[river] > canon.Count)
         {
-            float coin = Random.Range(0, 1);
-            if (coin > 0.5)
-            {
-                canon.Add(pool[0]);
-            }
-            else
-            {
-                canon.Add(pool[1]);
-            }
+            int coin = Random.Range(0, pool.Count);
+            canon.Add(pool[coin]);
+            Debug.Log("coin " + coin.ToString());
         }
         int place = occurrences[river]-1;
         string content = canon[place];
+        Debug.Log("canon" + canon.ToString()+ "return "+content);
         return content;
 
     }
