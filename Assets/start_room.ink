@@ -65,8 +65,17 @@ VAR post_cat_up=false
 VAR post_cat_dead=false
 VAR post_neurotoxin=10
 VAR post_bomb_armed=false
+VAR post_bomb_exploded=false
 VAR post_probe=false
 VAR post_china=false
+
+VAR post_task_score=0
+VAR post_cat_error=0
+
+
+VAR post_bomb_error=0
+VAR post_bomb_burden=0
+
 
 {weapon == "knife":
     ~injury="slice"

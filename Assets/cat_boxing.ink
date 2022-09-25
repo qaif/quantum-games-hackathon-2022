@@ -123,6 +123,7 @@ The label on it reads {post_box_label}
 }
 {post_box_label=="hand with care":
           ~ post_bomb_armed=coherentLottery("bomb_fuse") // {~true|false}
+          ~ post_bomb_exploded=false
 }
 {post_box_label=="express":
           ~ post_china=false
@@ -133,7 +134,7 @@ The label on it reads {post_box_label}
     {post_box_label=="handle with care":
             This one is whirling rather loudly.
             An explosion throws you back to the wall.
-            That level of cared was not enough for you to continue living.
+            That level of care was not enough for you to continue living.
             You die.
             -> END
     }
@@ -172,30 +173,68 @@ The label on it reads {post_box_label}
     ++ close box
          This one is good to go.
     --
+   {post_cat_up==false:
+        post_task_score=post_task_score+1
+   }
+   {post_cat_up==true:
+        post_cat_error=post_cat_error+1
+   }
     ->taskExecute
 
 + put the box in the maybe crush machine
+  -> crushingExploration
++ put the box in the superior siege engine
+   -> wallBanging
++ go check on whether the work is enough
+  -> box_scoring
+
+=crushingExploration
     // request split post_probe
     {post_probe==true:
           {post_bomb_armed==true:
                      Machine lets out a pretty loud thud.
-                     But you are safe from actual harm
+                     But you are safe from actual harm.
                      ~ post_probe=false
+                     ~ post_bomb_exploded=true
           }
     }
     // request split post_probe
     {post_probe==true:
-               Well nothing really happened.
+               The probe came out of the machine at an angle.
     -else:
-               The probe came out of the machine.
+               The probe came ouf of the machine straight.
     }
-    ++ Put box in 'snail pace'
-    ++ Put box in 'usual treatment'
-    ++ Box, what box? There was never any box here //incinerator voices
-    --
+    {post_bomb_exploded==true:
+              The machine spits out some bits of charred cardboard bits.
+              This is all that is left of the precious postal package.
+    }
+    + Put box in 'snail pace'
+	{post_bomb_armed==true:
+		~ post_task_score=post_task_score+1
+	}
+	{post_bomb_exploded==true:
+		~ post_bomb_error=post_bomb_error+1
+	-else:
+		~post_bomb_burden=post_bomb_burden+1
+	}
+    + Put box in 'usual treatment'
+	{post_bomb_armed==false:
+		~ post_task_score=post_task_score+1
+	-else:
+		~ post_bomb_error=post_bomb_error+1		
+	}
+	{post_bomb_exploded==true:
+		~ post_bomb_error=post_bomb_error+1
+	}
+    + Box, what box? There was never any box here //incinerator voices
+	{post_bomb_exploded==false:
+		You discretely light the cardboard box on fire
+	}
+   + {post_bomb_exploded==false}Put box back into the maybe crush machine
+	-> crushingExploration
+    -
     ->taskExecute 
-+ put the box in the superior siege engine
-   -> wallBanging
+
 
 
 =wallBanging
@@ -206,8 +245,31 @@ The label on it reads {post_box_label}
                 And goes through it.
          -else:
                and bounces of it.
-               {~|||||This would be so much more easier if they had like an opening to faciliate travel in the wall}
+               {|||||This would be so much more easier if they had like an opening to faciliate travel in the wall||}
          }
          -> wallBanging
 +Go get new box
+     {post_china==true:
+         ~ post_task_score=post_task_score+1
+     }
      ->taskExecute
+
+=box_scoring
+"I am done. Now will you answer my questions?"
+"Lets see whether you are in fact done"
+{post_task_score>10:
+	{post_task_score<(post_cat_error+post_bomb_error)*2:
+		"Yeah it seems you are done."
+		~ post_task=true
+	}
+	{post_cat_error+post_bomb_error<0:
+                            "And you were flawless about it too."
+                }
+	->questioning
+-else:
+               "We have not yet hit our quatas. I ain't answering to slackers anything"
+	* Go back to work
+	     ->taskExecute
+	* Leave
+                     -> hallway
+}
