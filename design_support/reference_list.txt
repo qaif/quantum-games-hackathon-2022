@@ -99,3 +99,6 @@ Mere, Superior siege engine
 
 Saying, Time waits for no one
 	empty string as command - Well this time Time insists and waits for you to do something.
+
+CPU instructions
+	short-cut action 0 - You do nothing. No operation. NOP

@@ -105,7 +105,7 @@ public class classical_story
                         int choice_index = System.Int32.Parse(text_number)-1;
                         if (choice_index < 0)
                         {
-                            chronons.Add("You do nothing.");
+                            chronons.Add("You do nothing. No operation. NOP");
                         }
                         else
                         {
