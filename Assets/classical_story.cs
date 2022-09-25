@@ -7,21 +7,18 @@ public class classical_story
 {
     public Story story;
 
-    private List<string> chronons;
+    private List<Chronon> chronons;
     public bool the_end_is_here;
     public superposition_manager quantumLord;
     private char[] numeral_glyphs;
+    private List<string> socials;
     // Start is called before the first frame update
-    void Start()
-    {
-        chronons = new List<string>();
-
-    }
 
     public classical_story(superposition_manager lord,TextAsset script)
     {
         story = new Story(script.text);
-        chronons = new List<string>();
+        chronons = new List<Chronon>();
+        socials = new List<string>();
         the_end_is_here = false;
         quantumLord = lord;
         numeral_glyphs = new char[] { '0','1', '2', '3', '4', '5', '6', '7', '8', '9' };
@@ -29,13 +26,7 @@ public class classical_story
 
     public void force_add(string lol)
     {
-        chronons.Add(lol);
-    }
-
-
-    void Awake()
-    {
-        chronons = new List<string>();
+        chronons.Add(new Chronon(lol,new string[] { "forced"}));
     }
 
     public string AsOneText()
@@ -43,7 +34,7 @@ public class classical_story
         string blob = "";
         for (int i = 0; i < chronons.Count; i++) 
         {
-            blob = blob + "\n" + chronons[i];
+            blob = blob + "\n" + chronons[i].prose;
         }
         if (story.currentChoices.Count > 0)
         {
@@ -63,7 +54,8 @@ public class classical_story
         {
             string scribble = story.Continue();
             //Debug.Log("chronon: "+ scribble);
-            chronons.Add(scribble);
+            socials = new List<string>();
+            chronons.Add(new Chronon(scribble,story.currentTags.ToArray()));
         }
         if (story.currentChoices.Count <= 0)
         {
@@ -105,7 +97,7 @@ public class classical_story
                         int choice_index = System.Int32.Parse(text_number)-1;
                         if (choice_index < 0)
                         {
-                            chronons.Add("You do nothing. No operation. NOP");
+                            chronons.Add(new Chronon("You do nothing. No operation. NOP",new string[] { "program"}));
                         }
                         else
                         {
@@ -122,19 +114,19 @@ public class classical_story
                                 }
                                 else
                                 {
-                                    chronons.Add("You have run out of pages in your playbook to try that trick.");
+                                    chronons.Add( new Chronon("You have run out of pages in your playbook to try that trick.",new string[] { "program"}) );
                                 }
                             }
                         }
                     }
                     else
                     {
-                        chronons.Add(word + " doesn't make sense here");
+                        chronons.Add( new Chronon(word + " doesn't make sense here",new string[] { "program"}) );
                     }
                 }
                 else
                 {
-                    chronons.Add("Well this time Time insists and waits for you to do something.");
+                    chronons.Add( new Chronon("Well this time Time insists and waits for you to do something.", new string[] { "program"}) );
                 }
             }
             else

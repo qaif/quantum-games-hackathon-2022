@@ -172,6 +172,7 @@ Every journey is a series of choices. The first is to begin the journey.
    ->bedUp
 
 =bedUp
+#Protagonist
 You wake up with the strangest feeling as if somebody has departed this earth.
 {protagonist_name=="Charles":
    You feel majestic despite your long life.
