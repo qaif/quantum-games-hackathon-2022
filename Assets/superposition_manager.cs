@@ -27,11 +27,15 @@ public class superposition_manager : MonoBehaviour
 
     public Canvas paint_wall;
 
+    public string[] copied_variables;
+
     public Dictionary<string, Lottery> lotto;
 
     public Dictionary<classical_story,classical_story> AddQuota;
-    
-        // Start is called before the first frame update
+    public List<classical_story> AddQueue;
+    public List<string> QueueDetail;
+    public List<string> QueueWarppoint;
+    // Start is called before the first frame update
     void Start()
     {
         
@@ -39,7 +43,11 @@ public class superposition_manager : MonoBehaviour
 
     void Awake()
     {
+        copied_variables = new string[] { "world" ,"injury","storm","werewolf","guilty","weapon","protagonist_name","debt","affair","critter","priority_note","lucan_potion","lucan_extort","lucan_cure","lucan_borrow","lucan_identity","lucan_formula","lucan_points","post_task","post_revenge","post_box_label","post_cat_up","post_cat_dead","post_neurotoxin","post_bomb_armed","post_bomb_exploded","post_probe","post_china","post_bomb_error","post_bomb_burden","passcode"};
         AddQuota = new Dictionary<classical_story, classical_story>();
+        AddQueue = new List<classical_story>();
+        QueueDetail = new List<string>();
+        QueueWarppoint = new List<string>();
         current_display = 0;
         last_rollover = 0.0;
         world_letters = new List<string>();
@@ -55,10 +63,10 @@ public class superposition_manager : MonoBehaviour
 
     void HeedAction(string word)
     {
-        //Debug.Log("start heed");
+        Debug.Log("start heed");
         foreach (classical_story line in linears)
         {
-            //Debug.Log("heed");
+            Debug.Log("linear");
             line.HeedAction(word);
         }
         Admissions();
@@ -68,6 +76,28 @@ public class superposition_manager : MonoBehaviour
 
     void Admissions()
     {
+        for (int i = 0; i < AddQueue.Count; i++)
+        {
+            Debug.Log("deeper");
+            classical_story noob = new classical_story(this, AddQueue[i].manuscript);
+            Debug.Log("even deeper");
+            noob.story.BindExternalFunction("coherentLottery", (string ticket) =>
+            {
+                string midway = CoherentLottery(noob, ticket);
+                return midway;
+            });
+            noob.story.BindExternalFunction("splitWorld", (string corner, string warppoint) =>
+            {
+                splitWorld(noob, corner, warppoint);
+            });
+            noob.bifurcate(QueueDetail[i], QueueWarppoint[i], AddQueue[i]);
+            AddQuota.Add(AddQueue[i], noob);
+        }
+        AddQueue = new List<classical_story>();
+        QueueDetail = new List<string>();
+        QueueWarppoint = new List<string>();
+
+
         List<classical_story> rollers = new List<classical_story>();
         foreach(KeyValuePair<classical_story,classical_story> huikka in AddQuota)
         {
@@ -75,10 +105,12 @@ public class superposition_manager : MonoBehaviour
             linears.Insert(paikka, huikka.Value);
             rollers.Add(huikka.Value);
         }
+        Debug.Log("LC" + linears.Count.ToString());
         AddQuota = new Dictionary<classical_story, classical_story>();
         foreach (classical_story noob in rollers)
         {
-            noob.ForwardFlow();            
+            //Debug.Log(noob.story.currentText);
+            noob.ForwardFlow();          
         }
         if (AddQuota.Count > 0)
         {
@@ -151,6 +183,7 @@ public class superposition_manager : MonoBehaviour
         linears = new List<classical_story>();
         for (int i = 0; i < 5; i++)
         {
+
             classical_story fresh = new classical_story(this,line_template);
             //fresh.force_add("story "+i.ToString());
             fresh.story.onError += (huuto, what) =>
@@ -163,9 +196,11 @@ public class superposition_manager : MonoBehaviour
                 string midway = echo_copy.CoherentLottery(linears[j], ticket);
                 return midway;
             });
-            fresh.story.BindExternalFunction("splitWorld", (string corner) =>
+            classical_story noblet = fresh;
+            fresh.story.BindExternalFunction("splitWorld", (string corner,string warppoint) =>
             {
-                splitWorld(linears[j], corner);
+                Debug.Log("boo");
+                splitWorld(noblet, corner,warppoint);
             });
             fresh.ForwardFlow();
             fresh.story.variablesState["world"] = world_letters[i];
@@ -262,19 +297,11 @@ public class superposition_manager : MonoBehaviour
         Debug.Log("story "+storyid+" "+what.ToString() + " : " + huuto);
     }
 
-    public void splitWorld(classical_story river,string detail)
+    public void splitWorld(classical_story river,string detail,string warppoint)
     {
-        classical_story noob = river.bifurcate(detail);
-        noob.story.BindExternalFunction("coherentLottery", (string ticket) => {
-            string midway = CoherentLottery(noob, ticket);
-            return midway;
-        });
-        noob.story.BindExternalFunction("splitWorld", (string corner) =>
-        {
-            splitWorld(noob, corner);
-        });
-
-        AddQuota.Add(river, noob);
+        AddQueue.Add(river);
+        QueueDetail.Add(detail);
+        QueueWarppoint.Add(warppoint);
     }
 
 

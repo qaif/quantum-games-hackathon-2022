@@ -15,6 +15,7 @@ public class classical_story
     public TextAsset manuscript;
     // Start is called before the first frame update
 
+
     public classical_story(superposition_manager lord,TextAsset script)
     {
         manuscript = script;
@@ -55,7 +56,7 @@ public class classical_story
         while (story.canContinue)
         {
             string scribble = story.Continue();
-            //Debug.Log("chronon: "+ scribble);
+            Debug.Log("chronon: "+ scribble);
             socials = new List<string>();
             chronons.Add(new Chronon(scribble,story.currentTags.ToArray()));
         }
@@ -78,29 +79,46 @@ public class classical_story
         return basket;
     }
 
-    public classical_story bifurcate(string detail)
+    public void bifurcate(string detail,string warppoint,classical_story reference)
     {
-        classical_story noob = new classical_story(quantumLord,manuscript);
-        string old_content = story.ToJson();
-        string old_state = story.state.ToJson();
+        Debug.Log("Top feeder");
+        Debug.Log("Bottom feeder");
+        //string old_content = story.ToJson();
+        //string old_state = story.state.ToJson();
 
         //Debug.Log(old_content);
         //Debug.Log(noob.story.variablesState[detail]);
-        noob.story=new Story(old_content);
-        noob.story.state.LoadJson(old_state);
-        if (noob.story.variablesState[detail].ToString() == "true")
+
+        while (story.canContinue)
         {
-            noob.story.variablesState[detail] = "false";
+            Debug.Log(story.Continue());
+        }
+        foreach(string individual in quantumLord.copied_variables)
+        {
+            Debug.Log("insider");
+            story.variablesState[individual] = reference.story.variablesState[individual];
+        }
+        story.variablesState["warp_story"] = "true";
+        story.variablesState["warp_target"] = "warppoint";
+
+        //Debug.Log(noob.story.Continue());
+        if (story.variablesState[detail].ToString() == "true")
+        {
+            story.variablesState[detail] = "false";
         }
         else
         {
-            noob.story.variablesState[detail] = "true";
+            story.variablesState[detail] = "true";
         }
-        foreach(Chronon oldies in chronons)
+        foreach(Chronon oldies in reference.chronons)
         {
-            noob.chronons.Add(new Chronon(oldies.prose, oldies.notes));
+            chronons.Add(new Chronon(oldies.prose, oldies.notes));
         }
-        return noob;
+        Debug.Log("CHOICE:"+story.currentChoices.Count.ToString());
+        story.ChooseChoiceIndex(0);
+        ForwardFlow();
+        story.variablesState["warp_story"] = false;
+        story.variablesState["warp_target"] = "";
     }
 
     public void HeedAction(string word)

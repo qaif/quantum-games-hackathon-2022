@@ -24,7 +24,7 @@ INCLUDE ChemistryTeacher.ink
 INCLUDE resolution.ink
 
 EXTERNAL coherentLottery(lotterytype)
-EXTERNAL splitWorld(detail)
+EXTERNAL splitWorld(detail,warppoint)
 
 
 
@@ -84,6 +84,9 @@ VAR passcode=false
 
 VAR splitTest=false
 
+VAR warp_story=false
+VAR warp_target=""
+
 
 {weapon == "knife":
     ~injury="slice"
@@ -105,7 +108,7 @@ VAR splitTest=false
 }
 ->titleLine
 
-=== function splitWorld(detail)
+=== function splitWorld(detail,warppoint)
 ~ return "splitting world"
 
 === function coherentLottery(detail)
@@ -118,6 +121,11 @@ Quantum Detective # program
 This game is played by entering text into the textbox (and submitting by enter). # program
 
 + wait
+   {warp_story==true:
+           {warp_target=="bedWarppoint":
+                   ->startingScene.bedWarppoint
+           }
+   }
    {You take a while looking at the marvelous title screen.|Yes, it is really quite grand. You are excited to see how it plays.|Eager to cling to the smallest details you are spending way more time at the title line than the developers expected|Like the developers in the game jam, you don't have infinite amount of time to use.} # narration
    {protagonist_name=="Stanley":
        This brings you fond memories of various closets you have been in. # narration
@@ -192,7 +200,9 @@ You wake up with the strangest feeling as if somebody has departed this earth. #
    Luckily your day deals with much simpler matters. # narration
 }
 The university comfortability is on your shoulders as its janitor. # narration
-~ splitWorld("splitTest")
+~ splitWorld("splitTest","bedWarppoint")
+-> bedWarppoint
+=bedWarppoint
 {splitTest==true:
 Whoah more worlds
 }
