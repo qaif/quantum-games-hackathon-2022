@@ -30,11 +30,6 @@ pygame.time.set_timer(move_event, 5) # 2000 milliseconds = 2 seconds
 total_bit = 0
 total_measurement = 0
 
-playerx = 370
-playery = 480
-playerx_change = 0
-playery_change = 0
-
 background=pygame.image.load("background.png")
 
 point = 0
@@ -140,17 +135,6 @@ while run:
                 point += 1
 
 
-    playerx += playerx_change
-    playery += playery_change
-    if playerx <= 0:
-        playerx = 0
-    if playerx >= 736:
-        playerx = 736
-    if playery <= 0:
-        playery = 0
-    if playery >= 600:
-        playery = 600
-
     measurements.draw(window)
     bits.draw(window)
     retrieved_measurements.draw(window)
@@ -162,7 +146,6 @@ while run:
     if is_bit_miss():
         missing += 1
 
-    player(playerx, playery)
     score_display(pointx, pointy)
     missing_display(missingx, missingy)
     pygame.display.update()
