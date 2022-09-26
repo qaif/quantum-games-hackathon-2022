@@ -102,13 +102,14 @@ public class classical_story
         story.variablesState["warp_target"] = warppoint;
 
         //Debug.Log(noob.story.Continue());
+        Debug.Log("Toggle point before: " + story.variablesState[detail].ToString());
         if (story.variablesState[detail].ToString() == "true")
         {
-            story.variablesState[detail] = "false";
+            story.variablesState[detail] = false;
         }
         else
         {
-            story.variablesState[detail] = "true";
+            story.variablesState[detail] = true;
         }
         foreach(Chronon oldies in reference.chronons)
         {

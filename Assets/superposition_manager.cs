@@ -80,6 +80,10 @@ public class superposition_manager : MonoBehaviour
         {
             Debug.Log("deeper");
             classical_story noob = new classical_story(this, AddQueue[i].manuscript);
+            foreach(KeyValuePair<string,Lottery> finger in lotto)
+            {
+                finger.Value.dupe(AddQueue[i], noob);
+            }
             Debug.Log("even deeper");
             noob.story.BindExternalFunction("coherentLottery", (string ticket) =>
             {
@@ -172,10 +176,10 @@ public class superposition_manager : MonoBehaviour
     {
         lotto = new Dictionary<string, Lottery>();
         string[] dual = new string[] { "true","false"};
-        Lottery a = new Lottery(dual,5);
+        Lottery a = new Lottery(dual);
         //Debug.Log(dual);
-        Lottery b = new Lottery(dual,5);
-        Lottery c = new Lottery(new string[]{"animal","handle with care","express"},5);
+        Lottery b = new Lottery(dual);
+        Lottery c = new Lottery(new string[]{"animal","handle with care","express"});
         lotto.Add("atomic_fact",a);
         lotto.Add("bomb_fuse",b);
         lotto.Add("box_label", c);
@@ -311,7 +315,7 @@ public class superposition_manager : MonoBehaviour
         {
             if (linears[i] == river)
             {
-                string result= lotto[lotterytype].provide(i);
+                string result= lotto[lotterytype].provide(linears[i]);
                 Debug.Log(result + " " + i);
                 return result;
             }

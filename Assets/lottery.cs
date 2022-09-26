@@ -4,37 +4,55 @@ using UnityEngine;
 
 public class Lottery
 {
-    private List<int> occurrences;
+    private Dictionary<classical_story,int> occurrences;
     private List<string> pool;
     private List<string> canon;
-    public Lottery(string[] puddle,int width=0)
+    public Lottery(string[] puddle)
     {
         pool = new List<string>();
-        occurrences = new List<int>();
+        occurrences = new Dictionary<classical_story,int>();
         canon = new List<string>();
         for (int i=0; i < puddle.Length; i++)
         {
             pool.Add(puddle[i]);
         }
-        for (int i=0; i < width; i++)
-        {
-            occurrences.Add(0);
-        }
     }
 
-    public string provide(int river)
+    public string provide(classical_story river)
     {
-        occurrences[river] = occurrences[river] + 1;
-        if (occurrences[river] > canon.Count)
+        if (occurrences.ContainsKey(river))
         {
-            int coin = Random.Range(0, pool.Count);
-            canon.Add(pool[coin]);
-            Debug.Log("coin " + coin.ToString());
+            occurrences[river] = occurrences[river] + 1;
+            if (occurrences[river] > canon.Count)
+            {
+                int coin = Random.Range(0, pool.Count);
+                canon.Add(pool[coin]);
+                Debug.Log("coin " + coin.ToString());
+            }
+            int place = occurrences[river] - 1;
+            string content = canon[place];
+            Debug.Log("canon" + canon.ToString() + "return " + content);
+            return content;
         }
-        int place = occurrences[river]-1;
-        string content = canon[place];
-        Debug.Log("canon" + canon.ToString()+ "return "+content);
-        return content;
+        else
+        {
+            occurrences.Add(river, 0);
+            return provide(river);
+        }
 
+    }
+
+    public void dupe(classical_story trunk,classical_story branch)
+    {
+        if (occurrences.ContainsKey(trunk))
+        {
+            int amount = occurrences[trunk];
+            occurrences.Add(branch, amount);
+        }
+        else
+        {
+            occurrences.Add(trunk, 0);
+            dupe(trunk, branch);
+        }
     }
 }

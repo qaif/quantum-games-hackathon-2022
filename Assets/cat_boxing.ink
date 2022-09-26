@@ -119,7 +119,7 @@ You go get {a|yet another} box from the sorting chute.
 ~ post_box_label=coherentLottery("box_label")
 The label on it reads {post_box_label}
 {post_box_label=="animal":
-          ~ post_cat_up = true //request split post_cat_up
+          ~ post_cat_up = true
 }
 {post_box_label=="hand with care":
           ~ post_bomb_armed=coherentLottery("bomb_fuse") // {~true|false}
@@ -131,6 +131,16 @@ The label on it reads {post_box_label}
 
 
 + open the box
+    ->catThings
+
++ put the box in the maybe crush machine
+  -> crushingExploration
++ put the box in the superior siege engine
+   -> wallBanging
++ go check on whether the work is enough
+  -> box_scoring
+
+=catThings
     {post_box_label=="handle with care":
             This one is whirling rather loudly.
             An explosion throws you back to the wall.
@@ -139,15 +149,19 @@ The label on it reads {post_box_label}
             -> END
     }
     {post_box_label=="animal":
-           ~ post_cat_up = true//request split post_cat_up
+           ~ post_cat_up = true   //request split post_cat_up
+           ~ splitWorld("post_cat_up","schrodingersLap")
     }
+    ->schrodingersLap
+
+    =schrodingersLap
     {post_cat_up==true:
             "A cat is whirling inside the box"
     }
     {post_cat_up==false:
             "A cat laying on the bottom"
     }
-    ++ {post_neurotoxin>0}apply neurotoxin
+    + {post_neurotoxin>0}apply neurotoxin
           ~ post_neurotoxin = post_neurotoxin - 1
           {post_cat_up:
                The cat goes limb and falls into the box.
@@ -165,14 +179,14 @@ The label on it reads {post_box_label}
           {post_neurotoxin<=0:
                   That was the last neurotoxin ampule.
           }
-    ++ apply chloroform
+    + apply chloroform
           {post_cat_up:
                The cat swirls into a small ball that periodically buffs and deflates.
                ~ post_cat_up=false
           }          
-    ++ close box
+    + close box
          This one is good to go.
-    --
+    -
    {post_cat_up==false:
         post_task_score=post_task_score+1
    }
@@ -181,12 +195,6 @@ The label on it reads {post_box_label}
    }
     ->taskExecute
 
-+ put the box in the maybe crush machine
-  -> crushingExploration
-+ put the box in the superior siege engine
-   -> wallBanging
-+ go check on whether the work is enough
-  -> box_scoring
 
 =crushingExploration
     // request split post_probe
