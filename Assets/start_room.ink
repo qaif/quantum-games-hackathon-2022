@@ -25,6 +25,9 @@ INCLUDE resolution.ink
 
 EXTERNAL coherentLottery(lotterytype)
 
+
+
+
 VAR retry=false
 
 VAR world = "A"
@@ -78,6 +81,8 @@ VAR post_bomb_burden=0
 
 VAR passcode=false
 
+VAR splitTest=false
+
 
 {weapon == "knife":
     ~injury="slice"
@@ -97,10 +102,16 @@ VAR passcode=false
 {weapon=="words":
     ~injury="plain"
 }
-
 ->titleLine
 
-=titleLine
+=== function splitWorld(detail)
+~ return "splitting world"
+
+=== function coherentLottery(detail)
+~ return "throwing dice"
+
+
+===titleLine===
 Quantum Detective # program
 
 This game is played by entering text into the textbox (and submitting by enter). # program
