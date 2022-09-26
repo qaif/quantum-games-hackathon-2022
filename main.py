@@ -28,11 +28,6 @@ pygame.time.set_timer(move_event, 5) # 2000 milliseconds = 2 seconds
 total_bit = 0
 total_measurement = 0
 
-playerx = 370
-playery = 480
-playerx_change = 0
-playery_change = 0
-
 background=pygame.image.load("background.png")
 
 point = 0
