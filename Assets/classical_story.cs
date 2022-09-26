@@ -82,9 +82,12 @@ public class classical_story
     {
         classical_story noob = new classical_story(quantumLord,manuscript);
         string old_content = story.ToJson();
+        string old_state = story.state.ToJson();
+
         //Debug.Log(old_content);
         //Debug.Log(noob.story.variablesState[detail]);
         noob.story=new Story(old_content);
+        noob.story.state.LoadJson(old_state);
         if (noob.story.variablesState[detail].ToString() == "true")
         {
             noob.story.variablesState[detail] = "false";
@@ -92,6 +95,10 @@ public class classical_story
         else
         {
             noob.story.variablesState[detail] = "true";
+        }
+        foreach(Chronon oldies in chronons)
+        {
+            noob.chronons.Add(new Chronon(oldies.prose, oldies.notes));
         }
         return noob;
     }
