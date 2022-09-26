@@ -12,10 +12,12 @@ public class classical_story
     public superposition_manager quantumLord;
     private char[] numeral_glyphs;
     private List<string> socials;
+    public TextAsset manuscript;
     // Start is called before the first frame update
 
     public classical_story(superposition_manager lord,TextAsset script)
     {
+        manuscript = script;
         story = new Story(script.text);
         chronons = new List<Chronon>();
         socials = new List<string>();
@@ -74,6 +76,21 @@ public class classical_story
             }
         }
         return basket;
+    }
+
+    public classical_story bifurcate(string detail)
+    {
+        classical_story noob = new classical_story(quantumLord,manuscript);
+        noob.story=new Story(story.ToJson());
+        if (noob.story.variablesState[detail].ToString() == "true")
+        {
+            noob.story.variablesState[detail] = "false";
+        }
+        else
+        {
+            noob.story.variablesState[detail] = "true";
+        }
+        return noob;
     }
 
     public void HeedAction(string word)

@@ -139,6 +139,10 @@ public class superposition_manager : MonoBehaviour
                 string midway = echo_copy.CoherentLottery(linears[j], ticket);
                 return midway;
             });
+            fresh.story.BindExternalFunction("worldSplit", (string corner) =>
+            {
+                worldSplit(linears[j], corner);
+            });
             fresh.ForwardFlow();
             fresh.story.variablesState["world"] = world_letters[i];
             linears.Add(fresh);
@@ -233,6 +237,23 @@ public class superposition_manager : MonoBehaviour
     {
         Debug.Log("story "+storyid+" "+what.ToString() + " : " + huuto);
     }
+
+    public void worldSplit(classical_story river,string detail)
+    {
+        int current_place = linears.IndexOf(river);
+        classical_story noob = river.bifurcate(detail);
+        noob.story.BindExternalFunction("coherentLottery", (string ticket) => {
+            string midway = CoherentLottery(noob, ticket);
+            return midway;
+        });
+        noob.story.BindExternalFunction("worldSplit", (string corner) =>
+        {
+            worldSplit(noob, corner);
+        });
+
+        linears.Insert(current_place, noob);
+    }
+
 
     public string CoherentLottery(classical_story river,string lotterytype)
     {
