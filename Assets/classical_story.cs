@@ -81,7 +81,10 @@ public class classical_story
     public classical_story bifurcate(string detail)
     {
         classical_story noob = new classical_story(quantumLord,manuscript);
-        noob.story=new Story(story.ToJson());
+        string old_content = story.ToJson();
+        //Debug.Log(old_content);
+        //Debug.Log(noob.story.variablesState[detail]);
+        noob.story=new Story(old_content);
         if (noob.story.variablesState[detail].ToString() == "true")
         {
             noob.story.variablesState[detail] = "false";

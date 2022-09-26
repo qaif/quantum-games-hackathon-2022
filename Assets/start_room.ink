@@ -24,6 +24,7 @@ INCLUDE ChemistryTeacher.ink
 INCLUDE resolution.ink
 
 EXTERNAL coherentLottery(lotterytype)
+EXTERNAL splitWorld(detail)
 
 
 
@@ -191,6 +192,10 @@ You wake up with the strangest feeling as if somebody has departed this earth. #
    Luckily your day deals with much simpler matters. # narration
 }
 The university comfortability is on your shoulders as its janitor. # narration
+~ splitWorld("splitTest")
+{splitTest==true:
+Whoah more worlds
+}
 Yesterday performance review gave you a grade of {world}. # narration
 Some students were complaining about the toilets. # narration
 So better start with that. # narration
