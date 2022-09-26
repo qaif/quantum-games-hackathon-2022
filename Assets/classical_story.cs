@@ -116,6 +116,7 @@ public class classical_story
         }
         Debug.Log("CHOICE:"+story.currentChoices.Count.ToString());
         story.ChooseChoiceIndex(0);
+        story.Continue();
         ForwardFlow();
         story.variablesState["warp_story"] = false;
         story.variablesState["warp_target"] = "";

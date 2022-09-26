@@ -1,0 +1,14 @@
+coherentLottery(pool)
+takes a parameter that refers to value pool in code
+Provides every basis state the same value.
+The value is picked at random from the pool.
+New visit will pick a new random value.
+Used to make "non-flickering" randomization.
+
+
+
+splitWorld(detail,warpcode)
+makes a new classical story, toggle the variable detail and then diverts it to warpcode
+warpcode refers to titleLine warpzone
+A lot of basic ink things are at their blank values at the new basis state.
+For example visiting counts are assumed to be wrong.
