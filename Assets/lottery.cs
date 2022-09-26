@@ -31,7 +31,15 @@ public class Lottery
             }
             int place = occurrences[river] - 1;
             string content = canon[place];
+            foreach (string inspect in canon)
+            {
+                Debug.Log(inspect);
+            }
             Debug.Log("canon" + canon.ToString() + "return " + content);
+            foreach (KeyValuePair<classical_story,int> inspect in occurrences)
+            {
+                Debug.Log(inspect.Value.ToString());
+            }
             return content;
         }
         else
@@ -44,10 +52,21 @@ public class Lottery
 
     public void dupe(classical_story trunk,classical_story branch)
     {
+        Debug.Log("dupe");
+        Debug.Log(trunk.quantumLord.linears.IndexOf(trunk).ToString());
+        Debug.Log(branch.quantumLord.linears.IndexOf(branch).ToString());
         if (occurrences.ContainsKey(trunk))
         {
-            int amount = occurrences[trunk];
-            occurrences.Add(branch, amount);
+            if (occurrences.ContainsKey(branch) )
+            {
+                int amount = occurrences[trunk];
+                occurrences[branch]= amount;
+            }
+            else
+            {
+                int amount = occurrences[trunk];
+                occurrences.Add(branch, amount);
+            }
         }
         else
         {

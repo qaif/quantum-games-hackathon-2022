@@ -56,7 +56,7 @@ public class classical_story
         while (story.canContinue)
         {
             string scribble = story.Continue();
-            Debug.Log("chronon: "+ scribble);
+            //Debug.Log("chronon: "+ scribble);
             socials = new List<string>();
             chronons.Add(new Chronon(scribble,story.currentTags.ToArray()));
         }
@@ -103,7 +103,7 @@ public class classical_story
 
         //Debug.Log(noob.story.Continue());
         Debug.Log("Toggle point before: " + story.variablesState[detail].ToString());
-        if (story.variablesState[detail].ToString() == "true")
+        if (story.variablesState[detail].ToString() == "True")
         {
             story.variablesState[detail] = false;
         }

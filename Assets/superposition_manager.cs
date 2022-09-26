@@ -7,7 +7,7 @@ using TMPro;
 public class superposition_manager : MonoBehaviour
 {
     public TextAsset line_template;
-    private List<classical_story> linears;
+    public List<classical_story> linears;
     public TMP_InputField commander;
     public int current_display;
     public TextMeshProUGUI current_prose;
@@ -63,10 +63,10 @@ public class superposition_manager : MonoBehaviour
 
     void HeedAction(string word)
     {
-        Debug.Log("start heed");
+        //Debug.Log("start heed");
         foreach (classical_story line in linears)
         {
-            Debug.Log("linear");
+            //Debug.Log("linear");
             line.HeedAction(word);
         }
         Admissions();
@@ -197,7 +197,7 @@ public class superposition_manager : MonoBehaviour
             superposition_manager echo_copy = this;
             int j = i;
             fresh.story.BindExternalFunction("coherentLottery", (string ticket) => {
-                string midway = echo_copy.CoherentLottery(linears[j], ticket);
+                string midway = echo_copy.CoherentLottery(fresh, ticket);
                 return midway;
             });
             classical_story noblet = fresh;
@@ -206,6 +206,7 @@ public class superposition_manager : MonoBehaviour
                 Debug.Log("boo");
                 splitWorld(noblet, corner,warppoint);
             });
+
             fresh.ForwardFlow();
             fresh.story.variablesState["world"] = world_letters[i];
             linears.Add(fresh);
