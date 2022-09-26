@@ -8,6 +8,8 @@ from typing import List
 
 pygame.init()
 
+print("hello world")
+
 window = pygame.display.set_mode((1024, 768))
 
 pygame.display.set_caption("Verona 2049")
