@@ -193,4 +193,19 @@ while run:
         pygame.display.update()
 
     elif (phase==2):
+
+        window.blit(background, (0, 0))
+        last = pygame.time.get_ticks()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+
+
+
+
+        pygame.display.update()
+
         pass
