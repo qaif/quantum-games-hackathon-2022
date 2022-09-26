@@ -184,6 +184,37 @@ public class superposition_manager : MonoBehaviour
             noob.transform.localScale = new Vector3(1.0f,1.0f,1.0f);
             display_grids.Add(noob.gameObject);
         }
+        List<Chronon> affords = linears[current_display].affordanceItems();
+        float horizontal_start = 3.0f;
+        vertical_spacing = 0.2f;
+        height_start = (affords.Count * vertical_spacing) - 4.0f;
+        for (int i=0; i < affords.Count; i++)
+        {
+            TextMeshProUGUI noob = null;
+            /*if (System.Array.Exists(affords[i].notes, x => x == "protagonist"))
+            {
+                noob = Instantiate(ProtagonistSlateFactory, new Vector3(horizontal_start, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+            }
+            if (System.Array.Exists(affords[i].notes, x => x == "narration"))
+            {
+                noob = Instantiate(NarrationSlateFactory, new Vector3(horizontal_start, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+            }
+            if (System.Array.Exists(affords[i].notes, x => x == "program"))
+            {
+                noob = Instantiate(ProgramSlateFactory, new Vector3(horizontal_start, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+            }
+            */
+            if (noob == null)
+            {
+                noob = Instantiate(ProgramSlateFactory, new Vector3(horizontal_start, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+            }
+            noob.SetText((i+1).ToString()+") "+affords[i].prose);
+            noob.transform.SetParent(paint_wall.transform, true);
+            noob.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            display_grids.Add(noob.gameObject);
+
+        }
+
 
         string payload = linears[current_display].AsOneText();
         current_prose.SetText(payload);

@@ -207,6 +207,7 @@ You lose.
         -> END
     * Use half of your smash coins to continue
         You don't have enough smash coins to continue
-        * Master this hand!
-        * Ben is a hoe anyway
+        ** Master this hand!
+        ** Ben is a hoe anyway
+        --
         -> END

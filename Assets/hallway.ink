@@ -2,11 +2,11 @@ INCLUDE murder_bathroom.ink
 
 === hallway ===
 
-The hallway seems empty. There is a door to the cleaning cellar,
-a door to a classroom, a wide opening to a cafeteria and a door to the auditorium.
-In addition to the usual facilities.
+The hallway seems empty. There is a door to the cleaning cellar, # narration
+a door to a classroom, a wide opening to a cafeteria and a door to the auditorium. # narration
+In addition to the usual facilities. # narration
 {priority_note==true:
-   Better get started with that toilet.
+   Better get started with that toilet. # narration
 }
     + {priority_note==false} Enter cleaning cellar
         -> cleaning_cellar.aEntersACleaning
@@ -21,7 +21,7 @@ In addition to the usual facilities.
 
 =Facilities
     {guilty=="merry":
-    That is funny. I thought I cleaned up this end of the hallway yesterday.
+    That is funny. I thought I cleaned up this end of the hallway yesterday. # narration
     }
     + Enter toilet
         ->MurderBathroom
@@ -38,15 +38,15 @@ In addition to the usual facilities.
     
     
     === classroom ===
-    The classroom seems echoing, but there is someone behind a high bookstack
+    The classroom seems echoing, but there is someone behind a high bookstack. # narration
     + [Engage]
         -> Runa_cat
     + Return to hallway
     -> hallway
     
     === auditorium ===
-    The auditorium seems empty
-    ...except for a lone figure jumping up and down
+    The auditorium seems empty # narration
+    ...except for a lone figure jumping up and down. #narration
     + [Engage]
         -> Rascal
     + Return to hallway

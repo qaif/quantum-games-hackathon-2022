@@ -63,6 +63,19 @@ public class classical_story
         }
     }
 
+    public List<Chronon> affordanceItems()
+    {
+        List<Chronon> basket = new List<Chronon>();
+        if (story.currentChoices.Count > 0)
+        {
+            for (int i=0; i < story.currentChoices.Count; i++)
+            {
+                basket.Add(new Chronon(story.currentChoices[i].text,story.currentTags.ToArray()));
+            }
+        }
+        return basket;
+    }
+
     public void HeedAction(string word)
     {
         if (story.currentChoices.Count > 0)

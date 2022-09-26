@@ -131,10 +131,10 @@ This game is played by entering text into the textbox (and submitting by enter).
 === startingScene ===
 
 = startDescription
-You are asleep # narration
+You are asleep
 Every journey is a series of choices. The first is to begin the journey. # narration
-* Wake up
-   -> bedUp
+* Wake up 
+   -> bedUp 
 * Don't wake up
    -> resolution.Demise
 * That's it two lines?
@@ -167,8 +167,8 @@ Every journey is a series of choices. The first is to begin the journey. # narra
          }
          ->bedUp
    
-* Too much curiosity can get the best of us.
-   Some events happen whether we want them to or not. # narration
+* Too much curiosity can get the best of us. # program
+   Some events happen whether we want them to or not. # program
    ->bedUp
 
 =bedUp
