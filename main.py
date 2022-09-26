@@ -134,48 +134,38 @@ run = True
 while run:
 
     if (phase==1):
-        window.blit(background, (0, 0))
-        last = pygame.time.get_ticks()
         # to show the background
         window.blit(background, (0, 0))
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == measurement_event and len(retrieved_measurements) <= 10:
-                # spawn new letter
-                measurements.add(MeasurementBase())
-                total_measurement += 1
+        last = pygame.time.get_ticks()
 
         # getting all event happens on the game (mouse hover, keyboard press, user defined function)
         for event in pygame.event.get():
-            if event.type == pygame.QUIT: # for quiting the game
+            if event.type == pygame.QUIT:  # for quiting the game
                 pygame.quit()
                 sys.exit()
-            elif event.type == measurement_event and len(retrieved_measurements) <= 10: # to keep spawning the measurement base until reach x values
+            elif event.type == measurement_event and len(
+                    retrieved_measurements) <= 10:  # to keep spawning the measurement base until reach x values
                 # spawn new object
                 measurements.add(MeasurementBase())
                 total_measurement += 1
 
-            elif event.type == bit_event  and len(retrieved_bits) <= 10: # to keep spawning the bit base until reach x values
+            elif event.type == bit_event and len(
+                    retrieved_bits) <= 10:  # to keep spawning the bit base until reach x values
                 # spawn new object
                 bits.add(BitBase())
                 total_bit += 1
 
-                if event.type == pygame.KEYDOWN:
-                    if get_bit(event.key) or get_measurement(event.key):
-                        point += 1
+            elif event.type == move_event:
+                for m in measurements:
+                    m.move()
 
-            measurements.draw(window)
-            bits.draw(window)
-            retrieved_measurements.draw(window)
-            retrieved_bits.draw(window)
+                for b in bits:
+                    b.move()
 
-            if is_measurement_miss():
-                missing += 1
-            if is_bit_miss():
-                missing += 1
+            if event.type == pygame.KEYDOWN:
+                if get_bit(event.key) or get_measurement(event.key):
+                    point += 1
 
         if is_measurement_miss():
             missing += 1
