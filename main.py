@@ -141,7 +141,7 @@ while run:
         if is_bit_miss():
             missing += 1
 
-        player(playerx, playery)
+        #player(playerx, playery)
         score_display(pointx, pointy)
         missing_display(missingx, missingy)
         pygame.display.update()
