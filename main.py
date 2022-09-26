@@ -19,8 +19,11 @@ retrieved_bits = pygame.sprite.Group()
 
 measurement_event = pygame.USEREVENT + 1
 bit_event = pygame.USEREVENT + 2
-pygame.time.set_timer(measurement_event, 2000) # 2000 milliseconds = 2 seconds
-pygame.time.set_timer(bit_event, 2100) # 2000 milliseconds = 2 seconds
+move_event = pygame.USEREVENT + 3
+
+pygame.time.set_timer(measurement_event, 3000) # 2000 milliseconds = 2 seconds
+pygame.time.set_timer(bit_event, 2500) # 2000 milliseconds = 2 seconds
+pygame.time.set_timer(move_event, 5) # 2000 milliseconds = 2 seconds
 
 total_bit = 0
 total_measurement = 0
@@ -55,11 +58,13 @@ def missing_display(x,y):
 
 def get_measurement(key: int):
     for l in measurements:
-        if l.x >= 30 and l.x <= 90 and l.key == key:
+        if l.rect.x >= 30 and l.rect.x <= 90 and l.key == key:
 
             retrieved_measurement = MeasurementBase(key)
-            retrieved_measurement.y = 597
-            retrieved_measurement.x = 50 + (40 * len(retrieved_measurements))
+
+            retrieved_measurement.rect = retrieved_measurement.image.get_rect(topleft=(50 + (40 * len(retrieved_measurements)), 597))
+            #retrieved_measurement.y = 597
+            #retrieved_measurement.x = 50 + (40 * len(retrieved_measurements))
             retrieved_measurements.add(retrieved_measurement)
 
             l.kill()
@@ -69,11 +74,12 @@ def get_measurement(key: int):
 
 def get_bit(key: int):
     for l in bits:
-        if l.x >= 30 and l.x <= 90 and l.key == key:
+        if l.rect.x >= 30 and l.rect.x <= 90 and l.key == key:
 
             retrieved_bit = BitBase(key)
-            retrieved_bit.y = 437
-            retrieved_bit.x = 50 + (40 * len(retrieved_bits))
+            retrieved_bit.rect = retrieved_bit.image.get_rect(topleft=(50 + (40 * len(retrieved_bits)), 437))
+            #retrieved_bit.y = 437
+            #retrieved_bit.x = 50 + (40 * len(retrieved_bits))
             retrieved_bits.add(retrieved_bit)
 
             l.kill()
@@ -83,7 +89,7 @@ def get_bit(key: int):
 
 def is_measurement_miss():
     for l in measurements:
-        if l.x <= 0:
+        if l.rect.x <= 0:
             l.kill()
             return True
 
@@ -91,11 +97,12 @@ def is_measurement_miss():
 
 def is_bit_miss():
     for l in bits:
-        if l.x <= 0:
+        if l.rect.x <= 0:
             l.kill()
             return True
 
     return False
+
 
 run = True
 while run:
@@ -109,41 +116,27 @@ while run:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        elif event.type == measurement_event and total_measurement <= 10:
+        elif event.type == measurement_event and len(retrieved_measurements) <= 10:
             # spawn new letter
             measurements.add(MeasurementBase())
             total_measurement += 1
 
-        elif event.type == bit_event  and total_bit <= 10:
+        elif event.type == bit_event  and len(retrieved_bits) <= 10:
             # spawn new letter
             bits.add(BitBase())
             total_bit += 1
 
+        elif event.type == move_event:
+            for m in measurements:
+                m.move()
 
+            for b in bits:
+                b.move()
 
         if event.type == pygame.KEYDOWN:
+            if get_bit(event.key) or get_measurement(event.key):
+                point += 1
 
-
-            if event.key == pygame.K_1:
-                if get_bit(event.key):
-                    point += 1
-
-            if event.key == pygame.K_0:
-                if get_bit(event.key):
-                    point += 1
-
-            if event.key == pygame.K_z:
-                if get_measurement(event.key):
-                    point += 1
-
-            if event.key == pygame.K_x:
-                if get_measurement(event.key):
-                    point += 1
-
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                playerx_change = 0
-                playery_change = 0
 
     playerx += playerx_change
     playery += playery_change
@@ -156,19 +149,10 @@ while run:
     if playery >= 600:
         playery = 600
 
-    for m in measurements:
-        m.move()
-        m.update(window)
-
-    for b in bits:
-        b.move()
-        b.update(window)
-
-    for b in retrieved_measurements:
-        b.update(window)
-
-    for b in retrieved_bits:
-        b.update(window)
+    measurements.draw(window)
+    bits.draw(window)
+    retrieved_measurements.draw(window)
+    retrieved_bits.draw(window)
 
     if is_measurement_miss():
         missing += 1

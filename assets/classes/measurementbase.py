@@ -6,18 +6,15 @@ class MovingObject(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.x = 1024
-
-        self.x_change = -0.5
-        self.y_change = 0
-        #self.image, self.key, self.y = random.choice(self.measurements)
+    x_change = -1
+    y_change = 0
 
     def update(self, surface: pygame.Surface):
-        surface.blit(self.image, (self.x, self.y))
+        surface.blit(self.image, self.rect)
 
     def move(self):
-        self.x += self.x_change
-        self.y += self.y_change
+        self.rect.x += self.x_change
+        self.rect.y += self.y_change
 
 
 class MeasurementBase(MovingObject):
@@ -26,12 +23,19 @@ class MeasurementBase(MovingObject):
 
     def __init__(self, type: int = 999):
         super().__init__()
+
+        x = 1024
+        y = 0
+        self.x_change = -1 * random.randint(1, 2)
+
         if type == 122:
-            self.image, self.key, self.y = self.measurements[0]
+            self.image, self.key, y = self.measurements[0]
         elif type == 120:
-            self.image, self.key, self.y = self.measurements[1]
+            self.image, self.key, y = self.measurements[1]
         else:
-            self.image, self.key, self.y = random.choice(self.measurements)
+            self.image, self.key, y = random.choice(self.measurements)
+
+        self.rect = self.image.get_rect(topleft=(x, y))
 
 
 
@@ -41,12 +45,19 @@ class BitBase(MovingObject):
 
     def __init__(self, type: int = 999):
         super().__init__()
+
+        x = 1024
+        y = 0
+        self.x_change = -1 * random.randint(1, 2)
+
         if type == 49:
-            self.image, self.key, self.y = self.bits[0]
+            self.image, self.key, y = self.bits[0]
         elif type == 48:
-            self.image, self.key, self.y = self.bits[1]
+            self.image, self.key, y = self.bits[1]
         else:
-            self.image, self.key, self.y = random.choice(self.bits)
+            self.image, self.key, y = random.choice(self.bits)
+
+        self.rect = self.image.get_rect(topleft=(x, y))
 
 
 
