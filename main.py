@@ -8,8 +8,6 @@ from typing import List
 
 pygame.init()
 
-print("hello world")
-
 window = pygame.display.set_mode((1024, 768))
 
 pygame.display.set_caption("Verona 2049")
@@ -131,53 +129,68 @@ def is_bit_miss():
 
     return False
 
-
-
+phase = 1
 run = True
 while run:
 
-    # to show the background
-    window.blit(background, (0, 0))
+    if (phase==1):
+        window.blit(background, (0, 0))
+        last = pygame.time.get_ticks()
+        # to show the background
+        window.blit(background, (0, 0))
 
-    last = pygame.time.get_ticks()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == measurement_event and len(retrieved_measurements) <= 10:
+                # spawn new letter
+                measurements.add(MeasurementBase())
+                total_measurement += 1
 
-    # getting all event happens on the game (mouse hover, keyboard press, user defined function)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: # for quiting the game
-            pygame.quit()
-            sys.exit()
-        elif event.type == measurement_event and len(retrieved_measurements) <= 10: # to keep spawning the measurement base until reach x values
-            # spawn new object
-            measurements.add(MeasurementBase())
-            total_measurement += 1
+        # getting all event happens on the game (mouse hover, keyboard press, user defined function)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: # for quiting the game
+                pygame.quit()
+                sys.exit()
+            elif event.type == measurement_event and len(retrieved_measurements) <= 10: # to keep spawning the measurement base until reach x values
+                # spawn new object
+                measurements.add(MeasurementBase())
+                total_measurement += 1
 
-        elif event.type == bit_event  and len(retrieved_bits) <= 10: # to keep spawning the bit base until reach x values
-            # spawn new object
-            bits.add(BitBase())
-            total_bit += 1
+            elif event.type == bit_event  and len(retrieved_bits) <= 10: # to keep spawning the bit base until reach x values
+                # spawn new object
+                bits.add(BitBase())
+                total_bit += 1
 
-        elif event.type == move_event:
-            for m in measurements:
-                m.move()
+                if event.type == pygame.KEYDOWN:
+                    if get_bit(event.key) or get_measurement(event.key):
+                        point += 1
 
-            for b in bits:
-                b.move()
+            measurements.draw(window)
+            bits.draw(window)
+            retrieved_measurements.draw(window)
+            retrieved_bits.draw(window)
 
-        if event.type == pygame.KEYDOWN:
-            if get_bit(event.key) or get_measurement(event.key):
-                point += 1
+            if is_measurement_miss():
+                missing += 1
+            if is_bit_miss():
+                missing += 1
 
-    if is_measurement_miss():
-        missing += 1
+        if is_measurement_miss():
+            missing += 1
 
-    if is_bit_miss():
-        missing += 1
+        if is_bit_miss():
+            missing += 1
 
-    # to keep the object refreshing on the screen
-    measurements.draw(window)
-    bits.draw(window)
-    retrieved_measurements.draw(window)
-    retrieved_bits.draw(window)
-    score_display(pointx, pointy)
-    missing_display(missingx, missingy)
-    pygame.display.update()
+        # to keep the object refreshing on the screen
+        measurements.draw(window)
+        bits.draw(window)
+        retrieved_measurements.draw(window)
+        retrieved_bits.draw(window)
+        score_display(pointx, pointy)
+        missing_display(missingx, missingy)
+        pygame.display.update()
+
+    elif (phase==2):
+        pass
