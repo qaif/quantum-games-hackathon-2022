@@ -88,8 +88,6 @@ class MeasurementBase(MovingObject):
         # set initialize position
         self.rect = self.image.get_rect(topleft=(x, y))
 
-
-
 class BitBase(MovingObject):
     """
         Class for Bit base in Phase 1
@@ -113,7 +111,6 @@ class BitBase(MovingObject):
             self.image, self.key, y = random.choice(self.bits)
 
         self.rect = self.image.get_rect(topleft=(x, y))
-
 
 
 
