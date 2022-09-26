@@ -8,8 +8,6 @@ from typing import List
 
 pygame.init()
 
-print("hello world")
-
 window = pygame.display.set_mode((1024, 768))
 
 pygame.display.set_caption("Verona 2049")
@@ -105,64 +103,59 @@ def is_bit_miss():
 
     return False
 
-
+phase = 1
 run = True
 while run:
 
-    window.blit(background, (0, 0))
+    if (phase==1):
+        window.blit(background, (0, 0))
+        last = pygame.time.get_ticks()
 
-    last = pygame.time.get_ticks()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == measurement_event and len(retrieved_measurements) <= 10:
+                # spawn new letter
+                measurements.add(MeasurementBase())
+                total_measurement += 1
 
+            elif event.type == bit_event  and len(retrieved_bits) <= 10:
+                # spawn new letter
+                bits.add(BitBase())
+                total_bit += 1
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        elif event.type == measurement_event and len(retrieved_measurements) <= 10:
-            # spawn new letter
-            measurements.add(MeasurementBase())
-            total_measurement += 1
+            elif event.type == move_event:
+                for m in measurements:
+                    m.move()
 
-        elif event.type == bit_event  and len(retrieved_bits) <= 10:
-            # spawn new letter
-            bits.add(BitBase())
-            total_bit += 1
+                for b in bits:
+                    b.move()
 
-        elif event.type == move_event:
-            for m in measurements:
-                m.move()
+            if event.type == pygame.KEYDOWN:
+                if get_bit(event.key) or get_measurement(event.key):
+                    point += 1
 
-            for b in bits:
-                b.move()
+        measurements.draw(window)
+        bits.draw(window)
+        retrieved_measurements.draw(window)
+        retrieved_bits.draw(window)
 
-        if event.type == pygame.KEYDOWN:
-            if get_bit(event.key) or get_measurement(event.key):
-                point += 1
+        if is_measurement_miss():
+            missing += 1
+        if is_bit_miss():
+            missing += 1
 
+        player(playerx, playery)
+        score_display(pointx, pointy)
+        missing_display(missingx, missingy)
+        pygame.display.update()
 
-    playerx += playerx_change
-    playery += playery_change
-    if playerx <= 0:
-        playerx = 0
-    if playerx >= 736:
-        playerx = 736
-    if playery <= 0:
-        playery = 0
-    if playery >= 600:
-        playery = 600
+        # make this length dynamic later based on the size of the key
+        # also you need a screen saying congrats or whatever...story
+        if(retrieved_bits==10 and retrieved_measurements==10):
+            phase=2
 
-    measurements.draw(window)
-    bits.draw(window)
-    retrieved_measurements.draw(window)
-    retrieved_bits.draw(window)
-
-    if is_measurement_miss():
-        missing += 1
-
-    if is_bit_miss():
-        missing += 1
-
-    player(playerx, playery)
-    score_display(pointx, pointy)
-    missing_display(missingx, missingy)
-    pygame.display.update()
+    elif (phase==2):
+        # put the sifting minigame here next
+        print(2)
