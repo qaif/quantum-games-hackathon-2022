@@ -34,6 +34,21 @@ while run:
         # call all the event related to game 1
         g1.call_event(window)
     elif (phase==2):
+
+        window.blit(background, (0, 0))
+        last = pygame.time.get_ticks()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+
+
+
+
+        pygame.display.update()
+
         pass
 
     # update the display for pygame
