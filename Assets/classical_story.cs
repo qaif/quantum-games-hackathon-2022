@@ -99,7 +99,7 @@ public class classical_story
             story.variablesState[individual] = reference.story.variablesState[individual];
         }
         story.variablesState["warp_story"] = "true";
-        story.variablesState["warp_target"] = "warppoint";
+        story.variablesState["warp_target"] = warppoint;
 
         //Debug.Log(noob.story.Continue());
         if (story.variablesState[detail].ToString() == "true")

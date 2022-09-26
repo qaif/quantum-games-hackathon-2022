@@ -126,6 +126,7 @@ This game is played by entering text into the textbox (and submitting by enter).
                    ->startingScene.bedWarppoint
            }
    }
+   Lolz {warp_story} amd {warp_target}
    {You take a while looking at the marvelous title screen.|Yes, it is really quite grand. You are excited to see how it plays.|Eager to cling to the smallest details you are spending way more time at the title line than the developers expected|Like the developers in the game jam, you don't have infinite amount of time to use.} # narration
    {protagonist_name=="Stanley":
        This brings you fond memories of various closets you have been in. # narration
