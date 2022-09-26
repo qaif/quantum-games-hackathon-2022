@@ -23,6 +23,7 @@ public class superposition_manager : MonoBehaviour
     public TextMeshProUGUI ProgramSlateFactory;
     public TextMeshProUGUI ProtagonistSlateFactory;
     public TextMeshProUGUI NarrationSlateFactory;
+    public TextMeshProUGUI RascalSlateFactory;
 
     public Canvas paint_wall;
 
@@ -158,7 +159,7 @@ public class superposition_manager : MonoBehaviour
             GameObject.Destroy(display_grids[i]);
         }
         display_grids = new List<GameObject>();
-        float vertical_spacing=0.5f;
+        float vertical_spacing=0.3f;
         float height_start = (linears[current_display].chronons.Count*vertical_spacing)-3.0f;
         for (int i=0; i < linears[current_display].chronons.Count; i++)
         {
@@ -174,6 +175,10 @@ public class superposition_manager : MonoBehaviour
             if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "program"))
             {
                 noob=Instantiate(ProgramSlateFactory, new Vector3(0, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+            }
+            if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "rascal"))
+            {
+                noob = Instantiate(RascalSlateFactory, new Vector3(0, height_start - (i * vertical_spacing), 0), Quaternion.identity);
             }
             if (noob == null)
             {
