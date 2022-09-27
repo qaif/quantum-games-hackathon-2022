@@ -7,8 +7,6 @@ Used to make "non-flickering" randomization.
 
 
 
-splitWorld(detail,warpcode)
-makes a new classical story, toggle the variable detail and then diverts it to warpcode
-warpcode refers to titleLine warpzone
-A lot of basic ink things are at their blank values at the new basis state.
-For example visiting counts are assumed to be wrong.
+splitWorld(detail)
+makes a new classical story, toggles the variable detail.
+The new variable is not in the new state to the line immediately after call to this.
