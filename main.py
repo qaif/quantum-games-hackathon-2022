@@ -9,7 +9,6 @@ from assets.scenes.games_2 import Games_2
 from assets.scenes.games_3 import Games_3
 from assets.scenes.games_4 import Games_4
 
-
 from assets.classes.input_boxes import InputBox
 # init the pygame
 pygame.init()
@@ -23,6 +22,10 @@ pygame.display.set_caption("Verona 2049")
 input_box1 = InputBox(100, 100, 140, 32)
 #input_box2 = InputBox(100, 300, 140, 32)
 input_boxes = [input_box1]#, input_box2]
+
+music_file="assets/music/Schubert---Impromptu-Op.-90--No.-3_AdobeStock_501349563.wav"
+pygame.mixer.music.load(music_file)
+pygame.mixer.music.play(-1)
 
 #### HARD CODE #####
 phase = 1
