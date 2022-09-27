@@ -13,6 +13,7 @@ public class classical_story
     private char[] numeral_glyphs;
     private List<string> socials;
     public TextAsset manuscript;
+    public string bifurcateFlag;
     // Start is called before the first frame update
 
 
@@ -24,6 +25,7 @@ public class classical_story
         socials = new List<string>();
         the_end_is_here = false;
         quantumLord = lord;
+        bifurcateFlag = "";
         numeral_glyphs = new char[] { '0','1', '2', '3', '4', '5', '6', '7', '8', '9' };
     }
 
@@ -55,10 +57,17 @@ public class classical_story
     {
         while (story.canContinue)
         {
-            string scribble = story.Continue();
-            //Debug.Log("chronon: "+ scribble);
-            socials = new List<string>();
-            chronons.Add(new Chronon(scribble,story.currentTags.ToArray()));
+            if (bifurcateFlag == "")
+            {
+                string scribble = story.Continue();
+                //Debug.Log("chronon: "+ scribble);
+                socials = new List<string>();
+                chronons.Add(new Chronon(scribble, story.currentTags.ToArray()));
+            }
+            else
+            {
+                return;
+            }
         }
         if (story.currentChoices.Count <= 0)
         {
@@ -79,7 +88,8 @@ public class classical_story
         return basket;
     }
 
-    public void bifurcate(string detail, classical_story reference)
+
+    public void bifurcate(classical_story reference)
     {
         //Debug.Log("Top feeder");
         //Debug.Log("Bottom feeder");
@@ -88,6 +98,7 @@ public class classical_story
 
         //Debug.Log(old_content);
         //Debug.Log(noob.story.variablesState[detail]);
+
 
         string old_content = reference.story.state.ToJson();
         story.state.LoadJson(old_content);
@@ -108,16 +119,17 @@ public class classical_story
         //Debug.Log(noob.story.Continue());
         Debug.Log("Toggle point before: " + story.variablesState[detail].ToString());
         */
-        Debug.Log(story.variablesState[detail].ToString());
-        if (story.variablesState[detail].ToString() == "True")
+        Debug.Log(bifurcateFlag.ToString());
+        Debug.Log(story.variablesState[bifurcateFlag].ToString());
+        if (story.variablesState[bifurcateFlag].ToString() == "True")
         {
-            story.variablesState[detail] = false; // wonder if right format
+            story.variablesState[bifurcateFlag] = false; // wonder if right format
         }
         else
         {
-            story.variablesState[detail] = true;
+            story.variablesState[bifurcateFlag] = true;
         }
-        Debug.Log(story.variablesState[detail].ToString());
+        Debug.Log(story.variablesState[bifurcateFlag].ToString());
         foreach (Chronon oldies in reference.chronons)
         {
             chronons.Add(new Chronon(oldies.prose, oldies.notes));
