@@ -479,7 +479,9 @@ public class superposition_manager : MonoBehaviour
         if (time_phase > full_cycle_time)
         {
             last_rollover += full_cycle_time;
-            coming_nudgement = 0.0;
+            current_display = 0.0;
+            RefreshDisplays();
+            coming_nudgement = NextChange(0.0);
             //Debug.Log("whoosh");
             //ShowNext();
         }
@@ -493,7 +495,7 @@ public class superposition_manager : MonoBehaviour
                 RefreshDisplays();
                 coming_nudgement=NextChange(spanment);
             }
-            Debug.Log("timing " + progress.ToString() + " span " + spanment.ToString() + " coming " + coming_nudgement.ToString());
+            Debug.Log("timing " + progress.ToString() + " span " + current_display.ToString() + " coming " + coming_nudgement.ToString());
         }
     }
 }
