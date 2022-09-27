@@ -7,6 +7,8 @@ from typing import List
 from assets.scenes.games_1 import Games_1
 from assets.scenes.games_2 import Games_2
 
+
+from assets.classes.input_boxes import InputBox
 # init the pygame
 pygame.init()
 
@@ -19,6 +21,10 @@ pygame.display.set_caption("Verona 2049")
 # declare the game phase 1
 g1 = Games_1(pygame)
 g2 = Games_2(pygame)
+
+input_box1 = InputBox(100, 100, 140, 32)
+input_box2 = InputBox(100, 300, 140, 32)
+input_boxes = [input_box1, input_box2]
 
 #### HARD CODE #####
 phase = 2
@@ -39,12 +45,11 @@ while run:
         window.blit(g2.background, (0, 0))
 
         # hardcoding the info that will be fed into the next phase (even though this is rly phase 4 not 2!)
-        bits1 = [1, 0, 1, 1, 1, 1, 0, 1, 0, 0]
-        bits2 = [1, 0, 1, 0, 1, 0, 0, 1, 1, 0]
+        #bits1 = [1, 0, 1, 1, 1, 1, 0, 1, 0, 0]
+        #bits2 = [1, 0, 1, 0, 1, 0, 0, 1, 1, 0]
 
         # call all the event related to game 2
-        g2.call_event(window)#,bits_compared)
-
+        g2.call_event(window, input_boxes)#,bits_compared)
 
     # update the display for pygame
     pygame.display.update()

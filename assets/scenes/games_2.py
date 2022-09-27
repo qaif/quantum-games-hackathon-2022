@@ -1,6 +1,7 @@
 from assets.scenes.games import Games
 import pygame
 from assets.classes.measurementbase import MeasurementBase, BitBase
+from assets.classes.input_boxes import InputBox
 
 # this is for the key checking, so 2 arrays of bits will be flsahed across the screen and the
 # player needs to keep track of how many were different
@@ -65,21 +66,20 @@ class Games_2(Games):
         self.retrieved_bits2.add(self.retrieved_bit2)
 
 
-    def call_event(self, window: pygame.Surface):
-
+    def call_event(self, window: pygame.Surface, input_boxes: InputBox):
         # at the start of this game, we need to ask the player for input in order to define
         # the value for to_compare. Do this at the start of call event
 
 
         # getting all event happens on the game (mouse hover, keyboard press, user defined function)
+
+        #input_box1 = InputBox(100, 100, 140, 32)
+        #input_box2 = InputBox(100, 300, 140, 32)
+        #input_boxes = [input_box1, input_box2]
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # for quiting the game
                 pygame.quit()
                 sys.exit()
-
-
-
-
 
             if event.type == pygame.KEYDOWN:
                 if event.key==pygame.K_SPACE:
@@ -90,6 +90,13 @@ class Games_2(Games):
                     else:
                         #move onto the next part of this phase
                         pass
+
+            for box in input_boxes:
+                box.handle_event(event)
+
+        for box in input_boxes:
+            box.update()
+            box.draw(window)
 
         # need lines here to keep drawing the bits before they change!!!
         self.retrieved_bits1.draw(window)
