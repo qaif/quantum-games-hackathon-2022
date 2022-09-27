@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         transform.position += new Vector3(moveDirection.x, moveDirection.y, 0) * Time.fixedDeltaTime * speed;
-
     }
 
 
@@ -32,10 +31,26 @@ public class Player : MonoBehaviour
     {
         moveDirection = value.Get<Vector2>();
 
+        float deltaInputs = Mathf.Abs(moveDirection.x) - Mathf.Abs(moveDirection.y);
+
+        if (deltaInputs > 0f)
+        {
+            moveDirection.y = 0f;
+        }
+        else
+        {
+            moveDirection.x = 0f;
+        }
+
         if (moveDirection != Vector2.zero)
         {
             animator.SetFloat("XInput", moveDirection.x);
             animator.SetFloat("YInput", moveDirection.y);
+            animator.SetBool("IsWalking", true);
+        }
+        else
+        {
+            animator.SetBool("IsWalking", false);
         }
     }
 }
