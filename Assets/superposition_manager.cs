@@ -336,6 +336,7 @@ public class superposition_manager : MonoBehaviour
                 noob.bifurcateFlag = focus.bifurcateFlag;
                 focus.realityFluid = focus.realityFluid / 2.0;
                 noob.bifurcate(focus);
+                Debug.Log("focus prestate"+ focus.story.variablesState[focus.bifurcateFlag].ToString() + focus.story.variablesState["world"]);
                 foreach (KeyValuePair<string, Lottery> finger in lotto)
                 {
                     finger.Value.dupe(focus, noob);
@@ -345,11 +346,15 @@ public class superposition_manager : MonoBehaviour
                 {
                     focus.realityFluid = focus.realityFluid * (-1.0);
                 }
+                else
+                {
+                    // left straight down hadamar
+                }
 
-                // = false left straight down hadamar
+                Debug.Log("focus afterstate" + focus.story.variablesState[focus.bifurcateFlag].ToString() + focus.story.variablesState["world"]);
 
                 //Debug.Log("even deeper");
-                    noob.story.BindExternalFunction("coherentLottery", (string ticket) =>
+                noob.story.BindExternalFunction("coherentLottery", (string ticket) =>
                 {
                     string midway = CoherentLottery(noob, ticket);
                     return midway;
@@ -370,6 +375,7 @@ public class superposition_manager : MonoBehaviour
 
     public void splitWorld(classical_story river, string detail)
     {
+        Debug.Log("flagger");
         river.bifurcateFlag = detail;
     }
 
@@ -424,6 +430,7 @@ public class superposition_manager : MonoBehaviour
                         drops += 1;
                         Debug.Log("BOOOM " + before_reference.ToString() +"BC: "+ before_amount.ToString()+ " A: " + aggressor.realityFluid.ToString()+ " C: " + defender.realityFluid.ToString()+ "Diff:" +diff.ToString());
                         defender.past = new event_chain(defender.past.splitCopy(),aggressor.past.splitCopy());
+                        Debug.Log("annhilation fat"+ defender.past.thickness.ToString());
                         removeQueue.Add(aggressor);
                         if (defender.realityFluid.Magnitude < 0.00001)
                         {
@@ -475,6 +482,7 @@ public class superposition_manager : MonoBehaviour
         foreach(classical_story river in linears)
         {
             fat += river.thickness();
+            Debug.Log("fatreport" + river.thickness().ToString());
         }
         if (time_phase > full_cycle_time)
         {
@@ -495,7 +503,8 @@ public class superposition_manager : MonoBehaviour
                 RefreshDisplays();
                 coming_nudgement=NextChange(spanment);
             }
-            Debug.Log("timing " + progress.ToString() + " span " + current_display.ToString() + " coming " + coming_nudgement.ToString());
+            Debug.Log(linears.Count);
+            //Debug.Log("timing " + progress.ToString() + " span " + current_display.ToString() + " coming " + coming_nudgement.ToString());
         }
     }
 }

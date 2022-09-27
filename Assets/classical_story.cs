@@ -137,9 +137,11 @@ public class classical_story
         //Debug.Log(story.variablesState[bifurcateFlag].ToString());
 
         realityFluid = reference.realityFluid;
+        Debug.Log("nooob prestate "+story.variablesState[bifurcateFlag].ToString()+ story.variablesState["world"]);
 
         if (story.variablesState[bifurcateFlag].ToString() == "True")
         {
+            Debug.Log("activated?");
             story.variablesState[bifurcateFlag] = false; // wonder if right format
             //realityFluid = realityFluid * (-1.0); This is wrong, crossline from right to left in hadamar. Hadamar has only one red edge on the right straight down
         }
@@ -147,7 +149,7 @@ public class classical_story
         {
             story.variablesState[bifurcateFlag] = true; // left to right diagonal on hadamar
         }
-        Debug.Log(story.variablesState[bifurcateFlag].ToString());
+        Debug.Log("nooob after state"+story.variablesState[bifurcateFlag].ToString() + story.variablesState["world"]);
         past = new event_chain(reference.past.splitCopy());
         /*
         Debug.Log("CHOICE:"+story.currentChoices.Count.ToString());
