@@ -4,7 +4,6 @@
 
 
 = protagonist
-Yo, split is {splitTest}
 As dutiful as ever {protagonist_name} sets off for work. # narration
 Sometimes you feel so absent minded that you could forget your name. # narration
 Both enrolled and working for the university means having a particularly close relationship to the grounds. # narration
