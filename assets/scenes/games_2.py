@@ -1,4 +1,5 @@
 import random
+import numpy as np
 
 from assets.scenes.games import Games
 import pygame
@@ -17,9 +18,12 @@ class Games_2(Games):
     event_bit_moving = pygame.USEREVENT + 1 + level
     event_bit_change_direction = pygame.USEREVENT + 2 + level
     event_bit_diminishing = pygame.USEREVENT + 3 + level
+    event_measuring= pygame.USEREVENT + 4 + level
 
     unmeasured_bits = [pygame.K_0, pygame.K_1, pygame.K_0, pygame.K_0, pygame.K_1, pygame.K_1, pygame.K_0, pygame.K_1, pygame.K_1, pygame.K_0]
 
+    measured_count_seconds = np.ones(len(unmeasured_bits)) * 3
+    print(measured_count_seconds)
 
     def __init__(self, pygame):
         super().__init__()
@@ -28,7 +32,8 @@ class Games_2(Games):
         # timer for user defined function
         pygame.time.set_timer(self.event_bit_moving, 30)
         pygame.time.set_timer(self.event_bit_change_direction, 5000)
-        pygame.time.set_timer(self.event_bit_diminishing, 500)
+        pygame.time.set_timer(self.event_bit_diminishing, 1000)
+        pygame.time.set_timer(self.event_measuring, 500)
 
         i = 0
         for type in self.unmeasured_bits:
@@ -48,8 +53,9 @@ class Games_2(Games):
         for b in self.bits:
             b.fill(b.image, pygame.Color(250, 10, 40))
 
-        for b in self.measured_bits:
-            b.fill(b.image, pygame.Color(250, 10, 40))
+        for mb in self.measured_bits:
+            mb.fill(mb.image, pygame.Color(250, 10, 40))
+            mb.image.set_alpha(2000)
 
     def check_wall(self):
         for b in self.bits:
@@ -62,6 +68,11 @@ class Games_2(Games):
                 b.set_y_change(random.randint(1, 4))
             elif b.rect.y >= 450:
                 b.set_y_change(random.randint(-4, -1))
+
+    def revealed_measured_bit(self, idx:int):
+        for mb in self.measured_bits:
+            if mb.idx == idx:
+                mb.measured = True
 
     def call_event(self, window: pygame.Surface):
         # to show the background
@@ -81,38 +92,39 @@ class Games_2(Games):
                     b.set_y_change(random.randint(-3, 3))
             elif event.type == self.event_bit_diminishing:
                 for b in self.bits:
-                    b.image.set_alpha( b.image.get_alpha() - 3)
-
-            if event.type == pygame.KEYDOWN:
+                    b.image.set_alpha( b.image.get_alpha() - 1)
+            elif event.type == self.event_measuring:
                 for b in self.bits:
-                    if event.key == pygame.K_f:
-                        b.fill(b.image, pygame.Color(240, 200, 40))
-                    if event.key == pygame.K_g:
-                        b.fill(b.image, pygame.Color(250, 10, 40))
-                    if event.key == pygame.K_h:
-                        b.get_initialize_image(b.key)
-                    if event.key == pygame.K_i:
-                        a = b.image.get_alpha()
-                        a = a - 2
-                        b.image.set_alpha(a)
-                    if event.key == pygame.K_o:
-                        a = b.image.get_alpha()
-                        a = a + 2
-                        b.image.set_alpha(a)
+                    self.measured_count_seconds[b.idx] = self.measured_count_seconds[b.idx] - 1
 
+                print(self.measured_count_seconds)
 
+        # get mouse position
         mouse_pos = pygame.mouse.get_pos()
         for b in self.bits:
+            # do something if mouse_pos collide with surface position
             if b.rect.collidepoint(mouse_pos):
                 b.get_initialize_image(b.key)
-            else:
-                b.fill(b.image, pygame.Color(250, 10, 40))
 
-        for b in self.measured_bits:
-            if b.rect.collidepoint(mouse_pos):
-                b.get_initialize_image(b.key)
+                if self.measured_count_seconds[b.idx] <= 0:
+                    b.measured = True
+
+            elif b.measured:
+                # if the bits measured, open the measured bit on the table below
+                self.revealed_measured_bit(b.idx)
             else:
                 b.fill(b.image, pygame.Color(250, 10, 40))
+                self.measured_count_seconds[b.idx] = 3
+
+
+
+        for mb in self.measured_bits:
+            if mb.measured:
+                mb.get_initialize_image(mb.key)
+            else:
+                mb.fill(mb.image, pygame.Color(250, 10, 40))
+
+
 
         # to keep the object refreshing on the screen
         self.bits.draw(window)

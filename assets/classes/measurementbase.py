@@ -110,6 +110,7 @@ class BitBase(MovingObject):
         x = 1024
         y = 0
         self.x_change = -1 * random.randint(1, 2)
+        self.measured = False
 
         # for displaying in Games 2
         self.idx = _idx
