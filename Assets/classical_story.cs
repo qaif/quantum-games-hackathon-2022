@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using Ink.Runtime;
 
@@ -14,6 +15,7 @@ public class classical_story
     private List<string> socials;
     public TextAsset manuscript;
     public string bifurcateFlag;
+    public Complex realityFluid;
     // Start is called before the first frame update
 
 
@@ -26,6 +28,7 @@ public class classical_story
         the_end_is_here = false;
         quantumLord = lord;
         bifurcateFlag = "";
+        realityFluid = new Complex(1.0, 0.0);
         numeral_glyphs = new char[] { '0','1', '2', '3', '4', '5', '6', '7', '8', '9' };
     }
 
@@ -119,11 +122,15 @@ public class classical_story
         //Debug.Log(noob.story.Continue());
         Debug.Log("Toggle point before: " + story.variablesState[detail].ToString());
         */
-        Debug.Log(bifurcateFlag.ToString());
-        Debug.Log(story.variablesState[bifurcateFlag].ToString());
+        //Debug.Log(bifurcateFlag.ToString());
+        //Debug.Log(story.variablesState[bifurcateFlag].ToString());
+
+        realityFluid = reference.realityFluid;
+
         if (story.variablesState[bifurcateFlag].ToString() == "True")
         {
             story.variablesState[bifurcateFlag] = false; // wonder if right format
+            realityFluid = realityFluid * (-1.0);
         }
         else
         {

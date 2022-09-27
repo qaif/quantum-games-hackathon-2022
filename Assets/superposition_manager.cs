@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ink.Runtime;
 using TMPro;
+using System.Numerics;
 
 public class superposition_manager : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class superposition_manager : MonoBehaviour
     public Dictionary<string, Lottery> lotto;
 
     public Dictionary<classical_story,classical_story> AddQuota;
+    public List<classical_story> annhilationQueue;
+    public List<classical_story> removeQueue;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +45,8 @@ public class superposition_manager : MonoBehaviour
     {
         copied_variables = new string[] { "world" ,"injury","storm","werewolf","guilty","weapon","protagonist_name","debt","affair","critter","priority_note","lucan_potion","lucan_extort","lucan_cure","lucan_borrow","lucan_identity","lucan_formula","lucan_points","post_task","post_revenge","post_box_label","post_cat_up","post_cat_dead","post_neurotoxin","post_bomb_armed","post_bomb_exploded","post_probe","post_china","post_bomb_error","post_bomb_burden","passcode"};
         AddQuota = new Dictionary<classical_story, classical_story>();
+        annhilationQueue = new List<classical_story>();
+        removeQueue = new List<classical_story>();
         current_display = 0;
         last_rollover = 0.0;
         world_letters = new List<string>();
@@ -65,6 +70,7 @@ public class superposition_manager : MonoBehaviour
         }
         forkment();
         Admissions();
+        annhilations();
         RefreshDisplays();
         commander.ActivateInputField();
     }
@@ -205,27 +211,27 @@ public class superposition_manager : MonoBehaviour
             TextMeshProUGUI noob = null;
             if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "protagonist"))
             {
-                noob=Instantiate(ProtagonistSlateFactory, new Vector3(0, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+                noob=Instantiate(ProtagonistSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "narration"))
             {
-                noob=Instantiate(NarrationSlateFactory, new Vector3(0, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+                noob=Instantiate(NarrationSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "program"))
             {
-                noob=Instantiate(ProgramSlateFactory, new Vector3(0, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+                noob=Instantiate(ProgramSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "rascal"))
             {
-                noob = Instantiate(RascalSlateFactory, new Vector3(0, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+                noob = Instantiate(RascalSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
             if (noob == null)
             {
-                noob=Instantiate(ProgramSlateFactory, new Vector3(0, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+                noob=Instantiate(ProgramSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
             noob.SetText(linears[current_display].chronons[i].prose);
             noob.transform.SetParent(paint_wall.transform,true);
-            noob.transform.localScale = new Vector3(1.0f,1.0f,1.0f);
+            noob.transform.localScale = new UnityEngine.Vector3(1.0f,1.0f,1.0f);
             display_grids.Add(noob.gameObject);
         }
         List<Chronon> affords = linears[current_display].affordanceItems();
@@ -250,11 +256,11 @@ public class superposition_manager : MonoBehaviour
             */
             if (noob == null)
             {
-                noob = Instantiate(ProgramSlateFactory, new Vector3(horizontal_start, height_start - (i * vertical_spacing), 0), Quaternion.identity);
+                noob = Instantiate(ProgramSlateFactory, new UnityEngine.Vector3(horizontal_start, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
             noob.SetText((i+1).ToString()+") "+affords[i].prose);
             noob.transform.SetParent(paint_wall.transform, true);
-            noob.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            noob.transform.localScale = new UnityEngine.Vector3(1.0f, 1.0f, 1.0f);
             display_grids.Add(noob.gameObject);
 
         }
@@ -281,6 +287,7 @@ public class superposition_manager : MonoBehaviour
             {
                 classical_story noob = new classical_story(this, focus.manuscript);
                 noob.bifurcateFlag = focus.bifurcateFlag;
+                focus.realityFluid = focus.realityFluid / 2.0;
                 noob.bifurcate(focus);
                 foreach (KeyValuePair<string, Lottery> finger in lotto)
                 {
@@ -298,8 +305,9 @@ public class superposition_manager : MonoBehaviour
                 });
                 noob.bifurcateFlag = "";
                 focus.bifurcateFlag = "";
-                focus.ForwardFlow();
                 AddQuota.Add(focus, noob);
+                annhilationQueue.Add(noob);
+                focus.ForwardFlow();
             }
         }
     }
@@ -308,6 +316,81 @@ public class superposition_manager : MonoBehaviour
     public void splitWorld(classical_story river, string detail)
     {
         river.bifurcateFlag = detail;
+    }
+
+    public void annhilations()
+    {
+        /*
+        Debug.Log("Sanity test start");
+        if (annhilationQueue.Count>0)
+        {
+            foreach (string huh in annhilationQueue[0].story.variablesState)
+            {
+                Debug.Log(huh);
+            }
+        }*/
+        int aggressors = 0;
+        int defenders = 0;
+        int crossref = 0;
+        int crosstotal = 0;
+        int drops = 0;
+        List<string> defbasket = new List<string>();
+        foreach (classical_story aggressor in annhilationQueue)
+        {
+            aggressors += 1;
+            defenders = 0;
+            crossref = 0;
+            foreach (classical_story defender in linears)
+            {
+                defenders += 1;
+                if (aggressor != defender)
+                {
+                    bool defender_dodge = false;
+                    foreach (string atkdetail in aggressor.story.variablesState)
+                    {
+                        //Debug.Log(atkdetail);
+                        if (!(defender.story.variablesState[atkdetail].Equals(aggressor.story.variablesState[atkdetail])))
+                        {
+                            //Debug.Log("CLASH " + atkdetail);
+                            defender_dodge = true;
+                            break;
+                        }
+                    }
+                    if (defender_dodge)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        double before_reference = defender.realityFluid.Magnitude + aggressor.realityFluid.Magnitude;
+                        Complex before_amount = defender.realityFluid;
+                        defender.realityFluid = defender.realityFluid + aggressor.realityFluid;
+                        double diff = defender.realityFluid.Magnitude - before_reference;
+                        drops += 1;
+                        Debug.Log("BOOOM " + before_reference.ToString() +"BC: "+ before_amount.ToString()+ " A: " + aggressor.realityFluid.ToString()+ " C: " + defender.realityFluid.ToString()+ "Diff:" +diff.ToString());
+                        removeQueue.Add(aggressor);
+                        if (defender.realityFluid.Magnitude < 0.00001)
+                        {
+                            Debug.Log("fallen defender" + defender.realityFluid.ToString());
+                            removeQueue.Add(defender);
+                        }
+                        if (current_display > defenders)
+                        {
+                            current_display -= 1;
+                        }
+                    }
+                }
+            }
+            crosstotal += crossref;
+        }
+        Debug.Log("Annhilation ags:" + aggressors.ToString() + "defs: " + defenders.ToString() +"booms:"+drops.ToString()+ "crossreftotal: " + crosstotal.ToString());
+        annhilationQueue = new List<classical_story>();
+        foreach(classical_story convict in removeQueue)
+        {
+            linears.Remove(convict);
+        }
+        removeQueue = new List<classical_story>();
+        Debug.Log("annhilation done"+linears.Count);
     }
 
 
