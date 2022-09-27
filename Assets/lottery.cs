@@ -27,19 +27,11 @@ public class Lottery
             {
                 int coin = Random.Range(0, pool.Count);
                 canon.Add(pool[coin]);
-                Debug.Log("coin " + coin.ToString());
+                //Debug.Log("coin " + coin.ToString());
             }
             int place = occurrences[river] - 1;
             string content = canon[place];
-            foreach (string inspect in canon)
-            {
-                Debug.Log(inspect);
-            }
-            Debug.Log("canon" + canon.ToString() + "return " + content);
-            foreach (KeyValuePair<classical_story,int> inspect in occurrences)
-            {
-                Debug.Log(inspect.Value.ToString());
-            }
+            //Debug.Log("canon" + canon.ToString() + "return " + content);
             return content;
         }
         else
@@ -52,9 +44,9 @@ public class Lottery
 
     public void dupe(classical_story trunk,classical_story branch)
     {
-        Debug.Log("dupe");
-        Debug.Log(trunk.quantumLord.linears.IndexOf(trunk).ToString());
-        Debug.Log(branch.quantumLord.linears.IndexOf(branch).ToString());
+        //Debug.Log("dupe");
+        //Debug.Log(trunk.quantumLord.linears.IndexOf(trunk).ToString());
+        //Debug.Log(branch.quantumLord.linears.IndexOf(branch).ToString());
         if (occurrences.ContainsKey(trunk))
         {
             if (occurrences.ContainsKey(branch) )

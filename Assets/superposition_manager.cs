@@ -78,23 +78,23 @@ public class superposition_manager : MonoBehaviour
     {
         for (int i = 0; i < AddQueue.Count; i++)
         {
-            Debug.Log("deeper");
+            //Debug.Log("deeper");
             classical_story noob = new classical_story(this, AddQueue[i].manuscript);
             foreach(KeyValuePair<string,Lottery> finger in lotto)
             {
                 finger.Value.dupe(AddQueue[i], noob);
             }
-            Debug.Log("even deeper");
+            //Debug.Log("even deeper");
             noob.story.BindExternalFunction("coherentLottery", (string ticket) =>
             {
                 string midway = CoherentLottery(noob, ticket);
                 return midway;
             });
-            noob.story.BindExternalFunction("splitWorld", (string corner, string warppoint) =>
+            noob.story.BindExternalFunction("splitWorld", (string corner) =>
             {
-                splitWorld(noob, corner, warppoint);
+                splitWorld(noob, corner);
             });
-            noob.bifurcate(QueueDetail[i], QueueWarppoint[i], AddQueue[i]);
+            noob.bifurcate(QueueDetail[i], AddQueue[i]);
             AddQuota.Add(AddQueue[i], noob);
         }
         AddQueue = new List<classical_story>();
@@ -109,7 +109,7 @@ public class superposition_manager : MonoBehaviour
             linears.Insert(paikka, huikka.Value);
             rollers.Add(huikka.Value);
         }
-        Debug.Log("LC" + linears.Count.ToString());
+        //Debug.Log("LC" + linears.Count.ToString());
         AddQuota = new Dictionary<classical_story, classical_story>();
         foreach (classical_story noob in rollers)
         {
@@ -201,10 +201,10 @@ public class superposition_manager : MonoBehaviour
                 return midway;
             });
             classical_story noblet = fresh;
-            fresh.story.BindExternalFunction("splitWorld", (string corner,string warppoint) =>
+            fresh.story.BindExternalFunction("splitWorld", (string corner) =>
             {
-                Debug.Log("boo");
-                splitWorld(noblet, corner,warppoint);
+                //Debug.Log("boo");
+                splitWorld(noblet, corner);
             });
 
             fresh.ForwardFlow();
@@ -302,11 +302,10 @@ public class superposition_manager : MonoBehaviour
         Debug.Log("story "+storyid+" "+what.ToString() + " : " + huuto);
     }
 
-    public void splitWorld(classical_story river,string detail,string warppoint)
+    public void splitWorld(classical_story river,string detail)
     {
         AddQueue.Add(river);
         QueueDetail.Add(detail);
-        QueueWarppoint.Add(warppoint);
     }
 
 

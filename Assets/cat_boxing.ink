@@ -150,11 +150,8 @@ The label on it reads {post_box_label}
     }
     {post_box_label=="animal":
            ~ post_cat_up = true   //request split post_cat_up
-           ~ splitWorld("post_cat_up","schrodingersLap")
+           ~ splitWorld("post_cat_up")
     }
-    ->schrodingersLap
-
-    =schrodingersLap
     {post_cat_up==true:
             "A cat is whirling inside the box"
     }

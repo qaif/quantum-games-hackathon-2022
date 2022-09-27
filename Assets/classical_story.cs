@@ -79,16 +79,20 @@ public class classical_story
         return basket;
     }
 
-    public void bifurcate(string detail,string warppoint,classical_story reference)
+    public void bifurcate(string detail, classical_story reference)
     {
-        Debug.Log("Top feeder");
-        Debug.Log("Bottom feeder");
+        //Debug.Log("Top feeder");
+        //Debug.Log("Bottom feeder");
         //string old_content = story.ToJson();
         //string old_state = story.state.ToJson();
 
         //Debug.Log(old_content);
         //Debug.Log(noob.story.variablesState[detail]);
 
+        string old_content = reference.story.state.ToJson();
+        story.state.LoadJson(old_content);
+
+        /*  tricky manual way of saving - past advices against using
         while (story.canContinue)
         {
             Debug.Log(story.Continue());
@@ -103,24 +107,29 @@ public class classical_story
 
         //Debug.Log(noob.story.Continue());
         Debug.Log("Toggle point before: " + story.variablesState[detail].ToString());
+        */
+        Debug.Log(story.variablesState[detail].ToString());
         if (story.variablesState[detail].ToString() == "True")
         {
-            story.variablesState[detail] = false;
+            story.variablesState[detail] = false; // wonder if right format
         }
         else
         {
             story.variablesState[detail] = true;
         }
-        foreach(Chronon oldies in reference.chronons)
+        Debug.Log(story.variablesState[detail].ToString());
+        foreach (Chronon oldies in reference.chronons)
         {
             chronons.Add(new Chronon(oldies.prose, oldies.notes));
         }
+        /*
         Debug.Log("CHOICE:"+story.currentChoices.Count.ToString());
         story.ChooseChoiceIndex(0);
         story.Continue();
         ForwardFlow();
         story.variablesState["warp_story"] = false;
         story.variablesState["warp_target"] = "";
+        */
     }
 
     public void HeedAction(string word)
