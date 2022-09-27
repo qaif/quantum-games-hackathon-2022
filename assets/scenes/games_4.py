@@ -2,6 +2,7 @@ from assets.scenes.games import Games
 import pygame
 from assets.classes.measurementbase import MeasurementBase, BitBase
 from assets.classes.input_boxes import InputBox
+import sys
 
 # this is for the key checking, so 2 arrays of bits will be flsahed across the screen and the
 # player needs to keep track of how many were different

@@ -1,6 +1,7 @@
 from assets.scenes.games import Games
 import pygame
 from assets.classes.measurementbase import MeasurementBase, BitBase
+import sys
 
 class Games_1(Games):
 
@@ -22,6 +23,7 @@ class Games_1(Games):
         super().__init__()
         self.background = pygame.image.load("background.png")
         self.missing = self.Score(par_x=700, par_y=720, par_text="Missing : ")
+        self.title = self.Text(par_x=100, par_y=520, par_text="This is a random text")
 
         # timer for user defined function
         pygame.time.set_timer(self.measurement_event, 3000)  # 2000 milliseconds = 2 seconds
@@ -138,3 +140,4 @@ class Games_1(Games):
 
         self.point.score_display(window)
         self.missing.score_display(window)
+        self.title.text_display(window)

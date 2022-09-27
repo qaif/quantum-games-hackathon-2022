@@ -5,25 +5,23 @@ from assets.scenes.games import Games
 import pygame
 from assets.classes.measurementbase import MeasurementBase, BitBase
 
+import sys
+
 class Games_2(Games):
 
     # creating a group of Sprite, this is like an array of sprite (object of image)
     bits = pygame.sprite.Group()
     measured_bits = pygame.sprite.Group()
 
-    # to make the user event not overlapsed with another scenes
-    level = 10
-
     # user defined function
-    event_bit_moving = pygame.USEREVENT + 1 + level
-    event_bit_change_direction = pygame.USEREVENT + 2 + level
-    event_bit_diminishing = pygame.USEREVENT + 3 + level
-    event_measuring= pygame.USEREVENT + 4 + level
+    event_bit_moving = pygame.USEREVENT + 1
+    event_bit_change_direction = pygame.USEREVENT + 2
+    event_bit_diminishing = pygame.USEREVENT + 3
+    event_measuring= pygame.USEREVENT + 4
 
     unmeasured_bits = [pygame.K_0, pygame.K_1, pygame.K_0, pygame.K_0, pygame.K_1, pygame.K_1, pygame.K_0, pygame.K_1, pygame.K_1, pygame.K_0]
 
     measured_count_seconds = np.ones(len(unmeasured_bits)) * 3
-    print(measured_count_seconds)
 
     def __init__(self, pygame):
         super().__init__()
@@ -97,7 +95,6 @@ class Games_2(Games):
                 for b in self.bits:
                     self.measured_count_seconds[b.idx] = self.measured_count_seconds[b.idx] - 1
 
-                print(self.measured_count_seconds)
 
         # get mouse position
         mouse_pos = pygame.mouse.get_pos()

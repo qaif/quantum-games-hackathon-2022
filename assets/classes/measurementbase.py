@@ -79,12 +79,15 @@ class MeasurementBase(MovingObject):
     measurements = [(pygame.image.load("assets/images/letter-z.png"), pygame.K_z, 278),
                     (pygame.image.load("assets/images/letter-x.png"), pygame.K_x, 198)]
 
-    def __init__(self, type: int = 999):
+    def __init__(self, type: int = 999, _idx: int = 0):
         super().__init__()
 
         x = 1024
         y = 0
         self.x_change = -1 * random.randint(1, 2)
+
+        # for displaying in Games 2, 3
+        self.idx = _idx
 
         # to get the type base on the given key, else take randomly
         if type == pygame.K_z:
@@ -112,7 +115,7 @@ class BitBase(MovingObject):
         self.x_change = -1 * random.randint(1, 2)
         self.measured = False
 
-        # for displaying in Games 2
+        # for displaying in Games 2, 3
         self.idx = _idx
 
         # to get the type base on the given key, else take randomly
