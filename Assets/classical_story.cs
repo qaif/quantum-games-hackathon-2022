@@ -130,11 +130,11 @@ public class classical_story
         if (story.variablesState[bifurcateFlag].ToString() == "True")
         {
             story.variablesState[bifurcateFlag] = false; // wonder if right format
-            realityFluid = realityFluid * (-1.0);
+            //realityFluid = realityFluid * (-1.0); This is wrong, crossline from right to left in hadamar. Hadamar has only one red edge on the right straight down
         }
         else
         {
-            story.variablesState[bifurcateFlag] = true;
+            story.variablesState[bifurcateFlag] = true; // left to right diagonal on hadamar
         }
         Debug.Log(story.variablesState[bifurcateFlag].ToString());
         foreach (Chronon oldies in reference.chronons)

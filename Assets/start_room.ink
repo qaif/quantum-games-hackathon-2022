@@ -195,6 +195,7 @@ You wake up with the strangest feeling as if somebody has departed this earth. #
 - else:
    Luckily your day deals with much simpler matters. # narration
 }
+~ splitTest=true
 The university comfortability is on your shoulders as its janitor. # narration
 ~ splitWorld("splitTest")
 burn lines

@@ -293,8 +293,16 @@ public class superposition_manager : MonoBehaviour
                 {
                     finger.Value.dupe(focus, noob);
                 }
+
+                if (focus.story.variablesState[focus.bifurcateFlag] .ToString()== "True") // right straight down hadamar
+                {
+                    focus.realityFluid = focus.realityFluid * (-1.0);
+                }
+
+                // = false left straight down hadamar
+
                 //Debug.Log("even deeper");
-                noob.story.BindExternalFunction("coherentLottery", (string ticket) =>
+                    noob.story.BindExternalFunction("coherentLottery", (string ticket) =>
                 {
                     string midway = CoherentLottery(noob, ticket);
                     return midway;
