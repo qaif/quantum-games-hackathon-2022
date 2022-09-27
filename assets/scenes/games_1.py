@@ -92,6 +92,8 @@ class Games_1(Games):
         return False
 
     def call_event(self, window: pygame.Surface):
+        # to show the background
+        window.blit(self.background, (0, 0))
 
         # getting all event happens on the game (mouse hover, keyboard press, user defined function)
         for event in pygame.event.get():

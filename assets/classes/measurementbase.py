@@ -60,7 +60,16 @@ class MovingObject(BaseObject):
         :param y: number of pixels the object move vertically ( negative: move up, positive: move down)
         :return: null
         """
-        self.y_change = x
+        self.y_change = y
+
+    def fill(self, surface, color):
+        """Fill all pixels of the surface with color, preserve transparency."""
+        w, h = surface.get_size()
+        r, g, b, _ = color
+        for x in range(w):
+            for y in range(h):
+                a = surface.get_at((x, y))[3]
+                surface.set_at((x, y), pygame.Color(r, g, b, a))
 
 
 class MeasurementBase(MovingObject):
@@ -95,12 +104,15 @@ class BitBase(MovingObject):
     bits = [(pygame.image.load("assets/images/number-1.png"), pygame.K_1, 117),
             (pygame.image.load("assets/images/number-0.png"), pygame.K_0, 44)]
 
-    def __init__(self, type: int = 999):
+    def __init__(self, type: int = 999, _idx: int = 0):
         super().__init__()
 
         x = 1024
         y = 0
         self.x_change = -1 * random.randint(1, 2)
+
+        # for displaying in Games 2
+        self.idx = _idx
 
         # to get the type base on the given key, else take randomly
         if type == pygame.K_1:
@@ -111,6 +123,13 @@ class BitBase(MovingObject):
             self.image, self.key, y = random.choice(self.bits)
 
         self.rect = self.image.get_rect(topleft=(x, y))
+
+    def get_initialize_image(self, type:int):
+        # to open the image while being hovered by mouse
+        if type == pygame.K_1:
+            self.image = pygame.image.load("assets/images/number-1.png")
+        elif type == pygame.K_0:
+            self.image = pygame.image.load("assets/images/number-0.png")
 
 
 

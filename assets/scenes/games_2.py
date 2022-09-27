@@ -1,109 +1,120 @@
+import random
+
 from assets.scenes.games import Games
 import pygame
 from assets.classes.measurementbase import MeasurementBase, BitBase
-from assets.classes.input_boxes import InputBox
 
-# this is for the key checking, so 2 arrays of bits will be flsahed across the screen and the
-# player needs to keep track of how many were different
 class Games_2(Games):
 
-    # bits1 in key1, bits in key2 (eventually this will be an input, from previous phases or global variables).
-    #bits1 = pygame.sprite.Group()
-    #bits2 = pygame.sprite.Group()
+    # creating a group of Sprite, this is like an array of sprite (object of image)
+    bits = pygame.sprite.Group()
+    measured_bits = pygame.sprite.Group()
 
-    # we will cycle through pairs one by one, letting the user compare them
-    bit_index= 0
+    # to make the user event not overlapsed with another scenes
+    level = 10
 
+    # user defined function
+    event_bit_moving = pygame.USEREVENT + 1 + level
+    event_bit_change_direction = pygame.USEREVENT + 2 + level
+    event_bit_diminishing = pygame.USEREVENT + 3 + level
 
-    # hardcoded user inputs that will be taken from previous phases later!
-    # note: we have to code the sifting of romeo's key behind the scenes. player doesn't seem him do it.
-    bits1=[1,0,1,1,1,1,0,1,0,0]
-    bits2=[1,0,1,0,1,0,0,1,1,0]
-    retrieved_bit1=pygame.sprite.Group()
-    retrieved_bit2=pygame.sprite.Group()
-    retrieved_bits1 = pygame.sprite.Group()
-    retrieved_bits2 = pygame.sprite.Group()
+    unmeasured_bits = [pygame.K_0, pygame.K_1, pygame.K_0, pygame.K_0, pygame.K_1, pygame.K_1, pygame.K_0, pygame.K_1, pygame.K_1, pygame.K_0]
 
-    # start the game up when the user gives the number of bits they want to compare
-    proceed=False
-
-    # how many bit pairs have flashed across the screen so far
-    bits_compared = 0
-    to_compare=10
 
     def __init__(self, pygame):
         super().__init__()
-        # change this to one meant for this phase. for now just a white screen
-        self.background = pygame.image.load("background2.jpg")
-        self.missing = self.Score(par_x=700, par_y=720, par_text="Missing : ")
+        self.background = pygame.image.load("background2.png")
 
-    def place_bits(self):
-        """
-        This will place a new set of bits to compare, and destroy the old set!
-        :param key:
-        :return:
-        """
+        # timer for user defined function
+        pygame.time.set_timer(self.event_bit_moving, 30)
+        pygame.time.set_timer(self.event_bit_change_direction, 5000)
+        pygame.time.set_timer(self.event_bit_diminishing, 500)
 
-        if (self.bits1[self.bits_compared]==1):
-            key = pygame.K_1
-        else:
-            key = pygame.K_0
+        i = 0
+        for type in self.unmeasured_bits:
+            b = BitBase(type, _idx= i)
 
-        # pick the sprite to activate
-        self.retrieved_bit1=BitBase(key)
-        self.retrieved_bit1.rect= self.retrieved_bit1.image.get_rect(topleft=(450, 450))
-        self.retrieved_bits1.add(self.retrieved_bit1)
+            b.set_x_change(random.randint(-3, 3))
+            b.set_y_change(random.randint(-3, 3))
+            b.rect = b.image.get_rect(topleft=(random.randint(50, 920), random.randint(50, 450)))
+            self.bits.add(b)
 
-        # repeat this process for the second bit array
-        if (self.bits2[self.bits_compared]==1):
-            key = pygame.K_1
-        else:
-            key = pygame.K_0
+            mb = BitBase(type, _idx=i)
+            mb.rect = mb.image.get_rect(topleft=(50 + 50 * i , 560))
+            self.measured_bits.add(mb)
 
-        # pick the sprite to activate
-        self.retrieved_bit2=BitBase(key)
-        self.retrieved_bit2.rect= self.retrieved_bit2.image.get_rect(topleft=(500, 350))
-        self.retrieved_bits2.add(self.retrieved_bit2)
+            i += 1
 
+        for b in self.bits:
+            b.fill(b.image, pygame.Color(250, 10, 40))
 
-    def call_event(self, window: pygame.Surface, input_boxes: InputBox):
-        # at the start of this game, we need to ask the player for input in order to define
-        # the value for to_compare. Do this at the start of call event
+        for b in self.measured_bits:
+            b.fill(b.image, pygame.Color(250, 10, 40))
 
+    def check_wall(self):
+        for b in self.bits:
+            if b.rect.x <= 50:
+                b.set_x_change(random.randint(1, 4))
+            elif b.rect.x >= 955:
+                b.set_x_change(random.randint(-4, -1))
+
+            if b.rect.y <= 50:
+                b.set_y_change(random.randint(1, 4))
+            elif b.rect.y >= 450:
+                b.set_y_change(random.randint(-4, -1))
+
+    def call_event(self, window: pygame.Surface):
+        # to show the background
+        window.blit(self.background, (0, 0))
 
         # getting all event happens on the game (mouse hover, keyboard press, user defined function)
-
-        #input_box1 = InputBox(100, 100, 140, 32)
-        #input_box2 = InputBox(100, 300, 140, 32)
-        #input_boxes = [input_box1, input_box2]
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # for quiting the game
                 pygame.quit()
                 sys.exit()
+            elif event.type == self.event_bit_moving:
+                for b in self.bits:
+                    b.move()
+            elif event.type == self.event_bit_change_direction:
+                for b in self.bits:
+                    b.set_x_change(random.randint(-3, 3))
+                    b.set_y_change(random.randint(-3, 3))
+            elif event.type == self.event_bit_diminishing:
+                for b in self.bits:
+                    b.image.set_alpha( b.image.get_alpha() - 3)
 
             if event.type == pygame.KEYDOWN:
-                if event.key==pygame.K_SPACE:
-                    if(self.bits_compared<len(self.bits1)):
-                        print(self.bits_compared)
-                        self.place_bits()
-                        self.bits_compared += 1
-                    else:
-                        #move onto the next part of this phase
-                        pass
-
-            for box in input_boxes:
-                box.handle_event(event)
-
-        for box in input_boxes:
-            box.update()
-            box.draw(window)
-
-
-        # need lines here to keep drawing the bits before they change!!!
-        self.retrieved_bits1.draw(window)
-        self.retrieved_bits2.draw(window)
+                for b in self.bits:
+                    if event.key == pygame.K_f:
+                        b.fill(b.image, pygame.Color(240, 200, 40))
+                    if event.key == pygame.K_g:
+                        b.fill(b.image, pygame.Color(250, 10, 40))
+                    if event.key == pygame.K_h:
+                        b.get_initialize_image(b.key)
+                    if event.key == pygame.K_i:
+                        a = b.image.get_alpha()
+                        a = a - 2
+                        b.image.set_alpha(a)
+                    if event.key == pygame.K_o:
+                        a = b.image.get_alpha()
+                        a = a + 2
+                        b.image.set_alpha(a)
 
 
+        mouse_pos = pygame.mouse.get_pos()
+        for b in self.bits:
+            if b.rect.collidepoint(mouse_pos):
+                b.get_initialize_image(b.key)
+            else:
+                b.fill(b.image, pygame.Color(250, 10, 40))
 
+        for b in self.measured_bits:
+            if b.rect.collidepoint(mouse_pos):
+                b.get_initialize_image(b.key)
+            else:
+                b.fill(b.image, pygame.Color(250, 10, 40))
 
-
+        # to keep the object refreshing on the screen
+        self.bits.draw(window)
+        self.measured_bits.draw(window)
+        self.check_wall()
