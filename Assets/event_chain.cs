@@ -69,19 +69,32 @@ public class event_chain
             else
             {
                 time_offset -= trunk_branch.thickness;
-            }
-        }
-        if (leaf_branch != null)
-        {
-            if (time_offset < leaf_branch.thickness)
-            {
-                foreach (Chronon sugar in leaf_branch.DisplayChronons(time_offset))
+                if (leaf_branch != null)
                 {
-                    basket.Add(sugar);
+                    if (time_offset < leaf_branch.thickness)
+                    {
+                        foreach (Chronon sugar in leaf_branch.DisplayChronons(time_offset))
+                        {
+                            basket.Add(sugar);
+                        }
+                    }
                 }
             }
         }
-        foreach(Chronon peak in linear_bit)
+        else
+        {
+            if (leaf_branch != null)
+            {
+                if (time_offset < leaf_branch.thickness)
+                {
+                    foreach (Chronon sugar in leaf_branch.DisplayChronons(time_offset))
+                    {
+                        basket.Add(sugar);
+                    }
+                }
+            }
+        }
+        foreach (Chronon peak in linear_bit)
         {
             basket.Add(peak);
         }
