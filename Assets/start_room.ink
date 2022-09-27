@@ -203,7 +203,7 @@ burn lines
 {splitTest==true:
 Whoah more worlds
 }
-~ splitWorld("splitTest")
+
 burn lines
 burn lines
 burn lines

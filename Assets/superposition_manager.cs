@@ -10,7 +10,7 @@ public class superposition_manager : MonoBehaviour
     public TextAsset line_template;
     public List<classical_story> linears;
     public TMP_InputField commander;
-    public int current_display;
+    public double current_display;
     public TextMeshProUGUI current_prose;
     public TextMeshProUGUI current_prose_2;
     public TextMeshProUGUI current_prose_3;
@@ -18,7 +18,9 @@ public class superposition_manager : MonoBehaviour
     public TextMeshProUGUI current_prose_5;
     public List<GameObject> display_grids;
     public double time_to_keep_stable;
+    public double full_cycle_time;
     private double last_rollover;
+    private double coming_nudgement;
     private List<string> world_letters;
 
     public TextMeshProUGUI ProgramSlateFactory;
@@ -35,6 +37,8 @@ public class superposition_manager : MonoBehaviour
     public Dictionary<classical_story,classical_story> AddQuota;
     public List<classical_story> annhilationQueue;
     public List<classical_story> removeQueue;
+
+    public classical_story current_linear;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +51,8 @@ public class superposition_manager : MonoBehaviour
         AddQuota = new Dictionary<classical_story, classical_story>();
         annhilationQueue = new List<classical_story>();
         removeQueue = new List<classical_story>();
-        current_display = 0;
+        current_display = 0.0;
+        coming_nudgement = 0.0;
         last_rollover = 0.0;
         world_letters = new List<string>();
         world_letters.Add("A");
@@ -99,6 +104,7 @@ public class superposition_manager : MonoBehaviour
         }
     }
 
+    /*
     void ShowNext()
     {
         current_display = current_display + 1;
@@ -123,9 +129,11 @@ public class superposition_manager : MonoBehaviour
         }
         current_prose.SetText("");
         RefreshDisplays();
+    
 
 
     }
+    */
 
     void EndShow()
     {
@@ -186,11 +194,13 @@ public class superposition_manager : MonoBehaviour
 
             fresh.ForwardFlow();
             fresh.story.variablesState["world"] = world_letters[i];
+            fresh.past.thickness = 20.0;
             linears.Add(fresh);
             //Debug.Log("plop");
 
         }
         //HeedAction("test");
+        current_linear = linears[0];
         commander.onSubmit.AddListener(HeedAction);
         RefreshDisplays();
         commander.ActivateInputField();
@@ -205,23 +215,24 @@ public class superposition_manager : MonoBehaviour
         }
         display_grids = new List<GameObject>();
         float vertical_spacing=0.3f;
-        float height_start = (linears[current_display].chronons.Count*vertical_spacing)-3.0f;
-        for (int i=0; i < linears[current_display].chronons.Count; i++)
+        List<Chronon> bask_subjects = DisplayChronons(current_display);
+        float height_start = (bask_subjects.Count*vertical_spacing)-3.0f;
+        for (int i=0; i < bask_subjects.Count; i++)
         {
             TextMeshProUGUI noob = null;
-            if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "protagonist"))
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "protagonist"))
             {
                 noob=Instantiate(ProtagonistSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
-            if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "narration"))
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "narration"))
             {
                 noob=Instantiate(NarrationSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
-            if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "program"))
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "program"))
             {
                 noob=Instantiate(ProgramSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
-            if (System.Array.Exists(linears[current_display].chronons[i].notes, x => x == "rascal"))
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "rascal"))
             {
                 noob = Instantiate(RascalSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
@@ -229,12 +240,12 @@ public class superposition_manager : MonoBehaviour
             {
                 noob=Instantiate(ProgramSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
-            noob.SetText(linears[current_display].chronons[i].prose);
+            noob.SetText(bask_subjects[i].prose);
             noob.transform.SetParent(paint_wall.transform,true);
             noob.transform.localScale = new UnityEngine.Vector3(1.0f,1.0f,1.0f);
             display_grids.Add(noob.gameObject);
         }
-        List<Chronon> affords = linears[current_display].affordanceItems();
+        List<Chronon> affords = current_linear.affordanceItems();
         float horizontal_start = 3.0f;
         vertical_spacing = 0.2f;
         height_start = (affords.Count * vertical_spacing) - 4.0f;
@@ -266,7 +277,7 @@ public class superposition_manager : MonoBehaviour
         }
 
 
-        string payload = linears[current_display].AsOneText();
+        string payload = current_linear.AsOneText();
         current_prose.SetText(payload);
         current_prose_2.SetText(payload);
         current_prose_3.SetText(payload);
@@ -277,6 +288,42 @@ public class superposition_manager : MonoBehaviour
     void catchError(string storyid,string huuto, Ink.ErrorType what)
     {
         Debug.Log("story "+storyid+" "+what.ToString() + " : " + huuto);
+    }
+
+    public List<Chronon> DisplayChronons(double clockhand)
+    {
+        double time_offset = clockhand;
+        foreach (classical_story river in linears)
+        {
+            double span = river.thickness();
+            if (time_offset < span)
+            {
+                current_linear = river;
+                return river.DisplayChronons(time_offset);
+            }
+            time_offset -= span;
+        }
+        Debug.Log("forbidden area "+clockhand.ToString());
+        return new List<Chronon>();
+    }
+
+    public double NextChange(double clockhand)
+    {
+        double time_offset = clockhand;
+        double creep = 0.0;
+        foreach (classical_story river in linears)
+        {
+            double span = river.thickness();
+            if (time_offset < span)
+            {
+                return creep+river.NextChange(time_offset);
+            }
+            creep += span;
+            time_offset -= span;
+        }
+        Debug.Log("forbidden area");
+        return creep + time_offset;
+
     }
 
     public void forkment()
@@ -376,6 +423,7 @@ public class superposition_manager : MonoBehaviour
                         double diff = defender.realityFluid.Magnitude - before_reference;
                         drops += 1;
                         Debug.Log("BOOOM " + before_reference.ToString() +"BC: "+ before_amount.ToString()+ " A: " + aggressor.realityFluid.ToString()+ " C: " + defender.realityFluid.ToString()+ "Diff:" +diff.ToString());
+                        defender.past = new event_chain(defender.past.splitCopy(),aggressor.past.splitCopy());
                         removeQueue.Add(aggressor);
                         if (defender.realityFluid.Magnitude < 0.00001)
                         {
@@ -423,10 +471,29 @@ public class superposition_manager : MonoBehaviour
     {
         double time_phase = Time.time - last_rollover;
         //Debug.Log(time_phase+ (time_to_keep_stable * (current_display+1)).ToString());
-        if (time_phase > (time_to_keep_stable * (current_display+1)))
+        double fat = 0;
+        foreach(classical_story river in linears)
         {
+            fat += river.thickness();
+        }
+        if (time_phase > full_cycle_time)
+        {
+            last_rollover += full_cycle_time;
+            coming_nudgement = 0.0;
             //Debug.Log("whoosh");
-            ShowNext();
+            //ShowNext();
+        }
+        else
+        {
+            double progress = (time_phase / full_cycle_time);
+            double spanment = progress * fat;
+            current_display = spanment;
+            if (spanment > coming_nudgement)
+            {
+                RefreshDisplays();
+                coming_nudgement=NextChange(spanment);
+            }
+            Debug.Log("timing " + progress.ToString() + " span " + spanment.ToString() + " coming " + coming_nudgement.ToString());
         }
     }
 }

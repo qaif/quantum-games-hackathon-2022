@@ -8,7 +8,7 @@ public class classical_story
 {
     public Story story;
 
-    public List<Chronon> chronons;
+    public event_chain past;
     public bool the_end_is_here;
     public superposition_manager quantumLord;
     private char[] numeral_glyphs;
@@ -23,7 +23,7 @@ public class classical_story
     {
         manuscript = script;
         story = new Story(script.text);
-        chronons = new List<Chronon>();
+        past = new event_chain();
         socials = new List<string>();
         the_end_is_here = false;
         quantumLord = lord;
@@ -32,17 +32,18 @@ public class classical_story
         numeral_glyphs = new char[] { '0','1', '2', '3', '4', '5', '6', '7', '8', '9' };
     }
 
+    /*
     public void force_add(string lol)
     {
         chronons.Add(new Chronon(lol,new string[] { "forced"}));
-    }
+    }*/
 
     public string AsOneText()
     {
         string blob = "";
-        for (int i = 0; i < chronons.Count; i++) 
+        foreach (Chronon bloblet in past.DisplayChronons(0.0)) 
         {
-            blob = blob + "\n" + chronons[i].prose;
+            blob = blob + "\n" + bloblet.prose;
         }
         if (story.currentChoices.Count > 0)
         {
@@ -65,7 +66,7 @@ public class classical_story
                 string scribble = story.Continue();
                 //Debug.Log("chronon: "+ scribble);
                 socials = new List<string>();
-                chronons.Add(new Chronon(scribble, story.currentTags.ToArray()));
+                past.Add(new Chronon(scribble, story.currentTags.ToArray()));
             }
             else
             {
@@ -76,6 +77,16 @@ public class classical_story
         {
             the_end_is_here = true;
         }
+    }
+
+    public List<Chronon> DisplayChronons(double clockhand)
+    {
+        return past.DisplayChronons(clockhand);
+    }
+
+    public double NextChange(double clockhand)
+    {
+        return past.NextChange(clockhand);
     }
 
     public List<Chronon> affordanceItems()
@@ -137,10 +148,7 @@ public class classical_story
             story.variablesState[bifurcateFlag] = true; // left to right diagonal on hadamar
         }
         Debug.Log(story.variablesState[bifurcateFlag].ToString());
-        foreach (Chronon oldies in reference.chronons)
-        {
-            chronons.Add(new Chronon(oldies.prose, oldies.notes));
-        }
+        past = new event_chain(reference.past.splitCopy());
         /*
         Debug.Log("CHOICE:"+story.currentChoices.Count.ToString());
         story.ChooseChoiceIndex(0);
@@ -149,6 +157,11 @@ public class classical_story
         story.variablesState["warp_story"] = false;
         story.variablesState["warp_target"] = "";
         */
+    }
+
+    public double thickness()
+    {
+        return past.thickness;
     }
 
     public void HeedAction(string word)
@@ -185,7 +198,7 @@ public class classical_story
                         int choice_index = System.Int32.Parse(text_number)-1;
                         if (choice_index < 0)
                         {
-                            chronons.Add(new Chronon("You do nothing. No operation. NOP",new string[] { "program"}));
+                            past.Add(new Chronon("You do nothing. No operation. NOP",new string[] { "program"}));
                         }
                         else
                         {
@@ -202,19 +215,19 @@ public class classical_story
                                 }
                                 else
                                 {
-                                    chronons.Add( new Chronon("You have run out of pages in your playbook to try that trick.",new string[] { "program"}) );
+                                    past.Add( new Chronon("You have run out of pages in your playbook to try that trick.",new string[] { "program"}) );
                                 }
                             }
                         }
                     }
                     else
                     {
-                        chronons.Add( new Chronon(word + " doesn't make sense here",new string[] { "program"}) );
+                        past.Add( new Chronon(word + " doesn't make sense here",new string[] { "program"}) );
                     }
                 }
                 else
                 {
-                    chronons.Add( new Chronon("Well this time Time insists and waits for you to do something.", new string[] { "program"}) );
+                    past.Add( new Chronon("Well this time Time insists and waits for you to do something.", new string[] { "program"}) );
                 }
             }
             else

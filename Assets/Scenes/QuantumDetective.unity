@@ -246,11 +246,13 @@ MonoBehaviour:
   current_prose_5: {fileID: 125356542}
   display_grids: []
   time_to_keep_stable: 2
+  full_cycle_time: 10
   ProgramSlateFactory: {fileID: 662886378438569945}
   ProtagonistSlateFactory: {fileID: 659506894891052383}
   NarrationSlateFactory: {fileID: 2226557609577602083}
   RascalSlateFactory: {fileID: 1227093770}
   paint_wall: {fileID: 735477343}
+  copied_variables: []
 --- !u!4 &12590338
 Transform:
   m_ObjectHideFlags: 0
