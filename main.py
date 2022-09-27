@@ -23,8 +23,8 @@ g1 = Games_1(pygame)
 g2 = Games_2(pygame)
 
 input_box1 = InputBox(100, 100, 140, 32)
-input_box2 = InputBox(100, 300, 140, 32)
-input_boxes = [input_box1, input_box2]
+#input_box2 = InputBox(100, 300, 140, 32)
+input_boxes = [input_box1]#, input_box2]
 
 #### HARD CODE #####
 phase = 2

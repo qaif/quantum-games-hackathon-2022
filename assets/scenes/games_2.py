@@ -98,9 +98,11 @@ class Games_2(Games):
             box.update()
             box.draw(window)
 
+
         # need lines here to keep drawing the bits before they change!!!
         self.retrieved_bits1.draw(window)
         self.retrieved_bits2.draw(window)
+
 
 
 
