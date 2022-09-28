@@ -30,8 +30,9 @@ class Games_4(Games):
     proceed2=False
     proceed3=False
     proceed4=False
-    accuse="n"
-    send="y"
+    accuse=False
+    send=False
+    intercepted=False # make dynamic!
 
 
     # how many bit pairs have flashed across the screen so far
@@ -44,6 +45,11 @@ class Games_4(Games):
         self.background = pygame.image.load("background4.jpg")
         self.missing = self.Score(par_x=700, par_y=720, par_text="Missing : ")
         self.title = self.Text(par_x=100, par_y=50, par_text="How many bits should I check in our keys?")
+        self.text2 = self.Text(par_x=100, par_y=50, par_text="Okay, I'll check __ pairs of bits in each key. Press spacebar")
+        self.text3 = self.Text(par_x=100, par_y=50, par_text="Fill this in!")
+        self.text4 = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
+        self.textaccuse = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
+        self.textresponse = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
 
     def place_bits(self):
         """
@@ -95,7 +101,7 @@ class Games_4(Games):
 
             if event.type == pygame.KEYDOWN:
                 if event.key==pygame.K_SPACE and self.proceed and not self.proceed2 :
-                    print(self.proceed)
+                    #print(self.proceed)
                     if(self.bits_compared<int(self.to_compare)):
                         print(self.bits_compared)
                         self.place_bits()
@@ -103,43 +109,48 @@ class Games_4(Games):
                     else:
                         #move onto the next part of this phase
                         self.proceed2=True
-                        self.proceed=False # do i need this?
+                        #self.proceed=False # do i need this?
 
             if event.type == pygame.KEYDOWN and self.proceed2:
                 if event.key == pygame.K_y:
                     print("choose to accuse")
                     self.proceed3 = True
                     self.proceed2 = False
+                    self.accuse=True
                 elif event.key==pygame.K_n:
                     print("choose to not accuse")
+                    self.accuse=False
                     self.proceed3 = True
                     self.proceed2 = False
 
             elif event.type == pygame.KEYDOWN and self.proceed3:
                 if event.key == pygame.K_y:
                     print("choose to send letter")
+                    self.send = True
                     self.proceed4 = True
                     self.proceed3 = False
                 elif event.key==pygame.K_n:
                     print("choose to not send letter")
+                    self.send=False
                     self.proceed4 = True
                     self.proceed3 = False
-                
 
 
+            if (not self.proceed):
+                for box in input_boxes:
+
+                    if(box.handle_event(event)!=None):
+
+                        self.to_compare = box.handle_event(event)
+                        if (self.to_compare.isdigit()):
+
+                            print(self.to_compare)
+                            self.proceed=True
+
+        if (not self.proceed):
             for box in input_boxes:
-
-                if(box.handle_event(event)!=None):
-
-                    self.to_compare = box.handle_event(event)
-                    if (self.to_compare.isdigit()):
-
-                        print(self.to_compare)
-                        self.proceed=True
-
-        for box in input_boxes:
-            box.update()
-            box.draw(window)
+                box.update()
+                box.draw(window)
 
 
 
@@ -149,9 +160,34 @@ class Games_4(Games):
         # need lines here to keep drawing the bits before they change!!!
         self.retrieved_bits1.draw(window)
         self.retrieved_bits2.draw(window)
-        self.title.text_display(window)
+        if (not self.proceed and not self.proceed2 and not self.proceed3 and not self.proceed4):
+            self.title.text_display(window)
+        elif (not self.proceed2 and not self.proceed3 and not self.proceed4):
+            self.text2=self.Text(par_x=100, par_y=50, par_text="\"Hmmm I think "+ str(self.to_compare)+" bits in each key will suffice\"")
+            self.text2.text_display(window)
+
+        if (self.proceed2 and not self.proceed3):
+            self.text3=self.Text(par_x=100, par_y=50, par_text="\"Okay let me think, what % of the pairs didn't match...    \"")
+            self.text3.text_display(window)
+            self.text4=self.Text(par_x=100, par_y=150, par_text="\"Should I accuse Eve of eavesdropping? y/n\"")
+            self.text4.text_display(window)
+
+        if (self.accuse):
+            self.textaccuse=self.Text(par_x=100, par_y=100, par_text="\"I accuse you of measuring the qubits!\"")
+            self.textaccuse.text_display(window)
+
+            if (self.intercepted):
+                self.textresponse = self.Text(par_x=100, par_y=150,
+                                            par_text="\"I'm sorry, you are right. Please forgive me.\"")
+                self.textresponse.text_display(window)
+            else:
+                self.textresponse = self.Text(par_x=100, par_y=150,
+                                            par_text="\"I did no such thing! I was just trying to help you two :-(\"")
+                self.textresponse.text_display(window)
 
 
 
+            pass
 
-
+        if (self.proceed3):
+            pass
