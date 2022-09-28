@@ -4,8 +4,9 @@
 # but this is where the first part came from:
 # https://www.qmunity.tech/tutorials/quantum-key-distribution-with-bb84
 
-from qiskit import QuantumCircuit, execute, Aer
+from qiskit import QuantumCircuit, execute, Aer, transpile, assemble
 from qiskit.visualization import plot_histogram, plot_bloch_multivector
+from numpy.random import randint
 from numpy.random import randint
 import numpy as np
 import itertools
@@ -21,14 +22,15 @@ alice_state = np.random.randint(2, size=num_qubits)
 bob_basis = np.random.randint(2, size=num_qubits)
 
 
-print (f"Alice's State:\t", np.array2string(alice_state))
-print (f"Alice's Bases:\t", np.array2string(alice_basis))
-print (f"Bob's Bases:\t",np.array2string(bob_basis))
+#print (f"Alice's State:\t", np.array2string(alice_state))
+#print (f"Alice's Bases:\t", np.array2string(alice_basis))
+#print (f"Bob's Bases:\t",np.array2string(bob_basis))
 
 
 #The function encode_message below, creates a list of QuantumCircuits,
 # # each representing a single qubit in Alice's message:
 #  https://qiskit.org/textbook/ch-algorithms/quantum-key-distribution.html
+# this takes place before phase 2
 def encode_message(bits, bases):
     message = []
     for i in range(n):
@@ -67,74 +69,6 @@ def measure_message(message, bases):
         measurements.append(measured_bit)
     return measurements
 
-# sifting stage.
-def remove_garbage(a_bases, b_bases, bits):
-    good_bits = []
-    for q in range(n):
-        if a_bases[q] == b_bases[q]:
-            # If both used the same basis, add
-            # this to the list of 'good' bits
-            good_bits.append(bits[q])
-    return good_bits
-
-
-# phase 4; comparing random select of bits in their keys
-# make sure the sampling is random!
-def sample_bits(bits, selection):
-    sample = []
-    for i in selection:
-        # use np.mod to make sure the
-        # bit we sample is always in
-        # the list range
-        i = np.mod(i, len(bits))
-        # pop(i) removes the element of the
-        # list at index 'i'
-        sample.append(bits.pop(i))
-    return sample
-
-def bb84_circuit(state, basis, measurement_basis):
-    '''
-    # state: array of 0s and 1s denoting the state to be encoded
-    # basis: array of 0s and 1s denoting the basis to be used for encoding
-    # 0 -> Computational Basis
-    # 1 -> Hadamard Basis
-    # meas_basis: array of 0s and 1s denoting the basis to be used for measurement
-    # 0 -> Computational Basis
-    # 1 -> Hadamard Basis
-    '''
-    num_qubits = len(state)
-
-    bb84_circuit = QuantumCircuit(num_qubits)
-
-    # Sender prepares qubits
-    for i in range(len(basis)):
-        if state[i] == 1:
-            bb84_circuit.x(i)
-        if basis[i] == 1:
-            bb84_circuit.h(i)
-
-
-    # Measuring action performed by Bob
-    for i in range(len(measurement_basis)):
-        if measurement_basis[i] == 1:
-            bb84_circuit.h(i)
-
-
-    bb84_circuit.measure_all()
-
-    return bb84_circuit
-
-
-circuit = bb84_circuit(alice_state, alice_basis, bob_basis)
-key = execute(circuit.reverse_bits(),backend=QasmSimulator(),shots=1).result().get_counts().most_frequent()
-encryption_key = ''
-for i in range(num_qubits):
-    if alice_basis[i] == bob_basis[i]:
-         encryption_key += str(key[i])
-print(f"Key: {encryption_key}")
-print("")
-print("")
-
 # https://github.com/VoxelPixel/CiphersInPython/blob/master/XOR%20Cipher.py
 def cipher_encryption(msg,key):
     print(msg)
@@ -172,13 +106,85 @@ def cipher_decryption(msg,key):
     print("Decrypted Text: {}".format(decryp_text))
     return format(decryp_text)
 
+# sifting stage.
+def remove_garbage(a_bases, b_bases, bits):
+    good_bits = []
+    for q in range(n):
+        if a_bases[q] == b_bases[q]:
+            # If both used the same basis, add
+            # this to the list of 'good' bits
+            good_bits.append(bits[q])
+    return good_bits
 
-a= cipher_encryption("romeo, o romeo",encryption_key)
-c=cipher_decryption(a,encryption_key)
+
+# phase 4; comparing random select of bits in their keys
+# make sure the sampling is random!
+def sample_bits(bits, selection):
+    sample = []
+    for i in selection:
+        # use np.mod to make sure the
+        # bit we sample is always in
+        # the list range
+        i = np.mod(i, len(bits))
+        # pop(i) removes the element of the
+        # list at index 'i'
+        sample.append(bits.pop(i))
+    return sample
+
+n = 100
+# Step 1
+alice_bits = randint(2, size=n)
+alice_bases = randint(2, size=n)
+# Step 2
+message = encode_message(alice_bits, alice_bases)
+# Interception!
+intercept=False
+if(intercept):
+    eve_bases = randint(2, size=n)
+    intercepted_message = measure_message(message, eve_bases)
+# Step 3
+bob_bases = randint(2, size=n)
+bob_results = measure_message(message, bob_bases)
+# Step 4
+bob_key = remove_garbage(alice_bases, bob_bases, bob_results)
+alice_key = remove_garbage(alice_bases, bob_bases, alice_bits)
+# Step 5
+sample_size = 1 # Change this to something lower and see if
+                 # Eve can intercept the message without Alice
+                 # and Bob finding out
+bit_selection = randint(n, size=sample_size)
+bob_sample = sample_bits(bob_key, bit_selection)
+alice_sample = sample_bits(alice_key, bit_selection)
+
+if (intercept):
+    if bob_sample != alice_sample:
+        print("Eve's interference was detected.")
+    else:
+        print("Eve went undetected!")
+
+if (bob_sample == alice_sample):
+    print("samples match!")
+else:
+    print("samples do not match")
+
+string_ints = [str(int) for int in alice_key]
+str_of_ints = ",".join(string_ints)
+a_key=str_of_ints
+
+string_ints = [str(int) for int in bob_key]
+str_of_ints = ",".join(string_ints)
+b_key=str_of_ints
+
+to_encrypt="romeo, o romeo"
+
+a= cipher_encryption(to_encrypt,a_key)
+c=cipher_decryption(a,b_key)
 
 
-
-
+if(to_encrypt!=c):
+    print("the encryption failed!")
+else:
+    print("the encryption was a success!")
 
 exit()
 
