@@ -156,6 +156,9 @@ bit_selection = randint(n, size=sample_size)
 bob_sample = sample_bits(bob_key, bit_selection)
 alice_sample = sample_bits(alice_key, bit_selection)
 
+# also check for noise here!!!!!!!!!!!
+# code in some noise example
+
 if (intercept):
     if bob_sample != alice_sample:
         print("Eve's interference was detected.")

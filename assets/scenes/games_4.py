@@ -28,6 +28,8 @@ class Games_4(Games):
     # start the game up when the user gives the number of bits they want to compare
     proceed=False
     proceed2=False
+    proceed3=False
+    proceed4=False
     accuse="n"
     send="y"
 
@@ -106,9 +108,24 @@ class Games_4(Games):
             if event.type == pygame.KEYDOWN and self.proceed2:
                 if event.key == pygame.K_y:
                     print("choose to accuse")
+                    self.proceed3 = True
+                    self.proceed2 = False
                 elif event.key==pygame.K_n:
                     print("choose to not accuse")
-                pass
+                    self.proceed3 = True
+                    self.proceed2 = False
+
+            elif event.type == pygame.KEYDOWN and self.proceed3:
+                if event.key == pygame.K_y:
+                    print("choose to send letter")
+                    self.proceed4 = True
+                    self.proceed3 = False
+                elif event.key==pygame.K_n:
+                    print("choose to not send letter")
+                    self.proceed4 = True
+                    self.proceed3 = False
+                
+
 
             for box in input_boxes:
 
