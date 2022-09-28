@@ -19,7 +19,7 @@ class Games_0(Games):
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("background0.jpg")
         self.missing = self.Score(par_x=700, par_y=720, par_text="Missing : ")
-        self.title = self.Text(par_x=100, par_y=50, par_text="What size key should I generate?")
+        self.title = self.Text(par_x=100, par_y=50, par_text="What size key should I generate? Try 1-10")
         self.text2 = self.Text(par_x=100, par_y=50, par_text="Okay, I'll check __ pairs of bits in each key. Press spacebar")
         self.text3 = self.Text(par_x=100, par_y=50, par_text="Fill this in!")
         self.text4 = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
@@ -51,7 +51,7 @@ class Games_0(Games):
                     if(box.handle_event(event)!=None):
 
                         self.bit_size = box.handle_event(event)
-                        if (self.bit_size.isdigit()):
+                        if (self.bit_size.isdigit() and int(self.bit_size)<11 and int(self.bit_size)>0):
 
                             print(self.bit_size)
                             self.proceed=True
