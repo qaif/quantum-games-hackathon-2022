@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -2299,11 +2299,11 @@ TextureImporter:
       potions_64: 1789636997
       potions_66: -486614438
       potions_43: 632102508
-      potions_17: 287913059
-      potions_85: -1267537509
       potions_78: -1237798623
-      potions_84: -1052362327
+      potions_17: 287913059
       potions_99: -1453453608
+      potions_84: -1052362327
+      potions_85: -1267537509
       potions_9: -483649495
       potions_73: -1968356931
       potions_68: -105001011

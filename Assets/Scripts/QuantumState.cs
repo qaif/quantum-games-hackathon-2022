@@ -35,7 +35,7 @@ public class QuantumState : MonoBehaviour
 
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    public void CollapseTrees()
     {
         int randomNum = Random.Range(0, superposition.Length);
 
@@ -43,6 +43,8 @@ public class QuantumState : MonoBehaviour
         {
             qubits[i].Collapse(superposition[randomNum].state[i]);
         }
+
+        gameObject.SetActive(false);
     }
 
 }
