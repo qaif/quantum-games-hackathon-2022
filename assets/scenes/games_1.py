@@ -181,7 +181,17 @@ class Games1Scene(Scene):
 
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g1.finish:
-            sm.push(FadeTransitionScene([self], [Games2Scene(self.g1.retrieved_bits, self.g1.retrieved_measurements)]))
+            self.romeo_bits = []
+            for b in self.g1.retrieved_bits:
+                self.romeo_bits.append(b.key)
+
+            self.romeo_bases = []
+            for b in self.g1.retrieved_measurements:
+                self.romeo_bases.append(b.key)
+
+
+            print(self.romeo_bits, self.romeo_bases)
+            sm.push(FadeTransitionScene([self], [Games2Scene(self.romeo_bits, self.romeo_bases)]))
 
     def draw(self, sm, screen):
         self.g1.call_event(screen)

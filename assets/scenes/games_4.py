@@ -1,8 +1,14 @@
-from assets.scenes.games import Games
 import pygame
+import sys
+
+from assets.scenes.games import Games
 from assets.classes.measurementbase import MeasurementBase, BitBase
 from assets.classes.input_boxes import InputBox
-import sys
+
+from assets.classes.utils import *
+from assets.scenes.scene import Scene, FadeTransitionScene, TransitionScene
+from assets.classes.inputstream import InputStream
+from assets.classes.ui import ButtonUI
 
 # this is for the key checking, so 2 arrays of bits will be flsahed across the screen and the
 # player needs to keep track of how many were different
@@ -39,8 +45,9 @@ class Games_4(Games):
     bits_compared = 0
     to_compare=10
 
-    def __init__(self, pygame):
+    def __init__(self, pygame, secret_key):
         super().__init__()
+        print("games 4 secret key: ", secret_key)
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("background4.jpg")
 
@@ -52,6 +59,9 @@ class Games_4(Games):
         self.text4 = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
         self.textaccuse = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
         self.textresponse = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
+
+        self.finish = False
+        self.win = False
 
     def place_bits(self):
         """
@@ -156,7 +166,6 @@ class Games_4(Games):
 
 
 
-
         # need lines here to keep drawing the bits before they change!!!
         self.retrieved_bits1.draw(window)
         self.retrieved_bits2.draw(window)
@@ -191,3 +200,30 @@ class Games_4(Games):
 
         if (self.proceed3):
             pass
+
+class Games4Scene(Scene):
+    def __init__(self, secret_key):
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
+
+        pygame.event.clear()
+        self.g4 = Games_4(pygame, secret_key)
+
+    def onEnter(self):
+        pass
+        # globals.soundManager.playMusicFade('solace')
+
+    def update(self, sm, inputStream):
+
+        self.esc.update(inputStream)
+
+    def input(self, sm, inputStream):
+        pass
+        #if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g3.win:
+        #    sm.push(FadeTransitionScene([self], [Games4Scene(self.g3.answer_key)]))
+
+    def draw(self, sm, screen):
+        self.g4.call_event(screen)
+        self.esc.draw(screen)
+
+        if self.g4.finish:
+            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)

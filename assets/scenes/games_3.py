@@ -2,6 +2,7 @@ import random
 import numpy as np
 import pygame
 import sys
+import globals
 
 from typing import List
 from assets.scenes.games import Games
@@ -12,6 +13,7 @@ from assets.classes.utils import *
 from assets.scenes.scene import Scene, FadeTransitionScene, TransitionScene
 from assets.classes.inputstream import InputStream
 from assets.classes.ui import ButtonUI
+from assets.scenes.games_4 import Games4Scene
 
 
 FONT = pygame.font.Font("freesansbold.ttf", 32)
@@ -51,10 +53,11 @@ class Games_3(Games):
             for i in range(globals.selectedBit):
                 self.juliet_bases.append(random.choice(self.base_options))
 
-        hides = []
-        hides.append(random.sample(range(0, 9), 2))
-        hides.append(random.sample(range(0, 9), 2))
-        hides.append(random.sample(range(0, 9), 2))
+
+        self.hides = []
+        self.hides.append(random.sample(range(0, 9), random.randint(0,2)))
+        self.hides.append(random.sample(range(0, 9), random.randint(0,2)))
+        self.hides.append(random.sample(range(0, 9), random.randint(0,2)))
 
         # timer for user defined function
         pygame.time.set_timer(self.event_hide_box, 700)
@@ -62,6 +65,9 @@ class Games_3(Games):
         self.input_box = InputBox(300, 400, 140, 44)
         self.answer_key = ""
         self.input_key = ""
+
+        self.finish = False
+        self.win = False
 
         self.get_answer_key()
 
@@ -121,7 +127,8 @@ class Games_3(Games):
 
     def check_answer_key(self):
         if self.answer_key == self.input_key:
-            print("Correct")
+            self.finish = True
+            self.win = True
         else:
             print("False")
             self.input_box.text = ""
@@ -148,7 +155,9 @@ class Games_3(Games):
                 if event.key == pygame.K_RETURN:
                     self.check_answer_key()
 
-
+        # this is to fix the bugs from games 2
+        for r in self.romeo_bit_display:
+            r.get_initialize_image(r.key)
 
         self.input_box.update()
         self.input_box.draw(window)
@@ -167,7 +176,7 @@ class Games3Scene(Scene):
         self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
 
         pygame.event.clear()
-        self.g3 = Games_3(pygame)
+        self.g3 = Games_3(pygame, romeo_bits, romeo_bases)
     def onEnter(self):
         pass
         #globals.soundManager.playMusicFade('solace')
@@ -176,14 +185,12 @@ class Games3Scene(Scene):
         self.esc.update(inputStream)
 
     def input(self, sm, inputStream):
-        pass
-        #if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish:
-            #pass
-            #sm.push(FadeTransitionScene([self], [Games2Scene(self.g1.retrieved_bits, self.g1.retrieved_measurements)]))
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g3.win:
+            sm.push(FadeTransitionScene([self], [Games4Scene(self.g3.answer_key)]))
 
     def draw(self, sm, screen):
-        self.g2.call_event(screen)
+        self.g3.call_event(screen)
         self.esc.draw(screen)
 
-        if self.g2.finish:
+        if self.g3.finish:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)

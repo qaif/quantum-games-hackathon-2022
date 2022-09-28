@@ -48,7 +48,7 @@ class Games_2(Games):
         # timer for user defined function
         pygame.time.set_timer(self.event_bit_moving, 30)
         pygame.time.set_timer(self.event_bit_change_direction, 5000)
-        pygame.time.set_timer(self.event_bit_diminishing, 1000)
+        pygame.time.set_timer(self.event_bit_diminishing, 500)
         pygame.time.set_timer(self.event_measuring, 500)
 
         self.finish = False
@@ -121,7 +121,7 @@ class Games_2(Games):
                     b.set_y_change(random.randint(-3, 3))
             elif event.type == self.event_bit_diminishing:
                 for b in self.bits:
-                    b.image.set_alpha( b.image.get_alpha() - 1)
+                    b.image.set_alpha( b.image.get_alpha() - 3)
             elif event.type == self.event_measuring:
                 for b in self.bits:
                     self.measured_count_seconds[b.idx] = self.measured_count_seconds[b.idx] - 1
@@ -176,8 +176,9 @@ class Games2Scene(Scene):
         self.esc.update(inputStream)
 
     def input(self, sm, inputStream):
-        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish:
-            sm.push(FadeTransitionScene([self], [Games3Scene()]))
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish and self.g2.win:
+            print(self.g2.romeo_bits, self.g2.romeo_bases)
+            sm.push(FadeTransitionScene([self], [Games3Scene(self.g2.romeo_bits, self.g2.romeo_bases)]))
 
     def draw(self, sm, screen):
         self.g2.call_event(screen)
