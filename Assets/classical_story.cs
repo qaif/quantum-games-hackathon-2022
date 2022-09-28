@@ -166,6 +166,11 @@ public class classical_story
         return past.thickness;
     }
 
+    public double minimum_point_thickness()
+    {
+        return past.minimum_point_thickness();
+    }
+
     public void HeedAction(string word)
     {
         if (story.currentChoices.Count > 0)

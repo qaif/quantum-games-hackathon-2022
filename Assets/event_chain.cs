@@ -53,6 +53,41 @@ public class event_chain
         return noob;
     }
 
+    public double minimum_point_thickness()
+    {
+        if (trunk_branch == null)
+        {
+            if (leaf_branch == null)
+            {
+                return thickness;
+            }
+            else
+            {
+                return leaf_branch.minimum_point_thickness();
+            }
+        }
+        else
+        {
+            if (leaf_branch == null)
+            {
+                return trunk_branch.minimum_point_thickness();
+            }
+            else
+            {
+                double a = trunk_branch.minimum_point_thickness();
+                double b = leaf_branch.minimum_point_thickness();
+                if (b > a)
+                {
+                    return a;
+                }
+                else
+                {
+                    return b;
+                }
+            }
+        }
+    }
+
     public List<Chronon> DisplayChronons(double clockhand)
     {
         double time_offset = clockhand;

@@ -21,6 +21,8 @@ public class superposition_manager : MonoBehaviour
     public double full_cycle_time;
     private double last_rollover;
     private double coming_nudgement;
+    private double inflation;
+    private double timeToSpend;
     private List<string> world_letters;
 
     public TextMeshProUGUI ProgramSlateFactory;
@@ -54,6 +56,8 @@ public class superposition_manager : MonoBehaviour
         current_display = 0.0;
         coming_nudgement = 0.0;
         last_rollover = 0.0;
+        inflation = 0.0;
+        timeToSpend =full_cycle_time;
         world_letters = new List<string>();
         world_letters.Add("A");
         world_letters.Add("B");
@@ -215,7 +219,11 @@ public class superposition_manager : MonoBehaviour
         }
         display_grids = new List<GameObject>();
         float vertical_spacing=0.3f;
-        List<Chronon> bask_subjects = DisplayChronons(current_display);
+        if (inflation < 0.0001)
+        {
+            inflation = 1.0;
+        }
+        List<Chronon> bask_subjects = DisplayChronons(current_display/inflation);
         float height_start = (bask_subjects.Count*vertical_spacing)-3.0f;
         for (int i=0; i < bask_subjects.Count; i++)
         {
@@ -479,12 +487,18 @@ public class superposition_manager : MonoBehaviour
         double time_phase = Time.time - last_rollover;
         //Debug.Log(time_phase+ (time_to_keep_stable * (current_display+1)).ToString());
         double fat = 0;
+        double min_thickness = float.MaxValue;
         foreach(classical_story river in linears)
         {
             fat += river.thickness();
+            double rapids = river.minimum_point_thickness();
+            if (rapids < min_thickness)
+            {
+                min_thickness = rapids;
+            }
             //Debug.Log("fatreport" + river.thickness().ToString());
         }
-        if (time_phase > full_cycle_time)
+        if (time_phase > timeToSpend)
         {
             last_rollover += full_cycle_time;
             current_display = 0.0;
@@ -495,13 +509,22 @@ public class superposition_manager : MonoBehaviour
         }
         else
         {
-            double progress = (time_phase / full_cycle_time);
-            double spanment = progress * fat;
-            current_display = spanment;
-            if (spanment > coming_nudgement)
+            inflation = 1.0;
+            double progress = 0.0;
+            progress = time_phase / timeToSpend;
+            double fat_rate = full_cycle_time / fat;
+            double rate_floor = time_to_keep_stable / min_thickness;
+            if (rate_floor > fat_rate)
+            {
+                fat_rate = rate_floor;
+            }
+            timeToSpend=fat_rate*fat;
+            Debug.Log(progress.ToString()+"  "+min_thickness.ToString()+ "fat"+ fat.ToString());
+            current_display = progress*fat_rate;
+            if (current_display > coming_nudgement)
             {
                 RefreshDisplays();
-                coming_nudgement=NextChange(spanment);
+                coming_nudgement=NextChange(current_display)*fat_rate;
             }
             //Debug.Log(linears.Count);
             //Debug.Log("timing " + progress.ToString() + " span " + current_display.ToString() + " coming " + coming_nudgement.ToString());

@@ -296,15 +296,15 @@ You see the drone loading bay beyond reinforced plastic transparent wall. # narr
                         }
                  }
          }
+         ~ splitWorld("post_wall_stone")
+         ~ splitWorld("post_wall_meat")
+         ~ splitWorld("post_wall_skin")
          {post_china:
                 And disappears. # narration
          -else:
                and bounces of it. # narration
                {|||||This would be so much more easier if they had like an opening to faciliate travel in the wall||}
          }
-         ~ post_wall_skin=false
-         ~ post_wall_meat=false
-         ~ post_wall_stone=false
          -> wallBanging
 +Go get new box
      {post_china==true:
