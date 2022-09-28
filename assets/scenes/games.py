@@ -9,7 +9,7 @@ class Games:
         class to display text on the screen
         """
         def __init__(self, par_x: int = 0, par_y: int = 0, par_text: str = ""):
-            self.font = pygame.font.Font("freesansbold.ttf", 32)
+            self.font = pygame.font.Font("freesansbold.ttf", 24)
             self.x = par_x
             self.y = par_y
             self.text = par_text

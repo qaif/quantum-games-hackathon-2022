@@ -1,3 +1,4 @@
+import globals
 from assets.scenes.games import Games
 import pygame
 from assets.classes.measurementbase import MeasurementBase, BitBase
@@ -5,25 +6,26 @@ import sys
 
 class Games_1(Games):
 
-    # creating a group of Sprite, this is like an array of sprite (object of image)
-    measurements = pygame.sprite.Group()
-    retrieved_measurements = pygame.sprite.Group()
-    bits = pygame.sprite.Group()
-    retrieved_bits = pygame.sprite.Group()
-
-    # user defined function
-    measurement_event = pygame.USEREVENT + 1
-    bit_event = pygame.USEREVENT + 2
-    move_event = pygame.USEREVENT + 3
-
-    total_bit = 0
-    total_measurement = 0
 
     def __init__(self, pygame):
         super().__init__()
         self.background = pygame.image.load("background.png")
         self.missing = self.Score(par_x=700, par_y=720, par_text="Missing : ")
         self.title = self.Text(par_x=100, par_y=520, par_text="This is a random text")
+
+        # creating a group of Sprite, this is like an array of sprite (object of image)
+        self.measurements = pygame.sprite.Group()
+        self.retrieved_measurements = pygame.sprite.Group()
+        self.bits = pygame.sprite.Group()
+        self.retrieved_bits = pygame.sprite.Group()
+
+        # user defined function
+        self.measurement_event = pygame.USEREVENT + 1
+        self.bit_event = pygame.USEREVENT + 2
+        self.move_event = pygame.USEREVENT + 3
+
+        self.total_bit = 0
+        self.total_measurement = 0
 
         # timer for user defined function
         pygame.time.set_timer(self.measurement_event, 3000)  # 2000 milliseconds = 2 seconds
@@ -103,13 +105,13 @@ class Games_1(Games):
                 pygame.quit()
                 sys.exit()
             elif event.type == self.measurement_event and len(
-                    self.retrieved_measurements) <= 10:  # to keep spawning the measurement base until reach x values
+                    self.retrieved_measurements) <= globals.selectedBit:  # to keep spawning the measurement base until reach x values
                 # spawn new object
                 self.measurements.add(MeasurementBase())
                 self.total_measurement += 1
 
             elif event.type == self.bit_event and len(
-                    self.retrieved_bits) <= 10:  # to keep spawning the bit base until reach x values
+                    self.retrieved_bits) <= globals.selectedBit:  # to keep spawning the bit base until reach x values
                 # spawn new object
                 self.bits.add(BitBase())
                 self.total_bit += 1
