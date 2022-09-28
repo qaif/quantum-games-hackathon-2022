@@ -26,50 +26,70 @@ class GameManager:
         self.adj_mat = self.create_grid_adj_mat(grid.size, grid.size)
         self.distances = self.calc_distances(self.adj_mat)
         self.lives = 3
+        # self.probe_vector = [.3333, .3333, .3333]
+        self.probe_vector = [1, 0, 0]
 
         # self.grid = Grid(10, 50)
         # self.snake = Snake(self.grid)
 
         self.snake.add_on_collision_listener(self.on_collision)
+        self.snake.add_on_collected_food_listener(self.on_collected_food)
 
     def on_move(self, direction):
+        # TODO: reset probe grid occupier
         self.snake.move(direction)
 
-    def on_probe(self, vector):
+    def on_probe(self):
         # TODO:
-        print(self.probe_measurement(vector))
+        self.snake.on_probe()
+        print(self.query(self.probe_vector))
 
     def on_collision(self):
         # TODO:
         self.on_death()
 
     def on_death(self):
+        print("YOU DEAD!!!")
         # TODO: [Take player back to "beginning of turn state" so they can continue playing]
-        pass
+        # TODO: reset probe grid occupier
 
     def on_fail(self):
+        print("YOU MADE AN INCORRECT GUESS!!!")
+        self.lives -= 1  # increment the number of lives downward. (i.e. decrement lives)
+        if self.lives < 1:
+            # TODO: [UI tells you you're dead. Game over]
+            self.on_death()
         # TODO: [Take player back to "beginning of turn state" so they can continue playing]
-        pass
+        # TODO: reset probe grid occupier
 
     def on_success(self):
+        print("YOU GUESSED CORRECTLY!!!")
         # TODO:
         # TODO: [prey location is revealed to player]
         prey_revealed = True
+        self.grid.set_occupier(self.prey_location, OccupierType.PREY)
         # TODO: [player is asked to move snake to prey location]
-        pass
+
+    def on_collected_food(self):
+        # TODO:
+        print("COLLECTED FOOD!!!")
+        self.on_reset_prey()
+
+    def on_reset_prey(self):
+        self.spawn_prey()
 
     def on_strike(self):
-        guess = self.grid.selected_node
+        if self.grid.selected_node is None:
+            print("NO SQUARE SELECTED!!!")
+            # TODO
+        guess = self.grid.selected_node.idx
+        print("GUESSING: ", guess)
+        print("PREY: ", self.prey_location)
 
         if guess == self.prey_location:
             self.on_success()
         else:
-            self.lives -= 1  # increment the number of lives downward. (i.e. decrement lives)
-            if self.lives < 1:
-                # TODO: [UI tells you you're dead. Game over]
-                self.on_death()
-            else:
-                self.on_fail()
+            self.on_fail()
         # TODO: [Take player back to "beginning of turn state" so they can continue playing]
 
     # def button_up(rows, columns, prey_revealed, prey_location):  # and similar functions for down, left, right
@@ -98,7 +118,8 @@ class GameManager:
 
     def spawn_prey(self):
         # TODO: don't spawn on top of snake
-        prey_location = self.rng.integers(0, self.grid.size)
+        self.prey_location = self.rng.integers(0, self.grid.size * self.grid.size)
+        print("PREY LOCATED AT: ", self.prey_location)
 
     def create_grid_adj_mat(self, rows, columns):
         # Returns the adjacency matrix of a grid with rows number of rows and columns number of columns
@@ -166,13 +187,13 @@ class GameManager:
         probed_vertices = self.snake.get_probe_idxs()
 
         # TODO: is this broken?????
-        distances = self.distances[probed_vertices, np.full(len(probed_vertices, self.prey_location))]
+        distances = self.distances[probed_vertices, np.full(len(probed_vertices), self.prey_location)]
         # distances from probed vertices to the prey
 
         probabilities = np.abs(probe_vector) ** 2  # probs. of the different outcomes
         probabilities = probabilities / np.sum(probabilities)  # enforce summing up to 1
 
-        measured_distance = self.rng.choice(distances, probabilities)
+        measured_distance = self.rng.choice(distances, p=probabilities)
 
         # Get resulting state after measurement
         new_probe_vector = np.copy(probe_vector)
@@ -182,23 +203,28 @@ class GameManager:
         norm = np.sum(np.abs(new_probe_vector) ** 2) ** 0.5
         new_probe_vector = new_probe_vector / norm
         new_norm = np.sum(np.abs(new_probe_vector) ** 2)
-        assert new_norm == 1, f'Norm is {new_norm}, but it should be 1.'
+        # assert new_norm == 1, f'Norm is {new_norm}, but it should be 1.'
+
+        # TODO: is this an appropriate fix?????
+        fp_error_allowance = 0.001
+        assert 1 - new_norm < fp_error_allowance, f'Norm is {new_norm}, but it should be 1.'
 
         return measured_distance, new_probe_vector
 
-    def probe_measurement(self, probe_vector):
-        # Returns the index of a vertex that results from measuring the
-        # given probe state.
-
-        # probed_vertices = self.probeable_vertices(graph, snake_body)  # vertices that were probed
-        probed_vertices = self.snake.get_probe_idxs()
-
-        probabilities = np.abs(probe_vector) ** 2  # probabilities of different outcomes
-
-        # Randomly choose a vertex according to Born rule probabilities.
-        measured_vertex = self.rng.choice(probed_vertices, p=probabilities)
-
-        return measured_vertex
+    # TODO: is this redundant?????
+    # def probe_measurement(self, probe_vector):
+    #     # Returns the index of a vertex that results from measuring the
+    #     # given probe state.
+    #
+    #     # probed_vertices = self.probeable_vertices(graph, snake_body)  # vertices that were probed
+    #     probed_vertices = self.snake.get_probe_idxs()
+    #
+    #     probabilities = np.abs(probe_vector) ** 2  # probabilities of different outcomes
+    #
+    #     # Randomly choose a vertex according to Born rule probabilities.
+    #     measured_vertex = self.rng.choice(probed_vertices, p=probabilities)
+    #
+    #     return measured_vertex
 
     def probe_unitary(self, unitary_mat, probe_vector):
         # Simply multiplies the probe state by the given unitary matrix
@@ -232,6 +258,7 @@ class Snake:
         self.spawn()
         # self.game_manager = game_manager
         self.on_collision_listeners = []
+        self.on_collected_food_listeners = []
 
     def spawn(self):
         # self.body[0] = 55
@@ -242,22 +269,25 @@ class Snake:
     def grow(self, amount):
         self.target_length += amount
 
-    def get_head_coords(self):
-        return self.grid.get_coords(self.body[0])
-
-    def get_probe_coords(self):
-        return self.grid.get_coords(self.grid.up(self.body[0])), \
-               self.grid.get_coords(self.grid.right(self.body[0])), \
-               self.grid.get_coords(self.grid.down(self.body[0])), \
-               self.grid.get_coords(self.grid.left(self.body[0]))
+    # def get_head_coords(self):
+    #     return self.grid.get_coords(self.body[0])
+    #
+    # def get_probe_coords(self):
+    #     return self.grid.get_coords(self.grid.up(self.body[0])), \
+    #            self.grid.get_coords(self.grid.right(self.body[0])), \
+    #            self.grid.get_coords(self.grid.down(self.body[0])), \
+    #            self.grid.get_coords(self.grid.left(self.body[0]))
 
     def get_probe_idxs(self):
+        # TODO: account for edges????
         idxs = [self.grid.up(self.body[0]), self.grid.right(self.body[0]), self.grid.down(self.body[0]),
                 self.grid.left(self.body[0])]
         idxs.remove(self.body[1])
         return idxs
 
     def move(self, direction):
+        # TODO: reset probe grid occupier
+
         new_head = -1
         if direction == GlobalDirection.UP:
             new_head = self.grid.up(self.body[0])
@@ -270,9 +300,11 @@ class Snake:
 
         if new_head == -1:
             return
-        if new_head in self.body:
+        elif new_head in self.body:
             self.on_collision()
             return
+        elif self.grid.nodes[new_head].occupier == OccupierType.PREY:
+            self.on_collected_food()
         self.add_to_head(new_head)
         while len(self.body) > self.target_length:
             self.remove_from_tail()
@@ -303,6 +335,17 @@ class Snake:
 
     def add_on_collision_listener(self, listener):
         self.on_collision_listeners.append(listener)
+
+    def on_probe(self):
+        for i in self.get_probe_idxs():
+            self.grid.set_occupier(i, OccupierType.PROBE)
+
+    def add_on_collected_food_listener(self, listener):
+        self.on_collected_food_listeners.append(listener)
+
+    def on_collected_food(self):
+        for listener in self.on_collected_food_listeners:
+            listener()
 
     # def update_snake_position(self):
     #     for i in self.body:

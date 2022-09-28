@@ -89,6 +89,7 @@ class OccupierType(Enum):
     SNAKE_HEAD_V = 2
     SNAKE_HEAD_H = 3
     PROBE = 4
+    PREY = 5
 
 
 class GridNode:
@@ -109,6 +110,7 @@ class GridNode:
         self.snake_color = QColor(243, 236, 26)
         self.eye_color = QColor(50, 50, 50)
         self.probe_color = QColor(139, 206, 210)
+        self.prey_color = QColor(243, 26, 26)
 
         # self.outline_color = QColor(0, 0, 0)
         # self.fill_color = QColor(0, 0, 0)
@@ -127,14 +129,16 @@ class GridNode:
             fill_color = self.snake_color
         elif self.occupier == OccupierType.PROBE:
             fill_color = self.probe_color
+        elif self.occupier == OccupierType.PREY:
+            fill_color = self.prey_color
         painter.fillRect(r, QBrush(fill_color))
 
         if self.occupier == OccupierType.SNAKE_HEAD_V:
-            for r in self.get_v_eye_rects():
-                painter.fillRect(r, QBrush(self.eye_color))
+            for e in self.get_v_eye_rects():
+                painter.fillRect(e, QBrush(self.eye_color))
         elif self.occupier == OccupierType.SNAKE_HEAD_H:
-            for r in self.get_h_eye_rects():
-                painter.fillRect(r, QBrush(self.eye_color))
+            for e in self.get_h_eye_rects():
+                painter.fillRect(e, QBrush(self.eye_color))
 
         outline_color = self.border_color
         if self.selected:
