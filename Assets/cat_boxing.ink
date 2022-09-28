@@ -119,11 +119,12 @@ You go get {a|yet another} box from the sorting chute.
 ~ post_box_label=coherentLottery("box_label")
 {post_box_label=="animal":
           ~ post_cat_up = true
-          ~ splitWorld(post_cat_up)
+          ~ splitWorld("post_cat_up")
 }
 {post_box_label=="handle with care":
+          ~ post_probe=true
           ~ post_bomb_armed=coherentLottery("bomb_fuse") // {~true|false}
-          ~ post_bomb_exploded=false
+          ~ post_probe=false
 }
 {post_box_label=="express":
           ~ post_china=false
@@ -157,6 +158,23 @@ The label on it reads {post_box_label}
             }
     }
     {post_box_label=="animal":
+           ->CatHandling
+    }
+    {post_box_label=="express":
+          Oh that is interesting # narration
+          No wonder they want this delivered fast # narration
+          + What is in the box?
+                   You would like to know wouldn't you#program
+                   Unfortunately your character has already looked inside#program
+                   So they don't have any reason to look again#program
+                   -> taskExecute
+          + I want to oppose them. Up to snail mail it goes
+                   If it is so important they can afford to wait for it to arrive #narrative
+                   -> taskExecute
+    }
+    ->taskExecute
+
+=CatHandling
             {post_cat_up==true:
                 A cat is whirling inside the box # narration
             -else:
@@ -173,7 +191,7 @@ The label on it reads {post_box_label}
 	               {guilty=="protagonist":
                                         You take 2 points # program
                                         Two points of what? # protagonist
-                                        ... # program
+                                        ...#program
                                }
                      }
                     ~ post_cat_up=false
@@ -194,22 +212,12 @@ The label on it reads {post_box_label}
           -else:
                       ~ post_cat_error=post_cat_error+1                      
           }
-    }
-    {post_box_label=="express":
-          Oh that is interesting # narration
-          No wonder they want this delivered fast # narration
-          * What is in the box?
-                   You would like to know wouldn't you#program
-                   Unfortunately your character has already looked inside#program
-                   So they don't have any reason to look again#program
-          * I want to oppose them. Up to snail mail it goes
-          -
-    }
-    ->taskExecute
+          ->taskExecute
 
 
 =crushingExploration
-    // request split post_probe
+    You send a probe to test the condition of the box # narration
+    ~splitWorld("post_probe")
     {post_probe==true:
           {post_bomb_armed==true:
                      Machine lets out a pretty loud thud.
@@ -218,15 +226,16 @@ The label on it reads {post_box_label}
                      ~ post_bomb_exploded=true
           }
     }
-    // request split post_probe
+    ~splitWorld("post_probe")
+    You wait for the probe to emerge from the tester # narration
     {post_probe==true:
-               The probe came out of the machine at an angle.
+               The probe came out of the machine at an angle. # narration
     -else:
-               The probe came ouf of the machine straight.
+               The probe came ouf of the machine straight.#narration
     }
     {post_bomb_exploded==true:
-              The machine spits out some bits of charred cardboard bits.
-              This is all that is left of the precious postal package.
+              The machine spits out some bits of charred cardboard bits. #narration
+              This is all that is left of the precious postal package.#narration
     }
     + Put box in 'snail pace'
 	{post_bomb_armed==true:

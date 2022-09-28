@@ -482,7 +482,7 @@ public class superposition_manager : MonoBehaviour
         foreach(classical_story river in linears)
         {
             fat += river.thickness();
-            Debug.Log("fatreport" + river.thickness().ToString());
+            //Debug.Log("fatreport" + river.thickness().ToString());
         }
         if (time_phase > full_cycle_time)
         {
