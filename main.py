@@ -4,6 +4,7 @@ import sys
 import pygame
 from pygame import mixer
 from typing import List
+from assets.scenes.Games_0 import Games_0
 from assets.scenes.games_1 import Games_1
 from assets.scenes.games_2 import Games_2
 from assets.scenes.games_3 import Games_3
@@ -52,10 +53,13 @@ letters=[
 to_encrypt=random.choice(letters)
 
 #### HARD CODE #####
-phase = 1
+phase = 0
 
 
 # declare the game
+if phase == 0:
+    pygame.event.clear()
+    g0=Games_0(pygame)
 if phase == 1:
     pygame.event.clear()
     g1 = Games_1(pygame)
@@ -72,6 +76,9 @@ elif phase == 4:
 run = True
 while run:
 
+    if (phase==0):
+        # call all the event related to game 1
+        g0.call_event(window, input_boxes)
     if (phase==1):
         # call all the event related to game 1
         g1.call_event(window)
