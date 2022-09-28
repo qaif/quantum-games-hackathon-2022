@@ -6,6 +6,8 @@ maxBit = 10
 currentBit = 5
 selectedBit = 0
 screenSize = (1024, 768)
+showConfig = True
+#showConfig = False
 
 # piano composition by Schubert, not copyrighted
 music_file="assets/music/Schubert---Impromptu-Op.-90--No.-3_AdobeStock_501349563.wav"

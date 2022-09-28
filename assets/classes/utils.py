@@ -5,7 +5,7 @@ MUSTARD = (209,206,25)
 BLACK = (0,0,0)
 
 pygame.font.init()
-font = pygame.font.Font(pygame.font.get_default_font(), 24)
+
 
 # function from:
 # https://nerdparadise.com/programming/pygameblitopacity
@@ -18,7 +18,9 @@ def blit_alpha(target, source, location, opacity):
     temp.set_alpha(opacity)
     target.blit(temp, location)
 
-def drawText(screen, t, x, y, fg, alpha):
+def drawText(screen, t, x, y, fg, alpha, fontSize: int = 30):
+    font = pygame.font.Font(pygame.font.get_default_font(), fontSize)
+
     text = font.render(t, True, fg)
     text_rectangle = text.get_rect()
     text_rectangle.topleft = (x,y)

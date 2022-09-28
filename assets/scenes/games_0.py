@@ -1,8 +1,14 @@
 import globals
-from assets.scenes.games import Games
 import pygame
 import sys
+
+from assets.scenes.games import Games
+
 from assets.classes.utils import *
+from assets.scenes.scene import Scene, FadeTransitionScene, TransitionScene
+from assets.classes.inputstream import InputStream
+from assets.classes.ui import ButtonUI
+from assets.scenes.games_1 import Games1Scene
 
 # romeo picks the number of bits for the key (important story and game mechanic!)
 class Games_0(Games):
@@ -55,7 +61,7 @@ class Games_0(Games):
                 if event.key==pygame.K_SPACE and self.proceed and not self.proceed2 :
                     pass
 
-                elif event.key==pygame.K_RETURN:
+                elif event.key==pygame.K_SPACE:
                     globals.selectedBit = globals.currentBit
 
                 elif event.key==pygame.K_a:
@@ -85,3 +91,46 @@ class Games_0(Games):
 
         if globals.selectedBit == 0:
             self.set_bit_selection(window)
+
+class Games0Scene(Scene):
+    def __init__(self):
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 50, 20)
+        self.a = ButtonUI(pygame.K_a, '[a = left]', 170, 20)
+        self.d = ButtonUI(pygame.K_d, '[d = right]', 250, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[space = select]', 350, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue]', 500, 20)
+
+        pygame.event.clear()
+        self.g0 = Games_0(pygame)
+    def onEnter(self):
+        pass
+        #globals.soundManager.playMusicFade('solace')
+    def update(self, sm, inputStream):
+
+        self.esc.update(inputStream)
+        self.a.update(inputStream)
+        self.d.update(inputStream)
+        self.space.update(inputStream)
+        self.enter.update(inputStream)
+
+    def input(self, sm, inputStream):
+
+
+        if inputStream.keyboard.isKeyPressed(pygame.K_SPACE):
+            globals.selectedBit = globals.currentBit
+
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and globals.selectedBit >= 1:
+            #level.loadLevel(globals.curentLevel)
+            sm.push(FadeTransitionScene([self], [Games1Scene()]))
+
+        if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
+            sm.pop()
+            sm.push(FadeTransitionScene([self], []))
+
+    def draw(self, sm, screen):
+        self.g0.call_event(screen)
+        self.esc.draw(screen)
+        self.a.draw(screen)
+        self.d.draw(screen)
+        self.space.draw(screen)
+        self.enter.draw(screen)

@@ -1,11 +1,17 @@
 import random
+import globals
 import numpy as np
+import sys
+import pygame
 
 from assets.scenes.games import Games
-import pygame
 from assets.classes.measurementbase import MeasurementBase, BitBase
 
-import sys
+from assets.classes.utils import *
+from assets.scenes.scene import Scene, FadeTransitionScene, TransitionScene
+from assets.classes.inputstream import InputStream
+from assets.classes.ui import ButtonUI
+
 
 class Games_2(Games):
 
@@ -19,19 +25,30 @@ class Games_2(Games):
     event_bit_diminishing = pygame.USEREVENT + 3
     event_measuring= pygame.USEREVENT + 4
 
-    unmeasured_bits = [pygame.K_0, pygame.K_1, pygame.K_0, pygame.K_0, pygame.K_1, pygame.K_1, pygame.K_0, pygame.K_1, pygame.K_1, pygame.K_0]
 
-    measured_count_seconds = np.ones(len(unmeasured_bits)) * 3
 
-    def __init__(self, pygame):
+
+
+    def __init__(self, pygame, romeo_bits = [], romeo_bases = []):
         super().__init__()
         self.background = pygame.image.load("background2.png")
+
+        self.bit_options = [pygame.K_0, pygame.K_1]
+        self.unmeasured_bits = []
+
+        for i in range(globals.selectedBit):
+            self.unmeasured_bits.append(random.choice(self.bit_options))
+
+        self.measured_count_seconds = np.ones(len(self.unmeasured_bits)) * 3
 
         # timer for user defined function
         pygame.time.set_timer(self.event_bit_moving, 30)
         pygame.time.set_timer(self.event_bit_change_direction, 5000)
         pygame.time.set_timer(self.event_bit_diminishing, 1000)
         pygame.time.set_timer(self.event_measuring, 500)
+
+        self.finish = False
+        self.win = False
 
         i = 0
         for type in self.unmeasured_bits:
@@ -71,6 +88,16 @@ class Games_2(Games):
         for mb in self.measured_bits:
             if mb.idx == idx:
                 mb.measured = True
+
+    def is_win(self):
+        is_win = True
+
+        for mb in self.measured_bits:
+            if mb.measured is False:
+                is_win = False
+
+        return is_win
+
 
     def call_event(self, window: pygame.Surface):
         # to show the background
@@ -121,9 +148,37 @@ class Games_2(Games):
             else:
                 mb.fill(mb.image, pygame.Color(250, 10, 40))
 
+        if self.is_win():
+            self.finish = True
+            self.win = True
 
 
         # to keep the object refreshing on the screen
         self.bits.draw(window)
         self.measured_bits.draw(window)
         self.check_wall()
+
+class Games2Scene(Scene):
+    def __init__(self, romeo_bits, romeo_bases):
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
+
+        pygame.event.clear()
+        self.g2 = Games_2(pygame, romeo_bits, romeo_bases)
+    def onEnter(self):
+        pass
+        #globals.soundManager.playMusicFade('solace')
+    def update(self, sm, inputStream):
+
+        self.esc.update(inputStream)
+
+    def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish:
+            pass
+            #sm.push(FadeTransitionScene([self], [Games2Scene(self.g1.retrieved_bits, self.g1.retrieved_measurements)]))
+
+    def draw(self, sm, screen):
+        self.g2.call_event(screen)
+        self.esc.draw(screen)
+
+        if self.g2.finish:
+            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
