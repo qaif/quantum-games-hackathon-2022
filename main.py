@@ -37,24 +37,25 @@ to_encrypt=random.choice(globals.letters)
 
 #### HARD CODE #####
 testing = True
-phase = 4
+phase = 0
 
 # declare the game
-if phase == 0:
-    pygame.event.clear()
-    g0=Games_0(pygame)
-if phase == 1:
-    pygame.event.clear()
-    g1 = Games_1(pygame)
-elif phase == 2:
-    pygame.event.clear()
-    g2 = Games_2(pygame)
-elif phase == 3:
-    pygame.event.clear()
-    g3 = Games_3(pygame)
-elif phase == 4:
-    pygame.event.clear()
-    g4 = Games_4(pygame)
+if testing:
+    if phase == 0:
+        pygame.event.clear()
+        g0=Games_0(pygame)
+    if phase == 1:
+        pygame.event.clear()
+        g1 = Games_1(pygame)
+    elif phase == 2:
+        pygame.event.clear()
+        g2 = Games_2(pygame)
+    elif phase == 3:
+        pygame.event.clear()
+        g3 = Games_3(pygame)
+    elif phase == 4:
+        pygame.event.clear()
+        g4 = Games_4(pygame)
 
 # Scene Manager
 sceneManager = SceneManager()

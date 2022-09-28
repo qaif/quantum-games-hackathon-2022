@@ -104,19 +104,7 @@ class BitSelectScene(Scene):
 
     def input(self, sm, inputStream):
 
-        if inputStream.keyboard.isKeyPressed(pygame.K_a):
-            if globals.currentBit <= globals.minBit:
-                globals.currentBit = globals.minBit
-            else:
-                globals.currentBit -= 1
-            #globals.curentLevel = max(globals.curentLevel-1, 1)
-        if inputStream.keyboard.isKeyPressed(pygame.K_d):
-            if globals.currentBit >= globals.maxBit:
-                globals.currentBit = globals.maxBit
-            else:
-                globals.currentBit += 1
 
-            #globals.curentLevel = min(globals.curentLevel+1, globals.lastCompletedLevel)
         if inputStream.keyboard.isKeyPressed(pygame.K_SPACE):
             globals.selectedBit = globals.currentBit
 
@@ -132,20 +120,7 @@ class BitSelectScene(Scene):
         self.g0.call_event(screen)
         self.esc.draw(screen)
 
-        # draw level select menu
-        i = 0
-        for bitNumber in range(globals.minBit, globals.maxBit + 1):
 
-            c = globals.BLACK
-            if bitNumber == globals.currentBit:
-                c = globals.GREEN
-
-            a = 255
-            #if levelNumber > globals.lastCompletedLevel:
-            #    a = 255
-
-            drawText(screen, str(bitNumber), (i * 40) + 100, 150, c, a)
-            i += 1
 
 class Games1Scene(Scene):
     def __init__(self):
