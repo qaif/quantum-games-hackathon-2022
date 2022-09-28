@@ -29,4 +29,5 @@ class ButtonUI:
         else:
             colour = globals.BLACK
 
-        drawText(screen, self.text, self.x, self.y, colour, alpha)
+        if globals.showConfig:
+            drawText(screen, self.text, self.x, self.y, colour, alpha, 18)

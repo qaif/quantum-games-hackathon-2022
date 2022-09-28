@@ -1,8 +1,15 @@
-import globals
-from assets.scenes.games import Games
 import pygame
-from assets.classes.measurementbase import MeasurementBase, BitBase
+import globals
 import sys
+
+from assets.scenes.games import Games
+from assets.classes.measurementbase import MeasurementBase, BitBase
+
+from assets.classes.utils import *
+from assets.scenes.scene import Scene, FadeTransitionScene, TransitionScene
+from assets.classes.inputstream import InputStream
+from assets.classes.ui import ButtonUI
+from assets.scenes.games_2 import Games2Scene
 
 class Games_1(Games):
     def __init__(self, pygame):
@@ -13,7 +20,6 @@ class Games_1(Games):
 
         self.background = pygame.image.load("background.png")
         self.missing = self.Score(par_x=700, par_y=720, par_text="Missing : ")
-        self.title = self.Text(par_x=100, par_y=520, par_text="This is a random text")
 
         # creating a group of Sprite, this is like an array of sprite (object of image)
         self.measurements = pygame.sprite.Group()
@@ -28,6 +34,8 @@ class Games_1(Games):
 
         self.total_bit = 0
         self.total_measurement = 0
+
+        self.finish = False
 
         # timer for user defined function
         pygame.time.set_timer(self.measurement_event, 3000)  # 2000 milliseconds = 2 seconds
@@ -98,12 +106,14 @@ class Games_1(Games):
         return False
 
     def finish_game(self):
-        if len(self.retrieved_measurements) == globals.selectedBit and len(self.retrieved_bits) == globals.selectedBit:
+        if len(self.retrieved_measurements) >= globals.selectedBit and len(self.retrieved_bits) >= globals.selectedBit:
             for m in self.measurements:
                 m.kill()
 
             for b in self.bits:
                 b.kill()
+
+            self.finish = True
 
 
     def call_event(self, window: pygame.Surface):
@@ -155,4 +165,27 @@ class Games_1(Games):
 
         self.point.score_display(window)
         self.missing.score_display(window)
-        self.title.text_display(window)
+
+class Games1Scene(Scene):
+    def __init__(self):
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
+
+        pygame.event.clear()
+        self.g1 = Games_1(pygame)
+    def onEnter(self):
+        pass
+        #globals.soundManager.playMusicFade('solace')
+    def update(self, sm, inputStream):
+
+        self.esc.update(inputStream)
+
+    def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g1.finish:
+            sm.push(FadeTransitionScene([self], [Games2Scene(self.g1.retrieved_bits, self.g1.retrieved_measurements)]))
+
+    def draw(self, sm, screen):
+        self.g1.call_event(screen)
+        self.esc.draw(screen)
+
+        if self.g1.finish:
+            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
