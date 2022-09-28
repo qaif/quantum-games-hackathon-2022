@@ -4,14 +4,15 @@ from PyQt6.QtCore import QRect, Qt, QRectF, QLine
 from PyQt6.QtGui import QPainter, QBrush, QColor, QFont, QFontMetrics
 from PyQt6.QtWidgets import QWidget
 
+
 # TODO: label outputs and inputs
 class Block:
     def __init__(self, label, num_inputs, num_outputs):
         self.x = -1
         self.y = -1
         self.label = label
-        self.inputs = [None for i in range(num_inputs)] # tuple: (other_block, output_idx)
-        self.outputs = [None for i in range(num_outputs)] # tuple: (other_block, input_idx)
+        self.inputs = [None for i in range(num_inputs)]  # tuple: (other_block, output_idx)
+        self.outputs = [None for i in range(num_outputs)]  # tuple: (other_block, input_idx)
         self.padding = 40, 20
 
         self.selected_color = QColor(243, 236, 26)
@@ -44,7 +45,7 @@ class Block:
                 # self.socket_drag_x = event.position().x()
                 # self.socket_drag_y = event.position().y()
                 return
-            i+=1
+            i += 1
         self.selected_input = -1
 
         i = 0
@@ -61,16 +62,12 @@ class Block:
         self.selection_offset_y = event.position().y() - self.y
 
     def on_selected_movement(self, event):
-        if self.selected_input >= 0:
-            print("dragging input not allowed")
-            # self.socket_drag_x = event.position().x()
-            # self.socket_drag_y = event.position().y()
-        elif self.selected_output >= 0:
+        if self.selected_output >= 0:
             if self.selected_output is not None:
                 self.sever_output(self.selected_output)
             self.socket_drag_x = event.position().x()
             self.socket_drag_y = event.position().y()
-        else:
+        elif self.selected_input == -1:
             self.set_x(event.position().x() - self.selection_offset_x)
             self.set_y(event.position().y() - self.selection_offset_y)
 
@@ -86,7 +83,7 @@ class Block:
                         if r.contains(event.position()):
                             self.outputs[self.selected_output] = (b, i)
                             b.inputs[i] = (self, self.selected_output)
-                    i+=1
+                    i += 1
         self.selected = False
         self.selection_offset_x = 0
         self.selection_offset_y = 0
@@ -156,10 +153,12 @@ class Block:
         return fm.height()
 
     def get_input_x(self, i):
-        return (self.get_width() - self.get_input_width()) / 2 + self.get_x() + self.socket_spacing * (i + 1) + self.socket_size * i
+        return (self.get_width() - self.get_input_width()) / 2 + self.get_x() + self.socket_spacing * (
+                    i + 1) + self.socket_size * i
 
     def get_output_x(self, i):
-        return (self.get_width() - self.get_output_width()) / 2 + self.get_x() + self.socket_spacing * (i + 1) + self.socket_size * i
+        return (self.get_width() - self.get_output_width()) / 2 + self.get_x() + self.socket_spacing * (
+                    i + 1) + self.socket_size * i
 
     def get_input_y(self):
         return self.get_y()
@@ -168,16 +167,20 @@ class Block:
         return self.get_y() + self.get_height() - self.socket_size
 
     def get_input_rects(self):
-        return [QRect(self.get_input_x(i), self.get_input_y(), self.socket_size, self.socket_size) for i in range(len(self.inputs))]
+        return [QRect(self.get_input_x(i), self.get_input_y(), self.socket_size, self.socket_size) for i in
+                range(len(self.inputs))]
 
     def get_input_rects_f(self):
-        return [QRectF(self.get_input_x(i), self.get_input_y(), self.socket_size, self.socket_size) for i in range(len(self.inputs))]
+        return [QRectF(self.get_input_x(i), self.get_input_y(), self.socket_size, self.socket_size) for i in
+                range(len(self.inputs))]
 
     def get_output_rects(self):
-        return [QRect(self.get_output_x(i), self.get_output_y(), self.socket_size, self.socket_size) for i in range(len(self.inputs))]
+        return [QRect(self.get_output_x(i), self.get_output_y(), self.socket_size, self.socket_size) for i in
+                range(len(self.outputs))]
 
     def get_output_rects_f(self):
-        return [QRectF(self.get_output_x(i), self.get_output_y(), self.socket_size, self.socket_size) for i in range(len(self.inputs))]
+        return [QRectF(self.get_output_x(i), self.get_output_y(), self.socket_size, self.socket_size) for i in
+                range(len(self.inputs))]
 
     def draw(self, width, height, painter, event):
         r = self.get_rect(width, height)
@@ -196,31 +199,33 @@ class Block:
 
         painter.setPen(self.line_color)
         if self.selected:
-            # if self.selected_input >= 0:
-            #     painter.drawLine(self.get_input_x(self.selected_input) + self.socket_size / 2, self.get_input_y() + self.socket_size / 2, self.socket_drag_x, self.socket_drag_y)
             if self.selected_output >= 0:
-                painter.drawLine(self.get_output_x(self.selected_output) + self.socket_size / 2, self.get_output_y() + self.socket_size / 2, self.socket_drag_x, self.socket_drag_y)
+                painter.drawLine(self.get_output_x(self.selected_output) + self.socket_size / 2,
+                                 self.get_output_y() + self.socket_size / 2, self.socket_drag_x, self.socket_drag_y)
 
         i = 0
         for o in self.outputs:
             if o is not None:
                 block = o[0]
                 idx = o[1]
-                center_offset =  + self.socket_size / 2
-                painter.drawLine(self.get_output_x(i) + center_offset, self.get_output_y() + center_offset, block.get_input_x(idx) + center_offset, block.get_input_y() + center_offset)
-            i+=1
+                center_offset = + self.socket_size / 2
+                painter.drawLine(self.get_output_x(i) + center_offset, self.get_output_y() + center_offset,
+                                 block.get_input_x(idx) + center_offset, block.get_input_y() + center_offset)
+            i += 1
 
 
+# TODO: make Circuit class that holds reference to blocks and handles logic
 
-class QuantumCircuit(QWidget):
+class CircuitBuilderWidget(QWidget):
     def __init__(self, width, height):
         super().__init__()
 
         self.border_color = QColor(80, 80, 80)
 
+        # TODO: move to circuit class
         self.blocks = [
             Block("test", 3, 3),
-            Block("test2", 3, 3),
+            Block("test2", 3, 0),
         ]
 
         self.selected_block = None
