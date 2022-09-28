@@ -1,7 +1,7 @@
 world = None
 
 gameTitle = "Verona 2049"
-minBit = 5
+minBit = 1
 maxBit = 10
 currentBit = 5
 selectedBit = 0

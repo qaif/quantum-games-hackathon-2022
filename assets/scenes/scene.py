@@ -134,7 +134,7 @@ class BitSelectScene(Scene):
 
         # draw level select menu
         i = 0
-        for bitNumber in range(5, globals.maxBit + 1):
+        for bitNumber in range(globals.minBit, globals.maxBit + 1):
 
             c = globals.BLACK
             if bitNumber == globals.currentBit:
