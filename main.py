@@ -36,8 +36,8 @@ pygame.display.set_caption(globals.gameTitle)
 to_encrypt=random.choice(globals.letters)
 
 #### HARD CODE #####
-phase = 5
-
+testing = True
+phase = 3
 
 # declare the game
 if phase == 0:
@@ -55,8 +55,6 @@ elif phase == 3:
 elif phase == 4:
     pygame.event.clear()
     g4 = Games_4(pygame)
-#elif phase == 5:
-#    s = MainMenuScene()
 
 # Scene Manager
 sceneManager = SceneManager()
@@ -67,37 +65,28 @@ inputStream = InputStream()
 run = True
 while run:
 
-    inputStream.processInput()
+    if testing:
 
-    if sceneManager.isEmpty():
-        run = False
-    sceneManager.input(inputStream)
-    sceneManager.update(inputStream)
-    sceneManager.draw(window)
+        if (phase==0):
+            g0.call_event(window)
+        if (phase==1):
+            g1.call_event(window)
+        if (phase==2):
+            g2.call_event(window)
+        elif (phase==3):
+            g3.call_event(window)
+        elif (phase==4):
+            g4.call_event(window, input_boxes)#,bits_compared)
 
-    if (phase==0):
-        # call all the event related to game 1
-        g0.call_event(window)
 
-    elif (phase==1):
-        # call all the event related to game 1
-        g1.call_event(window)
+    else:
+        inputStream.processInput()
 
-    elif (phase==2):
-        # call all the event related to game 2
-        g2.call_event(window)
-    elif (phase==3):
-        # call all the event related to game 3
-        g3.call_event(window)
-    elif (phase==4):
-        # hardcoding the info that will be fed into the next phase (even though this is rly phase 4 not 2!)
-        #bits1 = [1, 0, 1, 1, 1, 1, 0, 1, 0, 0]
-        #bits2 = [1, 0, 1, 0, 1, 0, 0, 1, 1, 0]
-
-        # call all the event related to game 4
-        g4.call_event(window, input_boxes)#,bits_compared)
-    #elif (phase==5):
-    #    s.draw(0, window)
+        if sceneManager.isEmpty():
+            run = False
+        sceneManager.input(inputStream)
+        sceneManager.update(inputStream)
+        sceneManager.draw(window)
 
     # update the display for pygame
     pygame.display.update()

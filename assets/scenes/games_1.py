@@ -95,6 +95,15 @@ class Games_1(Games):
 
         return False
 
+    def finish_game(self):
+        if len(self.retrieved_measurements) == globals.selectedBit and len(self.retrieved_bits) == globals.selectedBit:
+            for m in self.measurements:
+                m.kill()
+
+            for b in self.bits:
+                b.kill()
+
+
     def call_event(self, window: pygame.Surface):
         # to show the background
         window.blit(self.background, (0, 0))
