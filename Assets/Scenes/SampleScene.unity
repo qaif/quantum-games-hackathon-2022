@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 382905316}
   - component: {fileID: 382905318}
   - component: {fileID: 382905319}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Boar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +423,9 @@ GameObject:
   m_Component:
   - component: {fileID: 533273599}
   - component: {fileID: 533273598}
-  m_Layer: 0
+  - component: {fileID: 533273600}
+  - component: {fileID: 533273601}
+  m_Layer: 6
   m_Name: FoodMeasurement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,14 +491,62 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 533273597}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.5, y: -3.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 1447542856}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &533273600
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533273597}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.6666667, y: 0.6666667}
+    newSize: {x: 0.32, y: 0.32}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.6666667, y: 0.6666667}
+  m_EdgeRadius: 0
+--- !u!114 &533273601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533273597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 911f02e52cce95ffeb9c8f699cf6cc57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  qubits:
+  - {fileID: 1902692459}
+  - {fileID: 1448542365}
+  - {fileID: 973704872}
+  - {fileID: 362633126}
+  superposition:
+  - state: 01000001
+    colour: {r: 0, g: 0.9700117, b: 1, a: 0.60784316}
+  - state: 00010100
+    colour: {r: 1, g: 0, b: 0.80241585, a: 0.60784316}
 --- !u!1001 &973704871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -526,15 +576,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 700435895794421152, guid: 6fbcc90c768e90bf08f54efc55d058f7, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 700435895794421152, guid: 6fbcc90c768e90bf08f54efc55d058f7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 700435895794421152, guid: 6fbcc90c768e90bf08f54efc55d058f7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 700435895794421152, guid: 6fbcc90c768e90bf08f54efc55d058f7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2652,7 +2702,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1447542856}
-  - component: {fileID: 1447542855}
   m_Layer: 0
   m_Name: QuantumState
   m_TagString: Untagged
@@ -2660,28 +2709,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1447542855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1447542854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 911f02e52cce95ffeb9c8f699cf6cc57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  qubits:
-  - {fileID: 1902692459}
-  - {fileID: 1448542365}
-  - {fileID: 973704872}
-  - {fileID: 362633126}
-  superposition:
-  - state: 01000001
-    colour: {r: 0, g: 0.9700117, b: 1, a: 0.60784316}
-  - state: 00010100
-    colour: {r: 1, g: 0, b: 0.80241585, a: 0.60784316}
 --- !u!4 &1447542856
 Transform:
   m_ObjectHideFlags: 0
@@ -2698,6 +2725,7 @@ Transform:
   - {fileID: 1448542366}
   - {fileID: 973704873}
   - {fileID: 362633129}
+  - {fileID: 533273599}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3590,7 +3618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2162742795625346625, guid: 455902541f47ed86686c8c30a34097ef, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2162742795625346625, guid: 455902541f47ed86686c8c30a34097ef, type: 3}
       propertyPath: m_LocalPosition.y

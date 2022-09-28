@@ -23,7 +23,7 @@ public class QuantumState : MonoBehaviour
             {
                 if (state.state[i])
                 {
-                    qubits[i].spriteRenderer.color = state.colour; 
+                    qubits[i].spriteRenderer.color = state.colour;
                 }
             }
         }
@@ -34,4 +34,15 @@ public class QuantumState : MonoBehaviour
     {
 
     }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        int randomNum = Random.Range(0, superposition.Length);
+
+        for (int i = 0; i < qubits.Length; i++)
+        {
+            qubits[i].Collapse(superposition[randomNum].state[i]);
+        }
+    }
+
 }

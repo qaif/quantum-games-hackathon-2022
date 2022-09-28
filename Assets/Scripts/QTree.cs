@@ -5,6 +5,7 @@ using UnityEngine;
 public class QTree : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
+    public Sprite collapsedTree;
 
     // Start is called before the first frame update
     void Start()
@@ -16,5 +17,16 @@ public class QTree : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void Collapse(bool collapse)
+    {
+        gameObject.SetActive(collapse);
+
+        if (collapse)
+        {
+            spriteRenderer.sprite = collapsedTree;
+            spriteRenderer.color = Color.white;
+        }
     }
 }
