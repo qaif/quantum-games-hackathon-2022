@@ -27,6 +27,9 @@ class Games_4(Games):
 
     # start the game up when the user gives the number of bits they want to compare
     proceed=False
+    proceed2=False
+    accuse="n"
+    send="y"
 
 
     # how many bit pairs have flashed across the screen so far
@@ -89,7 +92,7 @@ class Games_4(Games):
                 sys.exit()
 
             if event.type == pygame.KEYDOWN:
-                if event.key==pygame.K_SPACE and self.proceed:
+                if event.key==pygame.K_SPACE and self.proceed and not self.proceed2 :
                     print(self.proceed)
                     if(self.bits_compared<int(self.to_compare)):
                         print(self.bits_compared)
@@ -97,7 +100,15 @@ class Games_4(Games):
                         self.bits_compared += 1
                     else:
                         #move onto the next part of this phase
-                        pass
+                        self.proceed2=True
+                        self.proceed=False # do i need this?
+
+            if event.type == pygame.KEYDOWN and self.proceed2:
+                if event.key == pygame.K_y:
+                    print("choose to accuse")
+                elif event.key==pygame.K_n:
+                    print("choose to not accuse")
+                pass
 
             for box in input_boxes:
 
@@ -105,7 +116,7 @@ class Games_4(Games):
 
                     self.to_compare = box.handle_event(event)
                     if (self.to_compare.isdigit()):
- 
+
                         print(self.to_compare)
                         self.proceed=True
 
