@@ -1,7 +1,7 @@
 ﻿===CatDelivery===
 
-The mail room, while quite spacious, is not really spacious enough for the amount of letters in it.
-A hurried worker is sorting letters with quite some fervor.
+The mail room, while quite spacious, is not really spacious enough for the amount of letters in it. # narration
+A hurried worker is sorting letters with quite some fervor. # narration
 
 +Engage worker
    -> approach
@@ -10,111 +10,112 @@ A hurried worker is sorting letters with quite some fervor.
 
 
 =approach
-"What you want from me?"
+
+What you want from me? # postWorker
 * Snarky 
-    "To deliver a solution to the murder mystery"
-    "Address unclear, return to sender"
+    To deliver a solution to the murder mystery # protagonist
+    Address unclear, return to sender # postWorker
 * Serious
-    "For you to confess your guilt to the murder."
-    "I don't have time for murders while the sorting is murdeing my hands."
+    For you to confess your guilt to the murder. # protagonist
+    I don't have time for murders while the sorting is murdering my hands. # postWorker
 * Professional
-   "What do you know about the murder?"
-   "Nothing, I know about letters."
+   What do you know about the murder? # protagonist
+   Nothing, I know about letters. # postWorker
    {critter==true:
-         I guess even letters knows more about murder.
+         I guess even letters knows more about murder. # narration
    }
 -
 -> questioning
 
 =task
-"What if I don't want to sort the boxes?"
-"Then I don't want to talk with you."
+What if I don't want to sort the boxes? # protagonist
+Then I don't want to talk with you. # postWorker
 * Sort boxes
-   "So how I sort boxes?"
-   "Take boxes from that window."
-   "Do the checks required by the labels and then put them in correct chute"
-   "So what are the labels?"
+   So how I sort boxes? # protagonist
+   Take boxes from that window. # postWorker
+   Do the checks required by the labels and then put them in correct chute # postWorker
+   So what are the labels? # protagonist
    ->taskExplain
 * Leave
   -> hallway
 
 =taskExplain
-"There are animals, handle with care and express"
+There are: animal, handle with care and express. # postWorker
 * Lets go
    -> taskExecute
 * What I do with animals?
-   "For animals check that the transition sedation is working."
-   "Then if it is not put the animal to sleep."
-   "How do I do that?"
-   "By applying the neurotoxin from that cabin."
-   "That seems dangerous and not that sedative"
-   "Look, this place is busy and if the sender does a failure in packaging I will get creative to keep this place running smooth"
+   For animals check that the transition sedation is working. # postWorker
+   Then if it is not put the animal to sleep. # postWorker
+   How do I do that? # protagonist
+   By applying the neurotoxin from that cabin. # postWorker
+   That seems dangerous and not that sedative # protagonist
+   Look, this place is busy and if the sender does a failure in packaging I will get creative to keep this place running smooth # postWorker
    ** object
-       "It does seem like the animals are wanted alive at their destination."
-       "Look, the zoology department already does a lot of heavy packages."
-       "So I will choose to interpret that they are meaning for the animals to get taxidermisised."
-       "If you have a problem with that I can arrange for you to find a bear in your bed."
+       It does seem like the animals are wanted alive at their destination. # protagonist
+       Look, the zoology department already does a lot of heavy packages. # postWorker
+       So I will choose to interpret that they are meaning for the animals to get taxidermisised. # postWorker
+       If you have a problem with that I can arrange for you to find a bear in your bed. # postWorker
        *** Nope
        *** I would rather have a antilope in my car
-            "You just got upgraded to jaguar on your deck."
+            You just got upgraded to jaguar on your deck. # postWorker
             ~ post_revenge=true
        ---
    ** when in Rome...
    --
-   "We don't have infinite supplies so don't use up more of the stuff than needed."
+   We don't have infinite supplies so don't use up more of the stuff than needed. # postWorker
 * What do I do with "handle with care"?
-   "We are running low on idle hands and the chemistry deparment has gotten sloppy with their labeling"
-   "So we can only afford to ship with silk gloves those that really need it"
-   "To be honest I don't think the chemists would mind if some of the packages got lost if even some of them got throught"
-   "The packages that actually can be thrown around you can put in 'usual treatment' "
-   "and the packges that you know can not be thrown around you pur in 'snail pace'"
-   "How do I determine what an take what?"
-   "I don't really know and I don't really care."
-   "But no opening up those packages."
+   We are running low on idle hands and the chemistry deparment has gotten sloppy with their labeling # postWorker
+   So we can only afford to ship with silk gloves those that really need it # postWorker
+   To be honest I don't think the chemists would mind if some of the packages got lost if even some of them got throught # postWorker
+   The packages that actually can be thrown around you can put in 'usual treatment' # postWorker 
+   and the packges that you know can not be thrown around you pur in 'snail pace' # postWorker
+   How do I determine what can take what? # protagonist
+   I don't really know and I don't really care. # postWorker
+   But no opening up those packages. # postWorker
 * What do I do with 'express'?
-   "Just get them to their destination as fast as possible."
-   "This place is so clogged that any packect moving is better than none."
-   "But the more the merrier."
+   Just get them to their destination as fast as possible. # postWorker
+   This place is so clogged that any packect moving is better than none. # postWorker
+   But the more the merrier. # postWorker
 -
-"Are you ready to begin?"
-* "Yes"
+Are you ready to begin? # postWorker
+* Yes
     ->taskExecute
-* "What were the labels again?"
+* What were the labels again?
    ->taskExplain
-* "This is too complex, I am leaving"
+* This is too complex, I am leaving
    -> hallway
 
 =questioning
 + Alibi
-     "Where were you at the time of the murder?"
+     Where were you at the time of the murder? # protagonist
     {post_task==false:
-          "If you have got time to blabber you have got time to sort the boxes"
+          If you have got time to blabber you have got time to sort the boxes # postWorker
           -> task
     }
-    "I was here sorting boxes"    
+    I was here sorting boxes # postWorker
     -> questioning
 + Motive
-    "Did you get along with the murder victim?"
+    Did you get along with the murder victim? # protagonist
     {post_task==false:
-          "If you have got time to blabber you have got time to sort the boxes"
+          If you have got time to blabber you have got time to sort the boxes # postWorker
           -> task
     }
-    "I knew his address and they always glued their stamps straigth so we are square."
+    I knew his address and they always glued their stamps straigth so we are square. # postWorker
     -> questioning
 + Guilt
-    "Did you do the murder?"
+    Did you do the murder? # protagonist
     {post_task==false:
-          "If you have got time to blabber you have got time to sort the boxes"
+          If you have got time to blabber you have got time to sort the boxes # postWorker
           -> task
     }
-    "Maybe if some of these boxes contain bombs. But I have not intentionally packaged any boms, so no."
+    Maybe if some of these boxes contain bombs. But I have not intentionally packaged any boms, so no. # postWorker
    -> questioning
 * Leave
    -> hallway
 
 
 =taskExecute
-You go get {a|yet another} box from the sorting chute.
+You go get {a|yet another} box from the sorting chute. # narration
 ~ post_box_label="{~animal|handle with care|express}"
 ~ post_box_label=coherentLottery("box_label")
 {post_box_label=="animal":
@@ -129,7 +130,7 @@ You go get {a|yet another} box from the sorting chute.
 {post_box_label=="express":
           ~ post_china=false
 }
-The label on it reads {post_box_label}
+The label on it reads "{post_box_label}"# narration
 
 
 + open the box
@@ -184,10 +185,10 @@ The label on it reads {post_box_label}
            + {post_neurotoxin>0}apply neurotoxin
                      ~ post_neurotoxin = post_neurotoxin - 1
                      {post_cat_up:
-                            The cat goes limb and falls into the box.
+                            The cat goes limb and falls into the box. # narration
                      }
                      {critter==true:
-                               You might as well have used a chainsaw to destroy that pussy.
+                               You might as well have used a chainsaw to destroy that pussy. # narration
 	               {guilty=="protagonist":
                                         You take 2 points # program
                                         Two points of what? # protagonist
@@ -220,8 +221,8 @@ The label on it reads {post_box_label}
     ~splitWorld("post_probe")
     {post_probe==true:
           {post_bomb_armed==true:
-                     Machine lets out a pretty loud thud.
-                     But you are safe from actual harm.
+                     Machine lets out a pretty loud thud. # narration
+                     But you are safe from actual harm. # narration
                      ~ post_probe=false
                      ~ post_bomb_exploded=true
           }
@@ -257,7 +258,7 @@ The label on it reads {post_box_label}
 	}
     + Box, what box? There was never any box here //incinerator voices
 	{post_bomb_exploded==false:
-		You discretely light the cardboard box on fire
+		You discretely light the cardboard box on fire # narration
 	}
    + {post_bomb_exploded==false}Put box back into the maybe crush machine
 	-> crushingExploration
@@ -269,11 +270,11 @@ The label on it reads {post_box_label}
 =wallBanging
 +{post_china==false}Launch
     // request tunnel post_china 0.2
-         The packet hurls at the wall
+         The packet hurls at the wall # narration
          {post_china:
-                And goes through it.
+                And goes through it. # narration
          -else:
-               and bounces of it.
+               and bounces of it. # narration
                {|||||This would be so much more easier if they had like an opening to faciliate travel in the wall||}
          }
          -> wallBanging
@@ -284,19 +285,19 @@ The label on it reads {post_box_label}
      ->taskExecute
 
 =box_scoring
-"I am done. Now will you answer my questions?"
-"Lets see whether you are in fact done"
+I am done. Now will you answer my questions? # protagonist
+Lets see whether you are in fact done # postWorker
 {post_task_score>10:
 	{post_task_score<(post_cat_error+post_bomb_error)*2:
-		"Yeah it seems you are done."
+		Yeah it seems you are done. postWorker
 		~ post_task=true
 	}
 	{post_cat_error+post_bomb_error<0:
-                            "And you were flawless about it too."
+                            And you were flawless about it too. # postWorker
                 }
 	->questioning
 -else:
-               "We have not yet hit our quatas. I ain't answering to slackers anything"
+               We have not yet hit our quatas. I ain't answering to slackers anything # postWorker
 	* Go back to work
 	     ->taskExecute
 	* Leave
