@@ -37,7 +37,7 @@ to_encrypt=random.choice(globals.letters)
 
 #### HARD CODE #####
 testing = True
-phase = 3
+phase = 4
 
 # declare the game
 if phase == 0:
@@ -65,8 +65,9 @@ inputStream = InputStream()
 run = True
 while run:
 
-    if testing:
 
+    # this is for testing, set the phase above to start from specific phase
+    if testing:
         if (phase==0):
             g0.call_event(window)
         if (phase==1):
@@ -76,10 +77,9 @@ while run:
         elif (phase==3):
             g3.call_event(window)
         elif (phase==4):
-            g4.call_event(window, input_boxes)#,bits_compared)
-
-
+            g4.call_event(window)#,bits_compared)
     else:
+        # this is the real game start from main screen
         inputStream.processInput()
 
         if sceneManager.isEmpty():

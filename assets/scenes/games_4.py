@@ -43,7 +43,9 @@ class Games_4(Games):
         super().__init__()
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("background4.jpg")
-        self.missing = self.Score(par_x=700, par_y=720, par_text="Missing : ")
+
+        self.input_box = InputBox(100, 100, 140, 32)
+
         self.title = self.Text(par_x=100, par_y=50, par_text="How many bits should I check in our keys?")
         self.text2 = self.Text(par_x=100, par_y=50, par_text="Okay, I'll check __ pairs of bits in each key. Press spacebar")
         self.text3 = self.Text(par_x=100, par_y=50, par_text="Fill this in!")
@@ -80,7 +82,7 @@ class Games_4(Games):
         self.retrieved_bits2.add(self.retrieved_bit2)
 
 
-    def call_event(self, window: pygame.Surface, input_boxes: InputBox):
+    def call_event(self, window: pygame.Surface):
         # at the start of this game, we need to ask the player for input in order to define
         # the value for to_compare. Do this at the start of call event
 
@@ -137,20 +139,18 @@ class Games_4(Games):
 
 
             if (not self.proceed):
-                for box in input_boxes:
 
-                    if(box.handle_event(event)!=None):
+                if(self.input_box.handle_event(event)!=None):
 
-                        self.to_compare = box.handle_event(event)
-                        if (self.to_compare.isdigit()):
+                    self.to_compare = self.input_box.handle_event(event)
+                    if (self.to_compare.isdigit()):
 
-                            print(self.to_compare)
-                            self.proceed=True
+                        print(self.to_compare)
+                        self.proceed=True
 
         if (not self.proceed):
-            for box in input_boxes:
-                box.update()
-                box.draw(window)
+            self.input_box.update()
+            self.input_box.draw(window)
 
 
 

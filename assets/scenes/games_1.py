@@ -5,10 +5,12 @@ from assets.classes.measurementbase import MeasurementBase, BitBase
 import sys
 
 class Games_1(Games):
-
-
     def __init__(self, pygame):
         super().__init__()
+
+        if globals.selectedBit == 0:
+            globals.selectedBit = 5
+
         self.background = pygame.image.load("background.png")
         self.missing = self.Score(par_x=700, par_y=720, par_text="Missing : ")
         self.title = self.Text(par_x=100, par_y=520, par_text="This is a random text")
@@ -141,6 +143,8 @@ class Games_1(Games):
 
         if self.is_bit_miss():
             self.missing.add_value(1)
+
+        self.finish_game()
 
         # to keep the object refreshing on the screen
         self.measurements.draw(window)
