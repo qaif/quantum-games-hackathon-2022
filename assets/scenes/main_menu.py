@@ -8,7 +8,7 @@ class MainMenu(Games):
 
     def __init__(self, pygame):
         super().__init__()
-        self.background = pygame.image.load("background3.png")
+        self.background = pygame.image.load("verona2049.jpg")
 
     def call_event(self, window: pygame.Surface):
         # update background for new phase
