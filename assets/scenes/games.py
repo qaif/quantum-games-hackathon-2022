@@ -21,7 +21,7 @@ class Games:
             :param y: y position on the screen
             :return: null
             """
-            point_scored = self.font.render(self.text, True, (255, 255, 255))
+            point_scored = self.font.render(self.text, True, (0, 0, 0))
             surface.blit(point_scored, (self.x, self.y))
 
 

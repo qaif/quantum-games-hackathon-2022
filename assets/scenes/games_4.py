@@ -26,7 +26,7 @@ class Games_4(Games):
     retrieved_bits2 = pygame.sprite.Group()
 
     # start the game up when the user gives the number of bits they want to compare
-    proceed=False
+    proceed=True
 
     # how many bit pairs have flashed across the screen so far
     bits_compared = 0
@@ -37,6 +37,7 @@ class Games_4(Games):
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("background4.jpg")
         self.missing = self.Score(par_x=700, par_y=720, par_text="Missing : ")
+        self.title = self.Text(par_x=100, par_y=50, par_text="How many bits should I check in our keys?")
 
     def place_bits(self):
         """
@@ -81,12 +82,13 @@ class Games_4(Games):
         #input_box2 = InputBox(100, 300, 140, 32)
         #input_boxes = [input_box1, input_box2]
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:  # for quiting the game
                 pygame.quit()
                 sys.exit()
 
             if event.type == pygame.KEYDOWN:
-                if event.key==pygame.K_SPACE:
+                if event.key==pygame.K_SPACE and self.proceed:
                     if(self.bits_compared<len(self.bits1)):
                         print(self.bits_compared)
                         self.place_bits()
@@ -106,6 +108,7 @@ class Games_4(Games):
         # need lines here to keep drawing the bits before they change!!!
         self.retrieved_bits1.draw(window)
         self.retrieved_bits2.draw(window)
+        self.title.text_display(window)
 
 
 
