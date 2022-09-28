@@ -117,17 +117,18 @@ A hurried worker is sorting letters with quite some fervor.
 You go get {a|yet another} box from the sorting chute.
 ~ post_box_label="{~animal|handle with care|express}"
 ~ post_box_label=coherentLottery("box_label")
-The label on it reads {post_box_label}
 {post_box_label=="animal":
           ~ post_cat_up = true
+          ~ splitWorld(post_cat_up)
 }
-{post_box_label=="hand with care":
+{post_box_label=="handle with care":
           ~ post_bomb_armed=coherentLottery("bomb_fuse") // {~true|false}
           ~ post_bomb_exploded=false
 }
 {post_box_label=="express":
           ~ post_china=false
 }
+The label on it reads {post_box_label}
 
 
 + open the box
@@ -142,54 +143,68 @@ The label on it reads {post_box_label}
 
 =catThings
     {post_box_label=="handle with care":
-            This one is whirling rather loudly.
-            An explosion throws you back to the wall.
-            That level of care was not enough for you to continue living.
-            You die.
-            -> END
+            {post_bomb_armed==true:
+                 This one is whirling rather loudly. #narration
+                 An explosion throws you back to the wall. # narration
+                That level of care was not enough for you to continue living. # narration
+                You die. # narration
+                -> END
+            -else:
+                This cat seems to be rather fat. # narration
+                Looking closer it is not a cat at all. # narration
+                It seems to be some sort of chemical device that could generate gas in a very small amount of time. # narration
+                You close the lid before the supervisor explodes about looking into boxes you are not supposed to.. # narration
+            }
     }
     {post_box_label=="animal":
-           ~ post_cat_up = true   //request split post_cat_up
-           ~ splitWorld("post_cat_up")
-    }
-    {post_cat_up==true:
-            "A cat is whirling inside the box"
-    }
-    {post_cat_up==false:
-            "A cat laying on the bottom"
-    }
-    + {post_neurotoxin>0}apply neurotoxin
-          ~ post_neurotoxin = post_neurotoxin - 1
-          {post_cat_up:
-               The cat goes limb and falls into the box.
+            {post_cat_up==true:
+                A cat is whirling inside the box # narration
+            -else:
+               A cat laying on the bottom # narration
+            }
+
+           + {post_neurotoxin>0}apply neurotoxin
+                     ~ post_neurotoxin = post_neurotoxin - 1
+                     {post_cat_up:
+                            The cat goes limb and falls into the box.
+                     }
+                     {critter==true:
+                               You might as well have used a chainsaw to destroy that pussy.
+	               {guilty=="protagonist":
+                                        You take 2 points # program
+                                        Two points of what? # protagonist
+                                        ... # program
+                               }
+                     }
+                    ~ post_cat_up=false
+                    ~ post_cat_dead=true
+                    {post_neurotoxin<=0:
+                            That was the last neurotoxin ampule. # narration
+                    }
+           + apply chloroform
+                   {post_cat_up==true:
+                             The cat swirls into a small ball that periodically buffs and deflates. # narration
+                             ~ post_cat_up=false
+                   }          
+          + close box
+                  This one is good to go. # narration
+          -
+          {post_cat_up==false:
+                      ~ post_task_score=post_task_score+1
+          -else:
+                      ~ post_cat_error=post_cat_error+1                      
           }
-          {critter==true:
-                You might as well have used a chainsaw to destroy that pussy.
-	{guilty=="protagonist":
-                          You take 2 points
-                          "Two points of what?"
-                         ...
-                }
-          } 
-          ~ post_cat_up=false
-          ~ post_cat_dead=true
-          {post_neurotoxin<=0:
-                  That was the last neurotoxin ampule.
-          }
-    + apply chloroform
-          {post_cat_up:
-               The cat swirls into a small ball that periodically buffs and deflates.
-               ~ post_cat_up=false
-          }          
-    + close box
-         This one is good to go.
-    -
-   {post_cat_up==false:
-        post_task_score=post_task_score+1
-   }
-   {post_cat_up==true:
-        post_cat_error=post_cat_error+1
-   }
+    }
+    {post_box_label=="express":
+          Oh that is interesting # narration
+          No wonder they want this delivered fast # narration
+          * What is in the box?
+                   You would like to know wouldn't you#program
+                   Unfortunately your character has already looked inside#program
+                   So they don't have any reason to look again#program
+          * I want to oppose them. Up to snail mail it goes
+          -
+    }
     ->taskExecute
 
 
