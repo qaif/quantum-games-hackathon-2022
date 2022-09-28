@@ -28,18 +28,16 @@ window = pygame.display.set_mode(globals.screenSize)
 # set the window caption
 pygame.display.set_caption(globals.gameTitle)
 
-#input_box1 = InputBox(100, 100, 140, 32)
-#input_box2 = InputBox(100, 300, 140, 32)
-#input_boxes = [input_box1]#, input_box2]
-
-pygame.mixer.music.load(globals.music_file)
-pygame.mixer.music.play(-1)
+# set the music
+#pygame.mixer.music.load(globals.music_file)
+#pygame.mixer.music.play(-1)
 
 to_encrypt=random.choice(globals.letters)
 
 #### HARD CODE #####
-testing = False
-phase = 0
+# moved to globals
+testing = globals.testing
+phase = globals.phase
 
 # declare the game
 if testing:
@@ -67,8 +65,6 @@ inputStream = InputStream()
 
 run = True
 while run:
-
-
     # this is for testing, set the phase above to start from specific phase
     if testing:
         if (phase==0):
@@ -80,7 +76,7 @@ while run:
         elif (phase==3):
             g3.call_event(window)
         elif (phase==4):
-            g4.call_event(window)#,bits_compared)
+            g4.call_event(window)
     else:
         # this is the real game start from main screen
         inputStream.processInput()

@@ -1,13 +1,18 @@
 import random
 import numpy as np
+import pygame
+import sys
+
 from typing import List
 from assets.scenes.games import Games
-import pygame
 from assets.classes.measurementbase import MeasurementBase, BitBase
-
 from assets.classes.input_boxes import InputBox
 
-import sys
+from assets.classes.utils import *
+from assets.scenes.scene import Scene, FadeTransitionScene, TransitionScene
+from assets.classes.inputstream import InputStream
+from assets.classes.ui import ButtonUI
+
 
 FONT = pygame.font.Font("freesansbold.ttf", 32)
 
@@ -25,14 +30,31 @@ class Games_3(Games):
     romeo_bases = [pygame.K_z, pygame.K_x, pygame.K_z, pygame.K_x, pygame.K_x, pygame.K_z, pygame.K_z, pygame.K_x, pygame.K_z, pygame.K_x]
     juliet_bases = [pygame.K_x, pygame.K_x, pygame.K_z, pygame.K_z, pygame.K_x, pygame.K_x, pygame.K_z, pygame.K_x, pygame.K_x, pygame.K_z]
 
-    hides = []
-    hides.append(random.sample(range(0, 9), 2))
-    hides.append(random.sample(range(0, 9), 2))
-    hides.append(random.sample(range(0, 9), 2))
 
-    def __init__(self, pygame):
+    def __init__(self, pygame, par_romeo_bits = [], par_romeo_bases = []):
         super().__init__()
         self.background = pygame.image.load("background3.png")
+
+        self.bit_options = [pygame.K_0, pygame.K_1]
+        self.base_options = [pygame.K_x, pygame.K_z]
+
+        self.romeo_bits = par_romeo_bits
+        self.romeo_bases = par_romeo_bases
+        self.juliet_bases = []
+
+        if globals.testing:
+            for i in range(9):
+                self.romeo_bits.append(random.choice(self.bit_options))
+                self.romeo_bases.append(random.choice(self.base_options))
+                self.juliet_bases.append(random.choice(self.base_options))
+        else:
+            for i in range(globals.selectedBit):
+                self.juliet_bases.append(random.choice(self.base_options))
+
+        hides = []
+        hides.append(random.sample(range(0, 9), 2))
+        hides.append(random.sample(range(0, 9), 2))
+        hides.append(random.sample(range(0, 9), 2))
 
         # timer for user defined function
         pygame.time.set_timer(self.event_hide_box, 700)
@@ -140,4 +162,28 @@ class Games_3(Games):
         self.draw_table(window, self.hides[1], 260, 190)
         self.draw_table(window, self.hides[2], 260, 290)
 
+class Games3Scene(Scene):
+    def __init__(self, romeo_bits, romeo_bases):
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
 
+        pygame.event.clear()
+        self.g3 = Games_3(pygame)
+    def onEnter(self):
+        pass
+        #globals.soundManager.playMusicFade('solace')
+    def update(self, sm, inputStream):
+
+        self.esc.update(inputStream)
+
+    def input(self, sm, inputStream):
+        pass
+        #if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish:
+            #pass
+            #sm.push(FadeTransitionScene([self], [Games2Scene(self.g1.retrieved_bits, self.g1.retrieved_measurements)]))
+
+    def draw(self, sm, screen):
+        self.g2.call_event(screen)
+        self.esc.draw(screen)
+
+        if self.g2.finish:
+            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)

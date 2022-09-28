@@ -9,6 +9,10 @@ screenSize = (1024, 768)
 showConfig = True
 #showConfig = False
 
+#testing = True
+testing = False
+phase = 2
+
 # piano composition by Schubert, not copyrighted
 music_file="assets/music/Schubert---Impromptu-Op.-90--No.-3_AdobeStock_501349563.wav"
 

@@ -11,6 +11,7 @@ from assets.classes.utils import *
 from assets.scenes.scene import Scene, FadeTransitionScene, TransitionScene
 from assets.classes.inputstream import InputStream
 from assets.classes.ui import ButtonUI
+from assets.scenes.games_3 import Games3Scene
 
 
 class Games_2(Games):
@@ -25,19 +26,22 @@ class Games_2(Games):
     event_bit_diminishing = pygame.USEREVENT + 3
     event_measuring= pygame.USEREVENT + 4
 
-
-
-
-
-    def __init__(self, pygame, romeo_bits = [], romeo_bases = []):
+    def __init__(self, pygame, par_romeo_bits = [], par_romeo_bases = []):
         super().__init__()
         self.background = pygame.image.load("background2.png")
 
         self.bit_options = [pygame.K_0, pygame.K_1]
         self.unmeasured_bits = []
 
-        for i in range(globals.selectedBit):
-            self.unmeasured_bits.append(random.choice(self.bit_options))
+        self.romeo_bits = par_romeo_bits
+        self.romeo_bases = par_romeo_bases
+
+        if globals.testing:
+            for i in range(9):
+                self.unmeasured_bits.append(random.choice(self.bit_options))
+        else:
+            for i in range(globals.selectedBit):
+                self.unmeasured_bits.append(random.choice(self.bit_options))
 
         self.measured_count_seconds = np.ones(len(self.unmeasured_bits)) * 3
 
@@ -173,8 +177,7 @@ class Games2Scene(Scene):
 
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish:
-            pass
-            #sm.push(FadeTransitionScene([self], [Games2Scene(self.g1.retrieved_bits, self.g1.retrieved_measurements)]))
+            sm.push(FadeTransitionScene([self], [Games3Scene()]))
 
     def draw(self, sm, screen):
         self.g2.call_event(screen)
