@@ -30,13 +30,13 @@ pygame.display.set_caption(globals.gameTitle)
 #input_box2 = InputBox(100, 300, 140, 32)
 #input_boxes = [input_box1]#, input_box2]
 
-#pygame.mixer.music.load(globals.music_file)
-#pygame.mixer.music.play(-1)
+pygame.mixer.music.load(globals.music_file)
+pygame.mixer.music.play(-1)
 
 to_encrypt=random.choice(globals.letters)
 
 #### HARD CODE #####
-testing = True
+testing = False
 phase = 0
 
 # declare the game
