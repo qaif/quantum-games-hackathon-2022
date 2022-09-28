@@ -17,6 +17,8 @@ class InputBox:
         self.text = text
         self.txt_surface = FONT.render(text, True, self.color)
         self.active = False
+        #self.final_text = "test"
+        #self.proceed = True
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -30,8 +32,10 @@ class InputBox:
             self.color = COLOR_ACTIVE if self.active else COLOR_INACTIVE
         if event.type == pygame.KEYDOWN:
             if self.active:
-                if event.key == pygame.K_RETURN:
-                    print(self.text)
+                if event.key == pygame.K_RETURN:# and self.proceed:
+                    #self.final_text=self.text
+                    #self.proceed=False
+                    #print(self.text)
                     #self.text = ''
 
                     return self.text

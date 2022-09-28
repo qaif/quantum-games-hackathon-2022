@@ -26,7 +26,8 @@ class Games_4(Games):
     retrieved_bits2 = pygame.sprite.Group()
 
     # start the game up when the user gives the number of bits they want to compare
-    proceed=True
+    proceed=False
+
 
     # how many bit pairs have flashed across the screen so far
     bits_compared = 0
@@ -89,7 +90,8 @@ class Games_4(Games):
 
             if event.type == pygame.KEYDOWN:
                 if event.key==pygame.K_SPACE and self.proceed:
-                    if(self.bits_compared<len(self.bits1)):
+                    print(self.proceed)
+                    if(self.bits_compared<int(self.to_compare)):
                         print(self.bits_compared)
                         self.place_bits()
                         self.bits_compared += 1
@@ -98,11 +100,22 @@ class Games_4(Games):
                         pass
 
             for box in input_boxes:
-                box.handle_event(event)
+
+                if(box.handle_event(event)!=None):
+
+                    self.to_compare = box.handle_event(event)
+                    if (self.to_compare.isdigit()):
+ 
+                        print(self.to_compare)
+                        self.proceed=True
 
         for box in input_boxes:
             box.update()
             box.draw(window)
+
+
+
+
 
 
         # need lines here to keep drawing the bits before they change!!!
