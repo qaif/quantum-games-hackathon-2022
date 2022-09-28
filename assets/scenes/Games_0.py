@@ -66,5 +66,9 @@ class Games_0(Games):
         if (not self.proceed and not self.proceed2 and not self.proceed3):
             self.title.text_display(window)
         elif (not self.proceed2 and not self.proceed3):
-            self.text2=self.Text(par_x=100, par_y=50, par_text="\"Hmmm I think starting with "+ str(self.bit_size)+" bits is good.\"")
+            self.text2=self.Text(par_x=100, par_y=50, par_text="\"Hmmm I think starting with "+ str(self.bit_size)+" is good\"")
             self.text2.text_display(window)
+            self.text3=self.Text(par_x=100, par_y=100, par_text="\"Now I need to choose " +str(self.bit_size) + " basis and bits\"")
+            self.text3.text_display(window)
+            self.text3=self.Text(par_x=100, par_y=150, par_text="\"I'll use my trusty quantum computer, Juliet is waiting!\"")
+            self.text3.text_display(window)
