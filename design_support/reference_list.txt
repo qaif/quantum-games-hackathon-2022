@@ -129,6 +129,7 @@ Vampire the masquarade
 Pulp Fiction
             Opening an express box - What's inside the box? - You would like to know wouldn't you - Unfortunately your character has already looked inside#program - So they don't have any reason to look again#program
 
-
+Warhammer 40k
+           Marvel at tunneled box - Huh, I guess more dakka is always a solution. - Maybe I should paint it red next time.
 
 

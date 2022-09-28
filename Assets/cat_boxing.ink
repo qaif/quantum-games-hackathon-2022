@@ -129,6 +129,9 @@ You go get {a|yet another} box from the sorting chute. # narration
 }
 {post_box_label=="express":
           ~ post_china=false
+          ~ post_wall_skin=false
+          ~ post_wall_meat=false
+          ~ post_wall_stone=false
 }
 The label on it reads "{post_box_label}"# narration
 
@@ -268,15 +271,40 @@ The label on it reads "{post_box_label}"# narration
 
 
 =wallBanging
+You see the drone loading bay beyond reinforced plastic transparent wall. # narration
+{post_china==false:
+       It keeps the murder bots away but also makes giving them any deliverables tricky. # narration
+-else:
+      The drones seem busy buzzing around a box. # narration
+}
++ {post_china==true}Marvel at your accomplishments
+        Huh, I guess more dakka is always a solution. #narration
+        Maybe I should paint it red next time. # narration
 +{post_china==false}Launch
     // request tunnel post_china 0.2
-         The packet hurls at the wall # narration
+         ~ splitWorld("post_wall_skin")
+         You set the box into the cup of the supreme kinetic applier # narration
+         ~ splitWorld("post_wall_meat")
+         With the release leaver the box starts to pick up speed # narration
+         ~ splitWorld("post_wall_stone")
+         You can almost hear the box whistle through the air # narration
+         The packet makes contact with the wall # narration
+         {post_wall_skin==true:
+                {post_wall_meat==true:
+                        {post_wall_stone==true:
+                                  post_china=true // amplitude split of 8
+                        }
+                 }
+         }
          {post_china:
-                And goes through it. # narration
+                And disappears. # narration
          -else:
                and bounces of it. # narration
                {|||||This would be so much more easier if they had like an opening to faciliate travel in the wall||}
          }
+         ~ post_wall_skin=false
+         ~ post_wall_meat=false
+         ~ post_wall_stone=false
          -> wallBanging
 +Go get new box
      {post_china==true:

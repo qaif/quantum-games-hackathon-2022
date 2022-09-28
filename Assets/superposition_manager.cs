@@ -503,7 +503,7 @@ public class superposition_manager : MonoBehaviour
                 RefreshDisplays();
                 coming_nudgement=NextChange(spanment);
             }
-            Debug.Log(linears.Count);
+            //Debug.Log(linears.Count);
             //Debug.Log("timing " + progress.ToString() + " span " + current_display.ToString() + " coming " + coming_nudgement.ToString());
         }
     }

@@ -133,7 +133,7 @@ public class classical_story
         //Debug.Log(noob.story.Continue());
         Debug.Log("Toggle point before: " + story.variablesState[detail].ToString());
         */
-        //Debug.Log(bifurcateFlag.ToString());
+        Debug.Log(bifurcateFlag.ToString());
         //Debug.Log(story.variablesState[bifurcateFlag].ToString());
 
         realityFluid = reference.realityFluid;

@@ -80,6 +80,10 @@ VAR post_cat_error=0
 VAR post_bomb_error=0
 VAR post_bomb_burden=0
 
+VAR post_wall_skin=false
+VAR post_wall_meat=false
+VAR post_wall_stone=false
+
 VAR passcode=false
 
 VAR splitTest=false
