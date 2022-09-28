@@ -48,6 +48,9 @@ class Games_1(Games):
         :param key: key press (X, Z)
         :return: boolean
         """
+        if len(self.retrieved_measurements) >= globals.selectedBit:
+            return False
+
         for l in self.measurements:
             if l.rect.x >= 30 and l.rect.x <= 90 and l.key == key:
                 # creating new object for the static measurement
@@ -68,6 +71,10 @@ class Games_1(Games):
             :param key: key press (0, 1)
             :return: boolean
             """
+
+        if len(self.retrieved_bits) >= globals.selectedBit:
+            return False
+
         for l in self.bits:
             if l.rect.x >= 30 and l.rect.x <= 90 and l.key == key:
                 # creating new object for the static bit
@@ -126,13 +133,13 @@ class Games_1(Games):
                 pygame.quit()
                 sys.exit()
             elif event.type == self.measurement_event and len(
-                    self.retrieved_measurements) <= globals.selectedBit:  # to keep spawning the measurement base until reach x values
+                    self.retrieved_measurements) < globals.selectedBit:  # to keep spawning the measurement base until reach x values
                 # spawn new object
                 self.measurements.add(MeasurementBase())
                 self.total_measurement += 1
 
             elif event.type == self.bit_event and len(
-                    self.retrieved_bits) <= globals.selectedBit:  # to keep spawning the bit base until reach x values
+                    self.retrieved_bits) < globals.selectedBit:  # to keep spawning the bit base until reach x values
                 # spawn new object
                 self.bits.add(BitBase())
                 self.total_bit += 1
