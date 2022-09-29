@@ -320,7 +320,7 @@ public class superposition_manager : MonoBehaviour
             }
             time_offset -= span;
         }
-        Debug.Log("forbidden area "+clockhand.ToString());
+        Debug.Log("forbidden area DC "+clockhand.ToString());
         return new List<Chronon>();
     }
 
@@ -353,7 +353,9 @@ public class superposition_manager : MonoBehaviour
                 noob.bifurcateFlag = focus.bifurcateFlag;
                 noob.realityFluid = focus.realityFluid * focus.bifurcateDegree;
                 focus.realityFluid = focus.realityFluid * (1.0-focus.bifurcateDegree);
+                focus.renormalize(1.0-focus.bifurcateDegree);
                 noob.bifurcate(focus);
+                noob.renormalize(focus.bifurcateDegree);
                 Debug.Log("focus prestate"+ focus.story.variablesState[focus.bifurcateFlag].ToString() + focus.story.variablesState["world"]);
                 foreach (KeyValuePair<string, Lottery> finger in lotto)
                 {
@@ -518,13 +520,10 @@ public class superposition_manager : MonoBehaviour
             }
             //Debug.Log("fatreport" + river.thickness().ToString());
         }
-        if (fat > 1.0)
+        double cut_factor = 1.0 / fat;
+        foreach (classical_story river in linears)
         {
-            double cut_factor = 1.0 / fat;
-            foreach (classical_story river in linears)
-            {
-                river.renormalize(cut_factor);
-            }
+            river.renormalize(cut_factor);
         }
         if (time_phase > timeToSpend)
         {
@@ -549,6 +548,7 @@ public class superposition_manager : MonoBehaviour
             {
                 RefreshDisplays();
                 coming_nudgement=NextChange(current_display);
+                Debug.Log("Next post "+coming_nudgement.ToString());
             }
             //Debug.Log(linears.Count);
             //Debug.Log("timing " + progress.ToString() + " span " + current_display.ToString() + " coming " + coming_nudgement.ToString());

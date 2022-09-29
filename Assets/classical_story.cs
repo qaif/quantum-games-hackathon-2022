@@ -87,7 +87,7 @@ public class classical_story
 
     public double NextChange(double clockhand)
     {
-        return past.NextChange(clockhand);
+        return past.NextChange(clockhand)*realityFluid.Magnitude;
     }
 
     public List<Chronon> affordanceItems()
@@ -164,7 +164,7 @@ public class classical_story
 
     public double thickness()
     {
-        return past.thickness;
+        return past.thickness*realityFluid.Magnitude;
     }
 
     public void renormalize(double rate)
@@ -174,7 +174,7 @@ public class classical_story
 
     public double minimum_point_thickness()
     {
-        return past.minimum_point_thickness();
+        return past.minimum_point_thickness()*realityFluid.Magnitude;
     }
 
     public void HeedAction(string word)

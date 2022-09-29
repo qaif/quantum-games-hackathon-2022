@@ -159,7 +159,7 @@ public class event_chain
             }
             else
             {
-                Debug.Log("event_chain went to forbidden area");
+                Debug.Log("event_chain went to forbidden area "+ clockhand.ToString()+ " sst "+thickness.ToString()+" lolz "+time_offset);
                 return time_offset - leaf_branch.thickness;
             }
         }
@@ -169,14 +169,25 @@ public class event_chain
 
     public void renormalize(double factor)
     {
-        thickness=thickness*factor;
+        double s = 0.0;
         if (trunk_branch!=null)
         {
             trunk_branch.renormalize(factor);
+            s += trunk_branch.thickness;
         }
         if (leaf_branch != null)
         {
             leaf_branch.renormalize(factor);
+            s += leaf_branch.thickness;
+        }
+        if (trunk_branch== null && leaf_branch == null)
+        {
+            thickness = thickness * factor;
+            Debug.Log("renorm" + thickness + ToString());
+        }
+        else
+        {
+            thickness = s;
         }
     }
 
