@@ -32,6 +32,8 @@ class Games_3(Games):
         super().__init__()
         self.background = pygame.image.load("assets/images/games_2.jpg")
 
+        pygame.mouse.set_visible(True)
+
         self.bit_options = [globals.keyboard_bit_0, pygame.K_f]
         self.base_options = [globals.keyboard_base_x, globals.keyboard_base_z]
 

@@ -13,6 +13,8 @@ class Story_2(Story):
         super().__init__()
         self.background = pygame.image.load("assets/images/2.5.jpg")
 
+        pygame.mouse.set_visible(True)
+
         self.story_text = []
         self.story_index = 0
 
@@ -28,6 +30,8 @@ class Story_2_5(Story):
     def __init__(self, pygame):
         super().__init__()
         self.background = pygame.image.load("assets/images/2.5.jpg")
+
+        pygame.mouse.set_visible(True)
 
         self.story_text = []
         self.story_index = 0

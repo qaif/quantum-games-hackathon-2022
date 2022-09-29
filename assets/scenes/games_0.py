@@ -21,6 +21,7 @@ class Games_0(Games):
         globals.romeo_bits = []
         globals.romeo_bases = []
         globals.juliet_bases = []
+        pygame.mouse.set_visible(True)
 
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("assets/images/games_0.jpg")
