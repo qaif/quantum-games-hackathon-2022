@@ -21,7 +21,7 @@ showConfig = True
 
 #testing = True
 testing = False
-phase = 2
+phase = 3
 
 remainingHearts = 3
 

@@ -12,6 +12,9 @@ from assets.scenes.games_2 import Games_2
 from assets.scenes.games_3 import Games_3
 from assets.scenes.games_4 import Games_4
 
+from assets.scenes.story_0 import Story_0
+from assets.scenes.story_0_5 import Story_0_5
+
 class Scene:
     def __init__(self):
         pass
@@ -68,8 +71,8 @@ class FadeTransitionScene(TransitionScene):
 
 class MainMenuScene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter=next]', 50, 200)
-        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 250)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = quit]', 170, 20)
         pygame.event.clear()
         self.mainmenu = MainMenu(pygame)
     def onEnter(self):
@@ -77,7 +80,7 @@ class MainMenuScene(Scene):
         pass
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN):
-            sm.push(FadeTransitionScene([self], [Games0Scene()]))
+            sm.push(FadeTransitionScene([self], [Story0Scene()]))
         if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
             sm.pop()
 
@@ -120,6 +123,31 @@ class GameOverScene(Scene):
         drawText(screen, 'You lose!', 150, 150, globals.WHITE, self.alpha)
         self.enter.draw(screen, alpha=self.alpha)
 
+class Story0Scene(Scene):
+    def __init__(self):
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
+        pygame.event.clear()
+        self.story_0 = Story_0(pygame)
+    def onEnter(self):
+        #globals.soundManager.playMusicFade('solace')
+        pass
+    def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_0.finish:
+            sm.push(FadeTransitionScene([self], [Games0Scene()]))
+        if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
+            sm.pop()
+
+    def update(self, sm, inputStream):
+        self.enter.update(inputStream)
+        self.esc.update(inputStream)
+
+    def draw(self, sm, screen):
+        self.story_0.call_event(screen)
+
+        self.enter.draw(screen)
+        self.esc.draw(screen)
+
 class Games0Scene(Scene):
     def __init__(self):
         self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 50, 20)
@@ -147,7 +175,7 @@ class Games0Scene(Scene):
 
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and globals.selectedBit >= 1:
             #level.loadLevel(globals.curentLevel)
-            sm.push(FadeTransitionScene([self], [Games1Scene()]))
+            sm.push(FadeTransitionScene([self], [Story0_5Scene()]))
 
         if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
             sm.pop()
@@ -161,46 +189,30 @@ class Games0Scene(Scene):
         self.space.draw(screen)
         self.enter.draw(screen)
 
-class AfterGames0Scene(Scene):
+class Story0_5Scene(Scene):
     def __init__(self):
-        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 50, 20)
-        self.a = ButtonUI(pygame.K_a, '[a = left]', 170, 20)
-        self.d = ButtonUI(globals.keyboard_bit_0, '[d = right]', 250, 20)
-        self.space = ButtonUI(pygame.K_SPACE, '[space = select]', 350, 20)
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue]', 500, 20)
-
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
-        self.g0 = Games_0(pygame)
+        self.story_0_5 = Story_0_5(pygame)
     def onEnter(self):
-        pass
         #globals.soundManager.playMusicFade('solace')
-    def update(self, sm, inputStream):
-
-        self.esc.update(inputStream)
-        self.a.update(inputStream)
-        self.d.update(inputStream)
-        self.space.update(inputStream)
-        self.enter.update(inputStream)
-
+        pass
     def input(self, sm, inputStream):
-        if inputStream.keyboard.isKeyPressed(pygame.K_SPACE):
-            globals.selectedBit = globals.currentBit
-
-        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and globals.selectedBit >= 1:
-            #level.loadLevel(globals.curentLevel)
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_0_5.finish:
             sm.push(FadeTransitionScene([self], [Games1Scene()]))
-
         if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
             sm.pop()
-            sm.push(FadeTransitionScene([self], []))
+
+    def update(self, sm, inputStream):
+        self.enter.update(inputStream)
+        self.esc.update(inputStream)
 
     def draw(self, sm, screen):
-        self.g0.call_event(screen)
-        self.esc.draw(screen)
-        self.a.draw(screen)
-        self.d.draw(screen)
-        self.space.draw(screen)
+        self.story_0_5.call_event(screen)
+
         self.enter.draw(screen)
+        self.esc.draw(screen)
 
 class Games1Scene(Scene):
     def __init__(self):
