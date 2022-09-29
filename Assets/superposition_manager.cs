@@ -293,7 +293,7 @@ public class superposition_manager : MonoBehaviour
             display_grids.Add(noob.gameObject);
         }
         List<Chronon> affords = current_linear.affordanceItems();
-        float horizontal_start = 3.0f;
+        float horizontal_start = 5.0f;
         vertical_spacing = 0.2f;
         height_start = (affords.Count * vertical_spacing) - 4.0f;
         for (int i=0; i < affords.Count; i++)
