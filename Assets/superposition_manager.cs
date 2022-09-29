@@ -34,8 +34,9 @@ public class superposition_manager : MonoBehaviour
     public TextMeshProUGUI HandwriteSlateFactory;
     public TextMeshProUGUI ButlerSlateFactory;
     public TextMeshProUGUI MathTSlateFactory;
-    public TextMeshProUGUI ChemistyTSlateFactory;
+    public TextMeshProUGUI ChemistryTSlateFactory;
     public TextMeshProUGUI HistoryTSlateFactory;
+    public TextMeshProUGUI RunaSlateFactory;
 
     public Canvas paint_wall;
 
@@ -266,8 +267,21 @@ public class superposition_manager : MonoBehaviour
             {
                 noob = Instantiate(ButlerSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "mathT"))
             {
                 noob = Instantiate(MathTSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "chemistryT"))
+            {
+                noob = Instantiate(ChemistryTSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "historyT"))
+            {
+                noob = Instantiate(HistoryTSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "runa"))
+            {
+                noob = Instantiate(RunaSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
             if (noob == null)
             {
