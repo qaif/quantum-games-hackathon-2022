@@ -4,7 +4,8 @@ import pygame
 from pygame import mixer
 from typing import List
 
-from assets.scenes.main_menu import MainMenuScene
+#from assets.scenes.main_menu import MainMenuScene
+
 from assets.scenes.games_0 import Games_0
 from assets.scenes.games_1 import Games_1
 from assets.scenes.games_2 import Games_2
@@ -40,6 +41,7 @@ testing = globals.testing
 phase = globals.phase
 
 # declare the game
+
 if testing:
     if phase == 0:
         pygame.event.clear()
@@ -55,7 +57,7 @@ if testing:
         g3 = Games_3(pygame)
     elif phase == 4:
         pygame.event.clear()
-        g4 = Games_4(pygame)
+        g4 = Games_4(pygame, secret_key="123023")
 
 # Scene Manager
 sceneManager = SceneManager()

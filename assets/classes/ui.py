@@ -23,11 +23,11 @@ class ButtonUI:
                 self.timer = 20
 
 
-    def draw(self, screen, alpha=255):
+    def draw(self, screen, alpha=255, par_colour = globals.BLACK):
         if self.on:
             colour = globals.RED
         else:
-            colour = globals.BLACK
+            colour = par_colour
 
         if globals.showConfig:
-            drawText(screen, self.text, self.x, self.y, colour, alpha, 18)
+            drawText(screen, self.text, self.x, self.y, colour, alpha, 15)

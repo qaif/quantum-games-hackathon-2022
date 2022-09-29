@@ -28,16 +28,16 @@ class Games_2(Games):
 
     def __init__(self, pygame, par_romeo_bits = [], par_romeo_bases = []):
         super().__init__()
-        self.background = pygame.image.load("background2.png")
+        self.background = pygame.image.load("assets/images/games_2.jpg")
 
-        self.bit_options = [pygame.K_0, pygame.K_1]
+        self.bit_options = [globals.keyboard_bit_0, pygame.K_f]
         self.unmeasured_bits = []
 
         self.romeo_bits = par_romeo_bits
         self.romeo_bases = par_romeo_bases
 
         if globals.testing:
-            for i in range(9):
+            for i in range(globals.maxBit):
                 self.unmeasured_bits.append(random.choice(self.bit_options))
         else:
             for i in range(globals.selectedBit):
@@ -64,7 +64,7 @@ class Games_2(Games):
             self.bits.add(b)
 
             mb = BitBase(type, _idx=i)
-            mb.rect = mb.image.get_rect(topleft=(50 + 50 * i , 560))
+            mb.rect = mb.image.get_rect(topleft=(60 + 60 * i , 645))
             self.measured_bits.add(mb)
 
             i += 1
@@ -78,14 +78,14 @@ class Games_2(Games):
 
     def check_wall(self):
         for b in self.bits:
-            if b.rect.x <= 50:
+            if b.rect.x <= 55:
                 b.set_x_change(random.randint(1, 4))
-            elif b.rect.x >= 955:
+            elif b.rect.x >= 950:
                 b.set_x_change(random.randint(-4, -1))
 
-            if b.rect.y <= 50:
+            if b.rect.y <= 55:
                 b.set_y_change(random.randint(1, 4))
-            elif b.rect.y >= 450:
+            elif b.rect.y >= 445:
                 b.set_y_change(random.randint(-4, -1))
 
     def revealed_measured_bit(self, idx:int):
@@ -121,10 +121,12 @@ class Games_2(Games):
                     b.set_y_change(random.randint(-3, 3))
             elif event.type == self.event_bit_diminishing:
                 for b in self.bits:
-                    b.image.set_alpha( b.image.get_alpha() - 3)
+                    b.image.set_alpha( b.image.get_alpha() - 2)
             elif event.type == self.event_measuring:
                 for b in self.bits:
                     self.measured_count_seconds[b.idx] = self.measured_count_seconds[b.idx] - 1
+            elif event.type == self.timer_event:
+                self.process_timer()
 
 
         # get mouse position
@@ -152,7 +154,7 @@ class Games_2(Games):
             else:
                 mb.fill(mb.image, pygame.Color(250, 10, 40))
 
-        if self.is_win():
+        if self.is_win() and self.gameover == False:
             self.finish = True
             self.win = True
 
@@ -162,9 +164,12 @@ class Games_2(Games):
         self.measured_bits.draw(window)
         self.check_wall()
 
+        # global drawing (score, timer, hearts
+        self.draw(window)
+
 class Games2Scene(Scene):
     def __init__(self, romeo_bits, romeo_bases):
-        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
+        #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
 
         pygame.event.clear()
         self.g2 = Games_2(pygame, romeo_bits, romeo_bases)
@@ -172,17 +177,24 @@ class Games2Scene(Scene):
         pass
         #globals.soundManager.playMusicFade('solace')
     def update(self, sm, inputStream):
-
-        self.esc.update(inputStream)
+        pass
+        #self.esc.update(inputStream)
 
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish and self.g2.win:
             print(self.g2.romeo_bits, self.g2.romeo_bases)
             sm.push(FadeTransitionScene([self], [Games3Scene(self.g2.romeo_bits, self.g2.romeo_bases)]))
+        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish and self.g2.gameover:
+            sm.pop_all()
+            sm.push(FadeTransitionScene([self], []))
 
     def draw(self, sm, screen):
         self.g2.call_event(screen)
-        self.esc.draw(screen)
 
-        if self.g2.finish:
+        #self.esc.draw(screen)
+
+        if self.g2.finish and self.g2.win:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
+            self.g2.pause = True
+        elif self.g2.finish and self.g2.gameover:
+            drawText(screen, 'Game over!', 50, 300, globals.BLACK, 255, 40)

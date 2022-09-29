@@ -1,21 +1,46 @@
+import pygame
+
 world = None
 
 gameTitle = "Verona 2049"
+screenSize = (1024, 768)
+
+
 minBit = 1
-maxBit = 10
+maxBit = 15
 currentBit = 5
 selectedBit = 0
-screenSize = (1024, 768)
+
+
+
+
+
+# =================== GAME SETTINGS ========================
 showConfig = True
 #showConfig = False
 
 #testing = True
 testing = False
-phase = 2
+phase = 4
+
+remainingHearts = 3
+
+starting_timer_minute = 0
+starting_timer_seconds = 10
+
+timer_minute = 0
+timer_seconds = 10
+
+# ==================  Measuring keyboard settings ========================
+keyboard_bit_0 = pygame.K_d
+keyboard_bit_1 = pygame.K_f
+keyboard_base_x = pygame.K_j
+keyboard_base_z = pygame.K_k
 
 # piano composition by Schubert, not copyrighted
 music_file="assets/music/Schubert---Impromptu-Op.-90--No.-3_AdobeStock_501349563.wav"
 
+# ================== global colors ==============================
 DARK_GREY = (50,50,50)
 BLACK = (0,0,0)
 WHITE = (255,255,255)

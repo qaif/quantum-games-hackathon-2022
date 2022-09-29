@@ -13,17 +13,18 @@ from assets.scenes.games_1 import Games1Scene
 # romeo picks the number of bits for the key (important story and game mechanic!)
 class Games_0(Games):
 
-    # start the game up when the user gives the number of bits they want to compare
-    proceed=False
-    proceed2=False
-    proceed3=False
-
-    bit_size=0
-
     def __init__(self, pygame):
         super().__init__()
+        # start the game up when the user gives the number of bits they want to compare
+        self.proceed = False
+        self.proceed2 = False
+        self.proceed3 = False
+
+        self.bit_size = 0
+        globals.selectedBit = 0
+
         # change this to one meant for this phase. for now just a white screen
-        self.background = pygame.image.load("background0.jpg")
+        self.background = pygame.image.load("assets/images/games_0.jpg")
         self.title = self.Text(par_x=100, par_y=100, par_text="What size key should I generate?")
         self.text2 = self.Text(par_x=100, par_y=100, par_text="Okay, I'll check __ pairs of bits in each key. Press spacebar")
         self.text3 = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
@@ -70,7 +71,7 @@ class Games_0(Games):
                     else:
                         globals.currentBit -= 1
                     # globals.curentLevel = max(globals.curentLevel-1, 1)
-                elif event.key==pygame.K_d:
+                elif event.key==globals.keyboard_bit_0:
                     if globals.currentBit >= globals.maxBit:
                         globals.currentBit = globals.maxBit
                     else:
@@ -89,14 +90,13 @@ class Games_0(Games):
             self.text2=self.Text(par_x=100, par_y=100, par_text="\"Hmmm I think starting with "+ str(self.bit_size)+" bits is good.\"")
             self.text2.text_display(window)
 
-        if globals.selectedBit == 0:
-            self.set_bit_selection(window)
+        self.set_bit_selection(window)
 
 class Games0Scene(Scene):
     def __init__(self):
         self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 50, 20)
         self.a = ButtonUI(pygame.K_a, '[a = left]', 170, 20)
-        self.d = ButtonUI(pygame.K_d, '[d = right]', 250, 20)
+        self.d = ButtonUI(globals.keyboard_bit_0, '[d = right]', 250, 20)
         self.space = ButtonUI(pygame.K_SPACE, '[space = select]', 350, 20)
         self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue]', 500, 20)
 
@@ -114,8 +114,47 @@ class Games0Scene(Scene):
         self.enter.update(inputStream)
 
     def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_SPACE):
+            globals.selectedBit = globals.currentBit
 
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and globals.selectedBit >= 1:
+            #level.loadLevel(globals.curentLevel)
+            sm.push(FadeTransitionScene([self], [Games1Scene()]))
 
+        if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
+            sm.pop()
+            sm.push(FadeTransitionScene([self], []))
+
+    def draw(self, sm, screen):
+        self.g0.call_event(screen)
+        self.esc.draw(screen)
+        self.a.draw(screen)
+        self.d.draw(screen)
+        self.space.draw(screen)
+        self.enter.draw(screen)
+
+class AfterGames0Scene(Scene):
+    def __init__(self):
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 50, 20)
+        self.a = ButtonUI(pygame.K_a, '[a = left]', 170, 20)
+        self.d = ButtonUI(globals.keyboard_bit_0, '[d = right]', 250, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[space = select]', 350, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue]', 500, 20)
+
+        pygame.event.clear()
+        self.g0 = Games_0(pygame)
+    def onEnter(self):
+        pass
+        #globals.soundManager.playMusicFade('solace')
+    def update(self, sm, inputStream):
+
+        self.esc.update(inputStream)
+        self.a.update(inputStream)
+        self.d.update(inputStream)
+        self.space.update(inputStream)
+        self.enter.update(inputStream)
+
+    def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_SPACE):
             globals.selectedBit = globals.currentBit
 

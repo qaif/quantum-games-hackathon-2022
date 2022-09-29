@@ -55,3 +55,28 @@ class MainMenuScene(Scene):
         self.enter.draw(screen)
         self.esc.draw(screen)
 
+class GameOverScene(Scene):
+    def __init__(self):
+        self.alpha = 0
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue]', 50, 200)
+
+    def update(self, sm, inputStream):
+        self.alpha = min(255, self.alpha + 10)
+        self.enter.update(inputStream)
+
+    def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN):
+            sm.pop()
+            sm.set([FadeTransitionScene([self], [MainMenuScene()])])
+
+    def draw(self, sm, screen):
+        if len(sm.scenes) > 1:
+            sm.scenes[-2].draw(sm, screen)
+
+        # draw a transparent bg
+        bgSurf = pygame.Surface(globals.screenSize)
+        bgSurf.fill((globals.BLACK))
+        blit_alpha(screen, bgSurf, (0,0), self.alpha * 0.7)
+
+        drawText(screen, 'You lose!', 150, 150, globals.WHITE, self.alpha)
+        self.enter.draw(screen, alpha=self.alpha)

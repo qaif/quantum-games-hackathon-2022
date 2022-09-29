@@ -28,17 +28,17 @@ class Games_3(Games):
     # user defined function
     event_hide_box = pygame.USEREVENT + 1
 
-    romeo_bits = [pygame.K_0, pygame.K_1, pygame.K_0, pygame.K_0, pygame.K_1, pygame.K_1, pygame.K_0, pygame.K_1, pygame.K_1, pygame.K_0]
-    romeo_bases = [pygame.K_z, pygame.K_x, pygame.K_z, pygame.K_x, pygame.K_x, pygame.K_z, pygame.K_z, pygame.K_x, pygame.K_z, pygame.K_x]
-    juliet_bases = [pygame.K_x, pygame.K_x, pygame.K_z, pygame.K_z, pygame.K_x, pygame.K_x, pygame.K_z, pygame.K_x, pygame.K_x, pygame.K_z]
+    romeo_bits = [globals.keyboard_bit_0, pygame.K_f, globals.keyboard_bit_0, globals.keyboard_bit_0, pygame.K_f, globals.keyboard_bit_0, pygame.K_f, pygame.K_f, pygame.K_f, globals.keyboard_bit_0]
+    romeo_bases = [globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_x]
+    juliet_bases = [globals.keyboard_base_x, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_x, globals.keyboard_base_z]
 
 
     def __init__(self, pygame, par_romeo_bits = [], par_romeo_bases = []):
         super().__init__()
-        self.background = pygame.image.load("background3.png")
+        self.background = pygame.image.load("assets/images/games_2.jpg")
 
-        self.bit_options = [pygame.K_0, pygame.K_1]
-        self.base_options = [pygame.K_x, pygame.K_z]
+        self.bit_options = [globals.keyboard_bit_0, pygame.K_f]
+        self.base_options = [globals.keyboard_base_x, globals.keyboard_base_z]
 
         self.romeo_bits = par_romeo_bits
         self.romeo_bases = par_romeo_bases
@@ -74,7 +74,7 @@ class Games_3(Games):
         i = 0
         for type in self.romeo_bits:
             b = BitBase(type, _idx=i)
-            b.rect = b.image.get_rect(topleft=(270 + 50 * i, 100))
+            b.rect = b.image.get_rect(topleft=(270 + 60 * i, 97))
             self.romeo_bit_display.add(b)
 
             i += 1
@@ -82,7 +82,7 @@ class Games_3(Games):
         i = 0
         for type in self.romeo_bases:
             b = MeasurementBase(type, _idx=i)
-            b.rect = b.image.get_rect(topleft=(270 + 50 * i, 200))
+            b.rect = b.image.get_rect(topleft=(265 + 60 * i, 195))
             self.romeo_base_display.add(b)
 
             i += 1
@@ -90,7 +90,7 @@ class Games_3(Games):
         i = 0
         for type in self.juliet_bases:
             b = MeasurementBase(type, _idx=i)
-            b.rect = b.image.get_rect(topleft=(270 + 50 * i, 300))
+            b.rect = b.image.get_rect(topleft=(265 + 60 * i, 295))
             self.juliet_base_display.add(b)
 
             i += 1
@@ -103,14 +103,14 @@ class Games_3(Games):
 
         for b in self.romeo_bit_display:
 
-            x = start_pos_x + (50 * i)
+            x = start_pos_x + (60 * i)
             y = start_pos_y
 
             if i in (list_hide):
                 # Drawing Rectangle
-                pygame.draw.rect(window, color, pygame.Rect(x, y, 52, 52))
+                pygame.draw.rect(window, color, pygame.Rect(x, y, 62, 62))
             else:
-                pygame.draw.rect(window, color, pygame.Rect(x, y, 52, 52), 2)
+                pygame.draw.rect(window, color, pygame.Rect(x, y, 62, 62), 2)
 
 
             i += 1
@@ -127,12 +127,14 @@ class Games_3(Games):
 
     def check_answer_key(self):
         if self.answer_key == self.input_key:
+            print("Correct")
             self.finish = True
             self.win = True
         else:
             print("False")
             self.input_box.text = ""
             self.input_box.txt_surface = FONT.render("", True, self.input_box.color)
+            self.reduce_hearts()
 
     def call_event(self, window: pygame.Surface):
         # to show the background
@@ -147,6 +149,8 @@ class Games_3(Games):
                 self.hides[0] = random.sample(range(0, 9), 2)
                 self.hides[1] = random.sample(range(0, 9), 2)
                 self.hides[2] = random.sample(range(0, 9), 2)
+            elif event.type == self.timer_event:
+                self.process_timer()
 
 
             self.input_key = self.input_box.handle_event(event)
@@ -170,6 +174,9 @@ class Games_3(Games):
         self.draw_table(window, self.hides[0], 260, 90)
         self.draw_table(window, self.hides[1], 260, 190)
         self.draw_table(window, self.hides[2], 260, 290)
+
+        # global drawing (score, timer, hearts
+        self.draw(window)
 
 class Games3Scene(Scene):
     def __init__(self, romeo_bits, romeo_bases):

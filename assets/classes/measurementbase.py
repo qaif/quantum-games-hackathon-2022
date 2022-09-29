@@ -1,6 +1,7 @@
 import assets.constants as c
 import pygame
 import random
+import globals
 
 class BaseObject(pygame.sprite.Sprite):
     """
@@ -76,23 +77,23 @@ class MeasurementBase(MovingObject):
     """
     Class for Measurement base in Phase 1
     """
-    measurements = [(pygame.image.load("assets/images/letter-z.png"), pygame.K_z, 278),
-                    (pygame.image.load("assets/images/letter-x.png"), pygame.K_x, 198)]
+    measurements = [(pygame.image.load("assets/images/letter-x.png"), globals.keyboard_base_x, 203),
+                    (pygame.image.load("assets/images/letter-z.png"), globals.keyboard_base_z, 283)]
 
-    def __init__(self, type: int = 999, _idx: int = 0):
+    def __init__(self, type: int = 999, _idx: int = 0, par_x: int = 1024, par_y: int = 0):
         super().__init__()
 
-        x = 1024
-        y = 0
+        x = par_x
+        y = par_y
         self.x_change = -1 * random.randint(1, 2)
 
         # for displaying in Games 2, 3
         self.idx = _idx
 
         # to get the type base on the given key, else take randomly
-        if type == pygame.K_z:
+        if type == globals.keyboard_base_x:
             self.image, self.key, y = self.measurements[0]
-        elif type == pygame.K_x:
+        elif type == globals.keyboard_base_z:
             self.image, self.key, y = self.measurements[1]
         else:
             self.image, self.key, y = random.choice(self.measurements)
@@ -104,14 +105,14 @@ class BitBase(MovingObject):
     """
         Class for Bit base in Phase 1
     """
-    bits = [(pygame.image.load("assets/images/number-1.png"), pygame.K_1, 117),
-            (pygame.image.load("assets/images/number-0.png"), pygame.K_0, 44)]
+    bits = [(pygame.image.load("assets/images/number-0.png"), globals.keyboard_bit_0, 50),
+            (pygame.image.load("assets/images/number-1.png"), globals.keyboard_bit_1, 127)]
 
-    def __init__(self, type: int = 999, _idx: int = 0):
+    def __init__(self, type: int = 999, _idx: int = 0, par_x: int = 1024, par_y: int = 0):
         super().__init__()
 
-        x = 1024
-        y = 0
+        x = par_x
+        y = par_y
         self.x_change = -1 * random.randint(1, 2)
         self.measured = False
 
@@ -119,9 +120,9 @@ class BitBase(MovingObject):
         self.idx = _idx
 
         # to get the type base on the given key, else take randomly
-        if type == pygame.K_1:
+        if type == globals.keyboard_bit_0:
             self.image, self.key, y = self.bits[0]
-        elif type == pygame.K_0:
+        elif type == globals.keyboard_bit_1:
             self.image, self.key, y = self.bits[1]
         else:
             self.image, self.key, y = random.choice(self.bits)
@@ -130,10 +131,11 @@ class BitBase(MovingObject):
 
     def get_initialize_image(self, type:int):
         # to open the image while being hovered by mouse
-        if type == pygame.K_1:
-            self.image = pygame.image.load("assets/images/number-1.png")
-        elif type == pygame.K_0:
+        if type == globals.keyboard_bit_0:
             self.image = pygame.image.load("assets/images/number-0.png")
+        elif type == globals.keyboard_bit_1:
+            self.image = pygame.image.load("assets/images/number-1.png")
+
 
 
 

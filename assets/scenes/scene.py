@@ -98,3 +98,11 @@ class SceneManager:
         # add new scenes
         for s in scenes:
             self.push(s)
+
+    # Game Over
+    def pop_all(self):
+        while len(self.scenes) > 1:
+            self.exitScene()
+            self.scenes.pop()
+            self.enterScene()
+

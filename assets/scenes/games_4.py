@@ -1,5 +1,6 @@
 import pygame
 import sys
+import globals
 
 from assets.scenes.games import Games
 from assets.classes.measurementbase import MeasurementBase, BitBase
@@ -49,7 +50,7 @@ class Games_4(Games):
         super().__init__()
         print("games 4 secret key: ", secret_key)
         # change this to one meant for this phase. for now just a white screen
-        self.background = pygame.image.load("background4.jpg")
+        self.background = pygame.image.load("assets/images/games_4.jpg")
 
         self.input_box = InputBox(100, 100, 140, 32)
 
@@ -71,9 +72,9 @@ class Games_4(Games):
         """
 
         if (self.bits1[self.bits_compared]==1):
-            key = pygame.K_1
+            key = pygame.K_f
         else:
-            key = pygame.K_0
+            key = globals.keyboard_bit_0
 
         # pick the sprite to activate
         self.retrieved_bit1=BitBase(key)
@@ -82,9 +83,9 @@ class Games_4(Games):
 
         # repeat this process for the second bit array
         if (self.bits2[self.bits_compared]==1):
-            key = pygame.K_1
+            key = pygame.K_f
         else:
-            key = pygame.K_0
+            key = globals.keyboard_bit_0
 
         # pick the sprite to activate
         self.retrieved_bit2=BitBase(key)
@@ -110,6 +111,8 @@ class Games_4(Games):
             if event.type == pygame.QUIT:  # for quiting the game
                 pygame.quit()
                 sys.exit()
+            elif event.type == self.timer_event:
+                self.process_timer()
 
             if event.type == pygame.KEYDOWN:
                 if event.key==pygame.K_SPACE and self.proceed and not self.proceed2 :
@@ -193,13 +196,13 @@ class Games_4(Games):
                 self.textresponse = self.Text(par_x=100, par_y=150,
                                             par_text="\"I did no such thing! I was just trying to help you two :-(\"")
                 self.textresponse.text_display(window)
-
-
-
             pass
 
         if (self.proceed3):
             pass
+
+        # global drawing (score, timer, hearts
+        self.draw(window)
 
 class Games4Scene(Scene):
     def __init__(self, secret_key):
