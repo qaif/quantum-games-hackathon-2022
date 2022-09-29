@@ -14,6 +14,10 @@ class Story(Games):
         self.story_text = []
         self.story_index = 0
 
+        self.x = 50
+        self.y = 150
+        self.font = 20
+        self.color = globals.BLACK
 
     def progress_story(self):
         if self.story_index == len(self.story_text) - 1:
@@ -21,7 +25,7 @@ class Story(Games):
         else:
             self.story_index += 1
 
-    def call_event(self, window: pygame.Surface):
+    def call_event(self, window: pygame.Surface, ):
         # update background for new phase
         window.blit(self.background, (0, 0))
 
@@ -34,4 +38,4 @@ class Story(Games):
                 if event.key == pygame.K_RETURN:
                     self.progress_story()
 
-        drawText(window, self.story_text[self.story_index], 50, 150, globals.BLACK, 255, 20)
+        drawText(window, self.story_text[self.story_index], self.x, self.y, self.color, 255, self.font)

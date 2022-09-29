@@ -21,7 +21,7 @@ class Games_2(Games):
     event_bit_diminishing = pygame.USEREVENT + 3
     event_measuring= pygame.USEREVENT + 4
 
-    def __init__(self, pygame, par_romeo_bits = [], par_romeo_bases = []):
+    def __init__(self, pygame):
         super().__init__()
         self.background = pygame.image.load("assets/images/games_2.jpg")
 
@@ -30,14 +30,11 @@ class Games_2(Games):
         self.cursor_img = pygame.image.load("assets/images/lens.png")
         self.cursor_img_rect = self.cursor_img.get_rect()
 
-
-
-
-        self.bit_options = [globals.keyboard_bit_0, pygame.K_f]
+        self.bit_options = [globals.keyboard_bit_0, globals.keyboard_bit_1]
         self.unmeasured_bits = []
 
-        self.romeo_bits = par_romeo_bits
-        self.romeo_bases = par_romeo_bases
+        self.romeo_bits = globals.romeo_bits
+        self.romeo_bases = globals.romeo_bases
 
         if globals.testing:
             for i in range(globals.maxBit):

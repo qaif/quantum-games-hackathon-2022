@@ -18,3 +18,15 @@ class Story_1(Story):
 
         self.story_text.append("Now I have all the bits and bases that I need…")
         self.story_text.append("I should contact Eve to help me deliver the message to Juliet…")
+
+class Story_1_5(Story):
+
+    def __init__(self, pygame):
+        super().__init__()
+        self.background = pygame.image.load("assets/images/games_0.jpg")
+
+        self.story_text = []
+        self.story_index = 0
+
+        self.story_text.append("Now I have all the bits and bases that I need…")
+        self.story_text.append("I should contact Eve to help me deliver the message to Juliet…")
