@@ -284,11 +284,14 @@ You see the drone loading bay beyond reinforced plastic transparent wall. # narr
     // request tunnel post_china 0.2
          ~ splitWorld("post_wall_skin")
          You set the box into the cup of the supreme kinetic applier # narration
+         variables are {post_wall_skin}  {post_wall_meat} {post_wall_stone}
          ~ splitWorld("post_wall_meat")
          With the release leaver the box starts to pick up speed # narration
+         variables are {post_wall_skin}  {post_wall_meat} {post_wall_stone}
          ~ splitWorld("post_wall_stone")
          You can almost hear the box whistle through the air # narration
          The packet makes contact with the wall # narration
+         variables are {post_wall_skin}  {post_wall_meat} {post_wall_stone}
          {post_wall_skin==true:
                 {post_wall_meat==true:
                         {post_wall_stone==true:
@@ -297,8 +300,14 @@ You see the drone loading bay beyond reinforced plastic transparent wall. # narr
                  }
          }
          ~ splitWorld("post_wall_stone")
+         variables are {post_wall_skin}  {post_wall_meat} {post_wall_stone}
+         variables are {post_wall_skin}  {post_wall_meat} {post_wall_stone}
          ~ splitWorld("post_wall_meat")
+         variables are {post_wall_skin}  {post_wall_meat} {post_wall_stone}
+         variables are {post_wall_skin}  {post_wall_meat} {post_wall_stone}
          ~ splitWorld("post_wall_skin")
+         variables are {post_wall_skin}  {post_wall_meat} {post_wall_stone}
+         variables are {post_wall_skin}  {post_wall_meat} {post_wall_stone}
          {post_china:
                 And disappears. # narration
          -else:

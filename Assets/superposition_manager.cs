@@ -223,7 +223,7 @@ public class superposition_manager : MonoBehaviour
         {
             inflation = 1.0;
         }
-        List<Chronon> bask_subjects = DisplayChronons(current_display/inflation);
+        List<Chronon> bask_subjects = DisplayChronons(current_display);
         float height_start = (bask_subjects.Count*vertical_spacing)-3.0f;
         for (int i=0; i < bask_subjects.Count; i++)
         {
@@ -383,7 +383,7 @@ public class superposition_manager : MonoBehaviour
 
     public void splitWorld(classical_story river, string detail)
     {
-        Debug.Log("flagger");
+        Debug.Log("flagger "+detail);
         river.bifurcateFlag = detail;
     }
 
@@ -498,9 +498,17 @@ public class superposition_manager : MonoBehaviour
             }
             //Debug.Log("fatreport" + river.thickness().ToString());
         }
+        if (fat > 1.0)
+        {
+            double cut_factor = 1.0 / fat;
+            foreach (classical_story river in linears)
+            {
+                river.renormalize(cut_factor);
+            }
+        }
         if (time_phase > timeToSpend)
         {
-            last_rollover += full_cycle_time;
+            last_rollover += timeToSpend;
             current_display = 0.0;
             RefreshDisplays();
             coming_nudgement = NextChange(0.0);
@@ -509,22 +517,14 @@ public class superposition_manager : MonoBehaviour
         }
         else
         {
-            inflation = 1.0;
-            double progress = 0.0;
-            progress = time_phase / timeToSpend;
-            double fat_rate = full_cycle_time / fat;
-            double rate_floor = time_to_keep_stable / min_thickness;
-            if (rate_floor > fat_rate)
-            {
-                fat_rate = rate_floor;
-            }
-            timeToSpend=fat_rate*fat;
-            Debug.Log(progress.ToString()+"  "+min_thickness.ToString()+ "fat"+ fat.ToString());
-            current_display = progress*fat_rate;
+            timeToSpend =full_cycle_time;
+            double progress = time_phase / timeToSpend;
+            Debug.Log(progress.ToString()+"  "+min_thickness.ToString()+ "fat"+ fat.ToString()+" entities "+linears.Count.ToString());
+            current_display = progress;
             if (current_display > coming_nudgement)
             {
                 RefreshDisplays();
-                coming_nudgement=NextChange(current_display)*fat_rate;
+                coming_nudgement=NextChange(current_display);
             }
             //Debug.Log(linears.Count);
             //Debug.Log("timing " + progress.ToString() + " span " + current_display.ToString() + " coming " + coming_nudgement.ToString());

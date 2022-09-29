@@ -166,6 +166,11 @@ public class classical_story
         return past.thickness;
     }
 
+    public void renormalize(double rate)
+    {
+        past.renormalize(rate);
+    }
+
     public double minimum_point_thickness()
     {
         return past.minimum_point_thickness();

@@ -9,7 +9,7 @@ public class event_chain
     public event_chain leaf_branch;
     public double thickness;
 
-    public event_chain(event_chain trunk=null,event_chain leaf=null)
+    public event_chain(event_chain trunk = null, event_chain leaf = null)
     {
         linear_bit = new List<Chronon>();
         thickness = 0.0;
@@ -29,7 +29,7 @@ public class event_chain
     {
         event_chain leaf_copy = null;
         event_chain trunk_copy = null;
-        if (trunk_branch !=null)
+        if (trunk_branch != null)
         {
             trunk_copy = trunk_branch.splitCopy();
         }
@@ -37,7 +37,7 @@ public class event_chain
         {
             leaf_copy = leaf_branch.splitCopy();
         }
-        event_chain noob = new event_chain(trunk_copy,leaf_copy);
+        event_chain noob = new event_chain(trunk_copy, leaf_copy);
         if (noob.trunk_branch == null)
         {
             if (noob.leaf_branch == null)
@@ -46,7 +46,7 @@ public class event_chain
             }
 
         }
-        foreach(Chronon content in linear_bit)
+        foreach (Chronon content in linear_bit)
         {
             noob.Add(content);
         }
@@ -166,6 +166,19 @@ public class event_chain
         return thickness;
     }
 
+
+    public void renormalize(double factor)
+    {
+        thickness=thickness*factor;
+        if (trunk_branch!=null)
+        {
+            trunk_branch.renormalize(factor);
+        }
+        if (leaf_branch != null)
+        {
+            leaf_branch.renormalize(factor);
+        }
+    }
 
     public void Add(Chronon present)
     {
