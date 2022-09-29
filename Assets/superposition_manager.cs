@@ -37,6 +37,7 @@ public class superposition_manager : MonoBehaviour
     public TextMeshProUGUI ChemistryTSlateFactory;
     public TextMeshProUGUI HistoryTSlateFactory;
     public TextMeshProUGUI RunaSlateFactory;
+    public TextMeshProUGUI PostalSlateFactory;
 
     public Canvas paint_wall;
 
@@ -282,6 +283,10 @@ public class superposition_manager : MonoBehaviour
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "runa"))
             {
                 noob = Instantiate(RunaSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "postWorker"))
+            {
+                noob = Instantiate(PostalSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
             if (noob == null)
             {

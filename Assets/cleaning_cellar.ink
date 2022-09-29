@@ -26,7 +26,8 @@ There are not enough feathers to pose a threat to anyones dignity. # narration
             The feather is large and coloured in brilliant red and blue. # narration
             -> CellarActions
         + Inspect bucket
-            You find a scarltet fish swimming in the bucket! # narration
+            You find a scarlet fish swimming in the bucket! # narration
             How unsual, this has to be a central clue to this mystery. # narration
+            -> CellarActions
         + Return to hallway
             -> hallway

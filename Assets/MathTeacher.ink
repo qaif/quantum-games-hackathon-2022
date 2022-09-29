@@ -1,43 +1,43 @@
 ﻿=== MathTeacher ===
-Math teacher Enrico Mwangi seems calculating.
+Math teacher Enrico Mwangi seems calculating. # narration
 -> questioning
 =questioning
 *Alibi
-   "Where were you when the murder took place?"
-   "I was overseeing reexamination of previously failed students"
+   Where were you when the murder took place? # protagonist
+   I was overseeing reexamination of previously failed students # mathT
    {werewolf==true:
-   "I thought I would engage them more if I made the vaccination question deal with something cool. "
-   "Seems lycantropy is not a cool enough fiction to sell math interest. "
-   "Well kiloid sellers are also going to miss out on the free advertising. "
+   I thought I would engage them more if I made the vaccination question deal with something cool. # mathT
+   Seems lycantropy is not a cool enough fiction to sell math interest. mathT
+   Well kiloid sellers are also going to miss out on the free advertising. mathT
    ~ lucan_cure=true
    }
    {lucan_formula==true:
-   "Like polypinkiloid?
-   "Yes, like polypinkiloid."
+   Like polypinkiloid? # protagonist
+   Yes, like polypinkiloid. # mathT
    }
     -> questioning
 *Motive
-   "Did you get along with the victim well?"
+   Did you get along with the victim well? # protagonist
    {guilty=="Math":
-        "Yes, we were close"
+        Yes, we were close # mathT
    -else:
-        "Very closely"
+        Very closely # mathT
    }
    {affair==true:
-       Atleast when they bothered to be around.
+       Atleast when they bothered to be around. # mathT
    -else:
-       I have a hard time thinking of time without them.
+       I have a hard time thinking of time without them. # mathT
    }
    -> questioning
 *Guilt
-   "Did you do it?"
+   Did you do it? # protagonist
    {werewolf:
-        "Not to my knowledge."
+        Not to my knowledge. # mathT
    }
    {guilty=="Math":
-       "Not in a million years."
+       Not in a million years. # mathT
    -else: 
-      "I would not off my friend."
+      I would not off my friend. # mathT
    }
    -> questioning
 +Leave

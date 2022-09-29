@@ -94,6 +94,7 @@ VAR splitTest=false
 VAR warp_story=false
 VAR warp_target=""
 
+VAR johnny_points=0
 
 {weapon == "knife":
     ~injury="slice"
@@ -211,7 +212,7 @@ Luckily you carry an amble supply of pens with you. # narration
      Well, you try to have lots. # narration
      You seem to be down to only two. # narration
 -else:
-     Toilet is messy, priotiy job. Yell back at students.# program
+     Toilet is messy, priority job. Yell back at students.# program
      There done. # narration
 }
 

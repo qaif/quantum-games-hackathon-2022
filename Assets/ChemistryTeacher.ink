@@ -1,40 +1,40 @@
 ﻿=== ChemistryTeacher ===
-Chemistry teacher Deep Tamura seems jolty.
+Chemistry teacher Deep Tamura seems jolty. # narration
 -> questioning
 =questioning
 *Alibi
-    "Where were you when the murder took place?"
+    Where were you when the murder took place? # protagonist
     {affair:
-        "Just mixing some of my chemicals."
+        Just mixing some of my chemicals. # chemistryT
     - else:
-        " Supervising my student study group."
+        Supervising my student study group. # chemistryT
     }
     {werewolf==true:
-        Do tell me if in your investigation you find a purple potion.
-        I think one of the students stole one from me.
-        Marini suddenly asked for it, so its kind of urgent.
+        Do tell me if in your investigation you find a purple potion. # chemistryT
+        I think one of the students stole one from me. # chemistryT
+        Marini suddenly asked for it, so its kind of urgent. # chemistryT
         ~ lucan_potion=true
     }
     -> questioning
 *Motive
-   "Did you get along with the victim well?"
+   Did you get along with the victim well? # protagonist
    {affair:
-      "He was a good colleague of mine."
+      He was a good colleague of mine. # chemistryT
    - else:
-      "They were well liked."
+      They were well liked. # chemistryT
    }
    {guilty=="chemistry":
-      "I hope you will find the perpetrator."
+      I hope you will find the perpetrator. # chemistryT
    - else:
-      "I think everybody can say that."
+      I think everybody can say that. # chemistryT
    }
    -> questioning
 *Guilt
-   "Did you do it?"
+   Did you do it? # protagonist
    {guilty=="chemistry":
-       "No."
+       No. # chemistryT
    - else:
-       "Yes. He was too good for this earth.
+       Yes. He was too good for this earth. # chemistryT
    }
    -> questioning
 +Leave
