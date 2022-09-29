@@ -32,6 +32,10 @@ public class superposition_manager : MonoBehaviour
     public TextMeshProUGUI NarrationSlateFactory;
     public TextMeshProUGUI RascalSlateFactory;
     public TextMeshProUGUI HandwriteSlateFactory;
+    public TextMeshProUGUI ButlerSlateFactory;
+    public TextMeshProUGUI MathTSlateFactory;
+    public TextMeshProUGUI ChemistyTSlateFactory;
+    public TextMeshProUGUI HistoryTSlateFactory;
 
     public Canvas paint_wall;
 
@@ -257,6 +261,13 @@ public class superposition_manager : MonoBehaviour
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "handwritten"))
             {
                 noob = Instantiate(HandwriteSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "butler"))
+            {
+                noob = Instantiate(ButlerSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+            }
+            {
+                noob = Instantiate(MathTSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
             }
             if (noob == null)
             {
