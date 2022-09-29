@@ -208,6 +208,9 @@ Luckily you carry an amble supply of pens with you. # narration
 {guilty=="protagonist":
      Well, you try to have lots. # narration
      You seem to be down to only two. # narration
+-else:
+     Toilet is messy, priotiy job. Yell back at students.# program
+     There done. # narration
 }
 
 With days priorities set, time to go earn the next grade. # narration

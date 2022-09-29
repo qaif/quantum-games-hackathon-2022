@@ -16,6 +16,8 @@ In addition to the usual facilities. # narration
         ->auditorium 
     + {priority_note==false} Enter office
         ->office
+    + {priority_note==false} Enter post station
+        -> CatDelivery
     + Usual facilities
         -> Facilities
 
@@ -25,8 +27,6 @@ In addition to the usual facilities. # narration
     }
     + Enter toilet
         ->MurderBathroom
-    + {priority_note==false} Enter post station
-        -> CatDelivery
     + {priority_note==false} Enter hall of fame
        -> HallOfFame
     + {priority_note==false} Enter cafeteria
