@@ -1,11 +1,8 @@
 from enum import Enum
 import numpy as np
-import time
-from scipy import linalg
-import qiskit
-import itertools
 
-from grid import OccupierType, Grid
+from grid import OccupierType
+from probe import ProbeInputType
 
 
 class GameState(Enum):
@@ -16,7 +13,7 @@ class GameState(Enum):
 
 
 class GameManager:
-    def __init__(self, grid, snake):
+    def __init__(self, grid, snake, probe_info):
         self.grid = grid
         self.snake = snake
         self.last_output = None
@@ -27,7 +24,8 @@ class GameManager:
         self.distances = self.calc_distances(self.adj_mat)
         self.lives = 3
         # self.probe_vector = [.3333, .3333, .3333]
-        self.probe_vector = [1, 0, 0]
+        # self.probe_vector = [1, 0, 0]
+        self.probe_info = probe_info
 
         # self.grid = Grid(10, 50)
         # self.snake = Snake(self.grid)
@@ -41,8 +39,15 @@ class GameManager:
 
     def on_probe(self):
         # TODO:
+        vector = self.probe_info.get_probe_vector()
+        print("PROBING WITH VECTOR: ", vector)
         self.snake.on_probe()
-        print(self.query(self.probe_vector))
+        q = self.query(vector)
+        dis = q[0]
+        vec = q[1]
+        print(q)
+        self.probe_info.set_measured_distance(dis)
+        self.probe_info.set_probe_vector_output(vec)
 
     def on_collision(self):
         # TODO:
@@ -66,13 +71,13 @@ class GameManager:
         print("YOU GUESSED CORRECTLY!!!")
         # TODO:
         # TODO: [prey location is revealed to player]
-        prey_revealed = True
         self.grid.set_occupier(self.prey_location, OccupierType.PREY)
         # TODO: [player is asked to move snake to prey location]
 
     def on_collected_food(self):
         # TODO:
         print("COLLECTED FOOD!!!")
+        self.snake.grow(1)
         self.on_reset_prey()
 
     def on_reset_prey(self):
@@ -82,6 +87,7 @@ class GameManager:
         if self.grid.selected_node is None:
             print("NO SQUARE SELECTED!!!")
             # TODO
+            return
         guess = self.grid.selected_node.idx
         print("GUESSING: ", guess)
         print("PREY: ", self.prey_location)
@@ -187,6 +193,7 @@ class GameManager:
         probed_vertices = self.snake.get_probe_idxs()
 
         # TODO: is this broken?????
+        # distances = self.distances[probed_vertices, np.full(len(probed_vertices, self.prey_location))]
         distances = self.distances[probed_vertices, np.full(len(probed_vertices), self.prey_location)]
         # distances from probed vertices to the prey
 
@@ -226,15 +233,15 @@ class GameManager:
     #
     #     return measured_vertex
 
-    def probe_unitary(self, unitary_mat, probe_vector):
-        # Simply multiplies the probe state by the given unitary matrix
-
-        n = unitary_mat.shape(1)
-        assert n == len(probe_vector), 'Probe vector dimension doesn\'t match.'
-        assert n == unitary_mat.shape(0), 'Given matrix not square'
-        assert unitary_mat.conj().T @ unitary_mat == np.eye(n), 'Given matrix not unitary'
-
-        return unitary_mat @ probe_vector
+    # def probe_unitary(self, unitary_mat, probe_vector):
+    #     # Simply multiplies the probe state by the given unitary matrix
+    #
+    #     n = unitary_mat.shape(1)
+    #     assert n == len(probe_vector), 'Probe vector dimension doesn\'t match.'
+    #     assert n == unitary_mat.shape(0), 'Given matrix not square'
+    #     assert unitary_mat.conj().T @ unitary_mat == np.eye(n), 'Given matrix not unitary'
+    #
+    #     return unitary_mat @ probe_vector
 
 
 class GlobalDirection(Enum):

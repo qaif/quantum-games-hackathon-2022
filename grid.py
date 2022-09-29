@@ -12,8 +12,10 @@ class Grid:
         self.on_updated_listeners = []
         self.size = size
         self.node_size = node_size
-        self.width = (size + 1) * node_size
+        # self.width = (size + 1) * node_size
+        self.width = size * node_size
         self.height = (size + 1) * node_size
+        # self.height = (size) * node_size
         self.nodes = [GridNode(i, self) for i in range(size * size)]
         self.hovered_node = None
         self.pressed_node = None
@@ -127,7 +129,7 @@ class GridNode:
             fill_color = self.pressed_color
         elif self.occupier == OccupierType.SNAKE or self.occupier == OccupierType.SNAKE_HEAD_V or self.occupier == OccupierType.SNAKE_HEAD_H:
             fill_color = self.snake_color
-        elif self.occupier == OccupierType.PROBE:
+        elif self.occupier == OccupierType.PROBE:  # TODO: draw number associated with node
             fill_color = self.probe_color
         elif self.occupier == OccupierType.PREY:
             fill_color = self.prey_color
@@ -187,6 +189,7 @@ class GridWidget(QWidget):
         super().__init__()
 
         self.setMouseTracking(True)
+        self.setMinimumWidth(grid.width)
 
         self.grid = grid
         # self.setGeometry(grid.node_size / 2, grid.node_size / 2, grid.width, grid.height)
