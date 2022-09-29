@@ -7,6 +7,11 @@
            -else:
                 A bit bloated, the stomach wiggles as you touch it # narration
             }
+            {clock>2:
+                    Ew, the body has started to tear appart and you can see holes through already # narration
+                    But wait just between the bones there is a key # narration
+                    ~ skeleton_key=true
+            }
             -> inspect
          +  neck 
             {guilty=="victim":

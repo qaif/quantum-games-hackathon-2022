@@ -13,10 +13,92 @@ There is something like a statue in the corner of the room. Oh, wait. It breathe
 = officeTable
 ~johnny_points=0
 On the office table lays a heavy registry book. Someone seems to have touched it recently. # narration
+There is also a phone on the table. # narration
+You could also go throught the drawers to find skeletons # narration
 + Open registry
     You see a list of staff and students in the university # narration
     -> registry
++Phone
+    ->Phone
++Drawers
+    {skeleton_key==true:
+           With the key you get access to all the skeletons. # narrative
+           Because that is totally what being a skeleton key means # narrative
+           ->TeleportReceive
+    -else:
+           Hmmm the sensitive papers are being protected by a lock # narrative
+    }
++Disengage
+-
+->officeTable
 
+=Phone
+It is a bit weird that it not mobile but tachyonic phones are a bit more expensive to make that way. # narration
+It is standard issue and quite ordinary. # narration
+{phone_cool_off==0:
+   The phone is ringing # narration
+}
+{phone_cool_off>0:
+   ~phone_cool_off=phone_cool_off+1
+}
++ {phone_cool_off<=0}Answer it
+    {phone_phrase} # protagonist
+    Weirdly that is what you hear from the phone # narrative
+    In a panic you slam the phone down # narrative
+    That must be a really good mimic. # narrative
+    ~phone_cool_off=phone_cool_off+1
++ {phone_cool_off>2}Dial
+    Bored you fiddle with the phone  # narration
+    -> phone_wait
++ {phone_cool_off<=0}Let it ring
+    ~ phone_wait_time=phone_wait_time+1
+    briiiing! briiiing! It is making quite a noise # narration
++ Search the underside of the phone
+    There seems to be nothing here # narration
+    -> Phone
++ Disassemble phone
+    You fail to get any work done on the seams # narration
+    It is quite solid work
++ Walk away
+     ->officeTable
+-
+->Phone
+
+
+=TeleportReceive
+You find a strange communication device that seems to be so new you don't even know what it is. # narration
+Please insert anti-correlation source # written
+Well that is one hole in the device #narrative
+Please input measured season # written
+The concepts are just so weird. There is a dial and a confirm button next to that one # narrative
++ insert item into hole
+      ++ Erm, this bomb that I am carrying?
+              This was not the safest choice # narrative
+              -> resolution.Demise
+      ++ Maybe not stick your tools into unknown openings
+            You step back to wonder about the interface # TeleportReceive
++ Make a selection with the dial
+      So which season it shall be?
+      ++ Spring
+      ++ Summer
+      ++ Fall
+      ++ Winter
+
+
+
+
+=phone_wait
+{phone_wait_time==0:
+       You hear the connection sound and blurp the first thing that comes to your mind # narration
+       {phone_phrase} # protagonist
+       Hey that is not fun! They immediately hang up on the call. # narration
+       ~ phone_phrase = coherentLottery("phone")
+       ~ phone_cool_off = 0
+- else:
+       Come on pick up the phone mystery receiver # narration
+       ~ phone_wait_time = phone_wait_time-1
+}
+->Phone
 
 =keypad
 ~ passcode=false

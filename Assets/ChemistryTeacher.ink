@@ -37,5 +37,14 @@ Chemistry teacher Deep Tamura seems jolty. # narration
        Yes. He was too good for this earth. # chemistryT
    }
    -> questioning
+*{bomb_smuggle==true}Mailbombs
+   How come you use the mail office to deliver volative materials? # protagonist
+   Oh its so expensive to use the armored cars all the time # chemistryT
+   The accidents are so very rare # chemistryT
+   The post office is very competent so I am sure they will know to handle them lightly # chemistryT
+   What do you do in the event that there is an accident # protagonist
+   For quick relief I have a secret comparment in the auditorium where I keep a phone to call for help quick # chemistryT
+   I have to keep it secret and away from the students that they don't try to fiddle with the high techness of it all the time # chemistryT
+   ~ sender_compartment=true
 +Leave
    -> Coffee.coffeetable

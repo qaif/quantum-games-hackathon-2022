@@ -67,6 +67,7 @@ There are: animal, handle with care and express. # postWorker
    We are running low on idle hands and the chemistry deparment has gotten sloppy with their labeling # postWorker
    So we can only afford to ship with silk gloves those that really need it # postWorker
    To be honest I don't think the chemists would mind if some of the packages got lost if even some of them got throught # postWorker
+   ~ bomb_smuggle=true
    The packages that actually can be thrown around you can put in 'usual treatment' # postWorker 
    and the packges that you know can not be thrown around you pur in 'snail pace' # postWorker
    How do I determine what can take what? # protagonist

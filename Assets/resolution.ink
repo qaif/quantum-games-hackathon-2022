@@ -1,7 +1,7 @@
 === resolution ===
 =Resolutionstart
 
-So what evidence do I have?
+So what evidence do I have? # narration
 * Zip. Nada
   Should I just give up on the case?
   ** Yes, this is hopeless
@@ -20,7 +20,7 @@ VAR win_how=false
 
 -> whoResolution
 =whoResolution
-Who I think did it?
+Who I think did it? # narration
 * Math teacher
     {guilty=="math":
          ~ win_who = true
@@ -47,7 +47,7 @@ Who I think did it?
         ~ win_who = true
     }
 * Butler
-   It's always the butler.
+   It's always the butler. # narration
     {guilty=="butler":
          ~ win_who = true
     }
@@ -67,7 +67,7 @@ Who I think did it?
 -> whyResolution
 
 =whyResolution
-Why they did it?
+Why they did it? # narration
 * For the mad lolz
     {guilty=="protagonist":
           ~ win_why = true
@@ -96,7 +96,7 @@ Why they did it?
 -> scoring
 /*
 =howResolution
-How they did it?
+How they did it? # narration
 * With style
 * Knife
    {weapon=="knife":
@@ -131,15 +131,15 @@ How they did it?
 =scoring
 VAR points = 0
 {win_who==true:
-    I got who did it
+    I got who did it # narration
     ~ points = points + 1
 }
 {win_why==true:
-    I got why it was done
+    I got why it was done # narration
     ~ points = points + 1
 }
 {win_how==true:
-   I got how it was done
+   I got how it was done #narration
    ~ points = points + 1
 }
 
@@ -147,24 +147,24 @@ VAR points = 0
     ->Win
 }
 {points>0:
-     You have some clue what is going on.
-     For lack of evidence nobody is found guilty of the crime.
+     You have some clue what is going on. # narration
+     For lack of evidence nobody is found guilty of the crime. # narration
 }
 -> Loss
 
 =Win
-You win.
-Case cracked wide open.
-All the mysteries of the universe reveal themselfs under your careful eye.
-Now go figure out the real one.
+You win. # program
+Case cracked wide open. # narration
+All the mysteries of the universe reveal themselfs under your careful eye.# narration
+Now go figure out the real one. # narration
 * Accept outcome
-  You step into the light through the fourth wall.
+  You step into the light through the fourth wall. # narration
   ** Oh no the great beyond
   ** GG no re
   -> END
 * Retry
-   No. This is too fun. I think there are still mysteries to figure out about it.
-   So, here we go again for the {1003645th|1003646th|1003647th|1003648th|1003649th|   1003650th|umpfteenth} time.
+   No. This is too fun. I think there are still mysteries to figure out about it. # narration
+   So, here we go again for the {1003645th|1003646th|1003647th|1003648th|1003649th|   1003650th|umpfteenth} time. # program
    ~ retry = true
    ** I will never get bored of this
    ** oh I won? I knew it was not guesswork
@@ -173,11 +173,11 @@ Now go figure out the real one.
 
 
 =Loss
-The mystery was too tough a nut to crack.
-The misleading theories allowed for the perpatrator to hide so well they were not found.
-Having meddled in so important matters beyond your duties
-the university doesn't renew your work contract.
-You lose.
+The mystery was too tough a nut to crack. # narration
+The misleading theories allowed for the perpatrator to hide so well they were not found. # narration
+Having meddled in so important matters beyond your duties # narration
+the university doesn't renew your work contract. # narration
+You lose. # program
 * Accept outcome
    -> END
 * Retry
@@ -186,27 +186,27 @@ You lose.
 
 =Abandon
 {post_revenge==true:
-     You went home.
-     Before you got inside a jaguar jumped on you.
-     With your puny unmotivated human hands you had no chance to win the fight.
-     You die.
+     You went home. # narration
+     Before you got inside a jaguar jumped on you. # narration
+     With your puny unmotivated human hands you had no chance to win the fight. # narration
+     You die. # program
 -else:
-     You went and slept it off.
-     Next days newspaper had a big article of the impenetrable mystery of the murder.
-     Your performance grade for that day was F.
-     Apparently they don't like blood on their floors.
-    Your day begins a totally unconnected adventure.
+     You went and slept it off. # narration
+     Next days newspaper had a big article of the impenetrable mystery of the murder. # narration
+     Your performance grade for that day was F. # narration
+     Apparently they don't like blood on their floors. # narration
+    Your day begins a totally unconnected adventure. # narration
 }
 
 =Demise
-    You die.
+    You die.# narration
     * Accept outcome
         -> END
     * Retry
         ~ retry=true
         -> END
     * Use half of your smash coins to continue
-        You don't have enough smash coins to continue
+        You don't have enough smash coins to continue # program
         ** Master this hand!
         ** Ben is a hoe anyway
         --

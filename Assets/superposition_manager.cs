@@ -179,9 +179,13 @@ public class superposition_manager : MonoBehaviour
         //Debug.Log(dual);
         Lottery b = new Lottery(dual);
         Lottery c = new Lottery(new string[]{"animal","handle with care","express"});
+        Lottery d = new Lottery(new string[] { "Hello", "mushi mushi", "Halojata halloo", "Aloha","Did you see the blue middle arch?" });
+        Lottery e = new Lottery(new string[] { "frog", "pony", "owl" });
         lotto.Add("atomic_fact",a);
         lotto.Add("bomb_fuse",b);
         lotto.Add("box_label", c);
+        lotto.Add("phone", d);
+        lotto.Add("com", e);
 
         linears = new List<classical_story>();
         for (int i = 0; i < 5; i++)
@@ -300,7 +304,7 @@ public class superposition_manager : MonoBehaviour
         List<Chronon> affords = current_linear.affordanceItems();
         float horizontal_start = 5.0f;
         vertical_spacing = 0.2f;
-        height_start = (affords.Count * vertical_spacing) - 4.0f;
+        height_start = (affords.Count * vertical_spacing) - 5.0f;
         for (int i=0; i < affords.Count; i++)
         {
             TextMeshProUGUI noob = null;

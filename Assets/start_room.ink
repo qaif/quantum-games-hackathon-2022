@@ -77,6 +77,20 @@ VAR post_china=false
 VAR post_task_score=0
 VAR post_cat_error=0
 
+VAR bomb_smuggle=false
+VAR sender_compartment=false
+
+VAR producer_plop=false
+VAR producer_carrying=false
+VAR com_password="a"
+VAR com_state=false
+
+VAR com_sender_quantum_channel=false
+VAR com_receiver_quantum_channel=false
+
+VAR com_message_loaded=false
+
+VAR sender_production=false
 
 VAR post_bomb_error=0
 VAR post_bomb_burden=0
@@ -85,7 +99,17 @@ VAR post_wall_skin=false
 VAR post_wall_meat=false
 VAR post_wall_stone=false
 
+VAR antisymmetry_alice=false
+VAR antisymmetry_bob=false
+
+
 VAR passcode=false
+
+VAR skeleton_key=false
+
+VAR phone_phrase="Hello"
+VAR phone_wait_time=0
+VAR phone_cool_off=0
 
 VAR clock=0
 
@@ -125,6 +149,60 @@ VAR johnny_points=0
 
 ===titleLine===
 Quantum Detective # program
+
+~ phone_phrase=coherentLottery("phone")
+~ com_password=coherentLottery("com")
+{com_password=="pony":
+     {world=="A":
+            ~ com_state=true
+     }
+     {world=="B":
+            ~ com_state=true
+     }
+     {world=="C":
+            ~ com_state=false
+     }
+     {world=="D":
+            ~ com_state=false
+     }
+     {world=="E":
+            ~ com_state=true
+     }
+}
+{com_password=="frog":
+     {world=="A":
+            ~ com_state=false
+     }
+     {world=="B":
+            ~ com_state=true
+     }
+     {world=="C":
+            ~ com_state=true
+     }
+     {world=="D":
+            ~ com_state=false
+     }
+     {world=="R":
+            ~ com_state=false
+     }
+}
+{com_password=="owl":
+     {world=="A":
+            ~ com_state=false
+     }
+     {world=="B":
+            ~ com_state=false
+     }
+     {world=="C":
+            ~ com_state=true
+     }
+     {world=="D":
+            ~ com_state=false
+     }
+     {world=="R":
+            ~ com_state=true
+     }
+}
 
 This game is played by entering text into the textbox (and submitting by enter). # program
 

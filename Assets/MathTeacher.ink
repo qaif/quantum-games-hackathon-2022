@@ -7,8 +7,8 @@ Math teacher Enrico Mwangi seems calculating. # narration
    I was overseeing reexamination of previously failed students # mathT
    {werewolf==true:
    I thought I would engage them more if I made the vaccination question deal with something cool. # mathT
-   Seems lycantropy is not a cool enough fiction to sell math interest. mathT
-   Well kiloid sellers are also going to miss out on the free advertising. mathT
+   Seems lycantropy is not a cool enough fiction to sell math interest. # mathT
+   Well kiloid sellers are also going to miss out on the free advertising. # mathT
    ~ lucan_cure=true
    }
    {lucan_formula==true:
@@ -27,6 +27,12 @@ Math teacher Enrico Mwangi seems calculating. # narration
        Atleast when they bothered to be around. # mathT
    -else:
        I have a hard time thinking of time without them. # mathT
+   }
+   {affair==false:
+              {debt==true:
+                  Sometimes, I felt like he kept a little too many secrets. # mathT
+                  They never let me touch their key which they always kept on their belt. #mathT
+              }
    }
    -> questioning
 *Guilt

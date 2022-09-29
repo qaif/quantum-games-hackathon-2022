@@ -4,10 +4,10 @@
 
 
 =coffeetable
-Some people are lazily biding their time.
+Some people are lazily biding their time. # narration
 
-This seems like a good place to address a large crowd.
-Am I ready to crack this case?
+This seems like a good place to address a large crowd. # narration
+Am I ready to crack this case? # narration
 + Chat with loungers
   -> Clique
 + Consider solving the case
@@ -16,9 +16,9 @@ Am I ready to crack this case?
    -> hallway
    
 =Clique
-A group of people are animatedly talking.
-They all seems to be teachers.
-Time to pick your favorite subject.
+A group of people are animatedly talking. # narration
+They all seems to be teachers. # narration
+Time to pick your favorite subject. # narration
 * History
   ->HistoryTeacher
 * Chemistry

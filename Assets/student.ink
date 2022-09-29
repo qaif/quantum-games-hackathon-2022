@@ -65,6 +65,14 @@ So hurry up # rascal
   I wish I had # rascal
   }
   ->Plea
+* Experiment
+   So what were you doing here before you got locked up? # protagonist
+   We were about to demo a chaos lock # rascal
+   It is so chaotic that if you even look at the key it ceases to work # rascal
+   Perfect for things that would not be able to withstand daylight anyway # rascal
+   Do you mind if I take a look? # protagonist
+   Sure, check it out and despair # rascal
+   ~ sender_production=true
 + Leave
    -> auditorium
 -
