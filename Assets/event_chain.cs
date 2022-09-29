@@ -183,7 +183,7 @@ public class event_chain
         if (trunk_branch== null && leaf_branch == null)
         {
             thickness = thickness * factor;
-            Debug.Log("renorm" + thickness + ToString());
+            //Debug.Log("renorm" + thickness + ToString());
         }
         else
         {
