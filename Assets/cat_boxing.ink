@@ -292,11 +292,7 @@ You see the drone loading bay beyond reinforced plastic transparent wall. # narr
          The packet makes contact with the wall # narration
          variables are {post_wall_skin}  {post_wall_meat} {post_wall_stone}
          {post_wall_skin==true:
-                {post_wall_meat==true:
-                        {post_wall_stone==true:
-                                  post_china=true // amplitude split of 8
-                        }
-                 }
+                  ~ post_china=true // amplitude split of 0.1
          }
 //         ~ splitWorld("post_wall_stone")
          variables are {post_wall_skin}  {post_wall_meat} {post_wall_stone}

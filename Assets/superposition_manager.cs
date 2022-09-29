@@ -304,7 +304,7 @@ public class superposition_manager : MonoBehaviour
 
     void catchError(string storyid,string huuto, Ink.ErrorType what)
     {
-        Debug.Log("story "+storyid+" "+what.ToString() + " : " + huuto);
+        Debug.Log("story ERROR "+storyid+" "+what.ToString() + " : " + huuto);
     }
 
     public List<Chronon> DisplayChronons(double clockhand)
@@ -372,6 +372,11 @@ public class superposition_manager : MonoBehaviour
                 Debug.Log("focus afterstate" + focus.story.variablesState[focus.bifurcateFlag].ToString() + focus.story.variablesState["world"]);
 
                 //Debug.Log("even deeper");
+                //fresh.force_add("story "+i.ToString());
+                noob.story.onError += (huuto, what) =>
+                {
+                    catchError("splitted", huuto, what);
+                };
                 noob.story.BindExternalFunction("coherentLottery", (string ticket) =>
                 {
                     string midway = CoherentLottery(noob, ticket);

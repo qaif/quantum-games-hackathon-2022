@@ -200,13 +200,13 @@ You wake up with the strangest feeling as if somebody has departed this earth. #
    Luckily your day deals with much simpler matters. # narration
 }
 The university comfortability is on your shoulders as its janitor. # narration
-~splitWorld("splitTest")
+~degreeSplitWorld("splitTest","0.1")
 Yesterday performance review gave you a grade of {world}. # narration
 Some students were complaining about the toilets. # narration
 {splitTest==true:
      woah split world
 }
-~splitWorld("splitTest")
+~degreeSplitWorld("splitTest","0.1")
 So better start with that. # narration
 {splitTest==true:
      woah no more world
