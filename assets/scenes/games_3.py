@@ -30,7 +30,7 @@ class Games_3(Games):
 
     def __init__(self, pygame):
         super().__init__()
-        self.background = pygame.image.load("assets/images/phase3.jpg")
+        self.background = pygame.image.load("assets/images/games_3.jpg")
 
         pygame.mouse.set_visible(True)
 
@@ -59,7 +59,7 @@ class Games_3(Games):
         # timer for user defined function
         pygame.time.set_timer(self.event_hide_box, 700)
 
-        self.input_box = InputBox(300, 400, 140, 44)
+        self.input_box = InputBox(380, 450, 140, 44)
         self.answer_key = ""
         self.input_key = ""
 
@@ -72,7 +72,7 @@ class Games_3(Games):
         i = 0
         for type in self.romeo_bits:
             b = BitBase(type, _idx=i)
-            b.rect = b.image.get_rect(topleft=(270 + 60 * i, 97))
+            b.rect = b.image.get_rect(topleft=(270 + 60 * i, 107))
             self.romeo_bit_display.add(b)
 
             i += 1
@@ -80,7 +80,7 @@ class Games_3(Games):
         i = 0
         for type in self.romeo_bases:
             b = MeasurementBase(type, _idx=i)
-            b.rect = b.image.get_rect(topleft=(265 + 60 * i, 195))
+            b.rect = b.image.get_rect(topleft=(265 + 60 * i, 175))
             self.romeo_base_display.add(b)
 
             i += 1
@@ -88,7 +88,7 @@ class Games_3(Games):
         i = 0
         for type in self.juliet_bases:
             b = MeasurementBase(type, _idx=i)
-            b.rect = b.image.get_rect(topleft=(265 + 60 * i, 295))
+            b.rect = b.image.get_rect(topleft=(265 + 60 * i, 245))
             self.juliet_base_display.add(b)
 
             i += 1
@@ -171,9 +171,9 @@ class Games_3(Games):
         self.romeo_base_display.draw(window)
         self.juliet_base_display.draw(window)
 
-        self.draw_table(window, self.hides[0], 260, 90)
-        self.draw_table(window, self.hides[1], 260, 190)
-        self.draw_table(window, self.hides[2], 260, 290)
+        self.draw_table(window, self.hides[0], 260, 100)
+        self.draw_table(window, self.hides[1], 260, 170)
+        self.draw_table(window, self.hides[2], 260, 240)
 
         # global drawing (score, timer, hearts
         self.draw(window)

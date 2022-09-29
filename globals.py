@@ -14,8 +14,8 @@ selectedBit = 0
 showConfig = True
 #showConfig = False
 
-#testing = True
-testing = False
+testing = True
+#testing = False
 phase = 3
 
 remainingHearts = 3
