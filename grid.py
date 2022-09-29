@@ -55,7 +55,7 @@ class Grid:
     def get_rect(self, idx):
         x1 = self.get_canvas_x(idx)
         y1 = self.get_canvas_y(idx)
-        return QRect(x1, y1, self.node_size, self.node_size)
+        return QRect(int(x1), int(y1), int(self.node_size), int(self.node_size))
 
     def up(self, idx):
         if idx < self.size: return -1
@@ -171,7 +171,7 @@ class GridNode:
         y1 = self.grid.get_canvas_y(self.idx) + (s - height) / 2
         x2 = x1 + s - width
         y2 = y1
-        return QRect(x1, y1, width, height), QRect(x2, y2, width, height)
+        return QRect(int(x1), int(y1), int(width), int(height)), QRect(int(x2), int(y2), int(width), int(height))
 
     def get_h_eye_rects(self):
         s = self.grid.node_size
@@ -181,7 +181,7 @@ class GridNode:
         y1 = self.grid.get_canvas_y(self.idx)
         x2 = x1
         y2 = y1 + s - height
-        return QRect(x1, y1, width, height), QRect(x2, y2, width, height)
+        return QRect(int(x1), int(y1), int(width), int(height)), QRect(int(x2), int(y2), int(width), int(height))
 
 
 class GridWidget(QWidget):
