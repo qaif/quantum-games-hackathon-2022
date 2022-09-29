@@ -87,6 +87,8 @@ VAR post_wall_stone=false
 
 VAR passcode=false
 
+VAR clock=0
+
 VAR splitTest=false
 
 VAR warp_story=false

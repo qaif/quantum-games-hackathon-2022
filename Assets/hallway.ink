@@ -5,6 +5,15 @@ INCLUDE murder_bathroom.ink
 The hallway seems empty. There is a door to the cleaning cellar, # narration
 a door to a classroom, a wide opening to a cafeteria and a door to the auditorium. # narration
 In addition to the usual facilities. # narration
+~ clock=clock+1
+The hall has a nice blue arc towards the outside with a mural depicting a lightly clouded sky.
+A nice green arc towards the inside has a mural of a grass field on it.
+{clock>5:
+The middle arc is blue. Just boring solid color blue.
+-else:
+The middle arc is green. Just boring solid color green.
+}
+
 {priority_note==true:
    Better get started with that toilet. # narration
 }

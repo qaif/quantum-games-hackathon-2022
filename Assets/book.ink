@@ -29,8 +29,7 @@ The advances in nanotechnology suggest great possibilities for invention in the 
 = page5
 Cooperation within fields of science and art is essential for understanding the need of a more holistic education, for truly transformative learning to happen. # written
 {werewolf==true:
-Handwriting underneath reads: # narration
-Maybe mix polypinkiloid with grey paint? # written
+Maybe mix polypinkiloid with grey paint? # handwritten
 ~lucan_formula=true
 }
 {lucan_cure==true:
