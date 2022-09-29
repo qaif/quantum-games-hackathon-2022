@@ -30,7 +30,7 @@ class Games_3(Games):
 
     def __init__(self, pygame, par_romeo_bits = [], par_romeo_bases = []):
         super().__init__()
-        self.background = pygame.image.load("assets/images/games_2.jpg")
+        self.background = pygame.image.load("assets/images/phase3.jpg")
 
         self.bit_options = [globals.keyboard_bit_0, pygame.K_f]
         self.base_options = [globals.keyboard_base_x, globals.keyboard_base_z]
