@@ -5,15 +5,10 @@ world = None
 gameTitle = "Verona 2049"
 screenSize = (1024, 768)
 
-
 minBit = 1
 maxBit = 15
 currentBit = 5
 selectedBit = 0
-
-
-
-
 
 # =================== GAME SETTINGS ========================
 showConfig = True
@@ -30,6 +25,10 @@ starting_timer_seconds = 0
 
 timer_minute = 5
 timer_seconds = 0
+
+romeo_bits = []
+romeo_bases = []
+juliet_bases = []
 
 # ==================  Measuring keyboard settings ========================
 keyboard_bit_0 = pygame.K_d

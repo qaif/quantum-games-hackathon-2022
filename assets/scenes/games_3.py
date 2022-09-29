@@ -28,15 +28,15 @@ class Games_3(Games):
     juliet_bases = [globals.keyboard_base_x, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_x, globals.keyboard_base_z]
 
 
-    def __init__(self, pygame, par_romeo_bits = [], par_romeo_bases = []):
+    def __init__(self, pygame):
         super().__init__()
         self.background = pygame.image.load("assets/images/games_2.jpg")
 
         self.bit_options = [globals.keyboard_bit_0, pygame.K_f]
         self.base_options = [globals.keyboard_base_x, globals.keyboard_base_z]
 
-        self.romeo_bits = par_romeo_bits
-        self.romeo_bases = par_romeo_bases
+        self.romeo_bits = globals.romeo_bits
+        self.romeo_bases = globals.romeo_bases
         self.juliet_bases = []
 
         if globals.testing:

@@ -35,7 +35,7 @@ class Games:
         # initialize hearts
         j = 0
         for i in range(globals.remainingHearts):
-            self.hearts.add(self.Heart(80 + (j * 42), 719))
+            self.hearts.add(self.Heart(880 + (j * 42), 719))
             j += 1
 
         if globals.remainingHearts <= 0:
