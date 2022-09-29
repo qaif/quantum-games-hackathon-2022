@@ -2,7 +2,7 @@ from enum import Enum
 import numpy as np
 
 from grid import OccupierType
-from probe import ProbeInputType
+from probe import ProbeInputType, ProbeDirection
 
 
 class GameState(Enum):
@@ -16,7 +16,6 @@ class GameManager:
     def __init__(self, grid, snake, probe_info):
         self.grid = grid
         self.snake = snake
-        self.last_output = None
         self.rng = np.random.default_rng()
         self.prey_location = -1
         self.spawn_prey()
@@ -37,17 +36,34 @@ class GameManager:
         # TODO: reset probe grid occupier
         self.snake.move(direction)
 
-    def on_probe(self):
-        # TODO:
+    def on_probe_start(self):
+        # TODO: make ui visible
+        # TODO: freeze snake movement, disable guessing
+        # vector = self.probe_info.get_probe_vector()
+        # print("PROBING WITH VECTOR: ", vector)
+        self.snake.on_probe()
+        iad = self.snake.get_probe_idxs_and_directions()
+        idxs = iad[0]
+        dirs = iad[1]
+        self.probe_info.set_probe_idxs(idxs)
+        self.probe_info.set_probe_directions(dirs)
+        # q = self.query(vector)
+        # dis = q[0]
+        # vec = q[1]
+        # print(q)
+        # self.probe_info.set_measured_distance(dis)
+        # self.probe_info.set_probe_vector_output(vec)
+
+    def on_query(self):
         vector = self.probe_info.get_probe_vector()
         print("PROBING WITH VECTOR: ", vector)
-        self.snake.on_probe()
         q = self.query(vector)
         dis = q[0]
         vec = q[1]
         print(q)
         self.probe_info.set_measured_distance(dis)
         self.probe_info.set_probe_vector_output(vec)
+        # TODO: make bottom ui visible
 
     def on_collision(self):
         # TODO:
@@ -97,30 +113,6 @@ class GameManager:
         else:
             self.on_fail()
         # TODO: [Take player back to "beginning of turn state" so they can continue playing]
-
-    # def button_up(rows, columns, prey_revealed, prey_location):  # and similar functions for down, left, right
-    #
-    #     head = snake_body[-1]
-    #     new_head = head - columns  # index of square one above the head. Replace for other directions.
-    #
-    #     # Detect collision with edge
-    #     if new_head not in range(rows * columns):
-    #         # Do nothing. I.e. ignore when player tells snake to move off grid.
-    #         return
-    #
-    #     # Detect collision with self
-    #     if new_head in snake_body[1:]:
-    #         # [UI tells you you're dead. Game over]
-    #
-    #         return
-    #
-    #     # Move snake
-    #     snake_body.append(new_head)
-    #     # Grow snake only when the prey location is revealed and prey is reached
-    #     if not (prey_revealed and new_head == prey_location):
-    #         snake_body.pop(0)
-    #
-    #     return
 
     def spawn_prey(self):
         # TODO: don't spawn on top of snake
@@ -184,7 +176,7 @@ class GameManager:
     #     # behind the head.
     #     return np.where(vect)[0]
 
-    def query(self, probe_vector):
+    def query(self):
         # Given a probe state and the prey's location, this function returns
         # the measured distance resulting from the probe as well as the new
         # probe state that remains after measurement.
@@ -192,9 +184,7 @@ class GameManager:
         # probed_vertices = self.probeable_vertices(graph, snake_body)  # vertices to be probed
         probed_vertices = self.snake.get_probe_idxs()
 
-        # TODO: is this broken?????
-        # distances = self.distances[probed_vertices, np.full(len(probed_vertices, self.prey_location))]
-        distances = self.distances[probed_vertices, np.full(len(probed_vertices), self.prey_location)]
+        distances = self.distances[probed_vertices, self.prey_location]
         # distances from probed vertices to the prey
 
         probabilities = np.abs(probe_vector) ** 2  # probs. of the different outcomes
@@ -209,29 +199,16 @@ class GameManager:
         # Normalize
         norm = np.sum(np.abs(new_probe_vector) ** 2) ** 0.5
         new_probe_vector = new_probe_vector / norm
-        new_norm = np.sum(np.abs(new_probe_vector) ** 2)
-        # assert new_norm == 1, f'Norm is {new_norm}, but it should be 1.'
-
-        # TODO: is this an appropriate fix?????
-        fp_error_allowance = 0.001
-        assert 1 - new_norm < fp_error_allowance, f'Norm is {new_norm}, but it should be 1.'
+        # new_norm = np.sum(np.abs(new_probe_vector) ** 2)
+        # fp_error_allowance = 0.0000000001
+        # assert 1 - new_norm < fp_error_allowance, f'Norm is {new_norm}, but it should be 1.'
 
         return measured_distance, new_probe_vector
 
-    # TODO: is this redundant?????
-    # def probe_measurement(self, probe_vector):
-    #     # Returns the index of a vertex that results from measuring the
-    #     # given probe state.
-    #
-    #     # probed_vertices = self.probeable_vertices(graph, snake_body)  # vertices that were probed
-    #     probed_vertices = self.snake.get_probe_idxs()
-    #
-    #     probabilities = np.abs(probe_vector) ** 2  # probabilities of different outcomes
-    #
-    #     # Randomly choose a vertex according to Born rule probabilities.
-    #     measured_vertex = self.rng.choice(probed_vertices, p=probabilities)
-    #
-    #     return measured_vertex
+    def probe_measurement(self):
+        probabilities = np.abs(self.probe_info.probe_vector_output) ** 2  # probabilities of different outcomes
+        # Randomly choose a direction according to Born rule probabilities.
+        return self.rng.choice(self.probe_info.probe_directions, p=probabilities)
 
     # def probe_unitary(self, unitary_mat, probe_vector):
     #     # Simply multiplies the probe state by the given unitary matrix
@@ -276,21 +253,73 @@ class Snake:
     def grow(self, amount):
         self.target_length += amount
 
-    # def get_head_coords(self):
-    #     return self.grid.get_coords(self.body[0])
-    #
-    # def get_probe_coords(self):
-    #     return self.grid.get_coords(self.grid.up(self.body[0])), \
-    #            self.grid.get_coords(self.grid.right(self.body[0])), \
-    #            self.grid.get_coords(self.grid.down(self.body[0])), \
-    #            self.grid.get_coords(self.grid.left(self.body[0]))
-
     def get_probe_idxs(self):
         # TODO: account for edges????
         idxs = [self.grid.up(self.body[0]), self.grid.right(self.body[0]), self.grid.down(self.body[0]),
                 self.grid.left(self.body[0])]
         idxs.remove(self.body[1])
+        # TODO: does this work?
+        unavailable = idxs.count(-1)
+        for i in range(unavailable):
+            idxs.remove(-1)
         return idxs
+
+    def get_probe_idxs_and_directions(self):
+        # TODO: account for edges????
+        idxs = self.get_probe_idxs()
+        probe_directions = []
+        for i in idxs:
+            probe_directions.append(self.get_relative_direction(i))
+        return idxs, probe_directions
+
+    def get_relative_direction(self, idx):
+        head = self.body[0]
+        d = self.get_direction()
+        if idx > head:
+            if idx == head + 1:  # right
+                if d == GlobalDirection.UP:
+                    return ProbeDirection.RIGHT
+                elif d == GlobalDirection.RIGHT:
+                    return ProbeDirection.FORWARD
+                elif d == GlobalDirection.DOWN:
+                    return ProbeDirection.LEFT
+            else:  # down
+                if d == GlobalDirection.RIGHT:
+                    return ProbeDirection.RIGHT
+                elif d == GlobalDirection.DOWN:
+                    return ProbeDirection.FORWARD
+                elif d == GlobalDirection.LEFT:
+                    return ProbeDirection.LEFT
+        elif self.body[0] == self.body[1] - 1:  # left
+            if d == GlobalDirection.UP:
+                return ProbeDirection.LEFT
+            elif d == GlobalDirection.DOWN:
+                return ProbeDirection.RIGHT
+            elif d == GlobalDirection.LEFT:
+                return ProbeDirection.FORWARD
+        else:  # up
+            if d == GlobalDirection.UP:
+                return ProbeDirection.FORWARD
+            elif d == GlobalDirection.RIGHT:
+                return ProbeDirection.LEFT
+            elif d == GlobalDirection.LEFT:
+                return ProbeDirection.RIGHT
+
+    def get_direction(self):
+        if self.body[0] > self.body[1]:
+            if self.body[0] == self.body[1] + 1:
+                print("right")
+                return GlobalDirection.RIGHT
+            else:
+                print("down")
+                return GlobalDirection.DOWN
+        elif self.body[0] == self.body[1] - 1:
+            print("left")
+            return GlobalDirection.LEFT
+        else:
+            print("up")
+            return GlobalDirection.UP
+
 
     def move(self, direction):
         # TODO: reset probe grid occupier
@@ -353,7 +382,3 @@ class Snake:
     def on_collected_food(self):
         for listener in self.on_collected_food_listeners:
             listener()
-
-    # def update_snake_position(self):
-    #     for i in self.body:
-    #         self.grid.nodes[i].occupier = OccupierType.SNAKE

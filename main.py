@@ -30,7 +30,7 @@ class ActionsWidget(QWidget):
 
     def on_probe(self):
         print("probe")
-        self.game_manager.on_probe()
+        self.game_manager.on_probe_start()
 
     def on_strike(self):
         print("strike")
