@@ -6,12 +6,7 @@ import pygame
 
 from assets.scenes.games import Games
 from assets.classes.measurementbase import MeasurementBase, BitBase
-
 from assets.classes.utils import *
-from assets.scenes.scene import Scene, FadeTransitionScene, TransitionScene
-from assets.classes.inputstream import InputStream
-from assets.classes.ui import ButtonUI
-from assets.scenes.games_3 import Games3Scene
 
 
 class Games_2(Games):
@@ -166,35 +161,3 @@ class Games_2(Games):
 
         # global drawing (score, timer, hearts
         self.draw(window)
-
-class Games2Scene(Scene):
-    def __init__(self, romeo_bits, romeo_bases):
-        #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
-
-        pygame.event.clear()
-        self.g2 = Games_2(pygame, romeo_bits, romeo_bases)
-    def onEnter(self):
-        pass
-        #globals.soundManager.playMusicFade('solace')
-    def update(self, sm, inputStream):
-        pass
-        #self.esc.update(inputStream)
-
-    def input(self, sm, inputStream):
-        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish and self.g2.win:
-            print(self.g2.romeo_bits, self.g2.romeo_bases)
-            sm.push(FadeTransitionScene([self], [Games3Scene(self.g2.romeo_bits, self.g2.romeo_bases)]))
-        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish and self.g2.gameover:
-            sm.pop_all()
-            sm.push(FadeTransitionScene([self], []))
-
-    def draw(self, sm, screen):
-        self.g2.call_event(screen)
-
-        #self.esc.draw(screen)
-
-        if self.g2.finish and self.g2.win:
-            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
-            self.g2.pause = True
-        elif self.g2.finish and self.g2.gameover:
-            drawText(screen, 'Game over!', 50, 300, globals.BLACK, 255, 40)

@@ -8,12 +8,7 @@ from typing import List
 from assets.scenes.games import Games
 from assets.classes.measurementbase import MeasurementBase, BitBase
 from assets.classes.input_boxes import InputBox
-
 from assets.classes.utils import *
-from assets.scenes.scene import Scene, FadeTransitionScene, TransitionScene
-from assets.classes.inputstream import InputStream
-from assets.classes.ui import ButtonUI
-from assets.scenes.games_4 import Games4Scene
 
 
 FONT = pygame.font.Font("freesansbold.ttf", 32)
@@ -178,26 +173,4 @@ class Games_3(Games):
         # global drawing (score, timer, hearts
         self.draw(window)
 
-class Games3Scene(Scene):
-    def __init__(self, romeo_bits, romeo_bases):
-        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
 
-        pygame.event.clear()
-        self.g3 = Games_3(pygame, romeo_bits, romeo_bases)
-    def onEnter(self):
-        pass
-        #globals.soundManager.playMusicFade('solace')
-    def update(self, sm, inputStream):
-
-        self.esc.update(inputStream)
-
-    def input(self, sm, inputStream):
-        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g3.win:
-            sm.push(FadeTransitionScene([self], [Games4Scene(self.g3.answer_key)]))
-
-    def draw(self, sm, screen):
-        self.g3.call_event(screen)
-        self.esc.draw(screen)
-
-        if self.g3.finish:
-            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)

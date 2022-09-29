@@ -4,13 +4,7 @@ import sys
 
 from assets.scenes.games import Games
 from assets.classes.measurementbase import MeasurementBase, BitBase
-
 from assets.classes.utils import *
-from assets.scenes.scene import Scene, FadeTransitionScene, TransitionScene
-from assets.classes.inputstream import InputStream
-from assets.classes.ui import ButtonUI
-from assets.scenes.games_2 import Games2Scene
-from assets.scenes.main_menu import GameOverScene
 
 class Games_1(Games):
     def __init__(self, pygame):
@@ -189,58 +183,3 @@ class Games_1(Games):
 
         # global drawing (score, timer, hearts
         self.draw(window)
-
-
-
-class Games1Scene(Scene):
-    def __init__(self):
-        #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
-        self.d = ButtonUI(globals.keyboard_bit_0, '[d = bit-0]', 50, 10)
-        self.f = ButtonUI(globals.keyboard_bit_1, '[f = bit-1]', 150, 10)
-        self.j = ButtonUI(globals.keyboard_base_x, '[j = base-X]', 240, 10)
-        self.k = ButtonUI(globals.keyboard_base_z, '[k = base-Z]', 360, 10)
-
-        pygame.event.clear()
-        self.g1 = Games_1(pygame)
-        self.g1.reset_flags()
-    def onEnter(self):
-        pass
-        #globals.soundManager.playMusicFade('solace')
-    def update(self, sm, inputStream):
-
-        #self.esc.update(inputStream)
-        self.d.update(inputStream)
-        self.f.update(inputStream)
-        self.j.update(inputStream)
-        self.k.update(inputStream)
-
-    def input(self, sm, inputStream):
-        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g1.finish and self.g1.win:
-            self.romeo_bits = []
-            for b in self.g1.retrieved_bits:
-                self.romeo_bits.append(b.key)
-
-            self.romeo_bases = []
-            for b in self.g1.retrieved_measurements:
-                self.romeo_bases.append(b.key)
-
-
-            print(self.romeo_bits, self.romeo_bases)
-
-            sm.push(FadeTransitionScene([self], [Games2Scene(self.romeo_bits, self.romeo_bases)]))
-        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g1.finish and self.g1.gameover:
-            sm.push(FadeTransitionScene([self], [GameOverScene()]))
-
-    def draw(self, sm, screen):
-        self.g1.call_event(screen)
-        self.d.draw(screen, par_colour = globals.WHITE)
-        self.f.draw(screen, par_colour = globals.WHITE)
-        self.j.draw(screen, par_colour = globals.WHITE)
-        self.k.draw(screen, par_colour = globals.WHITE)
-
-
-        if self.g1.finish and self.g1.win:
-            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
-            self.g1.pause = True
-        elif self.g1.finish and self.g1.gameover:
-            drawText(screen, 'Game over!', 50, 300, globals.BLACK, 255, 40)
