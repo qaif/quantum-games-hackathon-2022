@@ -25,6 +25,8 @@ public class superposition_manager : MonoBehaviour
     private double timeToSpend;
     private List<string> world_letters;
 
+    int linear_track;
+
     public TextMeshProUGUI ProgramSlateFactory;
     public TextMeshProUGUI ProtagonistSlateFactory;
     public TextMeshProUGUI NarrationSlateFactory;
@@ -58,6 +60,7 @@ public class superposition_manager : MonoBehaviour
         last_rollover = 0.0;
         inflation = 0.0;
         timeToSpend =full_cycle_time;
+        linear_track = 0;
         world_letters = new List<string>();
         world_letters.Add("A");
         world_letters.Add("B");
@@ -195,6 +198,12 @@ public class superposition_manager : MonoBehaviour
                 //Debug.Log("boo");
                 splitWorld(noblet, corner);
             });
+            fresh.story.BindExternalFunction("degreeSplitWorld", (string corner, string amount) =>
+            {
+                Debug.Log("incoming " + amount);
+                splitWorld( fresh, corner, double.Parse(amount,System.Globalization.CultureInfo.InvariantCulture) );
+            });
+
 
             fresh.ForwardFlow();
             fresh.story.variablesState["world"] = world_letters[i];
@@ -342,7 +351,8 @@ public class superposition_manager : MonoBehaviour
             {
                 classical_story noob = new classical_story(this, focus.manuscript);
                 noob.bifurcateFlag = focus.bifurcateFlag;
-                focus.realityFluid = focus.realityFluid / 2.0;
+                noob.realityFluid = focus.realityFluid * focus.bifurcateDegree;
+                focus.realityFluid = focus.realityFluid * (1.0-focus.bifurcateDegree);
                 noob.bifurcate(focus);
                 Debug.Log("focus prestate"+ focus.story.variablesState[focus.bifurcateFlag].ToString() + focus.story.variablesState["world"]);
                 foreach (KeyValuePair<string, Lottery> finger in lotto)
@@ -371,6 +381,10 @@ public class superposition_manager : MonoBehaviour
                 {
                     splitWorld(noob, corner);
                 });
+                noob.story.BindExternalFunction("degreeSplitWorld", (string corner,string amount) =>
+                {
+                    splitWorld(noob, corner,double.Parse(amount, System.Globalization.CultureInfo.InvariantCulture));
+                });
                 noob.bifurcateFlag = "";
                 focus.bifurcateFlag = "";
                 AddQuota.Add(focus, noob);
@@ -381,10 +395,11 @@ public class superposition_manager : MonoBehaviour
     }
 
 
-    public void splitWorld(classical_story river, string detail)
+    public void splitWorld(classical_story river, string detail, double degree=0.5)
     {
         Debug.Log("flagger "+detail);
         river.bifurcateFlag = detail;
+        river.bifurcateDegree = degree;
     }
 
     public void annhilations()
@@ -519,7 +534,11 @@ public class superposition_manager : MonoBehaviour
         {
             timeToSpend =full_cycle_time;
             double progress = time_phase / timeToSpend;
-            Debug.Log(progress.ToString()+"  "+min_thickness.ToString()+ "fat"+ fat.ToString()+" entities "+linears.Count.ToString());
+            if (linear_track != linears.Count)
+            {
+                linear_track = linears.Count;
+                Debug.Log(progress.ToString() + "  " + min_thickness.ToString() + "fat" + fat.ToString() + " entities " + linears.Count.ToString());
+            }
             current_display = progress;
             if (current_display > coming_nudgement)
             {

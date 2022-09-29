@@ -15,6 +15,7 @@ public class classical_story
     private List<string> socials;
     public TextAsset manuscript;
     public string bifurcateFlag;
+    public double bifurcateDegree;
     public Complex realityFluid;
     // Start is called before the first frame update
 
@@ -136,12 +137,12 @@ public class classical_story
         Debug.Log(bifurcateFlag.ToString());
         //Debug.Log(story.variablesState[bifurcateFlag].ToString());
 
-        realityFluid = reference.realityFluid;
+        //realityFluid = reference.realityFluid;
         Debug.Log("nooob prestate "+story.variablesState[bifurcateFlag].ToString()+ story.variablesState["world"]);
 
         if (story.variablesState[bifurcateFlag].ToString() == "True")
         {
-            Debug.Log("activated?");
+            //Debug.Log("activated?");
             story.variablesState[bifurcateFlag] = false; // wonder if right format
             //realityFluid = realityFluid * (-1.0); This is wrong, crossline from right to left in hadamar. Hadamar has only one red edge on the right straight down
         }
