@@ -62,14 +62,14 @@ The middle arc is green. Just boring solid color green. # narration
     {sender_compartment==true:
           But you know the auditorium is not empty # narration
     }
-    {teleport_production==true:
+    {sender_production==true:
            With the help of the student you uncover a big machine # narration
     }
     + [Engage]
         -> Rascal
     + {sender_compartment==true} Knock on wall panels
         ->TeleportSender
-    + {teleport_production==true} Examine big experiment machine
+    + {sender_production==true} Examine big experiment machine
         ->TeleportProducer
     + Return to hallway
     -> hallway
@@ -128,18 +128,18 @@ Atleast found the big red button # narration
 =ComGeneration
 {antisymmetry_alice==false:
     {com_state==false:
-           ~com_delivery="spring";
+           ~com_delivery="spring"
     }
     {com_state==true:
-           ~com_delivery="summer";
+           ~com_delivery="summer"
     }
 }
 {antisymmetry_alice==true:
     {com_state==false:
-           ~com_delivery="fall";
+           ~com_delivery="fall"
     }
     {com_state==true:
-           ~com_delivery="winter";
+           ~com_delivery="winter"
     }
 }
 

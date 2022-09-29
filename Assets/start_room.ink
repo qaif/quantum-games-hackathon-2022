@@ -90,6 +90,8 @@ VAR com_receiver_quantum_channel=false
 
 VAR com_message_loaded=false
 
+VAR com_delivery="none"
+
 VAR sender_production=false
 
 VAR post_bomb_error=0
