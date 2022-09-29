@@ -89,7 +89,7 @@ class MainMenuScene(Scene):
         self.mainmenu.call_event(screen)
         # background
 
-        drawText(screen, 'Main Menu', 50, 50, pygame.Color(100, 20, 20), 255)
+        drawText(screen, 'Press [Enter] to start the game ...', 340, 350, pygame.Color(0, 0, 0), 255)
 
         self.enter.draw(screen)
         self.esc.draw(screen)
@@ -273,8 +273,7 @@ class Games2Scene(Scene):
             print(self.g2.romeo_bits, self.g2.romeo_bases)
             sm.push(FadeTransitionScene([self], [Games3Scene(self.g2.romeo_bits, self.g2.romeo_bases)]))
         elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish and self.g2.gameover:
-            sm.pop_all()
-            sm.push(FadeTransitionScene([self], []))
+            sm.push(FadeTransitionScene([self], [GameOverScene()]))
 
     def draw(self, sm, screen):
         self.g2.call_event(screen)
@@ -301,15 +300,18 @@ class Games3Scene(Scene):
         self.esc.update(inputStream)
 
     def input(self, sm, inputStream):
-        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g3.win:
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g3.win and self.g3.verified_answer:
             sm.push(FadeTransitionScene([self], [Games4Scene(self.g3.answer_key)]))
+        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g3.finish and self.g3.gameover:
+            sm.push(FadeTransitionScene([self], [GameOverScene()]))
 
     def draw(self, sm, screen):
         self.g3.call_event(screen)
         self.esc.draw(screen)
 
-        if self.g3.finish:
+        if self.g3.finish and self.g3.win:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
+            self.g3.pause = True
 
 class Games4Scene(Scene):
     def __init__(self, secret_key):

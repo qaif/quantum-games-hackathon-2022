@@ -21,15 +21,15 @@ showConfig = True
 
 #testing = True
 testing = False
-phase = 4
+phase = 2
 
 remainingHearts = 3
 
-starting_timer_minute = 0
-starting_timer_seconds = 10
+starting_timer_minute = 5
+starting_timer_seconds = 0
 
-timer_minute = 0
-timer_seconds = 10
+timer_minute = 5
+timer_seconds = 0
 
 # ==================  Measuring keyboard settings ========================
 keyboard_bit_0 = pygame.K_d

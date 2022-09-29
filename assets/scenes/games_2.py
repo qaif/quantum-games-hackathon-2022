@@ -25,6 +25,14 @@ class Games_2(Games):
         super().__init__()
         self.background = pygame.image.load("assets/images/games_2.jpg")
 
+        # Changing the cursor image to measurement
+        pygame.mouse.set_visible(False)
+        self.cursor_img = pygame.image.load("assets/images/lens.png")
+        self.cursor_img_rect = self.cursor_img.get_rect()
+
+
+
+
         self.bit_options = [globals.keyboard_bit_0, pygame.K_f]
         self.unmeasured_bits = []
 
@@ -97,6 +105,24 @@ class Games_2(Games):
 
         return is_win
 
+    def measuring(self):
+        # get mouse position
+        mouse_pos = pygame.mouse.get_pos()
+
+        for b in self.bits:
+            # do something if mouse_pos collide with surface position
+            if b.rect.collidepoint(mouse_pos):
+                b.get_initialize_image(b.key)
+
+                if self.measured_count_seconds[b.idx] <= 0:
+                    b.measured = True
+
+            elif b.measured:
+                # if the bits measured, open the measured bit on the table below
+                self.revealed_measured_bit(b.idx)
+            else:
+                b.fill(b.image, pygame.Color(250, 10, 40))
+                self.measured_count_seconds[b.idx] = 3
 
     def call_event(self, window: pygame.Surface):
         # to show the background
@@ -116,7 +142,8 @@ class Games_2(Games):
                     b.set_y_change(random.randint(-3, 3))
             elif event.type == self.event_bit_diminishing:
                 for b in self.bits:
-                    b.image.set_alpha( b.image.get_alpha() - 2)
+                    if b.measured == False:
+                        b.image.set_alpha( b.image.get_alpha() - 2)
             elif event.type == self.event_measuring:
                 for b in self.bits:
                     self.measured_count_seconds[b.idx] = self.measured_count_seconds[b.idx] - 1
@@ -124,24 +151,8 @@ class Games_2(Games):
                 self.process_timer()
 
 
-        # get mouse position
-        mouse_pos = pygame.mouse.get_pos()
-        for b in self.bits:
-            # do something if mouse_pos collide with surface position
-            if b.rect.collidepoint(mouse_pos):
-                b.get_initialize_image(b.key)
-
-                if self.measured_count_seconds[b.idx] <= 0:
-                    b.measured = True
-
-            elif b.measured:
-                # if the bits measured, open the measured bit on the table below
-                self.revealed_measured_bit(b.idx)
-            else:
-                b.fill(b.image, pygame.Color(250, 10, 40))
-                self.measured_count_seconds[b.idx] = 3
-
-
+        # measuring
+        self.measuring()
 
         for mb in self.measured_bits:
             if mb.measured:
@@ -158,6 +169,10 @@ class Games_2(Games):
         self.bits.draw(window)
         self.measured_bits.draw(window)
         self.check_wall()
+
+        # in your main loop update the position every frame and blit the image
+        self.cursor_img_rect.center = pygame.mouse.get_pos()  # update position
+        window.blit(self.cursor_img, self.cursor_img_rect)  # draw the cursor
 
         # global drawing (score, timer, hearts
         self.draw(window)

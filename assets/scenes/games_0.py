@@ -17,6 +17,7 @@ class Games_0(Games):
 
         self.bit_size = 0
         globals.selectedBit = 0
+        globals.remainingHearts = 3
 
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("assets/images/games_0.jpg")

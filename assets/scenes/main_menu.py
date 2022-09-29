@@ -5,7 +5,6 @@ import sys
 from assets.scenes.games import Games
 
 
-
 # romeo picks the number of bits for the key (important story and game mechanic!)
 class MainMenu(Games):
 

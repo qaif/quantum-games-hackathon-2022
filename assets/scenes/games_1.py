@@ -169,6 +169,13 @@ class Games_1(Games):
         #if self.is_bit_miss():
         #    self.missing.add_value(1)
 
+        # this is to fix the bugs from games 2
+        for r in self.bits:
+            r.get_initialize_image(r.key)
+
+
+
+
         self.finish_game()
 
         # to keep the object refreshing on the screen

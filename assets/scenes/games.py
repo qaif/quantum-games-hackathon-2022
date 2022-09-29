@@ -9,7 +9,7 @@ class Games:
         self.timer_title = self.Text(par_x=400, par_y=715, par_text="Remaining Time", font_size=16, par_colour=globals.BLACK)
         self.timer_display = self.Text(par_x=430, par_y=735, par_text="01:10", font_size=28, par_colour=globals.WHITE)
 
-        self.lives_title = self.Text(par_x=915, par_y=715, par_text="Lives", font_size=16, par_colour=globals.BLACK)
+        self.lives_title = self.Text(par_x=780, par_y=728, par_text="Lives : ", font_size=28, par_colour=globals.BLACK)
 
         self.reset_flags()
         self.hearts = pygame.sprite.Group()
@@ -23,7 +23,7 @@ class Games:
         # initialize hearts
         j = 0
         for i in range(globals.remainingHearts):
-            self.hearts.add(self.Heart(890 + (j * 30), 730))
+            self.hearts.add(self.Heart(880 + (j * 42), 719))
             j += 1
 
     def reduce_hearts(self):
@@ -35,8 +35,12 @@ class Games:
         # initialize hearts
         j = 0
         for i in range(globals.remainingHearts):
-            self.hearts.add(self.Heart(890 + (j * 30), 730))
+            self.hearts.add(self.Heart(80 + (j * 42), 719))
             j += 1
+
+        if globals.remainingHearts <= 0:
+            self.finish = True
+            self.gameover = True
 
     def process_timer(self):
         if (globals.timer_seconds == 0 and globals.timer_minute > 0):

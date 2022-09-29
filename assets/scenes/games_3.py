@@ -63,6 +63,7 @@ class Games_3(Games):
 
         self.finish = False
         self.win = False
+        self.verified_answer = False
 
         self.get_answer_key()
 
@@ -125,11 +126,13 @@ class Games_3(Games):
             print("Correct")
             self.finish = True
             self.win = True
+            self.verified_answer = True
         else:
             print("False")
             self.input_box.text = ""
             self.input_box.txt_surface = FONT.render("", True, self.input_box.color)
             self.reduce_hearts()
+            self.verified_answer = False
 
     def call_event(self, window: pygame.Surface):
         # to show the background
