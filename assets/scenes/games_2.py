@@ -7,6 +7,7 @@ import pygame
 from assets.scenes.games import Games
 from assets.classes.measurementbase import MeasurementBase, BitBase
 from assets.classes.utils import *
+import bb84
 
 
 class Games_2(Games):
@@ -36,12 +37,30 @@ class Games_2(Games):
         self.romeo_bits = globals.romeo_bits
         self.romeo_bases = globals.romeo_bases
 
+
+        globals.encoded_qbits = bb84.encode_message(globals.romeo_bits, globals.romeo_bases)
+
+        # choose whether to intercept or not here
+
+
+        # measured the encoded bits here
+        globals.juliet_bases = randint(2, size=globals.selectedBit)
+        globals.juliet_bits = bb84.measure_message(globals.encoded_qbits, globals.juliet_bases)
+
+
         if globals.testing:
             for i in range(globals.maxBit):
                 self.unmeasured_bits.append(random.choice(self.bit_options))
         else:
-            for i in range(globals.selectedBit):
-                self.unmeasured_bits.append(random.choice(self.bit_options))
+            for i in globals.juliet_bits:
+                # translating from string 0/1 to int key board press
+                key = 0
+                if i == "0":
+                    key = globals.keyboard_bit_0
+                else:
+                    key = globals.keyboard_bit_1
+
+                self.unmeasured_bits.append(key)
 
         self.measured_count_seconds = np.ones(len(self.unmeasured_bits)) * 3
 

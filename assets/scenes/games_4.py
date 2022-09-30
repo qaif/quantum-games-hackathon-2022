@@ -8,6 +8,8 @@ from assets.classes.measurementbase import MeasurementBase, BitBase
 from assets.classes.input_boxes import InputBox
 from assets.classes.utils import *
 
+import bb84
+
 # this is for the key checking, so 2 arrays of bits will be flsahed across the screen and the
 # player needs to keep track of how many were different
 class Games_4(Games):
@@ -31,7 +33,7 @@ class Games_4(Games):
                 self.juliet_key.append(random.choice(self.key_options))
             self.key_size = globals.maxBit
         else:
-            self.romeo_key = [x for x in self.get_romeo_key()]
+            self.romeo_key = bbb84.sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits)
             self.juliet_key = [x for x in globals.juliet_key]
             self.key_size = len(globals.juliet_key)
 
@@ -89,6 +91,8 @@ class Games_4(Games):
 
         self.text = self.Text(par_x=100, par_y=50, par_text="How many bits should I check in our keys?")
 
+    # this has been replaced by the implementation of qiskit
+    """
     def get_romeo_key(self):
         romeo_key = ""
         print("Romeo Bases - Juliet Bases : ", globals.romeo_bases, globals.juliet_bases)
@@ -102,28 +106,39 @@ class Games_4(Games):
         globals.romeo_key = romeo_key
         print("Romeo Key = ", romeo_key)
         return romeo_key
+    """
 
     def set_bit_selection(self, screen):
         # draw level select menu
         i = 0
-        for bitNumber in range(globals.minBit, self.key_size + 1):
+        # remove 1 bit for the sample size, maximum sample size = max # of secret key - 1
+        # if secret key is 0, the player lose their life and needs to retry from phase 0
 
-            c = globals.BLACK
-            if bitNumber == self.current_bit:
-                c = globals.GREEN
+        if self.key_size > 0:
+            for bitNumber in range(0, self.key_size):
 
-            a = 255
-            # if levelNumber > globals.lastCompletedLevel:
-            #    a = 255
+                c = globals.BLACK
+                if bitNumber == self.current_bit:
+                    c = globals.GREEN
 
-            drawText(screen, str(bitNumber), (i * 40) + 100, 100, c, a)
-            i += 1
+                a = 255
+                # if levelNumber > globals.lastCompletedLevel:
+                #    a = 255
+
+                drawText(screen, str(bitNumber), (i * 40) + 100, 100, c, a)
+                i += 1
 
     def select_bit_event(self, event):
         if event.key == pygame.K_RETURN and not self.proceed:
             self.to_compare = self.current_bit
+            globals.sample_size = self.to_compare
             print(self.to_compare)
             self.proceed = True
+
+
+            globals.bits_2sample = randint(globals.selectedBit, size=globals.sample_size)
+            globals.juliet_sample = bb84.sample_bits(globals.juliet_key, globals.bits_2sample) #[0 1 0 1 1 0]
+            globals.romeo_sample = bb84.sample_bits(globals.romeo_key, globals.bits_2sample) #[0 1 0 1 1 0]
 
         elif event.key == pygame.K_a:
             if self.current_bit <= 1:
@@ -143,6 +158,9 @@ class Games_4(Games):
         :param key:
         :return:
         """
+
+        #for example we only have 3 secret key bits, then how many is the sample?
+        # randomized the sample display
 
         for b in self.romeo_key_display:
             if b.idx == self.bits_compared:
@@ -182,6 +200,8 @@ class Games_4(Games):
                     else:
                         self.finish = True
                         self.win = True
+
+
                         print("Game Finish")
 
                     print(self.bits_compared, self.to_compare)

@@ -8,6 +8,8 @@ from assets.classes.measurementbase import MeasurementBase, BitBase
 from assets.classes.input_boxes import InputBox
 from assets.classes.utils import *
 
+import bb84
+
 # this is for the key checking, so 2 arrays of bits will be flsahed across the screen and the
 # player needs to keep track of how many were different
 class Games_5(Games):
@@ -20,11 +22,19 @@ class Games_5(Games):
         self.start_x_pos = globals.screenSize[0] / 2
 
         self.text = self.Text(par_x=100, par_y=50, par_text="Should I accuse Eve of eavesdropping? ")
+        string_ints = [str(int) for int in globals.romeo_key]
+        str_of_ints = ",".join(string_ints)
+        globals.romeo_key = str_of_ints
 
+        string_ints = [str(int) for int in globals.juliet_key]
+        str_of_ints = ",".join(string_ints)
+        globals.juliet_key = str_of_ints
         self.answer_options = ["Yes", "No"]
         self.current_selection = "Yes"
         self.answer = ""
 
+        globals.encrypted_text = bb84.cipher_encryption(globals.to_encrypt, globals.romeo_key)
+        globals.decrypted_text = bb84.cipher_decryption(globals.encrypted_text, globals.juliet_key)
 
         self.story_phase = 0
 

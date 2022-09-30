@@ -10,6 +10,8 @@ from assets.classes.measurementbase import MeasurementBase, BitBase
 from assets.classes.input_boxes import InputBox
 from assets.classes.utils import *
 
+import bb84
+
 
 FONT = pygame.font.Font("freesansbold.ttf", 32)
 
@@ -34,22 +36,22 @@ class Games_3(Games):
 
         self.juliet_bits = globals.juliet_bits
         self.romeo_bases = globals.romeo_bases
-        self.juliet_bases = []
+        self.juliet_bases = globals.juliet_bases
         self.numberofbit = 0
 
         if globals.testing:
+            self.numberofbit = globals.maxBit
             for i in range(globals.maxBit):
-                self.numberofbit = globals.maxBit
-
                 self.juliet_bits.append(random.choice(self.bit_options))
                 self.romeo_bases.append(random.choice(self.base_options))
                 self.juliet_bases.append(random.choice(self.base_options))
                 self.numberofbit = globals.maxBit
         else:
-            for i in range(globals.selectedBit):
-                self.juliet_bases.append(random.choice(self.base_options))
+            #for i in range(globals.selectedBit):
+                #Juliet bases has been chosen in phase 2
+                #self.juliet_bases.append(random.choice(self.base_options))
 
-                self.numberofbit = globals.selectedBit
+            self.numberofbit = globals.selectedBit
 
         globals.juliet_bases = self.juliet_bases
 
@@ -78,14 +80,16 @@ class Games_3(Games):
         pygame.time.set_timer(self.event_hide_box, 700)
 
         self.input_box = InputBox(380, 450, 140, 44)
-        self.answer_key = ""
+        self.answer_key = bb84.sift(globals.romeo_bases, globals.juliet_bases, globals.juliet_bits) # this is where the Juliet key from sifting
+        globals.juliet_key = self.answer_key
         self.input_key = ""
 
         self.finish = False
         self.win = False
         self.verified_answer = False
 
-        self.get_answer_key()
+        # answer key has been retrieved from the qiskit implementations
+        #self.get_answer_key()
 
         i = 0
         for type in self.juliet_bits: # we need to use Juliet's bits here

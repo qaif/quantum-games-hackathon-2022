@@ -32,7 +32,7 @@ pygame.display.set_caption(globals.gameTitle)
 #pygame.mixer.music.load(globals.music_file)
 #pygame.mixer.music.play(-1)
 
-to_encrypt=random.choice(globals.letters)
+
 
 #### HARD CODE #####
 # moved to globals

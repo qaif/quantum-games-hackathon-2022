@@ -42,7 +42,9 @@ class Story_0(Story):
         self.story_index = 0
 
         self.story_text.append("There’s something I want to tell Juliet…")
-        self.story_text.append(random.choice(globals.letters))
+        # need to move this to phase 0
+        globals.to_encrypt = random.choice(globals.letters)
+        self.story_text.append(globals.to_encrypt)
         self.story_text.append("We each need to create identical cryptography keys, using the BB84 protocol")
         self.story_text.append("Only then can I safely encrypt the message")
         self.story_text.append("How many random classical bits and bases should I start with?")

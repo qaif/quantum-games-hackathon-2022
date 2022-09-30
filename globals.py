@@ -37,6 +37,8 @@ total_score = 0
 selectedBit = 0     # selected # of bit
 secret_key = ""     # created secret_key
 
+to_encrypt=""
+
 # eve can eavesdrop on this, changing it
 encoded_qbits = [] # romeo creates this after phase 1, and eve takes it to juliet
 
