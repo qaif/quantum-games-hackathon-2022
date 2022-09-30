@@ -37,9 +37,13 @@ total_score = 0
 selectedBit = 0     # selected # of bit
 secret_key = ""     # created secret_key
 
+# eve can eavesdrop on this, changing it
+encoded_qbits = [] # romeo creates this after phase 1, and eve takes it to juliet
+
 romeo_bits = []     # romeo bits
 romeo_bases = []    # romeo bases
-romeo_key = []    # ???
+
+romeo_key = []    # ??? this should be their key after sifting
 
 juliet_bits = []   # juliet bits
 juliet_bases = []   # juliet bases

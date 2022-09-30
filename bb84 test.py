@@ -121,8 +121,11 @@ globals.selectedBit = 100 # get this from phase 0
 # Step 1
 globals.romeo_bits = randint(2, size=globals.selectedBit)
 globals.romeo_bases = randint(2, size=globals.selectedBit)
+
 # Step 2
-message = encode_message(globals.romeo_bits, globals.romeo_bases) # this is the thing that eavesdropping changes
+# showing this using a scene after phase 1.
+globals.encoded_qbits = encode_message(globals.romeo_bits, globals.romeo_bases) # this is the thing that eavesdropping changes
+
 # Interception!
 globals.intercept=False
 if random.random() < .33: # eve intercepts the messge 33% of the time
@@ -130,11 +133,13 @@ if random.random() < .33: # eve intercepts the messge 33% of the time
 
 if(globals.intercept):
     # could also decide to have eve only measure some of the qubits. would be an interesting twist!
-    eve_bases = randint(2, size=globals.selectedBit)
-    intercepted_message = measure_message(message, eve_bases)
+    eve_bases = randint(2, size=globals.selectedBit) # doesn't need to be a globals variable because it isn't used more than once
+    # this will not be used in the end, but good to have just in case
+    intercepted_message = measure_message(globals.encoded_qbits, eve_bases)
+
 # Step 3
 globals.juliet_bases = randint(2, size=globals.selectedBit)
-globals.juliet_bits = measure_message(message, globals.juliet_bases)
+globals.juliet_bits = measure_message(globals.encoded_qbits, globals.juliet_bases)
 
 # Step 4 This is the sifting game in
 juliet_key = sift(globals.romeo_bases, globals.juliet_bases, globals.juliet_bits) # this is used in phase 4
@@ -145,15 +150,15 @@ romeo_key = sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits) 
 sample_size = 1 # Change this to something lower and see if
                  # Eve can intercept the message without Alice
                  # and Bob finding out
-bit_selection = randint(globals.selectedBit, size=sample_size)
-juliet_sample = sample_bits(juliet_key, bit_selection) # should both of them do it? i think we're just showing romeo.
-romeo_sample = sample_bits(romeo_key, bit_selection)
+bits_2sample = randint(globals.selectedBit, size=sample_size)
+juliet_sample = sample_bits(juliet_key, bits_2sample) # should both of them do it? i think we're just showing romeo.
+romeo_sample = sample_bits(romeo_key, bits_2sample)
 
 if (globals.intercept):
     if juliet_sample != romeo_sample:
-        print("Eve's interference was detected.")
+        print("Eve's interference was detected. MAKE THIS DYNAMIC")
     else:
-        print("Eve went undetected!")
+        print("Eve went undetected! (the player can fail)")
 
 if (juliet_sample == romeo_sample):
     print("samples match!")
