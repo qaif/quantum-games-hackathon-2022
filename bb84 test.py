@@ -68,8 +68,6 @@ def cipher_encryption(msg,key):
         if key_itr >= len(key):
             # once all of the key's letters are used, repeat the key
             key_itr = 0
-
-    #print("Encrypted Text: {}".format(encrypt_hex))
     return format(encrypt_hex)
 
 def cipher_decryption(msg,key):
@@ -88,8 +86,6 @@ def cipher_decryption(msg,key):
         if key_itr >= len(key):
             # once all of the key's letters are used, repeat the key
             key_itr = 0
-
-    #print("Decrypted Text: {}".format(decryp_text))
     return format(decryp_text)
 
 # sifting stage.
@@ -105,6 +101,7 @@ def sift(a_bases, b_bases, bits):
 
 # phase 4; comparing random select of bits in their keys
 # make sure the sampling is random!
+# why is this changing hte keys???
 def sample_bits(bits, selection):
     sample = []
     for i in selection:
@@ -117,7 +114,9 @@ def sample_bits(bits, selection):
         sample.append(bits.pop(i))
     return sample
 
-globals.selectedBit = 100 # get this from phase 0
+globals.selectedBit = 10 # get this from phase 0
+
+
 # Step 1
 globals.romeo_bits = randint(2, size=globals.selectedBit)
 globals.romeo_bases = randint(2, size=globals.selectedBit)
@@ -127,9 +126,9 @@ globals.romeo_bases = randint(2, size=globals.selectedBit)
 globals.encoded_qbits = encode_message(globals.romeo_bits, globals.romeo_bases) # this is the thing that eavesdropping changes
 
 # Interception!
-globals.intercept=False
-if random.random() < .33: # eve intercepts the messge 33% of the time
-    globals.intercept=True
+globals.intercept=False # TURN THIS ONE WHEN TESDTING IS READY FOR IT !
+#if random.random() < .33: # eve intercepts the messge 33% of the time
+#    globals.intercept=True
 
 if(globals.intercept):
     # could also decide to have eve only measure some of the qubits. would be an interesting twist!
@@ -147,34 +146,42 @@ globals.romeo_key = sift(globals.romeo_bases, globals.juliet_bases, globals.rome
 
 # Step 5
 # this is the choice the user makes in phase 4!
-sample_size = 1 # Change this to something lower and see if
-                 # Eve can intercept the message without Alice
-                 # and Bob finding out
-globals.bits_2sample = randint(globals.selectedBit, size=sample_size)
+# so in phase 4, romeo must already have his key
 
-# technically in phas 4, they need to compare these arrays, not their measurements
-# these arrays are random choices. this is a safer implementation of bb84 algorithm
-globals.juliet_sample = sample_bits(globals.juliet_key, globals.bits_2sample) # should both of them do it? i think we're just showing romeo.
+# DO NOT LET THE PLAYER SAMPLE MORE BITS THAN EXIST IN THEIR KEYS!!!
+# ALSO, 0 IS OKAY
+globals.sample_size = 2 # Change this to something lower and see if interference is as easy to detect!
+
+# noise can make the keys different sizes i believe. as can interference!
+# this picks which bits they WILL compare (like the order basically)
+globals.bits_2sample = randint(globals.selectedBit, size=globals.sample_size)
+
+# this ALSO THROWS AWAY THE VALUES IN THE KEYS THAT THEY COMPARE
+# SO MUCH NUANCE: COMPARE TOO MANY, YOUR KEY IS REALLY SMALL
+# COMPARE TOO FEW, YOUR KEY IS SUBJECT TO NOISE
+globals.juliet_sample = sample_bits(globals.juliet_key, globals.bits_2sample)
 globals.romeo_sample = sample_bits(globals.romeo_key, globals.bits_2sample)
+
+# this is what romeo and juliet say to each other on the balcony!!!
+# this can also be done through eve as the information isn't used anyway!
+# technically juliet also has to tell romeo the bases she chose. he sifts before the player sees
+
+# THIS IS THE ISSUE. WHY DO THE KEY VALUES CHANGE AFTER SAMPLING IS CALLED?????
 
 if (globals.intercept):
     if globals.juliet_sample != globals.romeo_sample:
-        print("Eve's interference was detected. MAKE THIS DYNAMIC")
+        print("interference or noise is present, and the player knows it now")
     else:
-        print("Eve went undetected! (the player can fail)")
+        print("interference or noise is present, but the player didn't know")
 
 if (globals.juliet_sample == globals.romeo_sample):
-    print("samples match! no noise or eavesdropping present")
+    print("samples match perfectly.")
 else:
-    print("samples do not match. noise or eavesdropping present")
+    print("samples do not match perfectly.")
 
-## add check for if keys match. just so can we can tell the player if it was safe to send
-# the message after all by the end!
+# so why is the below no longer working???
 
-# If there is no interference, and the keys don't match perfectly, blame noise
-# is the better word decoherence? determine!
-
-# convert format of the keys so it can work within encryption/decryption functions 
+# convert format of the keys so it can work within encryption/decryption functions
 string_ints = [str(int) for int in globals.romeo_key]
 str_of_ints = ",".join(string_ints)
 globals.romeo_key=str_of_ints
@@ -183,7 +190,7 @@ string_ints = [str(int) for int in globals.juliet_key]
 str_of_ints = ",".join(string_ints)
 globals.juliet_key=str_of_ints
 
-# there is a global variable for this
+# this is the test example message
 globals.to_encrypt="romeo, o romeo"
 
 globals.encrypted_text = cipher_encryption(globals.to_encrypt,globals.romeo_key)
@@ -192,9 +199,11 @@ globals.decrypted_text = cipher_decryption(globals.encrypted_text,globals.juliet
 print("message that was encrypted: ", globals.to_encrypt)
 print("encrypted text: ",globals.encrypted_text )
 print("decrypted text: ", globals.decrypted_text)
+print("romeo's key: ", globals.romeo_key)
+print("juliet's key: ",globals.juliet_key)
 
 
 if(globals.to_encrypt!=globals.decrypted_text):
-    print("the encryption failed: \"", globals.to_encrypt,"\" is not \"",globals.decrypted_text)
+    print("the encryption failed:   \"", globals.to_encrypt,"\"   is not \""  ,globals.decrypted_text,"\"")
 else:
     print("the encryption was a success!")
