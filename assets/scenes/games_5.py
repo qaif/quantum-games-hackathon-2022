@@ -55,6 +55,7 @@ class Games_5(Games):
 
 
     def check_answers(self):
+        # we need to decide the 4 scenarios
         if self.current_selection == "Yes":
             return True
         else:
