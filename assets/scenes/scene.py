@@ -713,14 +713,13 @@ class LeaderboardScene(Scene):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.leader.finish:
             sm.pop()
             # sm.pop_all()
-            self.leader.refresh_new_game()
-            sm.push(FadeTransitionScene([self], [MainMenuScene()]))
-
+            self.leader.refresh_after_loop()
+            sm.push(FadeTransitionScene([self], [Story0Scene()]))
         elif inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE) and self.leader.finish:
             sm.pop()
             # sm.pop_all()
-            self.leader.refresh_after_loop()
-            sm.push(FadeTransitionScene([self], [Story0Scene()]))
+            self.leader.refresh_new_game()
+            sm.push(FadeTransitionScene([self], [MainMenuScene()]))
 
     def update(self, sm, inputStream):
         self.enter.update(inputStream)
