@@ -161,8 +161,25 @@ VAR johnny_points=0
 
 
 ===titleLine===
-Quantum Detective # program
+x-------------------------x # program
 
+{world=="A":
+I>>>  Quantum Detective <<<I # program
+}
+{world=="B":
+Io>>  Quantum Detective <<oI # program
+}
+{world=="C":
+Ioo>  Quantum Detective <ooI # program
+}
+{world=="D":
+I>oo  Quantum Detective oo<I # program
+}
+{world=="E":
+Io>o  Quantum Detective o<oI # program
+}
+x-------------------------x # program
+ # program
 ~ phone_phrase=coherentLottery("phone")
 ~ com_password=coherentLottery("com")
 {com_password=="pony":
@@ -217,7 +234,10 @@ Quantum Detective # program
      }
 }
 
-This game is played by entering text into the textbox (and submitting by enter). # program
+This game is played by entering text into the textbox # program
+(and submitting by enter). # program
+You can enter numbers into the second box # program
+to view history # program
 
 + wait
    {You take a while looking at the marvelous title screen.|Yes, it is really quite grand. You are excited to see how it plays.|Eager to cling to the smallest details you are spending way more time at the title line than the developers expected|Like the developers in the game jam, you don't have infinite amount of time to use.} # narration
