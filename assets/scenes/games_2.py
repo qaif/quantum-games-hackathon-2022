@@ -7,6 +7,7 @@ import pygame
 from assets.scenes.games import Games
 from assets.classes.measurementbase import MeasurementBase, BitBase
 from assets.classes.utils import *
+from numpy.random import randint
 import bb84
 
 
