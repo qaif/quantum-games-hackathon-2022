@@ -346,6 +346,10 @@ public class superposition_manager : MonoBehaviour
             {
                 noob = Instantiate(ButlerSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place , 0), UnityEngine.Quaternion.identity);
             }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "guard"))
+            {
+                noob = Instantiate(ButlerSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "mathT"))
             {
                 noob = Instantiate(MathTSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
@@ -454,9 +458,9 @@ public class superposition_manager : MonoBehaviour
         }
         */
         List<Chronon> affords = current_linear.affordanceItems();
-        float horizontal_start = 5.0f;
+        float horizontal_start = 4.5f;
         vertical_spacing = 0.2f;
-        height_start = (affords.Count * vertical_spacing) - 5.0f;
+        height_start = (affords.Count * vertical_spacing) - 4.5f;
         for (int i=0; i < affords.Count; i++)
         {
             TextMeshProUGUI noob = null;

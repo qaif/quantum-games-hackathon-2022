@@ -118,13 +118,14 @@ public class classical_story
     }
     public void flipGate(string detail, double degree=0.5)
     {
+        Debug.Log("X"+story.variablesState[detail].ToString()+ " "+ detail);
         if (story.variablesState[detail].ToString() == "True")
         {
             story.variablesState[detail] = false;
         }
         else
         {
-            story.variablesState[detail] = false;
+            story.variablesState[detail] = true;
         }
     }
     public void crossGate(string detail, double degree=0.5)
