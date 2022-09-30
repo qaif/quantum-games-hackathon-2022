@@ -1,52 +1,150 @@
 import sys
 
+from PyQt6.QtGui import QPainter
 from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QHBoxLayout, QPushButton, QVBoxLayout
 from PyQt6.QtCore import Qt
 
-from game_manager import GameManager, Snake, GlobalDirection
-from grid import Grid, GridWidget
+from game_manager import GameManager, Snake, GlobalDirection, GameState, GameStateType, Grid
 from probe import ProbeWidget, ProbeInfo, ProbeState
 
 
-class ActionsWidget(QWidget):
-    def __init__(self, game_manager, probe_info):
+class GridWidget(QWidget):
+    def __init__(self, grid):
         super().__init__()
-        self.game_manager = game_manager
-        self.probe_info = probe_info
+
+        self.setMouseTracking(True)
+        self.setMinimumWidth(grid.width)
+
+        self.grid = grid
+        # self.setGeometry(grid.node_size / 2, grid.node_size / 2, grid.width, grid.height)
+        # self.setWindowTitle('Quantum Snake')
+        # self.show()
+
+        self.grid.add_on_updated_listener(self.on_update)
+
+    def on_update(self):
+        self.update()
+
+    def mouseMoveEvent(self, event):
+        if self.grid.hovered_node is not None: self.grid.hovered_node.on_hovered_exit()
+
+        new = self.grid.nodes[self.grid.get_idx_from_canvas(event.position().x(), event.position().y())]
+        # print('new hovered idx: ', new.idx)
+        # if new == self.grid.hovered_node: return
+
+        self.grid.hovered_node = new
+        self.grid.hovered_node.on_hovered_enter()
+
+        # self.update()
+        self.on_update()
+        # self.label.setText('Mouse coords: ( %d : %d )' % (event.x(), event.y()))
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.grid.pressed_node = self.grid.nodes[
+                self.grid.get_idx_from_canvas(event.position().x(), event.position().y())]
+            self.grid.pressed_node.pressed = True
+            print("pressed node: ", self.grid.pressed_node.idx)
+            # self.update()
+            self.on_update()
+
+    def mouseReleaseEvent(self, event):
+        # ensure that the left button was pressed *and* released within the
+        # geometry of the widget; if so, emit the signal;
+        if self.grid.pressed_node is not None and event.button() == Qt.MouseButton.LeftButton:
+            if self.grid.pressed_node == self.grid.nodes[self.grid.get_idx_from_canvas(event.position().x(), event.position().y())]:
+                print("clicked node: ", self.grid.pressed_node.idx)
+                self.update()
+                if self.grid.selected_node is not None: self.grid.selected_node.on_deselect()
+                self.grid.selected_node = self.grid.pressed_node
+                self.grid.selected_node.on_select()
+            self.grid.pressed_node.pressed = False
+            self.grid.pressed_node = None
+
+    def paintEvent(self, event):
+        painter = QPainter()
+        painter.begin(self)
+
+        self.grid.draw(painter, event)
+
+        painter.end()
+
+    # def on_click(self, pressed_node):
+    #     # TODO
+    #     pass
+
+
+class ActionsWidget(QWidget):
+    def __init__(self, game_state):
+        super().__init__()
+        self.game_state = game_state
+        # self.game_manager = game_manager
+        # self.probe_info = probe_info
+        self.game_state.add_on_state_changed_listener(self.on_game_state_changed)
 
         layout = QHBoxLayout()
 
-        probe_button = QPushButton()
-        probe_button.setText("Probe")
-        probe_button.clicked.connect(self.on_probe)
-        layout.addWidget(probe_button)
+        self.probe_button = QPushButton()
+        self.probe_button.setText("Probe Start")
+        self.probe_button.clicked.connect(self.on_probe)
+        layout.addWidget(self.probe_button)
 
         # TODO: disable button when no selection
-        strike_button = QPushButton()
-        strike_button.setText("Strike")
-        strike_button.clicked.connect(self.on_strike)
-        layout.addWidget(strike_button)
+        self.strike_button = QPushButton()
+        self.strike_button.setText("Strike")
+        self.strike_button.clicked.connect(self.on_strike)
+        layout.addWidget(self.strike_button)
 
         self.setLayout(layout)
 
+    def on_game_state_changed(self, last, state):
+        if state == GameStateType.TURN_START:
+            self.probe_button.setDisabled(False)
+            self.strike_button.setDisabled(False)
+        elif state == GameStateType.TURN_END:
+            pass
+        elif state == GameStateType.PROBE_START:
+            self.probe_button.setDisabled(True)
+            self.strike_button.setDisabled(True)
+        elif state == GameStateType.PROBE_END:
+            pass
+        elif state == GameStateType.STRIKE_START:
+            # self.probe_button.setDisabled(True)
+            # self.strike_button.setDisabled(True)
+            pass
+        elif state == GameStateType.STRIKE_CORRECT_GUESS:
+            self.probe_button.setDisabled(True)
+            self.strike_button.setDisabled(True)
+        elif state == GameStateType.STRIKE_END:
+            pass
+        elif state == GameStateType.GAME_OVER:
+            self.probe_button.setDisabled(True)
+            self.strike_button.setDisabled(True)
+        #     TODO: show reset button
+        elif state == GameStateType.RESTART:
+            self.probe_button.setDisabled(False)
+            self.strike_button.setDisabled(False)
+
     def on_probe(self):
         print("probe")
-        self.game_manager.on_probe_start()
-        # TODO: call probe widget
-        self.probe_info.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
+        self.game_state.set_game_state(GameStateType.PROBE_START)
+        # self.game_manager.on_probe_start()
+        # self.probe_info.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
 
     def on_strike(self):
         print("strike")
-        self.game_manager.on_strike()
+        self.game_state.set_game_state(GameStateType.STRIKE_START)
+        # self.game_manager.on_strike()
 
 
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.grid = Grid(10, 50)
-        self.snake = Snake(self.grid)
-        self.probe_info = ProbeInfo()
-        self.game_manager = GameManager(self.grid, self.snake, self.probe_info)
+        self.game_state = GameState()
+        self.grid = Grid(self.game_state, 10, 50)
+        self.snake = Snake(self.game_state, self.grid)
+        self.probe_info = ProbeInfo(self.game_state)
+        self.game_manager = GameManager(self.game_state, self.grid, self.snake, self.probe_info)
 
         actions_widget_height = 60
 
@@ -56,7 +154,7 @@ class Window(QMainWindow):
         self.setCentralWidget(mw)
 
         grid_widget = GridWidget(self.grid)
-        actions_widget = ActionsWidget(self.game_manager, self.probe_info)
+        actions_widget = ActionsWidget(self.game_state)
         actions_widget.setFixedHeight(actions_widget_height)
 
         left_widget = QWidget()
@@ -67,7 +165,7 @@ class Window(QMainWindow):
         left_widget.setMaximumWidth(grid_widget.width())
         left_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
 
-        probe = ProbeWidget(self.probe_info)
+        probe = ProbeWidget(self.game_state, self.probe_info)
         probe.setMinimumWidth(250)
         probe.setMaximumWidth(400)
 

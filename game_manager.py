@@ -1,19 +1,78 @@
+import math
 from enum import Enum
 import numpy as np
+from PyQt6.QtCore import QRect, Qt
+from PyQt6.QtGui import QBrush, QColor, QFont
 
-from grid import OccupierType
-from probe import ProbeInputType, ProbeDirection, ProbeState
+# from probe import ProbeInputType, ProbeDirection, ProbeState
+from utility import shrink
 
 
-class GameState(Enum):
+class ProbeDirection(Enum):
+    FORWARD = 0
+    RIGHT = 1
+    LEFT = 2
+
+
+class ProbeInputType(Enum):
+    NEW = 0
+    OLD = 1
+
+
+class ProbeState(Enum):
     NONE = 0
-    MOVING = 0
-    PROBE = 0
-    GUESS = 0
+    INPUT_PROBE_VECTOR = 1
+    UNITARY_MEASURE = 2
+    MEASURED = 3
+
+
+class GameStateType(Enum):
+    TURN_START = 0
+    TURN_END = 1
+    PROBE_START = 2
+    PROBE_END = 3
+    STRIKE_START = 4
+    STRIKE_INCORRECT_GUESS = 5
+    STRIKE_INVALID_GUESS = 6
+    STRIKE_CORRECT_GUESS = 7
+    STRIKE_END = 8
+    GAME_OVER = 9
+    RESTART = 10
+
+
+class GameState:
+    def __init__(self):
+        # self.grid = grid
+        # self.snake = snake
+        # self.probe_info = probe_info
+        self.on_state_changed_listeners = []
+        self.state = GameStateType.TURN_START
+        # self.add_on_state_changed_listener(self.on_change)
+
+    # def on_change(self, state):
+    #     if state == GameStateType.STRIKE_END or GameStateType.PROBE_END:
+    #         self.set_game_state(GameStateType.TURN_END)
+
+    def set_game_state(self, state):
+        print("changing state from: ", self.state, " to: ", state)
+        last = self.state
+        self.state = state
+        for listener in self.on_state_changed_listeners:
+            listener(last, state)
+
+    def add_on_state_changed_listener(self, listener):
+        self.on_state_changed_listeners.append(listener)
+
+    # def on_guess(self, guess):
+    #     pass
+    #
+    # def on_food_collected(self):
+    #     pass
 
 
 class GameManager:
-    def __init__(self, grid, snake, probe_info):
+    def __init__(self, game_state, grid, snake, probe_info):
+        self.game_state = game_state
         self.grid = grid
         self.snake = snake
         self.rng = np.random.default_rng()
@@ -29,11 +88,41 @@ class GameManager:
         # self.grid = Grid(10, 50)
         # self.snake = Snake(self.grid)
 
-        self.snake.add_on_collision_listener(self.on_collision)
-        self.snake.add_on_collected_food_listener(self.on_collected_food)
+        self.game_state.add_on_state_changed_listener(self.on_game_state_changed)
+        # self.snake.add_on_collision_listener(self.on_collision)
+        # self.snake.add_on_collected_food_listener(self.on_collected_food)
+
+    def on_game_state_changed(self, last, new):
+        if new == GameStateType.TURN_START:
+            pass
+        elif new == GameStateType.TURN_END:
+            print("turn start")
+            self.game_state.set_game_state(GameStateType.TURN_START)
+        elif new == GameStateType.PROBE_START:
+            pass
+        elif new == GameStateType.PROBE_END:
+            self.game_state.set_game_state(GameStateType.TURN_END)
+        elif new == GameStateType.STRIKE_START:
+            self.on_strike()
+        elif new == GameStateType.STRIKE_INCORRECT_GUESS:
+            self.on_fail()
+            self.game_state.set_game_state(GameStateType.STRIKE_END)
+        elif new == GameStateType.STRIKE_INVALID_GUESS:
+            print("INVALID GUESS!!!")
+            self.game_state.set_game_state(GameStateType.STRIKE_END)
+        elif new == GameStateType.STRIKE_CORRECT_GUESS:
+            self.on_success()
+            # self.game_state.set_game_state(GameStateType.STRIKE_END)
+        elif new == GameStateType.STRIKE_END:
+            print("last state = ", last)
+            if last == GameStateType.STRIKE_CORRECT_GUESS:
+                self.on_collected_food()
+            self.game_state.set_game_state(GameStateType.TURN_END)
+        elif new == GameStateType.GAME_OVER:
+            pass
 
     def on_move(self, direction):
-        if self.probe_info.state is not ProbeState.NONE: return
+        # if self.probe_info.state is not ProbeState.NONE: return
         self.snake.move(direction)
 
     def on_probe_start(self):
@@ -41,7 +130,7 @@ class GameManager:
         # TODO: freeze snake movement, disable guessing
         # vector = self.probe_info.get_probe_vector()
         # print("PROBING WITH VECTOR: ", vector)
-        self.snake.on_probe()
+        # self.snake.on_probe()
         iad = self.snake.get_probe_idxs_and_directions()
         idxs = iad[0]
         dirs = iad[1]
@@ -65,15 +154,6 @@ class GameManager:
         self.probe_info.set_measured_distance(dis)
         self.probe_info.set_probe_vector_output(vec)
         # TODO: make bottom ui visible
-
-    def on_collision(self):
-        # TODO:
-        self.on_death()
-
-    def on_death(self):
-        print("YOU DEAD!!!")
-        # TODO: [Take player back to "beginning of turn state" so they can continue playing]
-        # TODO: reset probe grid occupier
 
     def on_fail(self):
         print("YOU MADE AN INCORRECT GUESS!!!")
@@ -104,15 +184,16 @@ class GameManager:
         if self.grid.selected_node is None:
             print("NO SQUARE SELECTED!!!")
             # TODO
+            self.game_state.set_game_state(GameStateType.STRIKE_INVALID_GUESS)
             return
         guess = self.grid.selected_node.idx
         print("GUESSING: ", guess)
         print("PREY: ", self.prey_location)
 
         if guess == self.prey_location:
-            self.on_success()
+            self.game_state.set_game_state(GameStateType.STRIKE_CORRECT_GUESS)
         else:
-            self.on_fail()
+            self.game_state.set_game_state(GameStateType.STRIKE_INCORRECT_GUESS)
         # TODO: [Take player back to "beginning of turn state" so they can continue playing]
 
     def spawn_prey(self):
@@ -162,27 +243,11 @@ class GameManager:
                         dist[i, j] = dist[i, k] + dist[k, j]
         return dist
 
-    # def probeable_vertices(self, graph, snake_body):
-    #     # Returns a list of vertices that the user is allowed to probe.
-    #     # Where snake_body is a list of vertices, the first being the snake's
-    #     # tail and the last being the snake's head.
-    #     # And where graph is the adjacency matrix of the graph
-    #
-    #     assert len(snake_body) > 1, 'The snake\'s body must be two or more vertices.'
-    #
-    #     vect = graph[snake_body[-1]]  # 1 for vertices adjacent to head, 0 otherwise
-    #     vect[snake_body[-2]] = 0  # Remove the space just behind the snake's head
-    #
-    #     # Return indices of vertices that are adjacent to the head, but not just
-    #     # behind the head.
-    #     return np.where(vect)[0]
-
-    def query(self):
+    def query(self, probe_vector):
         # Given a probe state and the prey's location, this function returns
         # the measured distance resulting from the probe as well as the new
         # probe state that remains after measurement.
 
-        # probed_vertices = self.probeable_vertices(graph, snake_body)  # vertices to be probed
         probed_vertices = self.snake.get_probe_idxs()
 
         distances = self.distances[probed_vertices, self.prey_location]
@@ -200,26 +265,8 @@ class GameManager:
         # Normalize
         norm = np.sum(np.abs(new_probe_vector) ** 2) ** 0.5
         new_probe_vector = new_probe_vector / norm
-        # new_norm = np.sum(np.abs(new_probe_vector) ** 2)
-        # fp_error_allowance = 0.0000000001
-        # assert 1 - new_norm < fp_error_allowance, f'Norm is {new_norm}, but it should be 1.'
 
         return measured_distance, new_probe_vector
-
-    # def probe_measurement(self):
-    #     probabilities = np.abs(self.probe_info.probe_vector_output) ** 2  # probabilities of different outcomes
-    #     # Randomly choose a direction according to Born rule probabilities.
-    #     return self.rng.choice(self.probe_info.probe_directions, p=probabilities)
-
-    # def probe_unitary(self, unitary_mat, probe_vector):
-    #     # Simply multiplies the probe state by the given unitary matrix
-    #
-    #     n = unitary_mat.shape(1)
-    #     assert n == len(probe_vector), 'Probe vector dimension doesn\'t match.'
-    #     assert n == unitary_mat.shape(0), 'Given matrix not square'
-    #     assert unitary_mat.conj().T @ unitary_mat == np.eye(n), 'Given matrix not unitary'
-    #
-    #     return unitary_mat @ probe_vector
 
 
 class GlobalDirection(Enum):
@@ -236,16 +283,44 @@ class RelativeDirection(Enum):
 
 
 class Snake:
-    def __init__(self, grid):
+    def __init__(self, game_state, grid):
         self.target_length = 2
+        # self.dead = False
+        self.can_move = True
         self.body = []
         self.grid = grid
-        self.spawn()
-        # self.game_manager = game_manager
         self.on_collision_listeners = []
         self.on_collected_food_listeners = []
+        self.spawn()
+
+        self.game_state = game_state
+        self.game_state.add_on_state_changed_listener(self.on_game_state_changed)
+
+    def on_game_state_changed(self, last, state):
+        if state == GameStateType.TURN_START:
+            self.can_move = True
+        elif state == GameStateType.TURN_END:
+            pass
+        elif state == GameStateType.PROBE_START:
+            self.can_move = False
+            self.on_probe()
+        elif state == GameStateType.PROBE_END:
+            self.on_probe_finish()
+        elif state == GameStateType.STRIKE_START:
+            pass
+        elif state == GameStateType.STRIKE_END:
+            pass
+        elif state == GameStateType.GAME_OVER:
+            self.can_move = False
+            # self.dead = True
+        elif state == GameStateType.RESTART:
+            self.can_move = True
+            self.spawn()
 
     def spawn(self):
+        self.body.clear()
+        self.target_length = 2
+        # self.dead = False
         # self.body[0] = 55
         self.add_to_head(55)
         # self.body[1] = 65
@@ -322,7 +397,7 @@ class Snake:
             return GlobalDirection.UP
 
     def move(self, direction):
-        # TODO: reset probe grid occupier
+        if not self.can_move: return
 
         new_head = -1
         if direction == GlobalDirection.UP:
@@ -337,7 +412,8 @@ class Snake:
         if new_head == -1:
             return
         elif new_head in self.body:
-            self.on_collision()
+            if new_head != self.body[1]:
+                self.on_collision()
             return
         elif self.grid.nodes[new_head].occupier == OccupierType.PREY:
             self.on_collected_food()
@@ -366,19 +442,230 @@ class Snake:
         self.grid.set_occupier(idx, OccupierType.NONE)
 
     def on_collision(self):
-        for listener in self.on_collision_listeners:
-            listener()
+        self.game_state.set_game_state(GameStateType.GAME_OVER)
+        # for listener in self.on_collision_listeners:
+        #     listener()
 
-    def add_on_collision_listener(self, listener):
-        self.on_collision_listeners.append(listener)
+    # def add_on_collision_listener(self, listener):
+    #     self.on_collision_listeners.append(listener)
 
     def on_probe(self):
         for i in self.get_probe_idxs():
             self.grid.set_occupier(i, OccupierType.PROBE)
 
-    def add_on_collected_food_listener(self, listener):
-        self.on_collected_food_listeners.append(listener)
+    def on_probe_finish(self):
+        for i in self.get_probe_idxs():
+            self.grid.set_occupier(i, OccupierType.NONE)
+
+    # def add_on_collected_food_listener(self, listener):
+    #     self.on_collected_food_listeners.append(listener)
 
     def on_collected_food(self):
-        for listener in self.on_collected_food_listeners:
+        self.game_state.set_game_state(GameStateType.STRIKE_END)
+        # for listener in self.on_collected_food_listeners:
+        #     listener()
+
+class Grid:
+    def __init__(self, game_state, size, node_size):
+        self.on_updated_listeners = []
+        self.size = size
+        self.node_size = node_size
+        self.width = size * node_size
+        self.height = (size + 1) * node_size
+        self.nodes = [GridNode(i, self) for i in range(size * size)]
+        self.hovered_node = None
+        self.pressed_node = None
+        self.selected_node = None
+        self.dead = False
+
+        self.game_state = game_state
+        self.game_state.add_on_state_changed_listener(self.on_game_state_changed)
+
+        self.game_over_color = QColor(243, 26, 26)
+
+    def on_game_state_changed(self, last, state):
+        if state == GameStateType.TURN_START:
+            pass
+        elif state == GameStateType.TURN_END:
+            pass
+        elif state == GameStateType.PROBE_START:
+            pass
+        elif state == GameStateType.PROBE_END:
+            pass
+        elif state == GameStateType.STRIKE_START:
+            pass
+        elif state == GameStateType.STRIKE_END:
+            pass
+        elif state == GameStateType.GAME_OVER:
+            self.dead = True
+            self.on_updated()
+        elif state == GameStateType.RESTART:
+            self.dead = False
+
+    def draw(self, painter, event):
+        for n in self.nodes:
+            n.draw(painter, event)
+        if self.dead:
+            painter.setPen(self.game_over_color)
+            f = QFont()
+            f.setPointSizeF(50)
+            painter.setFont(f)
+            painter.drawText(QRect(0, 0, self.width, self.height), Qt.AlignmentFlag.AlignCenter, "GAME OVER")
+
+    def get_coord_x(self, idx):
+        return idx % self.size
+
+    def get_coord_y(self, idx):
+        return math.floor(idx / self.size)
+
+    def get_coords(self, idx):
+        return idx % self.size, math.floor(idx / self.size)
+
+    def get_canvas_x(self, idx):
+        return self.get_coord_x(idx) * self.node_size
+
+    def get_canvas_y(self, idx):
+        return self.get_coord_y(idx) * self.node_size
+
+    def get_idx_from_coord(self, x, y):
+        return y * self.size + x
+
+    def get_coord_from_canvas(self, x, y):
+        return min(self.size - 1, max(0, math.floor(x / self.node_size))), min(self.size - 1,
+                                                                               max(0, math.floor(y / self.node_size)))
+
+    def get_idx_from_canvas(self, x, y):
+        coords = self.get_coord_from_canvas(x, y)
+        return self.get_idx_from_coord(coords[0], coords[1])
+
+    def get_rect(self, idx):
+        x1 = self.get_canvas_x(idx)
+        y1 = self.get_canvas_y(idx)
+        return QRect(int(x1), int(y1), int(self.node_size), int(self.node_size))
+
+    def up(self, idx):
+        if idx < self.size: return -1
+        return idx - self.size
+
+    def left(self, idx):
+        if idx % self.size == 0: return -1
+        return idx - 1
+
+    def right(self, idx):
+        if idx % self.size == self.size - 1: return -1
+        return idx + 1
+
+    def down(self, idx):
+        if idx >= self.size * (self.size - 1): return -1
+        return idx + self.size
+
+    def set_occupier(self, idx, type):
+        self.nodes[idx].occupier = type
+        self.on_updated()
+
+    def add_on_updated_listener(self, listener):
+        self.on_updated_listeners.append(listener)
+
+    def on_updated(self):
+        for listener in self.on_updated_listeners:
             listener()
+
+
+class OccupierType(Enum):
+    NONE = 0
+    SNAKE = 1
+    SNAKE_HEAD_V = 2
+    SNAKE_HEAD_H = 3
+    PROBE = 4
+    PREY = 5
+
+
+class GridNode:
+    def __init__(self, idx, grid):
+        self.idx = idx
+        self.grid = grid
+
+        self.hovered = False
+        self.pressed = False
+        # self.released = False
+        self.selected = False
+
+        self.selected_color = QColor(243, 26, 26)
+        self.hovered_color = QColor(243, 236, 26)
+        self.pressed_color = QColor(243, 236, 26)
+        self.default_color = QColor(80, 80, 80)
+        self.border_color = QColor(50, 50, 50)
+        self.snake_color = QColor(243, 236, 26)
+        self.eye_color = QColor(50, 50, 50)
+        self.probe_color = QColor(139, 206, 210)
+        self.prey_color = QColor(243, 26, 26)
+        self.game_over_color = QColor(243, 26, 26)
+
+        # self.outline_color = QColor(0, 0, 0)
+        # self.fill_color = QColor(0, 0, 0)
+
+        self.x = grid.get_coord_x(idx)
+        self.y = grid.get_coord_y(idx)
+        self.occupier = OccupierType.NONE
+
+    def draw(self, painter, event):
+        r = self.grid.get_rect(self.idx)
+
+        fill_color = self.default_color
+        if self.pressed:
+            fill_color = self.pressed_color
+        elif self.occupier == OccupierType.SNAKE or self.occupier == OccupierType.SNAKE_HEAD_V or self.occupier == OccupierType.SNAKE_HEAD_H:
+            fill_color = self.snake_color
+        elif self.occupier == OccupierType.PROBE:  # TODO: draw number associated with node
+            fill_color = self.probe_color
+        elif self.occupier == OccupierType.PREY:
+            fill_color = self.prey_color
+        painter.fillRect(r, QBrush(fill_color))
+
+        if self.occupier == OccupierType.SNAKE_HEAD_V:
+            for e in self.get_v_eye_rects():
+                painter.fillRect(e, QBrush(self.eye_color))
+        elif self.occupier == OccupierType.SNAKE_HEAD_H:
+            for e in self.get_h_eye_rects():
+                painter.fillRect(e, QBrush(self.eye_color))
+
+        outline_color = self.border_color
+        if self.selected:
+            outline_color = self.selected_color
+        elif self.hovered:
+            outline_color = self.hovered_color
+        painter.setPen(outline_color)
+        painter.drawRect(shrink(r, 1))
+
+    def on_hovered_enter(self):
+        self.hovered = True
+
+    def on_hovered_exit(self):
+        self.hovered = False
+
+    def on_select(self):
+        self.selected = True
+
+    def on_deselect(self):
+        self.selected = False
+        self.pressed = False
+
+    def get_v_eye_rects(self):
+        s = self.grid.node_size
+        width = s / 5
+        height = s / 4
+        x1 = self.grid.get_canvas_x(self.idx)
+        y1 = self.grid.get_canvas_y(self.idx) + (s - height) / 2
+        x2 = x1 + s - width
+        y2 = y1
+        return QRect(int(x1), int(y1), int(width), int(height)), QRect(int(x2), int(y2), int(width), int(height))
+
+    def get_h_eye_rects(self):
+        s = self.grid.node_size
+        width = s / 4
+        height = s / 5
+        x1 = self.grid.get_canvas_x(self.idx) + (s - width) / 2
+        y1 = self.grid.get_canvas_y(self.idx)
+        x2 = x1
+        y2 = y1 + s - height
+        return QRect(int(x1), int(y1), int(width), int(height)), QRect(int(x2), int(y2), int(width), int(height))

@@ -6,15 +6,20 @@ from PyQt6.QtGui import QDoubleValidator, QPixmap
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QRadioButton, QGridLayout, QLineEdit, QLabel, QPushButton, \
     QHBoxLayout, QCheckBox, QFrame
 
+from game_manager import GameStateType, ProbeDirection, ProbeInputType, ProbeState
 
-class ProbeDirection(Enum):
-    FORWARD = 0
-    RIGHT = 1
-    LEFT = 2
+
+# class ProbeDirection(Enum):
+#     FORWARD = 0
+#     RIGHT = 1
+#     LEFT = 2
 
 
 class ProbeInfo:
-    def __init__(self):
+    def __init__(self, game_state):
+        self.game_state = game_state
+        self.game_state.add_on_state_changed_listener(self.on_game_state_changed)
+
         self.probe_idxs = []
         self.probe_directions = []  # TODO: set this
 
@@ -40,6 +45,24 @@ class ProbeInfo:
         self.on_probe_vector_changed_listeners = []
         self.on_probe_vector_output_changed_listeners = []
         self.on_distance_changed_listeners = []
+
+    def on_game_state_changed(self, last, state):
+        if state == GameStateType.TURN_START:
+            pass
+        elif state == GameStateType.TURN_END:
+            pass
+        elif state == GameStateType.PROBE_START:
+            self.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
+        elif state == GameStateType.PROBE_END:
+            self.set_probe_state(ProbeState.NONE)
+        elif state == GameStateType.STRIKE_START:
+            pass
+        elif state == GameStateType.STRIKE_END:
+            pass
+        elif state == GameStateType.GAME_OVER:
+            pass
+        elif state == GameStateType.RESTART:
+            pass
 
     def set_probe_state(self, state):
         self.state = state
@@ -105,13 +128,13 @@ class ProbeInfo:
         self.on_probe_vector_output_changed()
 
 
-class ProbeInputType(Enum):
-    NEW = 0
-    OLD = 1
+# class ProbeInputType(Enum):
+#     NEW = 0
+#     OLD = 1
 
 
 class QueryWidget(QWidget):
-    def __init__(self, probe_info):
+    def __init__(self, game_state, probe_info):
         super().__init__()
         self.probe_info = probe_info
         self.probe_info.add_on_state_changed_listener(self.on_state_changed)
@@ -249,7 +272,7 @@ class QueryWidget(QWidget):
 
 
 class UnitaryWidget(QWidget):
-    def __init__(self, probe_info):
+    def __init__(self, game_state, probe_info):
         super().__init__()
         self.probe_info = probe_info
         self.probe_info.add_on_state_changed_listener(self.on_state_changed)
@@ -379,7 +402,7 @@ class UnitaryWidget(QWidget):
 
 
 class MeasureWidget(QWidget):
-    def __init__(self, probe_info):
+    def __init__(self, game_state, probe_info):
         super(MeasureWidget, self).__init__()
         self.probe_info = probe_info
         self.rng = np.random.default_rng()
@@ -427,8 +450,9 @@ class MeasureWidget(QWidget):
 
 
 class ContinueWidget(QWidget):
-    def __init__(self, probe_info):
+    def __init__(self, game_state, probe_info):
         super(ContinueWidget, self).__init__()
+        self.game_state = game_state
         self.probe_info = probe_info
         self.rng = np.random.default_rng()
         self.probe_info.add_on_state_changed_listener(self.on_state_changed)
@@ -453,20 +477,22 @@ class ContinueWidget(QWidget):
     def on_finish_clicked(self):
         print("finish clicked")
         self.probe_info.set_probe_state(ProbeState.NONE)
+        self.game_state.set_game_state(GameStateType.PROBE_END)
 
 
-class ProbeState(Enum):
-    NONE = 0
-    INPUT_PROBE_VECTOR = 1
-    UNITARY_MEASURE = 2
-    MEASURED = 3
+# class ProbeState(Enum):
+#     NONE = 0
+#     INPUT_PROBE_VECTOR = 1
+#     UNITARY_MEASURE = 2
+#     MEASURED = 3
 
 
 class ProbeWidget(QWidget):
-    def __init__(self, probe_info):
+    def __init__(self, game_state, probe_info):
         super().__init__()
         # self.probe_vector = [1, 0, 0]
         # self.on_probe_vector_changed_listeners = []
+        self.game_state = game_state
         self.probe_info = probe_info
 
         # self.probe_info.add_on_distance_changed_listener(self.on_distance_changed)
@@ -475,7 +501,7 @@ class ProbeWidget(QWidget):
         base_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
 
         # QUERY
-        self.query_widget = QueryWidget(self.probe_info)
+        self.query_widget = QueryWidget(self.game_state, self.probe_info)
         base_layout.addWidget(self.query_widget)
 
         # DIVIDER
@@ -486,7 +512,7 @@ class ProbeWidget(QWidget):
         # base_layout.addWidget(divider)
 
         # UNITARY
-        self.unitary_widget = UnitaryWidget(self.probe_info)
+        self.unitary_widget = UnitaryWidget(self.game_state, self.probe_info)
         base_layout.addWidget(self.unitary_widget)
 
         # DIVIDER
@@ -497,7 +523,7 @@ class ProbeWidget(QWidget):
         # base_layout.addWidget(divider)
 
         # MEASURE
-        measure = MeasureWidget(self.probe_info)
+        measure = MeasureWidget(self.game_state, self.probe_info)
         base_layout.addWidget(measure)
 
         # DIVIDER
@@ -508,7 +534,7 @@ class ProbeWidget(QWidget):
         # base_layout.addWidget(divider)
 
         # CONTINUE
-        finish_widget = ContinueWidget(self.probe_info)
+        finish_widget = ContinueWidget(self.game_state, self.probe_info)
         base_layout.addWidget(finish_widget)
 
         self.setLayout(base_layout)
