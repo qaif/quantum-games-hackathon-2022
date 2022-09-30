@@ -107,8 +107,7 @@ class Games_5(Games):
         elif self.story_phase == 2:
             self.text.text = "....."
             self.text.text_display(window)
-        elif self.story_phase == 3:
-
+        elif self.story_phase == 4:
             self.finish = True
             self.text.text_display(window)
 

@@ -38,4 +38,13 @@ class Story(Games):
                 if event.key == pygame.K_RETURN:
                     self.progress_story()
 
-        drawText(window, self.story_text[self.story_index], self.x, self.y, self.color, 255, self.font)
+        if len(self.story_text[self.story_index]) > 60:
+            # divide into two lines
+            lastspace = self.story_text[self.story_index].rfind(' ')
+            line1 = self.story_text[self.story_index][:lastspace]
+            line2 = self.story_text[self.story_index][lastspace - 1:]
+
+            drawText(window, line1, self.x, self.y, self.color, 255, self.font)
+            drawText(window, line2, self.x, self.y + 30, self.color, 255, self.font)
+        else:
+            drawText(window, self.story_text[self.story_index], self.x, self.y, self.color, 255, self.font)
