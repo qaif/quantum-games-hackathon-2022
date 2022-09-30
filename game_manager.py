@@ -23,8 +23,11 @@ class ProbeState(Enum):
     NONE = 0
     INIT_PROBE = 1
     INPUT_PROBE_VECTOR = 2
-    UNITARY_MEASURE = 3
-    MEASURED = 4
+    MEASURE_DISTANCE = 3
+    UNITARY_OR_MEASURE = 4
+    APPLY_UNITARY = 5
+    MEASURE_PROBE_VECTOR = 6
+    MEASURED = 7
 
 
 class GameStateType(Enum):
@@ -64,12 +67,6 @@ class GameState:
     def add_on_state_changed_listener(self, listener):
         self.on_state_changed_listeners.append(listener)
 
-    # def on_guess(self, guess):
-    #     pass
-    #
-    # def on_food_collected(self):
-    #     pass
-
 
 class GameManager:
     def __init__(self, game_state, grid, snake, probe_info):
@@ -85,6 +82,7 @@ class GameManager:
         # self.probe_vector = [.3333, .3333, .3333]
         # self.probe_vector = [1, 0, 0]
         self.probe_info = probe_info
+        self.probe_info.add_on_state_changed_listener(self.on_probe_state_changed)
 
         # self.grid = Grid(10, 50)
         # self.snake = Snake(self.grid)
@@ -92,6 +90,52 @@ class GameManager:
         self.game_state.add_on_state_changed_listener(self.on_game_state_changed)
         # self.snake.add_on_collision_listener(self.on_collision)
         # self.snake.add_on_collected_food_listener(self.on_collected_food)
+
+    def on_probe_state_changed(self, state):
+        if state == ProbeState.NONE:
+            pass
+        elif state == ProbeState.INPUT_PROBE_VECTOR:
+            pass
+        elif state == ProbeState.MEASURE_DISTANCE:
+            print("!!!measuring distance")
+            if self.probe_info.get_probe_vector() is None:
+                print("INVALID VECTOR!!!")
+                self.probe_info.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
+                return
+            self.measure_distance()
+            self.probe_info.set_probe_state(ProbeState.UNITARY_OR_MEASURE)
+        elif state == ProbeState.UNITARY_OR_MEASURE:
+            pass
+        elif state == ProbeState.APPLY_UNITARY:
+            print("!!!applying unitary")
+            self.apply_unitary()
+            self.probe_info.set_probe_state(ProbeState.UNITARY_OR_MEASURE)
+        elif state == ProbeState.MEASURE_PROBE_VECTOR:
+            print("!!!measuring probe vector")
+            self.measure_probe_vector()
+            self.probe_info.set_probe_state(ProbeState.MEASURED)
+        elif state == ProbeState.MEASURED:
+            pass
+
+    def apply_unitary(self):
+        n = self.probe_info.unitary.shape[1]
+        assert self.probe_info.probe_vector_output is not None
+        print("unitary info: ", n, ", ", len(self.probe_info.probe_vector_output))
+        assert n == len(self.probe_info.probe_vector_output), 'Probe vector dimension doesn\'t match.'
+        assert n == self.probe_info.unitary.shape[0], 'Given matrix not square'
+        # TODO BROKEN!!!!!
+        # assert self.probe_info.unitary.conj().T @ self.probe_info.unitary == np.eye(n), 'Given matrix not unitary'
+        if self.probe_info.unitary.conj().T @ self.probe_info.unitary == np.eye(n):
+            self.probe_info.probe_vector_output = self.probe_info.unitary @ self.probe_info.get_probe_vector()
+            # TODO: clear text fields to signal transformation was applied
+        else:
+            print("GIVEN MATRIX NOT UNITARY!!!")
+            # TODO: display warning, transform not applied
+
+    def measure_probe_vector(self):
+        self.probe_info.set_probe_state(ProbeState.MEASURED)
+        probabilities = np.abs(self.probe_info.probe_vector_output) ** 2  # probabilities of different outcomes
+        self.probe_info.measured_probe = self.rng.choice(self.probe_info.probe_directions, p=probabilities)
 
     def on_game_state_changed(self, last, new):
         if new == GameStateType.TURN_START:
@@ -129,28 +173,13 @@ class GameManager:
             self.spawn_prey()
 
     def on_move(self, direction):
-        # if self.probe_info.state is not ProbeState.NONE: return
         self.snake.move(direction)
 
     def on_probe_start(self):
-        # TODO: make ui visible
-        # TODO: freeze snake movement, disable guessing
-        # vector = self.probe_info.get_probe_vector()
-        # print("PROBING WITH VECTOR: ", vector)
-        # self.snake.on_probe()
         iad = self.snake.get_probe_idxs_and_directions()
-        idxs = iad[0]
-        dirs = iad[1]
-        self.probe_info.init_probe_info(idxs, dirs)
-        # TODO: set_disabled
-        # q = self.query(vector)
-        # dis = q[0]
-        # vec = q[1]
-        # print(q)
-        # self.probe_info.set_measured_distance(dis)
-        # self.probe_info.set_probe_vector_output(vec)
+        self.probe_info.init_probe_info(iad[0], iad[1])
 
-    def on_query(self):
+    def measure_distance(self):
         vector = self.probe_info.get_probe_vector()
         print("PROBING WITH VECTOR: ", vector)
         q = self.query(vector)
@@ -159,7 +188,6 @@ class GameManager:
         print(q)
         self.probe_info.set_measured_distance(dis)
         self.probe_info.set_probe_vector_output(vec)
-        # TODO: make bottom ui visible
 
     def on_fail(self):
         print("YOU MADE AN INCORRECT GUESS!!!")
@@ -467,13 +495,8 @@ class Snake:
         for i in self.get_probe_idxs():
             self.grid.set_occupier(i, OccupierType.NONE)
 
-    # def add_on_collected_food_listener(self, listener):
-    #     self.on_collected_food_listeners.append(listener)
-
     def on_collected_food(self):
         self.game_state.set_game_state(GameStateType.STRIKE_END)
-        # for listener in self.on_collected_food_listeners:
-        #     listener()
 
 
 class Grid:

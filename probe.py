@@ -252,13 +252,26 @@ class QueryWidget(QWidget):
             self.top_half.show()
             self.measure_button.setDisabled(False)
             self.set_disabled()
-        if state == ProbeState.UNITARY_MEASURE:
+        if state == ProbeState.UNITARY_OR_MEASURE:
             # TODO: disable all
-            self.top_half.hide()
+            # self.top_half.hide()
+            self.rbn.setDisabled(True)
+            self.rbo.setDisabled(True)
+            self.v1.setDisabled(True)
+            self.v2.setDisabled(True)
+            self.v3.setDisabled(True)
             self.measure_button.setDisabled(True)
+            self.distance.setText(str(self.probe_info.measured_distance))
         if state == ProbeState.MEASURED:
             # TODO: disable all
-            self.hide()
+            # self.top_half.hide()
+            self.rbn.setDisabled(True)
+            self.rbo.setDisabled(True)
+            self.v1.setDisabled(True)
+            self.v2.setDisabled(True)
+            self.v3.setDisabled(True)
+            self.measure_button.setDisabled(True)
+            self.distance.setText(str(self.probe_info.measured_distance))
 
     def set_disabled(self):
         print(self.probe_info.probe_directions)
@@ -288,9 +301,20 @@ class QueryWidget(QWidget):
                 self.set_disabled()
 
     def on_measure_distance(self):
-        # TODO
-        self.probe_info.set_probe_state(ProbeState.UNITARY_MEASURE)
-        pass
+        self.probe_info.set_probe_state(ProbeState.MEASURE_DISTANCE)
+
+
+        # # TODO
+        # vector = self.probe_info.get_probe_vector()
+        # print("PROBING WITH VECTOR: ", vector)
+        # q = self.query(vector)
+        # dis = q[0]
+        # vec = q[1]
+        # print(q)
+        # self.probe_info.set_measured_distance(dis)
+        # self.probe_info.set_probe_vector_output(vec)
+        #
+        # self.probe_info.set_probe_state(ProbeState.UNITARY_MEASURE)
 
 
 class UnitaryWidget(QWidget):
@@ -305,6 +329,7 @@ class UnitaryWidget(QWidget):
         base_layout.addWidget(QLabel("Apply Unitary Transformation Matrix"))
         # TODO: disable last row and column depending on available
         self.count = len(self.probe_info.probe_idxs)
+        print("number of probeable indices: ", self.count)
 
         row1 = QWidget()
         base_layout.addWidget(row1)
@@ -318,64 +343,64 @@ class UnitaryWidget(QWidget):
         self.m1.textChanged.connect(self.on_unitary_changed)
         row1_layout.addWidget(self.m1)
 
-        if self.count >= 2:
-            self.m2 = QLineEdit("0")
-            self.m2.setValidator(QDoubleValidator(0.99, 99.99, 2))
-            self.m2.textChanged.connect(self.on_unitary_changed)
-            row1_layout.addWidget(self.m2)
+        # if self.count >= 2:
+        self.m2 = QLineEdit("0")
+        self.m2.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        self.m2.textChanged.connect(self.on_unitary_changed)
+        row1_layout.addWidget(self.m2)
 
-            if self.count >= 3:
-                self.m3 = QLineEdit("0")
-                self.m3.setValidator(QDoubleValidator(0.99, 99.99, 2))
-                self.m3.textChanged.connect(self.on_unitary_changed)
-                row1_layout.addWidget(self.m3)
+            # if self.count >= 3:
+        self.m3 = QLineEdit("0")
+        self.m3.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        self.m3.textChanged.connect(self.on_unitary_changed)
+        row1_layout.addWidget(self.m3)
 
-        if self.count >= 2:
-            row2 = QWidget()
-            base_layout.addWidget(row2)
-            row2_layout = QHBoxLayout()
-            row2.setLayout(row2_layout)
+        # if self.count >= 2:
+        row2 = QWidget()
+        base_layout.addWidget(row2)
+        row2_layout = QHBoxLayout()
+        row2.setLayout(row2_layout)
 
-            # row2_layout.addWidget(QLabel("r2"))
+        # row2_layout.addWidget(QLabel("r2"))
 
-            self.m4 = QLineEdit("0")
-            self.m4.setValidator(QDoubleValidator(0.99, 99.99, 2))
-            self.m4.textChanged.connect(self.on_unitary_changed)
-            row2_layout.addWidget(self.m4)
+        self.m4 = QLineEdit("0")
+        self.m4.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        self.m4.textChanged.connect(self.on_unitary_changed)
+        row2_layout.addWidget(self.m4)
 
-            self.m5 = QLineEdit("0")
-            self.m5.setValidator(QDoubleValidator(0.99, 99.99, 2))
-            self.m5.textChanged.connect(self.on_unitary_changed)
-            row2_layout.addWidget(self.m5)
+        self.m5 = QLineEdit("0")
+        self.m5.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        self.m5.textChanged.connect(self.on_unitary_changed)
+        row2_layout.addWidget(self.m5)
 
-            if self.count >= 3:
-                self.m6 = QLineEdit("0")
-                self.m6.setValidator(QDoubleValidator(0.99, 99.99, 2))
-                self.m6.textChanged.connect(self.on_unitary_changed)
-                row2_layout.addWidget(self.m6)
+            # if self.count >= 3:
+        self.m6 = QLineEdit("0")
+        self.m6.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        self.m6.textChanged.connect(self.on_unitary_changed)
+        row2_layout.addWidget(self.m6)
 
-                row3 = QWidget()
-                row3_layout = QHBoxLayout()
-                row3.setLayout(row3_layout)
+        row3 = QWidget()
+        row3_layout = QHBoxLayout()
+        row3.setLayout(row3_layout)
 
-                # row3_layout.addWidget(QLabel("r3"))
+        # row3_layout.addWidget(QLabel("r3"))
 
-                self.m7 = QLineEdit("0")
-                self.m7.setValidator(QDoubleValidator(0.99, 99.99, 2))
-                self.m7.textChanged.connect(self.on_unitary_changed)
-                row3_layout.addWidget(self.m7)
+        self.m7 = QLineEdit("0")
+        self.m7.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        self.m7.textChanged.connect(self.on_unitary_changed)
+        row3_layout.addWidget(self.m7)
 
-                self.m8 = QLineEdit("0")
-                self.m8.setValidator(QDoubleValidator(0.99, 99.99, 2))
-                self.m8.textChanged.connect(self.on_unitary_changed)
-                row3_layout.addWidget(self.m8)
+        self.m8 = QLineEdit("0")
+        self.m8.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        self.m8.textChanged.connect(self.on_unitary_changed)
+        row3_layout.addWidget(self.m8)
 
-                self.m9 = QLineEdit("0")
-                self.m9.setValidator(QDoubleValidator(0.99, 99.99, 2))
-                self.m9.textChanged.connect(self.on_unitary_changed)
-                row3_layout.addWidget(self.m9)
+        self.m9 = QLineEdit("0")
+        self.m9.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        self.m9.textChanged.connect(self.on_unitary_changed)
+        row3_layout.addWidget(self.m9)
 
-                base_layout.addWidget(row3)
+        base_layout.addWidget(row3)
 
         apply_button = QPushButton("Perform")
         apply_button.clicked.connect(self.on_apply_unitary)
@@ -392,23 +417,30 @@ class UnitaryWidget(QWidget):
             self.hide()
         if state == ProbeState.INPUT_PROBE_VECTOR:
             self.hide()
-        if state == ProbeState.UNITARY_MEASURE:
-            self.show()
+        if state == ProbeState.UNITARY_OR_MEASURE:
+            self.on_show()
+        if state == ProbeState.APPLY_UNITARY:
+            # self.on_show()
+            # TODO
+            pass
         if state == ProbeState.MEASURED:
             self.hide()
 
+    def on_show(self):
+        self.show()
+        self.count = len(self.probe_info.probe_idxs)
+        print("number of probeable indices: ", self.count)
+        self.m2.setDisabled(self.count < 2)
+        self.m3.setDisabled(self.count < 3)
+        self.m4.setDisabled(self.count < 2)
+        self.m5.setDisabled(self.count < 2)
+        self.m6.setDisabled(self.count < 3)
+        self.m7.setDisabled(self.count < 3)
+        self.m8.setDisabled(self.count < 3)
+        self.m9.setDisabled(self.count < 3)
+
     def on_apply_unitary(self):
-        n = self.probe_info.unitary.shape[1]
-        assert n == len(self.probe_info.probe_vector_output), 'Probe vector dimension doesn\'t match.'
-        assert n == self.probe_info.unitary.shape[0], 'Given matrix not square'
-        # TODO BROKEN!!!!!
-        # assert self.probe_info.unitary.conj().T @ self.probe_info.unitary == np.eye(n), 'Given matrix not unitary'
-        if self.probe_info.unitary.conj().T @ self.probe_info.unitary == np.eye(n):
-            self.probe_info.probe_vector_output = self.probe_info.unitary @ self.probe_info.get_probe_vector()
-            # TODO: clear text fields to signal transformation was applied
-        else:
-            print("GIVEN MATRIX NOT UNITARY!!!")
-            # TODO: display warning, transform not applied
+        self.probe_info.set_probe_state(ProbeState.APPLY_UNITARY)
 
     def on_unitary_changed(self):
         print("unitary changed")
@@ -452,23 +484,25 @@ class MeasureWidget(QWidget):
             self.hide()
         if state == ProbeState.INPUT_PROBE_VECTOR:
             self.hide()
-        if state == ProbeState.UNITARY_MEASURE:
+        if state == ProbeState.UNITARY_OR_MEASURE:
             self.measure_button.setDisabled(False)
             self.show()
         if state == ProbeState.MEASURED:
             self.measure_button.setDisabled(True)
             self.show()
+            self.vector.setText(self.probe_direction_to_string(self.probe_info.measured_probe))
+
+    def probe_direction_to_string(self, direction):
+        if direction == ProbeDirection.FORWARD:
+            return "f"
+        elif direction == ProbeDirection.RIGHT:
+            return "r"
+        elif direction == ProbeDirection.LEFT:
+            return "l"
 
     def on_measure_clicked(self):
         print("measure clicked")
-        self.probe_info.set_probe_state(ProbeState.MEASURED)
-
-        self.probe_info.measured_probe = self.probe_measurement()
-
-    def probe_measurement(self):
-        probabilities = np.abs(self.probe_info.probe_vector_output) ** 2  # probabilities of different outcomes
-        # Randomly choose a direction according to Born rule probabilities.
-        return self.rng.choice(self.probe_info.probe_directions, p=probabilities)
+        self.probe_info.set_probe_state(ProbeState.MEASURE_PROBE_VECTOR)
 
 
 class ContinueWidget(QWidget):
@@ -491,7 +525,7 @@ class ContinueWidget(QWidget):
             self.hide()
         if state == ProbeState.INPUT_PROBE_VECTOR:
             self.show()
-        if state == ProbeState.UNITARY_MEASURE:
+        if state == ProbeState.UNITARY_OR_MEASURE:
             self.show()
         if state == ProbeState.MEASURED:
             self.show()
