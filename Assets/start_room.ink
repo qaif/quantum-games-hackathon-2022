@@ -53,7 +53,7 @@ VAR guilty = "butler"
 VAR weapon = "knife"
 ~ weapon="{~knife|bat|chop|kobra|brain|words}"
 VAR protagonist_name = "Detective"
-~ protagonist_name = "{~Mary|Charles|Stanley|Ada|Lisa|Harry}"
+~ protagonist_name = "{~Mary|Charles|Stanley|Ada|Lisa}"
 VAR debt= false
 ~ debt="{~false|true}"
 VAR affair= false
@@ -101,6 +101,9 @@ VAR com_message_loaded=false
 VAR com_delivery="none"
 
 VAR sender_production=false
+
+VAR pistol=false
+VAR luck=0
 
 VAR animal_cruelty=false
 VAR sleep_powder=false

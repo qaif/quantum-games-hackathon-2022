@@ -50,6 +50,10 @@ Or would you rather hear me quote Nietzsche? # runa
    sent through there to ease shipments. # protagonist
    To be or not to be is not a choice the cats get to make. # runa
    You seem to take this pretty easy # protagonist
+   {post_cat_dead==true:
+        Life is the best drug. Not as easy as you took anothers. # runa
+        -> Plea
+   }
    Life is the best drug. In order to provide it to most cats # runa
    {guilty=="runa":
            {injury=="plain":

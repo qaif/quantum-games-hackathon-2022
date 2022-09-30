@@ -30,18 +30,18 @@ What you want from me? # postWorker
 =task
 What if I don't want to sort the boxes? # protagonist
 Then I don't want to talk with you. # postWorker
-* Sort boxes
++ Sort boxes
    So how I sort boxes? # protagonist
    Take boxes from that window. # postWorker
    Do the checks required by the labels and then put them in correct chute # postWorker
    So what are the labels? # protagonist
    ->taskExplain
-* Leave
++ Leave
   -> hallway
 
 =taskExplain
 There are: animal, handle with care and express. # postWorker
-* Lets go
++ Lets go
    -> taskExecute
 * What I do with animals?
    For animals check that the transition sedation is working. # postWorker
@@ -82,7 +82,7 @@ There are: animal, handle with care and express. # postWorker
 Are you ready to begin? # postWorker
 * Yes
     ->taskExecute
-* What were the labels again?
++ What were the labels again?
    ->taskExplain
 * This is too complex, I am leaving
    -> hallway
@@ -112,7 +112,7 @@ Are you ready to begin? # postWorker
     }
     Maybe if some of these boxes contain bombs. But I have not intentionally packaged any boms, so no. # postWorker
    -> questioning
-* Leave
++ Leave
    -> hallway
 
 
@@ -127,6 +127,7 @@ You go get {a|yet another} box from the sorting chute. # narration
 {post_box_label=="handle with care":
           ~ post_bomb_armed=coherentLottery("bomb_fuse") // {~true|false}
           ~ post_probe=false
+          ~ post_bomb_exploded=false
 }
 {post_box_label=="express":
           ~ post_china=false
@@ -185,7 +186,6 @@ The label on it reads "{post_box_label}"# narration
             -else:
                A cat laying on the bottom # narration
             }
-
            + {post_neurotoxin>0}apply neurotoxin
                      ~ post_neurotoxin = post_neurotoxin - 1
                      {post_cat_up:
@@ -204,13 +204,31 @@ The label on it reads "{post_box_label}"# narration
                     {post_neurotoxin<=0:
                             That was the last neurotoxin ampule. # narration
                     }
-           + {sleep_powder} apply chloroform
+           + {sleep_powder==true} apply chloroform
                    {post_cat_up==true:
                              The cat swirls into a small ball that periodically buffs and deflates. # narration
                              ~ post_cat_up=false
-                   }          
+                   -else:
+                             The small furball in the box is not covered in powder # narration
+                   }
           + close box
                   This one is good to go. # narration
+          + {post_cat_up==false} Let lie
+                  Even if it is not a dog better let it sleep. # narration
+          + {post_cat_up==true} Hose down
+                  {sleep_powder==true:
+                           Now would seriosly be good time to rest. # narration
+                           ~ post_cat_up=false
+                  -else:
+                           {post_neurotoxin>0:
+                                   Well lets hope you got 8 more. # narration
+                           ~ post_neurotoxin=post_neurotoxin-1
+                           ~ post_cat_up=false
+                           ~ post_cat_dead=true
+                           else:
+                                   Hmmm, seems I don't have anything to hose this jumping packet with # narration
+                           }
+                  }
           -
           {post_cat_up==false:
                       ~ post_task_score=post_task_score+1
@@ -242,7 +260,7 @@ The label on it reads "{post_box_label}"# narration
               The machine spits out some bits of charred cardboard bits. #narration
               This is all that is left of the precious postal package.#narration
     }
-    + Put box in 'snail pace'
+    + {post_bomb_burden<10}Put box in 'snail pace'
 	{post_bomb_armed==true:
 		~ post_task_score=post_task_score+1
 	}
@@ -322,6 +340,11 @@ Lets see whether you are in fact done # postWorker
 	{post_cat_error+post_bomb_error<0:
                             And you were flawless about it too. # postWorker
                 }
+                ~ post_neurotoxin=0 // free up worlds as much as possible
+                ~ post_task_score=0
+                ~ post_cat_error=0
+                ~ post_bomb_error=0
+                ~ post_bomb_burden=0
 	->questioning
 -else:
                We have not yet hit our quatas. I ain't answering to slackers anything # postWorker
