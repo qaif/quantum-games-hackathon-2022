@@ -1,5 +1,3 @@
-# show that bb84 can be done effectively, including the encryption and decryption stages (by 2!)
-
 # be sure to cite all sources. The code will change considerably in order to meet our needs
 # but this is where the first part came from:
 # https://www.qmunity.tech/tutorials/quantum-key-distribution-with-bb84
@@ -9,22 +7,9 @@ from qiskit.visualization import plot_histogram, plot_bloch_multivector
 from numpy.random import randint
 from numpy.random import randint
 import numpy as np
+import random
 import itertools
 from qiskit.providers.aer import QasmSimulator
-num_qubits = 32
-
-# alice/romeo is picking bits and basis randomly
-# this needs to happen before phase 1 starts, so that minigame is correctly
-# populated
-# basis pf 1 or 0 can be converted to x or z later in the minigame
-alice_basis = np.random.randint(2, size=num_qubits)
-alice_state = np.random.randint(2, size=num_qubits)
-bob_basis = np.random.randint(2, size=num_qubits)
-
-
-#print (f"Alice's State:\t", np.array2string(alice_state))
-#print (f"Alice's Bases:\t", np.array2string(alice_basis))
-#print (f"Bob's Bases:\t",np.array2string(bob_basis))
 
 
 #The function encode_message below, creates a list of QuantumCircuits,
@@ -131,63 +116,67 @@ def sample_bits(bits, selection):
         sample.append(bits.pop(i))
     return sample
 
-n = 100
+n = 100 # get this from phase 0
 # Step 1
-alice_bits = randint(2, size=n)
-alice_bases = randint(2, size=n)
+romeo_bits = randint(2, size=n)
+romeo_bases = randint(2, size=n)
 # Step 2
-message = encode_message(alice_bits, alice_bases)
+message = encode_message(romeo_bits, romeo_bases) # this is the thing that eavesdropping changes
 # Interception!
 intercept=False
+if random.random() < .33: # eve intercepts the messge 33% of the time
+    intercept=True
+
 if(intercept):
+    # could also decide to have eve only measure some of the qubits. would be an interesting twist!
     eve_bases = randint(2, size=n)
     intercepted_message = measure_message(message, eve_bases)
 # Step 3
-bob_bases = randint(2, size=n)
-bob_results = measure_message(message, bob_bases)
-# Step 4
-bob_key = remove_garbage(alice_bases, bob_bases, bob_results)
-alice_key = remove_garbage(alice_bases, bob_bases, alice_bits)
+juliet_bases = randint(2, size=n)
+juliet_results = measure_message(message, juliet_bases)
+
+# Step 4 This is the sifting game in
+juliet_key = remove_garbage(romeo_bases, juliet_bases, juliet_results) # this is used in phase 4
+romeo_key = remove_garbage(romeo_bases, juliet_bases, romeo_bits) # this is used to check the player's work in phase 3 and used in p4 too
+
 # Step 5
+# this is the choice the user makes in phase 4!
 sample_size = 1 # Change this to something lower and see if
                  # Eve can intercept the message without Alice
                  # and Bob finding out
 bit_selection = randint(n, size=sample_size)
-bob_sample = sample_bits(bob_key, bit_selection)
-alice_sample = sample_bits(alice_key, bit_selection)
-
-# also check for noise here!!!!!!!!!!!
-# code in some noise example
+juliet_sample = sample_bits(juliet_key, bit_selection)
+romeo_sample = sample_bits(romeo_key, bit_selection)
 
 if (intercept):
-    if bob_sample != alice_sample:
+    if juliet_sample != romeo_sample:
         print("Eve's interference was detected.")
     else:
         print("Eve went undetected!")
 
-if (bob_sample == alice_sample):
+if (juliet_sample == romeo_sample):
     print("samples match!")
 else:
     print("samples do not match")
 
-string_ints = [str(int) for int in alice_key]
+# If there is no interference, and the keys don't match perfectly, blame noise
+# is the better word decoherence? determine!
+
+string_ints = [str(int) for int in romeo_key]
 str_of_ints = ",".join(string_ints)
 a_key=str_of_ints
 
-string_ints = [str(int) for int in bob_key]
+string_ints = [str(int) for int in juliet_key]
 str_of_ints = ",".join(string_ints)
 b_key=str_of_ints
 
 to_encrypt="romeo, o romeo"
 
-a= cipher_encryption(to_encrypt,a_key)
-c=cipher_decryption(a,b_key)
+a = cipher_encryption(to_encrypt,a_key)
+c = cipher_decryption(a,b_key)
 
 
 if(to_encrypt!=c):
-    print("the encryption failed!")
+    print("the encryption failed! Only {?} % of the characters match")
 else:
     print("the encryption was a success!")
-
-exit()
-
