@@ -103,6 +103,37 @@ public class classical_story
         return basket;
     }
 
+    public void phaseGate(string detail, double degree=0.5)
+    {
+        if (story.variablesState[detail].ToString() == "True")
+        {
+            realityFluid = realityFluid * Complex.FromPolarCoordinates(1.0, (degree * System.Math.PI * 2));
+        }
+    }
+    public void flipGate(string detail, double degree=0.5)
+    {
+        if (story.variablesState[detail].ToString() == "True")
+        {
+            story.variablesState[detail] = false;
+        }
+        else
+        {
+            story.variablesState[detail] = false;
+        }
+    }
+    public void crossGate(string detail, double degree=0.5)
+    {
+        if (story.variablesState[detail].ToString() == "True")
+        {
+            story.variablesState[detail] = false;
+            realityFluid = realityFluid * Complex.FromPolarCoordinates(1.0, (System.Math.PI / 2.0));
+        }
+        else
+        {
+            story.variablesState[detail] = false;
+            realityFluid = realityFluid * Complex.FromPolarCoordinates(1.0, (System.Math.PI * 1.5));
+        }
+    }
 
     public void bifurcate(classical_story reference)
     {

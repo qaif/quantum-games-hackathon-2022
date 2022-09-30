@@ -14,7 +14,7 @@ History teacher Chloe Greenberg seems dusty. # narration
 *[Motive]
    Where you on good terms with the victim? # protagonist
    We were on good enough terms that we even got married. # historyT
-   {not guilty=="history":
+   {guilty!="history":
    They even still have me as the benefactor of their will. # historyT
    - else:
     But we grew more distant with time. # historyT

@@ -46,5 +46,6 @@ Chemistry teacher Deep Tamura seems jolty. # narration
    For quick relief I have a secret comparment in the auditorium where I keep a phone to call for help quick # chemistryT
    I have to keep it secret and away from the students that they don't try to fiddle with the high techness of it all the time # chemistryT
    ~ sender_compartment=true
+   ->questioning
 +Leave
    -> Coffee.coffeetable

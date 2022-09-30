@@ -13,6 +13,7 @@ INCLUDE cafeteria.ink
 INCLUDE book.ink
 INCLUDE FameHall.ink
 INCLUDE cat_boxing.ink
+INCLUDE auditorium.ink
 
 
 INCLUDE HistoryTeacher.ink
@@ -27,6 +28,12 @@ EXTERNAL coherentLottery(lotterytype)
 EXTERNAL splitWorld(detail)
 EXTERNAL degreeSplitWorld(detail,amount)
 
+
+EXTERNAL degreeXGate(detail,amount) // degree is dummy
+EXTERNAL degreeYGate(detail,amount) // degree is dummy
+EXTERNAL degreeZGate(detail,amount)
+
+EXTERNAL checkForMultiverseValue(detail)
 
 
 
@@ -107,6 +114,8 @@ VAR antisymmetry_bob=false
 
 VAR passcode=false
 
+VAR fancy_passcode=false
+
 VAR skeleton_key=false
 
 VAR phone_phrase="Hello"
@@ -184,7 +193,7 @@ Quantum Detective # program
      {world=="D":
             ~ com_state=false
      }
-     {world=="R":
+     {world=="E":
             ~ com_state=false
      }
 }
@@ -201,7 +210,7 @@ Quantum Detective # program
      {world=="D":
             ~ com_state=false
      }
-     {world=="R":
+     {world=="E":
             ~ com_state=true
      }
 }

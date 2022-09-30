@@ -214,6 +214,22 @@ public class superposition_manager : MonoBehaviour
                 Debug.Log("incoming " + amount);
                 splitWorld( fresh, corner, double.Parse(amount,System.Globalization.CultureInfo.InvariantCulture) );
             });
+            fresh.story.BindExternalFunction("degreeZGate", (string corner, string amount) =>
+            {
+                Debug.Log("Z " + amount);
+                phaseGate(fresh, corner, double.Parse(amount, System.Globalization.CultureInfo.InvariantCulture));
+            });
+            fresh.story.BindExternalFunction("degreeXGate", (string corner, string amount) =>
+            {
+                Debug.Log("X " + amount);
+                flipGate(fresh, corner, double.Parse(amount, System.Globalization.CultureInfo.InvariantCulture));
+
+            });
+            fresh.story.BindExternalFunction("degreeYGate", (string corner, string amount) =>
+            {
+                Debug.Log("X " + amount);
+                crossGate(fresh, corner, double.Parse(amount, System.Globalization.CultureInfo.InvariantCulture));
+            });
 
 
             fresh.ForwardFlow();
@@ -431,6 +447,34 @@ public class superposition_manager : MonoBehaviour
                 {
                     splitWorld(noob, corner,double.Parse(amount, System.Globalization.CultureInfo.InvariantCulture));
                 });
+                noob.story.BindExternalFunction("degreeZGate", (string corner, string amount) =>
+                {
+                    Debug.Log("Z " + amount);
+                    phaseGate(noob, corner, double.Parse(amount, System.Globalization.CultureInfo.InvariantCulture));
+                });
+                noob.story.BindExternalFunction("degreeXGate", (string corner, string amount) =>
+                {
+                    Debug.Log("X " + amount);
+                    flipGate(noob, corner, double.Parse(amount, System.Globalization.CultureInfo.InvariantCulture));
+                });
+                noob.story.BindExternalFunction("degreeYGate", (string corner, string amount) =>
+                {
+                    Debug.Log("X " + amount);
+                    crossGate(noob, corner, double.Parse(amount, System.Globalization.CultureInfo.InvariantCulture));
+                });
+                noob.story.BindExternalFunction("checkForMultiverseValue", (string corner) =>
+                {
+                    Debug.Log("Multicheck ");
+                    if (multi_check(corner))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    };
+                });
+
                 noob.bifurcateFlag = "";
                 focus.bifurcateFlag = "";
                 AddQuota.Add(focus, noob);
@@ -447,6 +491,22 @@ public class superposition_manager : MonoBehaviour
         river.bifurcateFlag = detail;
         river.bifurcateDegree = degree;
     }
+
+    public void phaseGate(classical_story river,string detail, double degree)
+    {
+        river.phaseGate(detail, degree);
+    }
+
+    public void flipGate(classical_story river, string detail, double degree)
+    {
+        river.flipGate(detail);
+    }
+
+    public void crossGate(classical_story river, string detail, double degree)
+    {
+        river.crossGate(detail);
+    }
+
 
     public void annhilations()
     {
@@ -541,6 +601,142 @@ public class superposition_manager : MonoBehaviour
         return "The player is not supposed to see this";
     }
 
+    public bool multi_check(string detail)
+    {
+        bool[] pony = new bool[] { true, true, false, false, true };
+        bool[] frog = new bool[] { false, true, true, false, false };
+        bool[] owl = new bool[] { false, false, true, false, true };
+        bool[] corrects = new bool[] { };
+        switch (linears[0].story.variablesState["com_password"])
+        {
+            case "owl":
+                corrects = owl;
+                break;
+            case "pony":
+                corrects = pony;
+                break;
+            case "frog":
+                corrects = frog;
+                break;
+        }
+        bool surviving = true;
+        foreach (classical_story river in linears)
+        {
+            switch (river.story.variablesState["world"])
+            {
+                case "A":
+                    if (river.story.variablesState[detail].ToString()=="True"){
+                        if (corrects[0] == true)
+                        {
+                        }
+                        else
+                        {
+                            surviving = false;
+                        }
+                    }
+                    else
+                    {
+                        if (corrects[0] == true)
+                        {
+                            surviving = false;
+                        }
+                        else
+                        {
+                        }
+                    }
+                    break;
+                case "B":
+                    if (river.story.variablesState[detail].ToString() == "True")
+                    {
+                        if (corrects[1] == true)
+                        {
+                        }
+                        else
+                        {
+                            surviving = false;
+                        }
+                    }
+                    else
+                    {
+                        if (corrects[1] == true)
+                        {
+                            surviving = false;
+                        }
+                        else
+                        {
+                        }
+                    }
+                    break;
+                case "C":
+                    if (river.story.variablesState[detail].ToString() == "True")
+                    {
+                        if (corrects[2] == true)
+                        {
+                        }
+                        else
+                        {
+                            surviving = false;
+                        }
+                    }
+                    else
+                    {
+                        if (corrects[2] == true)
+                        {
+                            surviving = false;
+                        }
+                        else
+                        {
+                        }
+                    }
+                    break;
+                case "D":
+                    if (river.story.variablesState[detail].ToString() == "True")
+                    {
+                        if (corrects[3] == true)
+                        {
+                        }
+                        else
+                        {
+                            surviving = false;
+                        }
+                    }
+                    else
+                    {
+                        if (corrects[3] == true)
+                        {
+                            surviving = false;
+                        }
+                        else
+                        {
+                        }
+                    }
+                    break;
+                case "E":
+                    if (river.story.variablesState[detail].ToString() == "True")
+                    {
+                        if (corrects[4] == true)
+                        {
+                        }
+                        else
+                        {
+                            surviving = false;
+                        }
+                    }
+                    else
+                    {
+                        if (corrects[4] == true)
+                        {
+                            surviving = false;
+                        }
+                        else
+                        {
+                        }
+                    }
+                    break;
+            }
+        }
+        return surviving;
+    }
 
     // Update is called once per frame
     void Update()

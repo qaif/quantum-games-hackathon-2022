@@ -29,6 +29,7 @@ You could also go throught the drawers to find skeletons # narration
            Hmmm the sensitive papers are being protected by a lock # narrative
     }
 +Disengage
+   -> office
 -
 ->officeTable
 
@@ -76,16 +77,61 @@ The concepts are just so weird. There is a dial and a confirm button next to tha
               This was not the safest choice # narrative
               -> resolution.Demise
       ++ Maybe not stick your tools into unknown openings
-            You step back to wonder about the interface # TeleportReceive
+            You step back to wonder about the interface # narration
+            -> TeleportReceive
 + Make a selection with the dial
       So which season it shall be?
       ++ Spring
+           ->OperationSpring
       ++ Summer
+           ->OperationSummer
       ++ Fall
+           ->OperationFall
       ++ Winter
+           ->OperationWinter
+      ++ {com_delivery!="none"} The one that I saw at the fancy machine {com_delivery}
+-
+->TeleportReceive
 
 
+= OperationSpring
+spring
+->FancyLockCheck
 
+= OperationSummer
+summer
+
+= OperationFall
+fall
+
+= OperationWinter
+winter
+
+= OperationSensitive
+{com_delivery:
+     -"spring":
+            ->OperationSpring
+     -"summer":
+            ->OperationSummer
+     -"fall":
+            ->OperationFall
+     -"winter":
+            ->OperationWinter
+}
+
+
+= FancyLockCheck
+Now you could try to open a comparment in the case you inputted the right message # narration
++ Yes
+      fancy_passcode=checkForMultiverseValue("antisymmetry_bob")
+      {fancy_passcode==true:
+               Hey it opened # narration
+       -else:
+               Nope that was not it # narration
+      }
++ No
+-
+->TeleportReceive
 
 =phone_wait
 {phone_wait_time==0:
