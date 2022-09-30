@@ -25,14 +25,18 @@ You are the one investigating the murder... # butler
 =Plea
 * [Alibi]
    So where were you when the murder took place? # protagonist
-   {injury=="blunt":
-   Ironing shirts # butler
-   }
-   {injury=="slice":
-   Gardening the memorial shrub # butler
-   }
-   {injury=="plain":
-   Supervising that the cooks implemented the seasoning request # butler
+   {werewolf==false:
+        {injury=="blunt":
+             Ironing shirts # butler
+        }
+        {injury=="slice":
+             Gardening the memorial shrub # butler
+        }
+        {injury=="plain":
+              Supervising that the cooks implemented the seasoning request # butler
+        }
+   -else:
+        I was washing clothes # butler
    }
    ->Plea
 * [Motive]

@@ -21,7 +21,15 @@ There are not enough feathers to pose a threat to anyones dignity. # narration
             The earring seems a spiral made of golden, with a small amethyst in the center. # narration
             -> CellarActions
         + Inspect hat
-            The hat is brown, with a broad brim. # narration
+            {werewolf==false:
+                     {injury!="plain":
+                            The hat is red, with a broad brim. # narration
+                     -else:
+                            The hat is brown, with a broad wrinkled brim. # narration
+                     }
+           -else:
+                        The hat is brown, with a broad brim. # narration
+            }
             -> CellarActions
         + Inspect feather
             The feather is large and coloured in brilliant red and blue. # narration

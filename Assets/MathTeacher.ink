@@ -34,6 +34,10 @@ Math teacher Enrico Mwangi seems calculating. # narration
                   They never let me touch their key which they always kept on their belt. #mathT
               }
    }
+   {guilty=="victim":
+          At times he was very stuck inthe past. Having so much regrets. # mathT
+          Now he never gets to make up for them. # mathT
+   }
    -> questioning
 *Guilt
    Did you do it? # protagonist

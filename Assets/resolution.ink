@@ -72,14 +72,17 @@ Why they did it? # narration
     {guilty=="protagonist":
           ~ win_why = true
     }
-* To get out of debt
+* Financial matters
     {debt==true:
          ~ win_why = true
     }
-* Crime of passion
+* Flashed emotions
+    ->emotionalmatter
     {affair==true:
          ~ win_why = true
     }
+* Secrecy
+    -> spymatter
 * Indifferent universe doesn't need a reason to grind us to dust
     {guilty=="accident":
         ~ win_why = true
@@ -94,6 +97,88 @@ Why they did it? # narration
     }
 -
 -> scoring
+
+=spymatter
+This cloak and daggering was because
+* Keeping arms deals hidden
+   {guilty=="chemistry":
+           {werewolf==false:
+                 {affair==false:
+                     ~ win_why = true
+                 }
+           }
+   }
+* To cover up theft
+   {guilty=="rascal":
+           {debt==false:
+	     {injury=="slice":
+                     ~ win_why = true
+                     }
+           }
+   }
+
+-
+-> scoring
+
+
+
+=financialmatter
+The root of all evil money was behind it.
+* To get out of debt
+    {debt==true:
+         {guilty=="rascal":
+         ~ win_why = true
+         }
+    }
+* Gruntled about being turned into a thief
+    {debt==true:
+         {guilty=="butler":
+         ~ win_why = true
+         }
+    }
+* To get a windfall
+   {guilty=="history":
+         ~ win_why = true
+   }
+* To protect a side hussle
+   {guilty=="chemisty":
+            {werewolf==true:
+                      ~ win_why = true
+            }
+   }
+-
+->scoring
+
+=emotionalmatter
+* For being cheated on
+    {affair==true:
+          {guilty=="math":
+                  ~ win_why=true
+          }
+    }
+* Ending a relationship
+    {affair==true:
+          {guilty=="chemistry":
+                  ~ win_why=true
+          }
+    }
+* In fury of anger
+    {guilty=="runa":
+          {injury=="blunt":
+                  ~ win_why=true
+          }
+    }
+* a sense of injustice
+   {guilty=="rascal":
+        {debt==false:
+                  {injury!="slice":
+                  ~ win_why=true
+                  }
+        }
+   }
+
+-
+->scoring
 /*
 =howResolution
 How they did it? # narration

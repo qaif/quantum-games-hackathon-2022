@@ -12,7 +12,12 @@ This seems like a mystery you need to get to the bottom of. # narration
 -> Cavader
 =Cavader
 *[Pen]
-   The blue pen seems elegant. Being used like a sword doesn't compliment its true power. # narration
+   {guilty=="protagonist":
+         The blue pen seems elegant. Nice style # narration
+   -else:
+         The blue pen seems elegant.  # narration
+   }
+   Being used like a sword doesn't compliment its true power. # narration
    -> Cavader
 *[Separator]
    The separator has torn this poor human from this mortal coil. # narration

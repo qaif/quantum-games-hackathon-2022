@@ -36,6 +36,11 @@ produce new # written
           ~producer_plop=false
          }
 + Leave
+        {guilty=="rascal":
+               {injury=="slice":
+                          ~producer_plop=false
+               }
+        }
         ->auditorium
 -
 ->TeleportProducer

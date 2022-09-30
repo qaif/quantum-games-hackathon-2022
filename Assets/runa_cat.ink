@@ -76,7 +76,7 @@ Or would you rather hear me quote Nietzsche? # runa
                    Did you try to make any noise about it? # protagonist
                    My teaching licence is quite fresh so I didn't want to gamble on it # runa
           }
-          {injury=="plunt":
+          {injury=="blunt":
                   We will just have to live with our choices. Or I guess die by them. # runa
           }
    }
