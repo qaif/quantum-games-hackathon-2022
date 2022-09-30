@@ -22,30 +22,30 @@ class Games:
 
     # refresh on main menu
     def refresh_new_game(self):
-        remainingHearts = 3
+        globals.remainingHearts = 3
 
-        starting_timer_minute = 5
-        starting_timer_seconds = 0
+        globals.starting_timer_minute = 5
+        globals.starting_timer_seconds = 0
 
-        timer_minute = 5
-        timer_seconds = 0
+        globals.timer_minute = 5
+        globals.timer_seconds = 0
 
-        total_score = 0
+        globals.total_score = 0
 
         self.refresh_after_loop()
 
     # refresh on phase 0
     def refresh_after_loop(self):
-        selectedBit = 0
-        secret_key = ""
+        globals.selectedBit = 0
+        globals.secret_key = ""
 
-        romeo_bits = []
-        romeo_bases = []
-        romeo_key = []
+        globals.romeo_bits = []
+        globals.romeo_bases = []
+        globals.romeo_key = []
 
-        juliet_bits = []
-        juliet_bases = []
-        juliet_key = []
+        globals.juliet_bits = []
+        globals.juliet_bases = []
+        globals.juliet_key = []
 
 
     def generate_hearts(self):

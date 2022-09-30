@@ -25,7 +25,8 @@ from assets.scenes.gameover import GameOver
 
 class Scene:
     def __init__(self):
-        pass
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
+
     def onEnter(self):
         pass
     def onExit(self):
@@ -33,12 +34,15 @@ class Scene:
     def input(self, sm, inputStream):
         pass
     def update(self, sm, inputStream):
-        pass
+        self.space.update(inputStream)
+
     def draw(self, sm, screen):
-        pass
+        self.space.draw(screen)
+
 
 class TransitionScene(Scene):
     def __init__(self, fromScenes, toScenes):
+        super().__init__()
         self.currentPercentage = 0
         self.fromScenes = fromScenes
         self.toScenes = toScenes
@@ -79,8 +83,9 @@ class FadeTransitionScene(TransitionScene):
 
 class MainMenuScene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
-        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = quit]', 170, 20)
+        super().__init__()
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = quit]', 270, 20)
         pygame.event.clear()
         self.mainmenu = MainMenu(pygame)
     def onEnter(self):
@@ -107,7 +112,8 @@ class MainMenuScene(Scene):
 
 class IntroductionScene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        super().__init__()
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.intro = Story_Introduction(pygame)
@@ -124,14 +130,13 @@ class IntroductionScene(Scene):
 
     def draw(self, sm, screen):
         self.intro.call_event(screen)
-
         self.enter.draw(screen)
         #self.esc.draw(screen)
 
 
 class GameOverScene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.gameover = GameOver(pygame)
@@ -155,7 +160,7 @@ class GameOverScene(Scene):
 
 class Story0Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_0 = Story_0(pygame)
@@ -219,7 +224,7 @@ class Games0Scene(Scene):
 
 class Story0_5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_0_5 = Story_0_5(pygame)
@@ -242,7 +247,7 @@ class Story0_5Scene(Scene):
 
 class Story1Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_1 = Story_1(pygame)
@@ -266,10 +271,10 @@ class Story1Scene(Scene):
 class Games1Scene(Scene):
     def __init__(self):
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
-        self.d = ButtonUI(globals.keyboard_bit_0, '[d = bit-0]', 50, 10)
-        self.f = ButtonUI(globals.keyboard_bit_1, '[f = bit-1]', 150, 10)
-        self.j = ButtonUI(globals.keyboard_base_x, '[j = base-X]', 240, 10)
-        self.k = ButtonUI(globals.keyboard_base_z, '[k = base-Z]', 360, 10)
+        self.d = ButtonUI(globals.keyboard_bit_0, '[d = bit-0]', 150, 10)
+        self.f = ButtonUI(globals.keyboard_bit_1, '[f = bit-1]', 250, 10)
+        self.j = ButtonUI(globals.keyboard_base_x, '[j = base-X]', 340, 10)
+        self.k = ButtonUI(globals.keyboard_base_z, '[k = base-Z]', 460, 10)
 
         pygame.event.clear()
         self.g1 = Games_1(pygame)
@@ -320,7 +325,7 @@ class Games1Scene(Scene):
 
 class Story1_5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_1_5 = Story_1_5(pygame)
@@ -343,7 +348,7 @@ class Story1_5Scene(Scene):
 
 class Story2Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_2 = Story_2(pygame)
@@ -405,7 +410,7 @@ class Games2Scene(Scene):
 
 class Story2_5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_2_5 = Story_2_5(pygame)
@@ -428,7 +433,7 @@ class Story2_5Scene(Scene):
 
 class Story3Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         pygame.event.clear()
         self.story_3 = Story_3(pygame)
     def onEnter(self):
@@ -448,7 +453,7 @@ class Story3Scene(Scene):
 
 class Games3Scene(Scene):
     def __init__(self):
-        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 150, 20)
 
         pygame.event.clear()
         self.g3 = Games_3(pygame)
@@ -467,7 +472,7 @@ class Games3Scene(Scene):
 
     def draw(self, sm, screen):
         self.g3.call_event(screen)
-        self.esc.draw(screen)
+        #self.esc.draw(screen)
 
         if self.g3.finish and self.g3.verified_answer:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
@@ -478,7 +483,7 @@ class Games3Scene(Scene):
 
 class Story3_5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         pygame.event.clear()
         self.story_3_5 = Story_3_5(pygame)
     def onEnter(self):
@@ -498,7 +503,7 @@ class Story3_5Scene(Scene):
 
 class Story4Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         pygame.event.clear()
         self.story_4 = Story_4(pygame)
     def onEnter(self):
@@ -563,7 +568,7 @@ class Games4Scene(Scene):
 
 class Story4_5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         pygame.event.clear()
         self.story_4_5 = Story_4_5(pygame)
     def onEnter(self):
@@ -583,7 +588,7 @@ class Story4_5Scene(Scene):
 
 class Story5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         pygame.event.clear()
         self.story_5 = Story_5(pygame)
     def onEnter(self):
@@ -653,7 +658,7 @@ class Games5Scene(Scene):
 
 class StoryEnding1Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         pygame.event.clear()
         self.story_ending_1 = Story_Ending_1(pygame)
     def onEnter(self):
@@ -674,7 +679,7 @@ class StoryEnding1Scene(Scene):
 
 class StoryEnding2Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
         pygame.event.clear()
         self.story_ending_2 = Story_Ending_2(pygame)
     def onEnter(self):
@@ -695,8 +700,8 @@ class StoryEnding2Scene(Scene):
 
 class LeaderboardScene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
-        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = return to main menu]', 350, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = return to main menu]', 450, 20)
         pygame.event.clear()
         self.leader = Story_Leaderboard(pygame)
 
