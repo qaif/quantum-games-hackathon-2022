@@ -38,7 +38,9 @@ class Games_3(Games):
         self.numberofbit = 0
 
         if globals.testing:
-            for i in range(globals.maxBit - 1):
+            for i in range(globals.maxBit):
+                self.numberofbit = globals.maxBit
+
                 self.juliet_bits.append(random.choice(self.bit_options))
                 self.romeo_bases.append(random.choice(self.base_options))
                 self.juliet_bases.append(random.choice(self.base_options))
@@ -55,14 +57,22 @@ class Games_3(Games):
         print("Romeo Bits - Juliet Bits : ", globals.romeo_bits, globals.juliet_bits)
 
         self.start_x_pos = globals.screenSize[0] / 2
-        self.start_x_pos -= (27 * self.numberofbit)
-        #print(self.start_x_pos)
+        self.start_x_pos -= (29 * self.numberofbit)
+        print(" Start x pos games 3 : ", self.start_x_pos)
 
+        self.no_hides = 0
+
+        if self.numberofbit <= 2:
+            self.no_hides = 0
+        elif self.numberofbit <= 6:
+            self.no_hides = 1
+        elif self.numberofbit <= 10:
+            self.no_hides = 2
+        elif self.numberofbit <= 14:
+            self.no_hides = 3
 
         self.hides = []
-        self.hides.append(random.sample(range(0, self.numberofbit - 1), random.randint(0,2)))
-        self.hides.append(random.sample(range(0, self.numberofbit - 1), random.randint(0,2)))
-        self.hides.append(random.sample(range(0, self.numberofbit - 1), random.randint(0,2)))
+        self.generate_hides()
 
         # timer for user defined function
         pygame.time.set_timer(self.event_hide_box, 700)
@@ -80,7 +90,7 @@ class Games_3(Games):
         i = 0
         for type in self.juliet_bits: # we need to use Juliet's bits here
             b = BitBase(type, _idx=i)
-            b.rect = b.image.get_rect(topleft=(self.start_x_pos + 60 * i, 107))
+            b.rect = b.image.get_rect(topleft=(self.start_x_pos + 4 + 60 * i, 107))
             self.juliet_bit_display.add(b)
 
             i += 1
@@ -100,6 +110,12 @@ class Games_3(Games):
             self.juliet_base_display.add(b)
 
             i += 1
+
+    def generate_hides(self):
+        self.hides = []
+        self.hides.append(random.sample(range(0, self.numberofbit), self.no_hides))
+        self.hides.append(random.sample(range(0, self.numberofbit), self.no_hides))
+        self.hides.append(random.sample(range(0, self.numberofbit), self.no_hides))
 
     def draw_table(self, window: pygame.Surface, list_hide, start_pos_x:int, start_pos_y: int):
         # Initialing Color
@@ -154,9 +170,7 @@ class Games_3(Games):
                 pygame.quit()
                 sys.exit()
             elif event.type == self.event_hide_box:
-                self.hides[0] = random.sample(range(0, self.numberofbit - 1), 2)
-                self.hides[1] = random.sample(range(0, self.numberofbit - 1), 2)
-                self.hides[2] = random.sample(range(0, self.numberofbit - 1), 2)
+                self.generate_hides()
             elif event.type == self.timer_event:
                 self.process_timer()
 
@@ -175,7 +189,6 @@ class Games_3(Games):
             r.get_initialize_image(r.key)
 
         # check whether the answer is correct or false, for
-
 
 
         # draw the input box

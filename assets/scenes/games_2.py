@@ -11,19 +11,19 @@ from assets.classes.utils import *
 
 class Games_2(Games):
 
-    # creating a group of Sprite, this is like an array of sprite (object of image)
-    bits = pygame.sprite.Group()
-    measured_bits = pygame.sprite.Group()
-
-    # user defined function
-    event_bit_moving = pygame.USEREVENT + 1
-    event_bit_change_direction = pygame.USEREVENT + 2
-    event_bit_diminishing = pygame.USEREVENT + 3
-    event_measuring= pygame.USEREVENT + 4
 
     def __init__(self, pygame):
         super().__init__()
         self.background = pygame.image.load("assets/images/games_2.jpg")
+
+        self.bits = pygame.sprite.Group()
+        self.measured_bits = pygame.sprite.Group()
+
+        # user defined function
+        self.event_bit_moving = pygame.USEREVENT + 1
+        self.event_bit_change_direction = pygame.USEREVENT + 2
+        self.event_bit_diminishing = pygame.USEREVENT + 3
+        self.event_measuring = pygame.USEREVENT + 4
 
         # Changing the cursor image to measurement
         pygame.mouse.set_visible(False)
@@ -51,8 +51,7 @@ class Games_2(Games):
         pygame.time.set_timer(self.event_bit_diminishing, 500)
         pygame.time.set_timer(self.event_measuring, 500)
 
-        self.finish = False
-        self.win = False
+        self.reset_flags()
 
         i = 0
         for type in self.unmeasured_bits:
@@ -70,9 +69,11 @@ class Games_2(Games):
             i += 1
 
         for b in self.bits:
+            b.measured = False
             b.get_hidden_image()
 
         for mb in self.measured_bits:
+            mb.measured = False
             mb.get_hidden_image()
             mb.image.set_alpha(255)
 

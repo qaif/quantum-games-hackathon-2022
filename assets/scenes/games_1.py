@@ -50,6 +50,8 @@ class Games_1(Games):
         self.blink_x = False
         self.blink_z = False
 
+        self.reset_flags()
+
 
     def get_measurement(self, key: int):
         """

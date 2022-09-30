@@ -20,6 +20,34 @@ class Games:
         self.timer_event = pygame.USEREVENT
         pygame.time.set_timer(self.timer_event, 1000)  # 2000 milliseconds = 2 seconds
 
+    # refresh on main menu
+    def refresh_new_game(self):
+        remainingHearts = 3
+
+        starting_timer_minute = 5
+        starting_timer_seconds = 0
+
+        timer_minute = 5
+        timer_seconds = 0
+
+        total_score = 0
+
+        self.refresh_after_loop()
+
+    # refresh on phase 0
+    def refresh_after_loop(self):
+        selectedBit = 0
+        secret_key = ""
+
+        romeo_bits = []
+        romeo_bases = []
+        romeo_key = []
+
+        juliet_bits = []
+        juliet_bases = []
+        juliet_key = []
+
+
     def generate_hearts(self):
         # initialize hearts
         j = 0

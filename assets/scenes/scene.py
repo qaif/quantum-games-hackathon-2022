@@ -19,7 +19,7 @@ from assets.scenes.story_1 import Story_1, Story_1_5
 from assets.scenes.story_2 import Story_2, Story_2_5
 from assets.scenes.story_3 import Story_3, Story_3_5
 from assets.scenes.story_4 import Story_4, Story_4_5
-from assets.scenes.story_5 import Story_5, Story_Ending_1, Story_Ending_2
+from assets.scenes.story_5 import Story_5, Story_Ending_1, Story_Ending_2, Story_Leaderboard
 from assets.scenes.gameover import GameOver
 
 
@@ -663,7 +663,7 @@ class StoryEnding1Scene(Scene):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_ending_1.finish:
             sm.pop()
             #sm.pop_all()
-            sm.push(FadeTransitionScene([self], [Story0Scene()]))
+            sm.push(FadeTransitionScene([self], [LeaderboardScene()]))
 
     def update(self, sm, inputStream):
         self.enter.update(inputStream)
@@ -684,7 +684,7 @@ class StoryEnding2Scene(Scene):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_ending_2.finish:
             sm.pop()
             # sm.pop_all()
-            sm.push(FadeTransitionScene([self], [Story0Scene()]))
+            sm.push(FadeTransitionScene([self], [LeaderboardScene()]))
 
     def update(self, sm, inputStream):
         self.enter.update(inputStream)
@@ -692,6 +692,44 @@ class StoryEnding2Scene(Scene):
     def draw(self, sm, screen):
         self.story_ending_2.call_event(screen)
         self.enter.draw(screen)
+
+class LeaderboardScene(Scene):
+    def __init__(self):
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = return to main menu]', 350, 20)
+        pygame.event.clear()
+        self.leader = Story_Leaderboard(pygame)
+
+        self.option = 0
+    def onEnter(self):
+        #globals.soundManager.playMusicFade('solace')
+        pass
+    def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.leader.finish:
+            sm.pop()
+            # sm.pop_all()
+            self.leader.refresh_new_game()
+            sm.push(FadeTransitionScene([self], [MainMenuScene()]))
+
+        elif inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE) and self.leader.finish:
+            sm.pop()
+            # sm.pop_all()
+            self.leader.refresh_after_loop()
+            sm.push(FadeTransitionScene([self], [Story0Scene()]))
+
+    def update(self, sm, inputStream):
+        self.enter.update(inputStream)
+        self.esc.update(inputStream)
+
+    def draw(self, sm, screen):
+        self.leader.call_event(screen)
+
+        if self.leader.finish:
+            self.enter.text = "[Enter = continue playing]"
+
+        self.enter.draw(screen, par_colour=globals.WHITE)
+        if self.leader.finish:
+            self.esc.draw(screen, par_colour=globals.WHITE)
 
 class SceneManager:
     def __init__(self):

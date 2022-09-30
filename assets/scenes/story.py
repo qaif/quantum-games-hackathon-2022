@@ -14,7 +14,7 @@ class Story(Games):
         self.story_text = []
         self.story_index = 0
 
-        self.x = 50
+        self.x = 40
         self.y = 150
         self.font = 20
         self.color = globals.BLACK
@@ -42,7 +42,7 @@ class Story(Games):
             # divide into two lines
             lastspace = self.story_text[self.story_index].rfind(' ')
             line1 = self.story_text[self.story_index][:lastspace]
-            line2 = self.story_text[self.story_index][lastspace - 1:]
+            line2 = self.story_text[self.story_index][lastspace + 1:]
 
             drawText(window, line1, self.x, self.y, self.color, 255, self.font)
             drawText(window, line2, self.x, self.y + 30, self.color, 255, self.font)

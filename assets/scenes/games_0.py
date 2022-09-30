@@ -17,7 +17,9 @@ class Games_0(Games):
 
         self.bit_size = 0
 
-        globals.refresh_after_loop()
+        self.refresh_after_loop()
+
+        self.reset_flags()
 
         pygame.mouse.set_visible(True)
 
@@ -25,6 +27,8 @@ class Games_0(Games):
         self.background = pygame.image.load("assets/images/games_0.jpg")
         self.title = self.Text(par_x=100, par_y=100, par_text="What size key should I generate?")
         self.text2 = self.Text(par_x=100, par_y=100, par_text="Okay, I'll check __ pairs of bits in each key. Press spacebar")
+
+
 
     def set_bit_selection(self, screen):
         # draw level select menu

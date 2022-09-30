@@ -18,7 +18,6 @@ class Story_4(Story):
 
         self.story_text.append("Okay let me think, what % of the pairs didn't match...")
         self.story_text.append("hmmm …")
-        self.y = 350
         self.font = 20
 
 class Story_4_5(Story):
@@ -33,5 +32,4 @@ class Story_4_5(Story):
         self.story_text.append("Lalalala story 4_5…")
         self.story_text.append("La lalala …")
 
-        self.y = 350
         self.font = 20

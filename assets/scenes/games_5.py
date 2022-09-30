@@ -81,7 +81,7 @@ class Games_5(Games):
                 elif event.key == globals.keyboard_bit_0:  # d
                     self.current_selection = "No"
 
-                elif self.story_phase == 2 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
+                elif self.story_phase == 3 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
                     if self.check_answers():
                         self.text.text = "I am sorry... I didn't mean to.. I just want you and Juliet to be alive .... "
                         self.win = True

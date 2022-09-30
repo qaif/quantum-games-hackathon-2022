@@ -8,7 +8,7 @@ screenSize = (1024, 768)  # screen size
 # =================== GAME SETTINGS ========================
 
 minBit = 1          # total min bit selection
-maxBit = 14         # total max bit selection
+maxBit = 13     # total max bit selection
 currentBit = 5
 
 showConfig = True   # to show the keyboard guide
@@ -16,7 +16,7 @@ showConfig = True   # to show the keyboard guide
 
 #testing = True      # flag for testing or not
 testing = False
-phase = 1           # config for setting game phases
+phase = 3          # config for setting game phases
 
 # =========== GAME SETTINGS FOR NEW GAME ======================
 
@@ -30,19 +30,7 @@ timer_seconds = 0
 
 total_score = 0
 
-# refresh on main menu
-def refresh_new_game():
-    remainingHearts = 3
 
-    starting_timer_minute = 5
-    starting_timer_seconds = 0
-
-    timer_minute = 5
-    timer_seconds = 0
-
-    total_score = 0
-
-    refresh_after_loop()
 
 # ====================== GLOBAL PARAMETERS NEED TO BE REFRESH AFTER LOOP ======================
 
@@ -57,18 +45,7 @@ juliet_bits = []   # juliet bits
 juliet_bases = []   # juliet bases
 juliet_key = []    # romeo bases
 
-# refresh on phase 0
-def refresh_after_loop():
-    selectedBit = 0
-    secret_key = ""
 
-    romeo_bits = []
-    romeo_bases = []
-    romeo_key = []
-
-    juliet_bits = []
-    juliet_bases = []
-    juliet_key = []
 
 
 # ==================  Measuring keyboard settings ========================

@@ -11,7 +11,8 @@ class MainMenu(Games):
     def __init__(self, pygame):
         super().__init__()
         self.background = pygame.image.load("verona2049.jpg")
-        globals.refresh_new_game()
+
+        self.refresh_new_game()
 
     def call_event(self, window: pygame.Surface):
         # update background for new phase
