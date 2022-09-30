@@ -7,6 +7,7 @@ from qiskit.visualization import plot_histogram, plot_bloch_multivector
 from numpy.random import randint
 from numpy.random import randint
 import numpy as np
+import globals
 import random
 import itertools
 from qiskit.providers.aer import QasmSimulator
@@ -18,7 +19,7 @@ from qiskit.providers.aer import QasmSimulator
 # this takes place before phase 2
 def encode_message(bits, bases):
     message = []
-    for i in range(n):
+    for i in range(len(bits)):
         qc = QuantumCircuit(1,1)
         if bases[i] == 0: # Prepare qubit in Z-basis
             if bits[i] == 0:
@@ -41,7 +42,7 @@ def encode_message(bits, bases):
 def measure_message(message, bases):
     backend = Aer.get_backend('aer_simulator')
     measurements = []
-    for q in range(n):
+    for q in range(globals.selectedBit):
         if bases[q] == 0: # measuring in Z-basis
             message[q].measure(0,0)
         if bases[q] == 1: # measuring in X-basis
@@ -92,9 +93,9 @@ def cipher_decryption(msg,key):
     return format(decryp_text)
 
 # sifting stage.
-def remove_garbage(a_bases, b_bases, bits):
+def sift(a_bases, b_bases, bits):
     good_bits = []
-    for q in range(n):
+    for q in range(globals.selectedBit):
         if a_bases[q] == b_bases[q]:
             # If both used the same basis, add
             # this to the list of 'good' bits
@@ -116,39 +117,39 @@ def sample_bits(bits, selection):
         sample.append(bits.pop(i))
     return sample
 
-n = 100 # get this from phase 0
+globals.selectedBit = 100 # get this from phase 0
 # Step 1
-romeo_bits = randint(2, size=n)
-romeo_bases = randint(2, size=n)
+globals.romeo_bits = randint(2, size=globals.selectedBit)
+globals.romeo_bases = randint(2, size=globals.selectedBit)
 # Step 2
-message = encode_message(romeo_bits, romeo_bases) # this is the thing that eavesdropping changes
+message = encode_message(globals.romeo_bits, globals.romeo_bases) # this is the thing that eavesdropping changes
 # Interception!
-intercept=False
+globals.intercept=False
 if random.random() < .33: # eve intercepts the messge 33% of the time
-    intercept=True
+    globals.intercept=True
 
-if(intercept):
+if(globals.intercept):
     # could also decide to have eve only measure some of the qubits. would be an interesting twist!
-    eve_bases = randint(2, size=n)
+    eve_bases = randint(2, size=globals.selectedBit)
     intercepted_message = measure_message(message, eve_bases)
 # Step 3
-juliet_bases = randint(2, size=n)
-juliet_results = measure_message(message, juliet_bases)
+globals.juliet_bases = randint(2, size=globals.selectedBit)
+globals.juliet_bits = measure_message(message, globals.juliet_bases)
 
 # Step 4 This is the sifting game in
-juliet_key = remove_garbage(romeo_bases, juliet_bases, juliet_results) # this is used in phase 4
-romeo_key = remove_garbage(romeo_bases, juliet_bases, romeo_bits) # this is used to check the player's work in phase 3 and used in p4 too
+juliet_key = sift(globals.romeo_bases, globals.juliet_bases, globals.juliet_bits) # this is used in phase 4
+romeo_key = sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits) # this is used to check the player's work in phase 3 and used in p4 too
 
 # Step 5
 # this is the choice the user makes in phase 4!
 sample_size = 1 # Change this to something lower and see if
                  # Eve can intercept the message without Alice
                  # and Bob finding out
-bit_selection = randint(n, size=sample_size)
-juliet_sample = sample_bits(juliet_key, bit_selection)
+bit_selection = randint(globals.selectedBit, size=sample_size)
+juliet_sample = sample_bits(juliet_key, bit_selection) # should both of them do it? i think we're just showing romeo.
 romeo_sample = sample_bits(romeo_key, bit_selection)
 
-if (intercept):
+if (globals.intercept):
     if juliet_sample != romeo_sample:
         print("Eve's interference was detected.")
     else:
@@ -162,6 +163,7 @@ else:
 # If there is no interference, and the keys don't match perfectly, blame noise
 # is the better word decoherence? determine!
 
+
 string_ints = [str(int) for int in romeo_key]
 str_of_ints = ",".join(string_ints)
 a_key=str_of_ints
@@ -170,13 +172,14 @@ string_ints = [str(int) for int in juliet_key]
 str_of_ints = ",".join(string_ints)
 b_key=str_of_ints
 
-to_encrypt="romeo, o romeo"
+# there is a global variable for this
+globals.to_encrypt="romeo, o romeo"
 
-a = cipher_encryption(to_encrypt,a_key)
+a = cipher_encryption(globals.to_encrypt,a_key)
 c = cipher_decryption(a,b_key)
 
 
-if(to_encrypt!=c):
+if(globals.to_encrypt!=c):
     print("the encryption failed! Only {?} % of the characters match")
 else:
     print("the encryption was a success!")

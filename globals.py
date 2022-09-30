@@ -46,7 +46,8 @@ juliet_bases = []   # juliet bases
 juliet_key = []    # romeo bases
 
 
-
+intercept=False # if eve chooses to eavesdrop
+noise=False     # if ANY noise affected bit selection
 
 # ==================  Measuring keyboard settings ========================
 keyboard_bit_0 = pygame.K_d
