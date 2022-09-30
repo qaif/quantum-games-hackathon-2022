@@ -69,7 +69,7 @@ def cipher_encryption(msg,key):
             # once all of the key's letters are used, repeat the key
             key_itr = 0
 
-    print("Encrypted Text: {}".format(encrypt_hex))
+    #print("Encrypted Text: {}".format(encrypt_hex))
     return format(encrypt_hex)
 
 def cipher_decryption(msg,key):
@@ -89,7 +89,7 @@ def cipher_decryption(msg,key):
             # once all of the key's letters are used, repeat the key
             key_itr = 0
 
-    print("Decrypted Text: {}".format(decryp_text))
+    #print("Decrypted Text: {}".format(decryp_text))
     return format(decryp_text)
 
 # sifting stage.
@@ -142,8 +142,8 @@ globals.juliet_bases = randint(2, size=globals.selectedBit)
 globals.juliet_bits = measure_message(globals.encoded_qbits, globals.juliet_bases)
 
 # Step 4 This is the sifting game in
-juliet_key = sift(globals.romeo_bases, globals.juliet_bases, globals.juliet_bits) # this is used in phase 4
-romeo_key = sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits) # this is used to check the player's work in phase 3 and used in p4 too
+globals.juliet_key = sift(globals.romeo_bases, globals.juliet_bases, globals.juliet_bits) # this is used in phase 4
+globals.romeo_key = sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits) # this is used to check the player's work in phase 3 and used in p4 too
 
 # Step 5
 # this is the choice the user makes in phase 4!
@@ -154,8 +154,8 @@ globals.bits_2sample = randint(globals.selectedBit, size=sample_size)
 
 # technically in phas 4, they need to compare these arrays, not their measurements
 # these arrays are random choices. this is a safer implementation of bb84 algorithm
-globals.juliet_sample = sample_bits(juliet_key, globals.bits_2sample) # should both of them do it? i think we're just showing romeo.
-globals.romeo_sample = sample_bits(romeo_key, globals.bits_2sample)
+globals.juliet_sample = sample_bits(globals.juliet_key, globals.bits_2sample) # should both of them do it? i think we're just showing romeo.
+globals.romeo_sample = sample_bits(globals.romeo_key, globals.bits_2sample)
 
 if (globals.intercept):
     if globals.juliet_sample != globals.romeo_sample:
@@ -164,30 +164,37 @@ if (globals.intercept):
         print("Eve went undetected! (the player can fail)")
 
 if (globals.juliet_sample == globals.romeo_sample):
-    print("samples match!")
+    print("samples match! no noise or eavesdropping present")
 else:
-    print("samples do not match")
+    print("samples do not match. noise or eavesdropping present")
+
+## add check for if keys match. just so can we can tell the player if it was safe to send
+# the message after all by the end!
 
 # If there is no interference, and the keys don't match perfectly, blame noise
 # is the better word decoherence? determine!
 
-
-string_ints = [str(int) for int in romeo_key]
+# convert format of the keys so it can work within encryption/decryption functions 
+string_ints = [str(int) for int in globals.romeo_key]
 str_of_ints = ",".join(string_ints)
-a_key=str_of_ints
+globals.romeo_key=str_of_ints
 
-string_ints = [str(int) for int in juliet_key]
+string_ints = [str(int) for int in globals.juliet_key]
 str_of_ints = ",".join(string_ints)
-b_key=str_of_ints
+globals.juliet_key=str_of_ints
 
 # there is a global variable for this
 globals.to_encrypt="romeo, o romeo"
 
-a = cipher_encryption(globals.to_encrypt,a_key)
-c = cipher_decryption(a,b_key)
+globals.encrypted_text = cipher_encryption(globals.to_encrypt,globals.romeo_key)
+globals.decrypted_text = cipher_decryption(globals.encrypted_text,globals.juliet_key)
+
+print("message that was encrypted: ", globals.to_encrypt)
+print("encrypted text: ",globals.encrypted_text )
+print("decrypted text: ", globals.decrypted_text)
 
 
-if(globals.to_encrypt!=c):
-    print("the encryption failed! Only {?} % of the characters match")
+if(globals.to_encrypt!=globals.decrypted_text):
+    print("the encryption failed: \"", globals.to_encrypt,"\" is not \"",globals.decrypted_text)
 else:
     print("the encryption was a success!")

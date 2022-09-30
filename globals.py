@@ -54,6 +54,12 @@ bits_2sample = 0 # player choice in phase 4
 romeo_sample = [] # random choices from romeo's measurements
 juliet_sample = [] # random choices from juliet's measurements
 
+# what romeo sends
+encrypted_text=""
+
+# what juliet receives after decrypting
+decryped_text=""
+
 intercept = False # if eve chooses to eavesdrop
 noise = False     # if ANY noise affected bit selection
 
