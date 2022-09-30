@@ -150,17 +150,20 @@ romeo_key = sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits) 
 sample_size = 1 # Change this to something lower and see if
                  # Eve can intercept the message without Alice
                  # and Bob finding out
-bits_2sample = randint(globals.selectedBit, size=sample_size)
-juliet_sample = sample_bits(juliet_key, bits_2sample) # should both of them do it? i think we're just showing romeo.
-romeo_sample = sample_bits(romeo_key, bits_2sample)
+globals.bits_2sample = randint(globals.selectedBit, size=sample_size)
+
+# technically in phas 4, they need to compare these arrays, not their measurements
+# these arrays are random choices. this is a safer implementation of bb84 algorithm
+globals.juliet_sample = sample_bits(juliet_key, globals.bits_2sample) # should both of them do it? i think we're just showing romeo.
+globals.romeo_sample = sample_bits(romeo_key, globals.bits_2sample)
 
 if (globals.intercept):
-    if juliet_sample != romeo_sample:
+    if globals.juliet_sample != globals.romeo_sample:
         print("Eve's interference was detected. MAKE THIS DYNAMIC")
     else:
         print("Eve went undetected! (the player can fail)")
 
-if (juliet_sample == romeo_sample):
+if (globals.juliet_sample == globals.romeo_sample):
     print("samples match!")
 else:
     print("samples do not match")
