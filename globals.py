@@ -45,6 +45,8 @@ romeo_bases = []    # romeo bases
 
 romeo_key = []    # ??? this should be their key after sifting
 
+eve_bases = []
+
 juliet_bits = []   # juliet bits
 juliet_bases = []   # juliet bases
 juliet_key = []    # ???

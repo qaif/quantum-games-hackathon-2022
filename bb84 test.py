@@ -114,35 +114,64 @@ def sample_bits(bits, selection):
         sample.append(bits.pop(i))
     return sample
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 globals.selectedBit = 10 # get this from phase 0
 
 
+
 # Step 1
-globals.romeo_bits = randint(2, size=globals.selectedBit)
-globals.romeo_bases = randint(2, size=globals.selectedBit)
+globals.romeo_bits = randint(2, size=globals.selectedBit) # don't need to do this. player picks it in guitar hero
+globals.romeo_bases = randint(2, size=globals.selectedBit) # don't need to do this. player picks it in guitar hero
 
 # Step 2
-# showing this using a scene after phase 1.
+# this line should be run at the end of game 1, so we have the basis qbits for the rest of the
 globals.encoded_qbits = encode_message(globals.romeo_bits, globals.romeo_bases) # this is the thing that eavesdropping changes
 
-# Interception!
+
+# Interception! # decide this before phase 2 begins!!!!!!
 globals.intercept=False # TURN THIS ONE WHEN TESDTING IS READY FOR IT !
-#if random.random() < .33: # eve intercepts the messge 33% of the time
-#    globals.intercept=True
+if random.random() < .33: # eve intercepts the messge 33% of the time
+    globals.intercept=True
 
+# still before phase 2
 if(globals.intercept):
-    # could also decide to have eve only measure some of the qubits. would be an interesting twist!
-    eve_bases = randint(2, size=globals.selectedBit) # doesn't need to be a globals variable because it isn't used more than once
-    # this will not be used in the end, but good to have just in case
-    intercepted_message = measure_message(globals.encoded_qbits, eve_bases)
+    globals.eve_bases = randint(2, size=globals.selectedBit) # doesn't need to be a globals variable because it isn't used more than once
+    intercepted_message = measure_message(globals.encoded_qbits, globals.eve_bases)
 
+# also ahs to happen before phase 2.
 # Step 3
 globals.juliet_bases = randint(2, size=globals.selectedBit)
 globals.juliet_bits = measure_message(globals.encoded_qbits, globals.juliet_bases)
 
+# this has to happen before phase 3
 # Step 4 This is the sifting game in
 globals.juliet_key = sift(globals.romeo_bases, globals.juliet_bases, globals.juliet_bits) # this is used in phase 4
 globals.romeo_key = sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits) # this is used to check the player's work in phase 3 and used in p4 too
+
 
 # Step 5
 # this is the choice the user makes in phase 4!
@@ -150,6 +179,8 @@ globals.romeo_key = sift(globals.romeo_bases, globals.juliet_bases, globals.rome
 
 # DO NOT LET THE PLAYER SAMPLE MORE BITS THAN EXIST IN THEIR KEYS!!!
 # ALSO, 0 IS OKAY
+
+# this is the choice the player makes in phase 4.
 globals.sample_size = 2 # Change this to something lower and see if interference is as easy to detect!
 
 # noise can make the keys different sizes i believe. as can interference!
@@ -166,7 +197,12 @@ globals.romeo_sample = sample_bits(globals.romeo_key, globals.bits_2sample)
 # this can also be done through eve as the information isn't used anyway!
 # technically juliet also has to tell romeo the bases she chose. he sifts before the player sees
 
-# THIS IS THE ISSUE. WHY DO THE KEY VALUES CHANGE AFTER SAMPLING IS CALLED?????
+
+# phsae 4 of the game is now over
+
+# phase 5 starts now
+# the player just picks yes or no for send the letter, and yes or no for accuse
+
 
 if (globals.intercept):
     if globals.juliet_sample != globals.romeo_sample:
@@ -190,7 +226,7 @@ string_ints = [str(int) for int in globals.juliet_key]
 str_of_ints = ",".join(string_ints)
 globals.juliet_key=str_of_ints
 
-# this is the test example message
+# this is the test example message. this is already picked in the game
 globals.to_encrypt="romeo, o romeo"
 
 globals.encrypted_text = cipher_encryption(globals.to_encrypt,globals.romeo_key)
@@ -201,6 +237,7 @@ print("encrypted text: ",globals.encrypted_text )
 print("decrypted text: ", globals.decrypted_text)
 print("romeo's key: ", globals.romeo_key)
 print("juliet's key: ",globals.juliet_key)
+
 
 
 if(globals.to_encrypt!=globals.decrypted_text):
