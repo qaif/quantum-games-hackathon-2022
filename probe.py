@@ -4,7 +4,7 @@ import numpy as np
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QDoubleValidator, QPixmap
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QRadioButton, QGridLayout, QLineEdit, QLabel, QPushButton, \
-    QHBoxLayout, QCheckBox
+    QHBoxLayout, QCheckBox, QFrame
 
 
 class ProbeDirection(Enum):
@@ -33,9 +33,21 @@ class ProbeInfo:
                                  [0.0, 0.0, 0.0]])
         self.using_unitary = True
 
+        self.state = ProbeState.NONE
+
+        self.on_state_changed_listeners = []
+
         self.on_probe_vector_changed_listeners = []
         self.on_probe_vector_output_changed_listeners = []
         self.on_distance_changed_listeners = []
+
+    def set_probe_state(self, state):
+        self.state = state
+        for listener in self.on_state_changed_listeners:
+            listener(state)
+
+    def add_on_state_changed_listener(self, listener):
+        self.on_state_changed_listeners.append(listener)
 
     def set_probe_idxs(self, probe_idxs):
         self.probe_idxs = probe_idxs
@@ -102,6 +114,7 @@ class QueryWidget(QWidget):
     def __init__(self, probe_info):
         super().__init__()
         self.probe_info = probe_info
+        self.probe_info.add_on_state_changed_listener(self.on_state_changed)
 
         base_layout = QVBoxLayout()
         base_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
@@ -113,17 +126,17 @@ class QueryWidget(QWidget):
         radio_layout = QGridLayout()
         radio_buttons.setLayout(radio_layout)
 
-        rb = QRadioButton("Enter new vector")
-        rb.setChecked(True)
-        rb.input_type = ProbeInputType.NEW
-        rb.toggled.connect(self.on_radio_clicked)
-        radio_layout.addWidget(rb, 0, 0)
+        self.rbn = QRadioButton("Enter new vector")
+        self.rbn.setChecked(True)
+        self.rbn.input_type = ProbeInputType.NEW
+        self.rbn.toggled.connect(self.on_radio_clicked)
+        radio_layout.addWidget(self.rbn, 0, 0)
 
         # TODO: disable when unavailable (first/last measured)
-        rb = QRadioButton("Use previous output")
-        rb.input_type = ProbeInputType.OLD
-        rb.toggled.connect(self.on_radio_clicked)
-        radio_layout.addWidget(rb, 0, 1)
+        self.rbo = QRadioButton("Use previous output")
+        self.rbo.input_type = ProbeInputType.OLD
+        self.rbo.toggled.connect(self.on_radio_clicked)
+        radio_layout.addWidget(self.rbo, 0, 1)
 
         radio_buttons.setMaximumHeight(50)
 
@@ -136,6 +149,7 @@ class QueryWidget(QWidget):
         self.v1.setValidator(QDoubleValidator(0.99, 99.99, 2))
         self.v1.textChanged.connect(self.v1_changed)
         row1_layout.addWidget(QLabel("forward"))
+        # self.v1.setDisabled(not self.probe_info.probe_directions.contains(ProbeDirection.FORWARD))
         row1_layout.addWidget(self.v1)
 
         row2 = QWidget()
@@ -147,6 +161,7 @@ class QueryWidget(QWidget):
         self.v2.setValidator(QDoubleValidator(0.99, 99.99, 2))
         self.v2.textChanged.connect(self.v2_changed)
         row2_layout.addWidget(QLabel("right"))
+        # self.v2.setDisabled(not self.probe_info.probe_directions.contains(ProbeDirection.RIGHT))
         row2_layout.addWidget(self.v2)
 
         row3 = QWidget()
@@ -157,8 +172,55 @@ class QueryWidget(QWidget):
         self.v3 = QLineEdit("")
         self.v3.setValidator(QDoubleValidator(0.99, 99.99, 2))
         self.v3.textChanged.connect(self.v3_changed)
+        # self.v3.setDisabled(not self.probe_info.probe_directions.contains(ProbeDirection.LEFT))
         row3_layout.addWidget(QLabel("left"))
         row3_layout.addWidget(self.v3)
+
+        query = QPixmap("./query.png")
+        query = query.scaled(300, 300)
+        label = QLabel()
+        label.setPixmap(query)
+        # label.setFixedWidth(self.width())
+        # label.setFixedHeight(self.width())
+        base_layout.addWidget(label)
+
+        base_layout.addWidget(QLabel("Measured Distance:"))
+
+        self.distance = QLabel(str(self.probe_info.measured_distance))
+        base_layout.addWidget(self.distance)
+
+        query_button = QPushButton("Measure Distance")
+        query_button.clicked.connect(self.on_measure_distance)
+        base_layout.addWidget(query_button)
+
+        divider = QFrame()
+        divider.setFrameShape(QFrame.Shape.HLine)
+        divider.sizePolicy()
+        divider.setLineWidth(3)
+        base_layout.addWidget(divider)
+
+        self.set_disabled()
+
+    def on_state_changed(self, state):
+        if state == ProbeState.NONE:
+            self.hide()
+        if state == ProbeState.INPUT_PROBE_VECTOR:
+            self.show()
+            self.set_disabled()
+        if state == ProbeState.UNITARY_MEASURE:
+            # TODO: disable all
+            self.hide()
+        if state == ProbeState.MEASURED:
+            # TODO: disable all
+            self.hide()
+
+    def set_disabled(self):
+        self.v1.setDisabled(ProbeDirection.FORWARD not in self.probe_info.probe_directions)
+        self.v2.setDisabled(ProbeDirection.RIGHT not in self.probe_info.probe_directions)
+        self.v3.setDisabled(ProbeDirection.LEFT not in self.probe_info.probe_directions)
+        # TODO: disable radio
+        self.rbo.setDisabled(self.probe_info.probe_vector_output is None)
+
 
     def v1_changed(self, text):
         self.probe_info.set_x(float(text))
@@ -173,24 +235,31 @@ class QueryWidget(QWidget):
         radio_button = self.sender()
         if radio_button.isChecked():
             self.probe_info.input_type = radio_button.input_type
-            disabled = radio_button.input_type == ProbeInputType.OLD
-            self.v1.setDisabled(disabled)
-            self.v2.setDisabled(disabled)
-            self.v3.setDisabled(disabled)
+            if radio_button.input_type == ProbeInputType.OLD:
+                self.v1.setDisabled(True)
+                self.v2.setDisabled(True)
+                self.v3.setDisabled(True)
+            else:
+                self.set_disabled()
+
+    def on_measure_distance(self):
+        # TODO
+        self.probe_info.set_probe_state(ProbeState.UNITARY_MEASURE)
+        pass
 
 
 class UnitaryWidget(QWidget):
     def __init__(self, probe_info):
         super().__init__()
-
         self.probe_info = probe_info
+        self.probe_info.add_on_state_changed_listener(self.on_state_changed)
 
         base_layout = QVBoxLayout()
         self.setLayout(base_layout)
 
         base_layout.addWidget(QLabel("Apply Unitary Transformation Matrix"))
         # TODO: disable last row and column depending on available
-        count = len(self.probe_info.probe_idxs)
+        self.count = len(self.probe_info.probe_idxs)
 
         row1 = QWidget()
         base_layout.addWidget(row1)
@@ -204,19 +273,19 @@ class UnitaryWidget(QWidget):
         self.m1.textChanged.connect(self.on_unitary_changed)
         row1_layout.addWidget(self.m1)
 
-        if count >= 2:
+        if self.count >= 2:
             self.m2 = QLineEdit("0")
             self.m2.setValidator(QDoubleValidator(0.99, 99.99, 2))
             self.m2.textChanged.connect(self.on_unitary_changed)
             row1_layout.addWidget(self.m2)
 
-            if count >= 3:
+            if self.count >= 3:
                 self.m3 = QLineEdit("0")
                 self.m3.setValidator(QDoubleValidator(0.99, 99.99, 2))
                 self.m3.textChanged.connect(self.on_unitary_changed)
                 row1_layout.addWidget(self.m3)
 
-        if count >= 2:
+        if self.count >= 2:
             row2 = QWidget()
             base_layout.addWidget(row2)
             row2_layout = QHBoxLayout()
@@ -234,7 +303,7 @@ class UnitaryWidget(QWidget):
             self.m5.textChanged.connect(self.on_unitary_changed)
             row2_layout.addWidget(self.m5)
 
-            if count >= 3:
+            if self.count >= 3:
                 self.m6 = QLineEdit("0")
                 self.m6.setValidator(QDoubleValidator(0.99, 99.99, 2))
                 self.m6.textChanged.connect(self.on_unitary_changed)
@@ -265,6 +334,23 @@ class UnitaryWidget(QWidget):
 
         apply_button = QPushButton("Perform")
         apply_button.clicked.connect(self.on_apply_unitary)
+        base_layout.addWidget(apply_button)
+
+        divider = QFrame()
+        divider.setFrameShape(QFrame.Shape.HLine)
+        divider.sizePolicy()
+        divider.setLineWidth(3)
+        base_layout.addWidget(divider)
+
+    def on_state_changed(self, state):
+        if state == ProbeState.NONE:
+            self.hide()
+        if state == ProbeState.INPUT_PROBE_VECTOR:
+            self.hide()
+        if state == ProbeState.UNITARY_MEASURE:
+            self.show()
+        if state == ProbeState.MEASURED:
+            self.hide()
 
     def on_apply_unitary(self):
         n = self.probe_info.unitary.shape[1]
@@ -274,15 +360,106 @@ class UnitaryWidget(QWidget):
         # assert self.probe_info.unitary.conj().T @ self.probe_info.unitary == np.eye(n), 'Given matrix not unitary'
         if self.probe_info.unitary.conj().T @ self.probe_info.unitary == np.eye(n):
             self.probe_info.probe_vector_output = self.probe_info.unitary @ self.probe_info.get_probe_vector()
+            # TODO: clear text fields to signal transformation was applied
         else:
             print("GIVEN MATRIX NOT UNITARY!!!")
             # TODO: display warning, transform not applied
 
     def on_unitary_changed(self):
         print("unitary changed")
-        self.probe_info.unitary = np.matrix([[float(self.m1.text()), float(self.m2.text()), float(self.m3.text())],
+        if self.count == 1:
+            self.probe_info.unitary = np.matrix([[float(self.m1.text())]])
+        if self.count == 2:
+            self.probe_info.unitary = np.matrix([[float(self.m1.text()), float(self.m2.text())],
+                                             [float(self.m4.text()), float(self.m5.text())]])
+        if self.count == 3:
+            self.probe_info.unitary = np.matrix([[float(self.m1.text()), float(self.m2.text()), float(self.m3.text())],
                                              [float(self.m4.text()), float(self.m5.text()), float(self.m6.text())],
                                              [float(self.m7.text()), float(self.m8.text()), float(self.m9.text())]])
+
+
+class MeasureWidget(QWidget):
+    def __init__(self, probe_info):
+        super(MeasureWidget, self).__init__()
+        self.probe_info = probe_info
+        self.rng = np.random.default_rng()
+        self.probe_info.add_on_state_changed_listener(self.on_state_changed)
+
+        base_layout = QVBoxLayout()
+        self.setLayout(base_layout)
+
+        self.measure_button = QPushButton("Measure")
+        self.measure_button.clicked.connect(self.on_measure_clicked)
+        base_layout.addWidget(self.measure_button)
+
+        base_layout.addWidget(QLabel("Measured Probe:"))
+        self.vector = QLabel("NONE")  # TODO
+        base_layout.addWidget(self.vector)
+
+        divider = QFrame()
+        divider.setFrameShape(QFrame.Shape.HLine)
+        divider.sizePolicy()
+        divider.setLineWidth(3)
+        base_layout.addWidget(divider)
+
+    def on_state_changed(self, state):
+        if state == ProbeState.NONE:
+            self.hide()
+        if state == ProbeState.INPUT_PROBE_VECTOR:
+            self.hide()
+        if state == ProbeState.UNITARY_MEASURE:
+            self.measure_button.setDisabled(False)
+            self.show()
+        if state == ProbeState.MEASURED:
+            self.measure_button.setDisabled(True)
+            self.show()
+
+    def on_measure_clicked(self):
+        print("measure clicked")
+        self.probe_info.set_probe_state(ProbeState.MEASURED)
+
+        self.probe_info.measured_probe = self.probe_measurement()
+
+    def probe_measurement(self):
+        probabilities = np.abs(self.probe_info.probe_vector_output) ** 2  # probabilities of different outcomes
+        # Randomly choose a direction according to Born rule probabilities.
+        return self.rng.choice(self.probe_info.probe_directions, p=probabilities)
+
+
+class ContinueWidget(QWidget):
+    def __init__(self, probe_info):
+        super(ContinueWidget, self).__init__()
+        self.probe_info = probe_info
+        self.rng = np.random.default_rng()
+        self.probe_info.add_on_state_changed_listener(self.on_state_changed)
+
+        base_layout = QVBoxLayout()
+        self.setLayout(base_layout)
+
+        finish_button = QPushButton("Continue")
+        finish_button.clicked.connect(self.on_finish_clicked)
+        base_layout.addWidget(finish_button)
+
+    def on_state_changed(self, state):
+        if state == ProbeState.NONE:
+            self.hide()
+        if state == ProbeState.INPUT_PROBE_VECTOR:
+            self.show()
+        if state == ProbeState.UNITARY_MEASURE:
+            self.show()
+        if state == ProbeState.MEASURED:
+            self.show()
+
+    def on_finish_clicked(self):
+        print("finish clicked")
+        self.probe_info.set_probe_state(ProbeState.NONE)
+
+
+class ProbeState(Enum):
+    NONE = 0
+    INPUT_PROBE_VECTOR = 1
+    UNITARY_MEASURE = 2
+    MEASURED = 3
 
 
 class ProbeWidget(QWidget):
@@ -292,76 +469,54 @@ class ProbeWidget(QWidget):
         # self.on_probe_vector_changed_listeners = []
         self.probe_info = probe_info
 
-        self.probe_info.add_on_distance_changed_listener(self.on_distance_changed)
+        # self.probe_info.add_on_distance_changed_listener(self.on_distance_changed)
 
         base_layout = QVBoxLayout()
         base_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
 
-        query_widget = QueryWidget(self.probe_info)
-        base_layout.addWidget(query_widget)
+        # QUERY
+        self.query_widget = QueryWidget(self.probe_info)
+        base_layout.addWidget(self.query_widget)
 
-        query = QPixmap("./query.png")
-        query = query.scaled(300, 300)
-        label = QLabel()
-        label.setPixmap(query)
-        # label.setFixedWidth(self.width())
-        # label.setFixedHeight(self.width())
-        base_layout.addWidget(label)
+        # DIVIDER
+        # divider = QFrame()
+        # divider.setFrameShape(QFrame.Shape.HLine)
+        # divider.sizePolicy()
+        # divider.setLineWidth(3)
+        # base_layout.addWidget(divider)
 
-        base_layout.addWidget(QLabel("Measured Distance:"))
-
-        self.distance = QLabel(str(self.probe_info.measured_distance))
-        base_layout.addWidget(self.distance)
-
-        query_button = QPushButton("Measure Distance")
-        query_button.clicked.connect(self.on_measure_distance)
-        base_layout.addWidget(query_button)
-
-        # TODO: divider, below invisible
-
-        # base_layout.addWidget(QLabel("Apply Unitary Transformation Matrix"))
-        # if self.probe_info.using_unitary: base_layout.addWidget(UnitaryWidget(self.probe_info))
-        # if self.using_unitary_check.isChecked(): base_layout.addWidget(UnitaryWidget(self.probe_info))
+        # UNITARY
         self.unitary_widget = UnitaryWidget(self.probe_info)
         base_layout.addWidget(self.unitary_widget)
 
-        measure_button = QPushButton("Measure")
-        measure_button.clicked.connect(self.on_measure_clicked)
-        base_layout.addWidget(measure_button)
+        # DIVIDER
+        # divider = QFrame()
+        # divider.setFrameShape(QFrame.Shape.HLine)
+        # divider.sizePolicy()
+        # divider.setLineWidth(3)
+        # base_layout.addWidget(divider)
 
-        base_layout.addWidget(QLabel("Measured Probe:"))
-        self.vector = QLabel(
-            # TODO
-        )
-        base_layout.addWidget(self.vector)
+        # MEASURE
+        measure = MeasureWidget(self.probe_info)
+        base_layout.addWidget(measure)
+
+        # DIVIDER
+        # divider = QFrame()
+        # divider.setFrameShape(QFrame.Shape.HLine)
+        # divider.sizePolicy()
+        # divider.setLineWidth(3)
+        # base_layout.addWidget(divider)
+
+        # CONTINUE
+        finish_widget = ContinueWidget(self.probe_info)
+        base_layout.addWidget(finish_widget)
 
         self.setLayout(base_layout)
 
-    # def init_image_layout(self):
-    #     self.query = QPixmap("./query.png")
-    #     self.label = QLabel()
-    #     self.label.setPixmap(self.query)
-
-    def on_distance_changed(self):
-        self.distance.setText(str(self.probe_info.measured_distance))
-
-    # def on_unitary_checked(self):
-    #     check = self.sender()
-    #     self.probe_info.using_unitary = check.isChecked()
-    #     self.unitary_widget.setDisabled(not check.isChecked())
-
-    def vector_to_text(self, vector):
-        text = ""
-        for e in vector:
-            text += str(e) + ", "
-        # return text.removesuffix(", ")
-        return text
-
-    def on_measure_distance(self):
-        pass
-
-    def on_measure_clicked(self):
-        print("measure clicked")
-
-        self.probe_info.measured_probe = ProbeDirection.FORWARD
+    # def vector_to_text(self, vector):
+    #     text = ""
+    #     for e in vector:
+    #         text += str(e) + ", "
+    #     # return text.removesuffix(", ")
+    #     return text
 

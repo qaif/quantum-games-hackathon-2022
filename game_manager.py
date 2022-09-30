@@ -2,7 +2,7 @@ from enum import Enum
 import numpy as np
 
 from grid import OccupierType
-from probe import ProbeInputType, ProbeDirection
+from probe import ProbeInputType, ProbeDirection, ProbeState
 
 
 class GameState(Enum):
@@ -33,7 +33,7 @@ class GameManager:
         self.snake.add_on_collected_food_listener(self.on_collected_food)
 
     def on_move(self, direction):
-        # TODO: reset probe grid occupier
+        if self.probe_info.state is not ProbeState.NONE: return
         self.snake.move(direction)
 
     def on_probe_start(self):
@@ -47,6 +47,7 @@ class GameManager:
         dirs = iad[1]
         self.probe_info.set_probe_idxs(idxs)
         self.probe_info.set_probe_directions(dirs)
+        # TODO: set_disabled
         # q = self.query(vector)
         # dis = q[0]
         # vec = q[1]
@@ -205,10 +206,10 @@ class GameManager:
 
         return measured_distance, new_probe_vector
 
-    def probe_measurement(self):
-        probabilities = np.abs(self.probe_info.probe_vector_output) ** 2  # probabilities of different outcomes
-        # Randomly choose a direction according to Born rule probabilities.
-        return self.rng.choice(self.probe_info.probe_directions, p=probabilities)
+    # def probe_measurement(self):
+    #     probabilities = np.abs(self.probe_info.probe_vector_output) ** 2  # probabilities of different outcomes
+    #     # Randomly choose a direction according to Born rule probabilities.
+    #     return self.rng.choice(self.probe_info.probe_directions, p=probabilities)
 
     # def probe_unitary(self, unitary_mat, probe_vector):
     #     # Simply multiplies the probe state by the given unitary matrix
@@ -319,7 +320,6 @@ class Snake:
         else:
             print("up")
             return GlobalDirection.UP
-
 
     def move(self, direction):
         # TODO: reset probe grid occupier

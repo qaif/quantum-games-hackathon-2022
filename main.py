@@ -5,13 +5,14 @@ from PyQt6.QtCore import Qt
 
 from game_manager import GameManager, Snake, GlobalDirection
 from grid import Grid, GridWidget
-from probe import ProbeWidget, ProbeInfo
+from probe import ProbeWidget, ProbeInfo, ProbeState
 
 
 class ActionsWidget(QWidget):
-    def __init__(self, game_manager):
+    def __init__(self, game_manager, probe_info):
         super().__init__()
         self.game_manager = game_manager
+        self.probe_info = probe_info
 
         layout = QHBoxLayout()
 
@@ -31,6 +32,8 @@ class ActionsWidget(QWidget):
     def on_probe(self):
         print("probe")
         self.game_manager.on_probe_start()
+        # TODO: call probe widget
+        self.probe_info.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
 
     def on_strike(self):
         print("strike")
@@ -53,7 +56,7 @@ class Window(QMainWindow):
         self.setCentralWidget(mw)
 
         grid_widget = GridWidget(self.grid)
-        actions_widget = ActionsWidget(self.game_manager)
+        actions_widget = ActionsWidget(self.game_manager, self.probe_info)
         actions_widget.setFixedHeight(actions_widget_height)
 
         left_widget = QWidget()
@@ -74,15 +77,17 @@ class Window(QMainWindow):
         self.setGeometry(0, 0, self.grid.width + probe.width(), self.grid.height + actions_widget_height)
         self.setWindowTitle('Quantum Snake')
 
+        self.probe_info.set_probe_state(ProbeState.NONE)
+
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_W or event.key() == Qt.Key.Key_Up:
-            self.snake.move(GlobalDirection.UP)
+            self.game_manager.on_move(GlobalDirection.UP)
         elif event.key() == Qt.Key.Key_D or event.key() == Qt.Key.Key_Right:
-            self.snake.move(GlobalDirection.RIGHT)
+            self.game_manager.on_move(GlobalDirection.RIGHT)
         elif event.key() == Qt.Key.Key_S or event.key() == Qt.Key.Key_Down:
-            self.snake.move(GlobalDirection.DOWN)
+            self.game_manager.on_move(GlobalDirection.DOWN)
         elif event.key() == Qt.Key.Key_A or event.key() == Qt.Key.Key_Left:
-            self.snake.move(GlobalDirection.LEFT)
+            self.game_manager.on_move(GlobalDirection.LEFT)
         event.accept()
 
 
