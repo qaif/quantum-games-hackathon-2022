@@ -353,6 +353,14 @@ class Games2Scene(Scene):
 
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish and self.g2.win:
+
+            self.juliet_bits = []
+            for b in self.g2.measured_bits:
+                self.juliet_bits.append(b.key)
+
+            print("Juliets bits : ", self.juliet_bits)
+            globals.juliet_bits = self.juliet_bits
+
             sm.push(FadeTransitionScene([self], [Story2_5Scene()]))
             self.g2.pause = True
         elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g2.finish and self.g2.gameover:

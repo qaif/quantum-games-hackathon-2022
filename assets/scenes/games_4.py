@@ -11,10 +11,6 @@ from assets.classes.utils import *
 # player needs to keep track of how many were different
 class Games_4(Games):
 
-    # bits1 in key1, bits in key2 (eventually this will be an input, from previous phases or global variables).
-    #bits1 = pygame.sprite.Group()
-    #bits2 = pygame.sprite.Group()
-
     # we will cycle through pairs one by one, letting the user compare them
     bit_index= 0
 
@@ -37,7 +33,6 @@ class Games_4(Games):
     send=False
     intercepted=False # make dynamic!
 
-
     # how many bit pairs have flashed across the screen so far
     bits_compared = 0
     to_compare=10
@@ -48,8 +43,6 @@ class Games_4(Games):
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("assets/images/games_4.jpg")
 
-        self.input_box = InputBox(100, 100, 140, 32)
-
         self.title = self.Text(par_x=100, par_y=50, par_text="How many bits should I check in our keys?")
         self.text2 = self.Text(par_x=100, par_y=50, par_text="Okay, I'll check __ pairs of bits in each key. Press spacebar")
         self.text3 = self.Text(par_x=100, par_y=50, par_text="Fill this in!")
@@ -57,8 +50,57 @@ class Games_4(Games):
         self.textaccuse = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
         self.textresponse = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
 
-        self.finish = False
-        self.win = False
+        self.to_compare = 0
+        self.current_bit = 5
+
+    def get_romeo_key(self):
+        romeo_key = ""
+        for i in range(len(globals.romeo_bits)):
+            if (globals.romeo_bases[i] == globals.juliet_bases[i]):
+                if (globals.romeo_bits[i] == globals.keyboard_bit_0):
+                    romeo_key += "0"
+                else:
+                    romeo_key += "1"
+
+        globals.romeo_key = romeo_key
+        print("Romeo Key = ", romeo_key)
+
+    def set_bit_selection(self, screen):
+        # draw level select menu
+        i = 0
+        for bitNumber in range(globals.minBit, globals.maxBit + 1):
+
+            c = globals.BLACK
+            if bitNumber == self.current_bit:
+                c = globals.GREEN
+
+            a = 255
+            # if levelNumber > globals.lastCompletedLevel:
+            #    a = 255
+
+            drawText(screen, str(bitNumber), (i * 40) + 100, 100, c, a)
+            i += 1
+
+    def select_bit_event(self, event):
+        if event.key == pygame.K_SPACE and self.proceed and not self.proceed2:
+            pass
+
+        elif event.key == pygame.K_SPACE:
+            self.to_compare = globals.currentBit
+            print(self.to_compare)
+            self.proceed = True
+
+        elif event.key == pygame.K_a:
+            if self.current_bit <= globals.minBit:
+                self.current_bit = globals.minBit
+            else:
+                self.current_bit -= 1
+            # globals.curentLevel = max(globals.curentLevel-1, 1)
+        elif event.key == globals.keyboard_bit_0: # d
+            if self.current_bit >= globals.maxBit:
+                self.current_bit = globals.maxBit
+            else:
+                self.current_bit += 1
 
     def place_bits(self):
         """
@@ -68,7 +110,7 @@ class Games_4(Games):
         """
 
         if (self.bits1[self.bits_compared]==1):
-            key = pygame.K_f
+            key = globals.keyboard_bit_1
         else:
             key = globals.keyboard_bit_0
 
@@ -79,7 +121,7 @@ class Games_4(Games):
 
         # repeat this process for the second bit array
         if (self.bits2[self.bits_compared]==1):
-            key = pygame.K_f
+            key = globals.keyboard_bit_1
         else:
             key = globals.keyboard_bit_0
 
@@ -111,6 +153,9 @@ class Games_4(Games):
                 self.process_timer()
 
             if event.type == pygame.KEYDOWN:
+
+                self.select_bit_event(event)
+
                 if event.key==pygame.K_SPACE and self.proceed and not self.proceed2 :
                     #print(self.proceed)
                     if(self.bits_compared<int(self.to_compare)):
@@ -145,21 +190,6 @@ class Games_4(Games):
                     self.send=False
                     self.proceed4 = True
                     self.proceed3 = False
-
-
-            if (not self.proceed):
-
-                if(self.input_box.handle_event(event)!=None):
-
-                    self.to_compare = self.input_box.handle_event(event)
-                    if (self.to_compare.isdigit()):
-
-                        print(self.to_compare)
-                        self.proceed=True
-
-        if (not self.proceed):
-            self.input_box.update()
-            self.input_box.draw(window)
 
 
 
@@ -199,4 +229,8 @@ class Games_4(Games):
 
         # global drawing (score, timer, hearts
         self.draw(window)
+
+
+        self.set_bit_selection(window)
+
 

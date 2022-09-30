@@ -45,7 +45,11 @@ secret_key = ""     # created secret_key
 
 romeo_bits = []     # romeo bits
 romeo_bases = []    # romeo bases
+romeo_key = []    # romeo bases
+
+juliet_bits = []   # juliet bits
 juliet_bases = []   # juliet bases
+juliet_key = []    # romeo bases
 
 # refresh on phase 0
 def refresh_after_loop():
