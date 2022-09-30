@@ -244,7 +244,7 @@ This game is played by entering text into the textbox (and submitting by enter).
 === startingScene ===
 
 = startDescription
-You are asleep
+You are asleep # narration
 Every journey is a series of choices. The first is to begin the journey. # narration
 * Wake up 
    -> bedUp 

@@ -10,6 +10,7 @@ public class superposition_manager : MonoBehaviour
     public TextAsset line_template;
     public List<classical_story> linears;
     public TMP_InputField commander;
+    public TMP_InputField memoryCommander;
     public double current_display;
     public TextMeshProUGUI current_prose;
     public TextMeshProUGUI current_prose_2;
@@ -19,6 +20,7 @@ public class superposition_manager : MonoBehaviour
     public List<GameObject> display_grids;
     public double time_to_keep_stable;
     public double full_cycle_time;
+    public int memoryselection_start;
     private double last_rollover;
     private double coming_nudgement;
     private double inflation;
@@ -43,6 +45,8 @@ public class superposition_manager : MonoBehaviour
 
     public string[] copied_variables;
 
+    public char[] numeral_glyphs;
+
     public Dictionary<string, Lottery> lotto;
 
     public Dictionary<classical_story,classical_story> AddQuota;
@@ -62,6 +66,7 @@ public class superposition_manager : MonoBehaviour
         AddQuota = new Dictionary<classical_story, classical_story>();
         annhilationQueue = new List<classical_story>();
         removeQueue = new List<classical_story>();
+        memoryselection_start = 0;
         current_display = 0.0;
         coming_nudgement = 0.0;
         last_rollover = 0.0;
@@ -75,6 +80,7 @@ public class superposition_manager : MonoBehaviour
         world_letters.Add("D");
         world_letters.Add("E");
         display_grids = new List<GameObject>();
+        numeral_glyphs = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
         FromTheTop();
 
     }
@@ -92,6 +98,23 @@ public class superposition_manager : MonoBehaviour
         annhilations();
         RefreshDisplays();
         commander.ActivateInputField();
+    }
+
+    void SetMemory(string word)
+    {
+        foreach (char digit in word)
+        {
+            if (System.Array.Exists(numeral_glyphs, x => x == digit))
+            {
+            }
+            else
+            {
+                return;
+            }
+        }
+        memoryselection_start = int.Parse(word);
+        RefreshDisplays();
+        memoryCommander.ActivateInputField();
     }
 
     void Admissions()
@@ -242,6 +265,7 @@ public class superposition_manager : MonoBehaviour
         //HeedAction("test");
         current_linear = linears[0];
         commander.onSubmit.AddListener(HeedAction);
+        memoryCommander.onSubmit.AddListener(SetMemory);
         RefreshDisplays();
         commander.ActivateInputField();
     }
@@ -261,60 +285,145 @@ public class superposition_manager : MonoBehaviour
         }
         List<Chronon> bask_subjects = DisplayChronons(current_display);
         float height_start = (bask_subjects.Count*vertical_spacing)-3.0f;
+        float scroll_place = height_start;
+        float sway_place = 0.0f;
+        int deadline = bask_subjects.Count - memoryselection_start;
         for (int i=0; i < bask_subjects.Count; i++)
         {
+            
+            scroll_place = scroll_place - vertical_spacing;
+            if (scroll_place > 20.0)
+            {
+                continue;
+            }
             TextMeshProUGUI noob = null;
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "protagonist"))
             {
-                noob=Instantiate(ProtagonistSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob=Instantiate(ProtagonistSlateFactory, new UnityEngine.Vector3(sway_place,scroll_place,0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "narration"))
             {
-                noob=Instantiate(NarrationSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob=Instantiate(NarrationSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "program"))
             {
-                noob=Instantiate(ProgramSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob=Instantiate(ProgramSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place,0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "rascal"))
             {
-                noob = Instantiate(RascalSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob = Instantiate(RascalSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "handwritten"))
             {
-                noob = Instantiate(HandwriteSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob = Instantiate(HandwriteSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "butler"))
             {
-                noob = Instantiate(ButlerSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob = Instantiate(ButlerSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place , 0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "mathT"))
             {
-                noob = Instantiate(MathTSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob = Instantiate(MathTSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "chemistryT"))
             {
-                noob = Instantiate(ChemistryTSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob = Instantiate(ChemistryTSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "historyT"))
             {
-                noob = Instantiate(HistoryTSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob = Instantiate(HistoryTSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "runa"))
             {
-                noob = Instantiate(RunaSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob = Instantiate(RunaSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
             }
             if (System.Array.Exists(bask_subjects[i].notes, x => x == "postWorker"))
             {
-                noob = Instantiate(PostalSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob = Instantiate(PostalSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
             }
             if (noob == null)
             {
-                noob=Instantiate(ProgramSlateFactory, new UnityEngine.Vector3(0, height_start - (i * vertical_spacing), 0), UnityEngine.Quaternion.identity);
+                noob=Instantiate(ProgramSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place,0), UnityEngine.Quaternion.identity);
             }
             noob.SetText(bask_subjects[i].prose);
             noob.transform.SetParent(paint_wall.transform,true);
             noob.transform.localScale = new UnityEngine.Vector3(1.0f,1.0f,1.0f);
+            display_grids.Add(noob.gameObject);
+        }
+        // start recall
+        height_start = (bask_subjects.Count * vertical_spacing) - 0.0f - (memoryselection_start * vertical_spacing);
+        scroll_place = height_start;
+        sway_place = -8.0f;
+        deadline = bask_subjects.Count - memoryselection_start;
+
+        for (int i = 0; i < bask_subjects.Count; i++)
+        {
+
+            if (memoryselection_start == 0)
+            {
+                continue;
+            }
+            if (i > deadline)
+            {
+                continue;
+            }
+            scroll_place = scroll_place - vertical_spacing;
+            if (scroll_place > 20.0)
+            {
+                continue;
+            }
+            TextMeshProUGUI noob = null;
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "protagonist"))
+            {
+                noob = Instantiate(ProtagonistSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "narration"))
+            {
+                noob = Instantiate(NarrationSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "program"))
+            {
+                noob = Instantiate(ProgramSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "rascal"))
+            {
+                noob = Instantiate(RascalSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "handwritten"))
+            {
+                noob = Instantiate(HandwriteSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "butler"))
+            {
+                noob = Instantiate(ButlerSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "mathT"))
+            {
+                noob = Instantiate(MathTSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "chemistryT"))
+            {
+                noob = Instantiate(ChemistryTSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "historyT"))
+            {
+                noob = Instantiate(HistoryTSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "runa"))
+            {
+                noob = Instantiate(RunaSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "postWorker"))
+            {
+                noob = Instantiate(PostalSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            if (noob == null)
+            {
+                noob = Instantiate(ProgramSlateFactory, new UnityEngine.Vector3(sway_place, scroll_place, 0), UnityEngine.Quaternion.identity);
+            }
+            noob.SetText(bask_subjects[i].prose);
+            noob.transform.SetParent(paint_wall.transform, true);
+            noob.transform.localScale = new UnityEngine.Vector3(1.0f, 1.0f, 1.0f);
             display_grids.Add(noob.gameObject);
         }
         List<Chronon> affords = current_linear.affordanceItems();
@@ -575,14 +684,14 @@ public class superposition_manager : MonoBehaviour
             }
             crosstotal += crossref;
         }
-        Debug.Log("Annhilation ags:" + aggressors.ToString() + "defs: " + defenders.ToString() +"booms:"+drops.ToString()+ "crossreftotal: " + crosstotal.ToString());
+        //Debug.Log("Annhilation ags:" + aggressors.ToString() + "defs: " + defenders.ToString() +"booms:"+drops.ToString()+ "crossreftotal: " + crosstotal.ToString());
         annhilationQueue = new List<classical_story>();
         foreach(classical_story convict in removeQueue)
         {
             linears.Remove(convict);
         }
         removeQueue = new List<classical_story>();
-        Debug.Log("annhilation done"+linears.Count);
+        //Debug.Log("annhilation done"+linears.Count);
     }
 
 
@@ -597,7 +706,7 @@ public class superposition_manager : MonoBehaviour
                 return result;
             }
         }
-        Debug.Log("failed to identify lottery");
+        Debug.Log("failed to identify lottery "+lotterytype);
         return "The player is not supposed to see this";
     }
 

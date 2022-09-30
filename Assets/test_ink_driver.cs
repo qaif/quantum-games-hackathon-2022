@@ -29,7 +29,7 @@ public class test_ink_driver : MonoBehaviour
     void Awake()
     {
         // Debug.Log("I am awake");
-        commander.onSubmit.AddListener(CommandParsing);
+        //commander.onSubmit.AddListener(CommandParsing);
         StartStory();
         current_plate = Instantiate(infoplatemaker);
         current_plate.transform.SetParent(baseline.transform, false);
