@@ -89,16 +89,22 @@ class ActionsWidget(QWidget):
         self.probe_button.clicked.connect(self.on_probe)
         layout.addWidget(self.probe_button)
 
-        # TODO: disable button when no selection
         self.strike_button = QPushButton()
         self.strike_button.setText("Strike")
         self.strike_button.clicked.connect(self.on_strike)
         layout.addWidget(self.strike_button)
 
+        self.restart_button = QPushButton()
+        self.restart_button.setText("Restart")
+        self.restart_button.clicked.connect(self.on_restart)
+        self.restart_button.hide()
+        layout.addWidget(self.restart_button)
+
         self.setLayout(layout)
 
     def on_game_state_changed(self, last, state):
         if state == GameStateType.TURN_START:
+            self.restart_button.hide()
             self.probe_button.setDisabled(False)
             self.strike_button.setDisabled(False)
         elif state == GameStateType.TURN_END:
@@ -120,10 +126,12 @@ class ActionsWidget(QWidget):
         elif state == GameStateType.GAME_OVER:
             self.probe_button.setDisabled(True)
             self.strike_button.setDisabled(True)
+            self.restart_button.show()
         #     TODO: show reset button
         elif state == GameStateType.RESTART:
             self.probe_button.setDisabled(False)
             self.strike_button.setDisabled(False)
+            self.restart_button.hide()
 
     def on_probe(self):
         print("probe")
@@ -135,6 +143,10 @@ class ActionsWidget(QWidget):
         print("strike")
         self.game_state.set_game_state(GameStateType.STRIKE_START)
         # self.game_manager.on_strike()
+
+    def on_restart(self):
+        print("restart")
+        self.game_state.set_game_state(GameStateType.RESTART)
 
 
 class Window(QMainWindow):
@@ -166,8 +178,8 @@ class Window(QMainWindow):
         left_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
 
         probe = ProbeWidget(self.game_state, self.probe_info)
-        probe.setMinimumWidth(250)
-        probe.setMaximumWidth(400)
+        probe.setMinimumWidth(336)
+        # probe.setMaximumWidth(400)
 
         layout.addWidget(left_widget)
         layout.addWidget(probe)

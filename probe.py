@@ -21,17 +21,17 @@ class ProbeInfo:
         self.game_state.add_on_state_changed_listener(self.on_game_state_changed)
 
         self.probe_idxs = []
-        self.probe_directions = []  # TODO: set this
+        self.probe_directions = []
 
         self.input_type = ProbeInputType.NEW
-        self.measured_distance = -1
+        self.measured_distance = None
         # self.measured_vector = [-1.0, -1.0, -1.0]
         # self.measured_probe = ProbeDirection.FORWARD
         self.measured_probe = None
 
         # self.probe_vector = [1.0, 0.0, 0.0]
-        self.probe_vector_input = [0,0,0]
-        self.probe_vector_output = [0,0,0]
+        self.probe_vector_input = None
+        self.probe_vector_output = None
 
         self.unitary = np.matrix([[0.0, 0.0, 0.0],
                                  [0.0, 0.0, 0.0],
@@ -52,7 +52,7 @@ class ProbeInfo:
         elif state == GameStateType.TURN_END:
             pass
         elif state == GameStateType.PROBE_START:
-            self.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
+            pass
         elif state == GameStateType.PROBE_END:
             self.set_probe_state(ProbeState.NONE)
         elif state == GameStateType.STRIKE_START:
@@ -65,6 +65,7 @@ class ProbeInfo:
             pass
 
     def set_probe_state(self, state):
+        print("changing probe state from: ", self.state, " to: ", state)
         self.state = state
         for listener in self.on_state_changed_listeners:
             listener(state)
@@ -72,28 +73,36 @@ class ProbeInfo:
     def add_on_state_changed_listener(self, listener):
         self.on_state_changed_listeners.append(listener)
 
-    def set_probe_idxs(self, probe_idxs):
-        self.probe_idxs = probe_idxs
+    # def set_probe_idxs(self, probe_idxs):
+    #     self.probe_idxs = probe_idxs
+    #
+    # def set_probe_directions(self, probe_directions):
+    #     self.probe_directions = probe_directions
 
-    def set_probe_directions(self, probe_directions):
-        self.probe_directions = probe_directions
+    def init_probe_info(self, idxs, dirs):
+        self.probe_idxs = idxs
+        self.probe_directions = dirs
+        self.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
 
     def get_probe_vector(self):
         # TODO: normalize vector and update ui
         if self.input_type == ProbeInputType.NEW:
-            return self.probe_vector
+            return self.probe_vector_input
         else:
             return self.probe_vector_output
 
     def set_x(self, x):
+        if self.probe_vector_input is None: self.probe_vector_input = [0,0,0]
         self.probe_vector_input[0] = x
         self.on_probe_vector_changed()
 
     def set_y(self, y):
+        if self.probe_vector_input is None: self.probe_vector_input = [0, 0, 0]
         self.probe_vector_input[1] = y
         self.on_probe_vector_changed()
 
     def set_z(self, z):
+        if self.probe_vector_input is None: self.probe_vector_input = [0, 0, 0]
         self.probe_vector_input[2] = z
         self.on_probe_vector_changed()
 
@@ -141,11 +150,17 @@ class QueryWidget(QWidget):
 
         base_layout = QVBoxLayout()
         base_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
+        # base_layout.addStretch()
         self.setLayout(base_layout)
+
+        self.top_half = QWidget()
+        top_layout = QVBoxLayout()
+        self.top_half.setLayout(top_layout)
+        base_layout.addWidget(self.top_half)
 
         # TODO: disable radio if old unavailable
         radio_buttons = QWidget()
-        base_layout.addWidget(radio_buttons)
+        top_layout.addWidget(radio_buttons)
         radio_layout = QGridLayout()
         radio_buttons.setLayout(radio_layout)
 
@@ -164,7 +179,7 @@ class QueryWidget(QWidget):
         radio_buttons.setMaximumHeight(50)
 
         row1 = QWidget()
-        base_layout.addWidget(row1)
+        top_layout.addWidget(row1)
         row1_layout = QHBoxLayout()
         row1.setLayout(row1_layout)
 
@@ -176,7 +191,7 @@ class QueryWidget(QWidget):
         row1_layout.addWidget(self.v1)
 
         row2 = QWidget()
-        base_layout.addWidget(row2)
+        top_layout.addWidget(row2)
         row2_layout = QHBoxLayout()
         row2.setLayout(row2_layout)
 
@@ -188,7 +203,7 @@ class QueryWidget(QWidget):
         row2_layout.addWidget(self.v2)
 
         row3 = QWidget()
-        base_layout.addWidget(row3)
+        top_layout.addWidget(row3)
         row3_layout = QHBoxLayout()
         row3.setLayout(row3_layout)
 
@@ -199,22 +214,27 @@ class QueryWidget(QWidget):
         row3_layout.addWidget(QLabel("left"))
         row3_layout.addWidget(self.v3)
 
+        row4 = QWidget()
+        base_layout.addWidget(row4)
+        row4_layout = QHBoxLayout()
+        row4.setLayout(row4_layout)
+
         query = QPixmap("./query.png")
-        query = query.scaled(300, 300)
+        query = query.scaled(int(336 / 2), int(574 / 2))
         label = QLabel()
         label.setPixmap(query)
         # label.setFixedWidth(self.width())
         # label.setFixedHeight(self.width())
-        base_layout.addWidget(label)
+        row4_layout.addWidget(label)
 
-        base_layout.addWidget(QLabel("Measured Distance:"))
+        row4_layout.addWidget(QLabel("Measured Distance:"))
 
         self.distance = QLabel(str(self.probe_info.measured_distance))
-        base_layout.addWidget(self.distance)
+        row4_layout.addWidget(self.distance)
 
-        query_button = QPushButton("Measure Distance")
-        query_button.clicked.connect(self.on_measure_distance)
-        base_layout.addWidget(query_button)
+        self.measure_button = QPushButton("Measure Distance")
+        self.measure_button.clicked.connect(self.on_measure_distance)
+        base_layout.addWidget(self.measure_button)
 
         divider = QFrame()
         divider.setFrameShape(QFrame.Shape.HLine)
@@ -229,21 +249,23 @@ class QueryWidget(QWidget):
             self.hide()
         if state == ProbeState.INPUT_PROBE_VECTOR:
             self.show()
+            self.top_half.show()
+            self.measure_button.setDisabled(False)
             self.set_disabled()
         if state == ProbeState.UNITARY_MEASURE:
             # TODO: disable all
-            self.hide()
+            self.top_half.hide()
+            self.measure_button.setDisabled(True)
         if state == ProbeState.MEASURED:
             # TODO: disable all
             self.hide()
 
     def set_disabled(self):
+        print(self.probe_info.probe_directions)
         self.v1.setDisabled(ProbeDirection.FORWARD not in self.probe_info.probe_directions)
         self.v2.setDisabled(ProbeDirection.RIGHT not in self.probe_info.probe_directions)
         self.v3.setDisabled(ProbeDirection.LEFT not in self.probe_info.probe_directions)
-        # TODO: disable radio
         self.rbo.setDisabled(self.probe_info.probe_vector_output is None)
-
 
     def v1_changed(self, text):
         self.probe_info.set_x(float(text))
@@ -504,45 +526,17 @@ class ProbeWidget(QWidget):
         self.query_widget = QueryWidget(self.game_state, self.probe_info)
         base_layout.addWidget(self.query_widget)
 
-        # DIVIDER
-        # divider = QFrame()
-        # divider.setFrameShape(QFrame.Shape.HLine)
-        # divider.sizePolicy()
-        # divider.setLineWidth(3)
-        # base_layout.addWidget(divider)
-
         # UNITARY
         self.unitary_widget = UnitaryWidget(self.game_state, self.probe_info)
         base_layout.addWidget(self.unitary_widget)
 
-        # DIVIDER
-        # divider = QFrame()
-        # divider.setFrameShape(QFrame.Shape.HLine)
-        # divider.sizePolicy()
-        # divider.setLineWidth(3)
-        # base_layout.addWidget(divider)
-
         # MEASURE
         measure = MeasureWidget(self.game_state, self.probe_info)
         base_layout.addWidget(measure)
-
-        # DIVIDER
-        # divider = QFrame()
-        # divider.setFrameShape(QFrame.Shape.HLine)
-        # divider.sizePolicy()
-        # divider.setLineWidth(3)
-        # base_layout.addWidget(divider)
 
         # CONTINUE
         finish_widget = ContinueWidget(self.game_state, self.probe_info)
         base_layout.addWidget(finish_widget)
 
         self.setLayout(base_layout)
-
-    # def vector_to_text(self, vector):
-    #     text = ""
-    #     for e in vector:
-    #         text += str(e) + ", "
-    #     # return text.removesuffix(", ")
-    #     return text
 

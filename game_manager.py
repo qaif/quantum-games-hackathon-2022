@@ -21,9 +21,10 @@ class ProbeInputType(Enum):
 
 class ProbeState(Enum):
     NONE = 0
-    INPUT_PROBE_VECTOR = 1
-    UNITARY_MEASURE = 2
-    MEASURED = 3
+    INIT_PROBE = 1
+    INPUT_PROBE_VECTOR = 2
+    UNITARY_MEASURE = 3
+    MEASURED = 4
 
 
 class GameStateType(Enum):
@@ -54,7 +55,7 @@ class GameState:
     #         self.set_game_state(GameStateType.TURN_END)
 
     def set_game_state(self, state):
-        print("changing state from: ", self.state, " to: ", state)
+        print("changing game state from: ", self.state, " to: ", state)
         last = self.state
         self.state = state
         for listener in self.on_state_changed_listeners:
@@ -99,14 +100,17 @@ class GameManager:
             print("turn start")
             self.game_state.set_game_state(GameStateType.TURN_START)
         elif new == GameStateType.PROBE_START:
-            pass
+            self.on_probe_start()
         elif new == GameStateType.PROBE_END:
             self.game_state.set_game_state(GameStateType.TURN_END)
         elif new == GameStateType.STRIKE_START:
             self.on_strike()
         elif new == GameStateType.STRIKE_INCORRECT_GUESS:
             self.on_fail()
-            self.game_state.set_game_state(GameStateType.STRIKE_END)
+            if self.lives < 1:
+                self.game_state.set_game_state(GameStateType.GAME_OVER)
+            else:
+                self.game_state.set_game_state(GameStateType.STRIKE_END)
         elif new == GameStateType.STRIKE_INVALID_GUESS:
             print("INVALID GUESS!!!")
             self.game_state.set_game_state(GameStateType.STRIKE_END)
@@ -120,6 +124,9 @@ class GameManager:
             self.game_state.set_game_state(GameStateType.TURN_END)
         elif new == GameStateType.GAME_OVER:
             pass
+        elif new == GameStateType.RESTART:
+            self.lives = 3
+            self.spawn_prey()
 
     def on_move(self, direction):
         # if self.probe_info.state is not ProbeState.NONE: return
@@ -134,8 +141,7 @@ class GameManager:
         iad = self.snake.get_probe_idxs_and_directions()
         idxs = iad[0]
         dirs = iad[1]
-        self.probe_info.set_probe_idxs(idxs)
-        self.probe_info.set_probe_directions(dirs)
+        self.probe_info.init_probe_info(idxs, dirs)
         # TODO: set_disabled
         # q = self.query(vector)
         # dis = q[0]
@@ -158,16 +164,11 @@ class GameManager:
     def on_fail(self):
         print("YOU MADE AN INCORRECT GUESS!!!")
         self.lives -= 1  # increment the number of lives downward. (i.e. decrement lives)
-        if self.lives < 1:
-            # TODO: [UI tells you you're dead. Game over]
-            self.on_death()
-        # TODO: [Take player back to "beginning of turn state" so they can continue playing]
-        # TODO: reset probe grid occupier
+        # if self.lives < 1:
+        #     self.game_state.set_game_state(GameStateType.GAME_OVER)
 
     def on_success(self):
         print("YOU GUESSED CORRECTLY!!!")
-        # TODO:
-        # TODO: [prey location is revealed to player]
         self.grid.set_occupier(self.prey_location, OccupierType.PREY)
         # TODO: [player is asked to move snake to prey location]
 
@@ -346,6 +347,8 @@ class Snake:
         probe_directions = []
         for i in idxs:
             probe_directions.append(self.get_relative_direction(i))
+        print("probe idxs: ", idxs)
+        print("probe directions: ", probe_directions)
         return idxs, probe_directions
 
     def get_relative_direction(self, idx):
@@ -353,6 +356,7 @@ class Snake:
         d = self.get_direction()
         if idx > head:
             if idx == head + 1:  # right
+                print("idx: ", idx, " to the right of head: ", head)
                 if d == GlobalDirection.UP:
                     return ProbeDirection.RIGHT
                 elif d == GlobalDirection.RIGHT:
@@ -360,13 +364,15 @@ class Snake:
                 elif d == GlobalDirection.DOWN:
                     return ProbeDirection.LEFT
             else:  # down
+                print("idx: ", idx, " below head: ", head)
                 if d == GlobalDirection.RIGHT:
                     return ProbeDirection.RIGHT
                 elif d == GlobalDirection.DOWN:
                     return ProbeDirection.FORWARD
                 elif d == GlobalDirection.LEFT:
                     return ProbeDirection.LEFT
-        elif self.body[0] == self.body[1] - 1:  # left
+        elif idx == head - 1:  # left
+            print("idx: ", idx, " left of head: ", head)
             if d == GlobalDirection.UP:
                 return ProbeDirection.LEFT
             elif d == GlobalDirection.DOWN:
@@ -374,6 +380,7 @@ class Snake:
             elif d == GlobalDirection.LEFT:
                 return ProbeDirection.FORWARD
         else:  # up
+            print("idx: ", idx, " above head: ", head)
             if d == GlobalDirection.UP:
                 return ProbeDirection.FORWARD
             elif d == GlobalDirection.RIGHT:
@@ -467,6 +474,7 @@ class Snake:
         self.game_state.set_game_state(GameStateType.STRIKE_END)
         # for listener in self.on_collected_food_listeners:
         #     listener()
+
 
 class Grid:
     def __init__(self, game_state, size, node_size):
