@@ -35,7 +35,7 @@ class Story(Games):
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_SPACE:
                     self.progress_story()
 
         if len(self.story_text[self.story_index]) > 60:
