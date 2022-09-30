@@ -115,6 +115,7 @@ class BitBase(MovingObject):
         y = par_y
         self.x_change = -1 * random.randint(1, 2)
         self.measured = False
+        self.alpha = 255
 
         # for displaying in Games 2, 3
         self.idx = _idx
@@ -131,10 +132,20 @@ class BitBase(MovingObject):
 
     def get_initialize_image(self, type:int):
         # to open the image while being hovered by mouse
+        self.alpha = 255
         if type == globals.keyboard_bit_0:
             self.image = pygame.image.load("assets/images/number-0.png")
         elif type == globals.keyboard_bit_1:
             self.image = pygame.image.load("assets/images/number-1.png")
+        self.image.set_alpha(self.alpha)
+
+    def get_hidden_image(self):
+        # to show the hidden image
+        self.image = pygame.image.load("assets/images/qubit.png")
+        self.image.set_alpha(self.alpha)
+
+    def reduce_parameter_alpha(self, minus_alpha):
+        self.alpha -= minus_alpha
 
 
 

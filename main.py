@@ -55,7 +55,7 @@ if testing:
         g3 = Games_3(pygame)
     elif phase == 4:
         pygame.event.clear()
-        g4 = Games_4(pygame, secret_key="123023")
+        g4 = Games_4(pygame)
 
 # Scene Manager
 sceneManager = SceneManager()

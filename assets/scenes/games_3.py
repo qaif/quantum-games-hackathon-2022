@@ -16,17 +16,12 @@ FONT = pygame.font.Font("freesansbold.ttf", 32)
 class Games_3(Games):
 
     # creating a group of Sprite, this is like an array of sprite (object of image)
-    romeo_bit_display = pygame.sprite.Group()
+    juliet_bit_display = pygame.sprite.Group()
     romeo_base_display = pygame.sprite.Group()
     juliet_base_display = pygame.sprite.Group()
 
     # user defined function
     event_hide_box = pygame.USEREVENT + 1
-
-    romeo_bits = [globals.keyboard_bit_0, pygame.K_f, globals.keyboard_bit_0, globals.keyboard_bit_0, pygame.K_f, globals.keyboard_bit_0, pygame.K_f, pygame.K_f, pygame.K_f, globals.keyboard_bit_0]
-    romeo_bases = [globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_x]
-    juliet_bases = [globals.keyboard_base_x, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_x, globals.keyboard_base_z, globals.keyboard_base_x, globals.keyboard_base_x, globals.keyboard_base_z]
-
 
     def __init__(self, pygame):
         super().__init__()
@@ -37,13 +32,13 @@ class Games_3(Games):
         self.bit_options = [globals.keyboard_bit_0, pygame.K_f]
         self.base_options = [globals.keyboard_base_x, globals.keyboard_base_z]
 
-        self.romeo_bits = globals.romeo_bits
+        self.juliet_bits = globals.juliet_bits
         self.romeo_bases = globals.romeo_bases
         self.juliet_bases = []
 
         if globals.testing:
             for i in range(9):
-                self.romeo_bits.append(random.choice(self.bit_options))
+                self.juliet_bits.append(random.choice(self.bit_options))
                 self.romeo_bases.append(random.choice(self.base_options))
                 self.juliet_bases.append(random.choice(self.base_options))
         else:
@@ -70,10 +65,10 @@ class Games_3(Games):
         self.get_answer_key()
 
         i = 0
-        for type in self.romeo_bits:
+        for type in self.juliet_bits: # we need to use Juliet's bits here
             b = BitBase(type, _idx=i)
             b.rect = b.image.get_rect(topleft=(270 + 60 * i, 107))
-            self.romeo_bit_display.add(b)
+            self.juliet_bit_display.add(b)
 
             i += 1
 
@@ -99,7 +94,7 @@ class Games_3(Games):
 
         i = 0
 
-        for b in self.romeo_bit_display:
+        for b in self.juliet_bit_display:
 
             x = start_pos_x + (60 * i)
             y = start_pos_y
@@ -114,14 +109,16 @@ class Games_3(Games):
             i += 1
 
     def get_answer_key(self):
-        for i in range(len(self.romeo_bits)):
+        for i in range(len(self.juliet_bits)):
             if (self.romeo_bases[i] == self.juliet_bases[i]):
-                if (self.romeo_bits[i] == pygame.K_0):
+                if (self.juliet_bits[i] == globals.keyboard_bit_0):
                     self.answer_key += "0"
                 else:
                     self.answer_key += "1"
 
         print("answer_key", self.answer_key)
+        globals.secret_key = self.answer_key
+        globals.juliet_key = self.answer_key
 
     def check_answer_key(self):
         if self.answer_key == self.input_key:
@@ -160,14 +157,14 @@ class Games_3(Games):
                     self.check_answer_key()
 
         # this is to fix the bugs from games 2
-        for r in self.romeo_bit_display:
+        for r in self.juliet_bit_display:
             r.get_initialize_image(r.key)
 
         self.input_box.update()
         self.input_box.draw(window)
 
         # to keep the object refreshing on the screen
-        self.romeo_bit_display.draw(window)
+        self.juliet_bit_display.draw(window)
         self.romeo_base_display.draw(window)
         self.juliet_base_display.draw(window)
 
