@@ -39,21 +39,21 @@ secret_key = ""     # created secret_key
 
 romeo_bits = []     # romeo bits
 romeo_bases = []    # romeo bases
-romeo_key = []    # romeo bases
+romeo_key = []    # ???
 
 juliet_bits = []   # juliet bits
 juliet_bases = []   # juliet bases
-juliet_key = []    # romeo bases
+juliet_key = []    # ???
 
 
-intercept=False # if eve chooses to eavesdrop
-noise=False     # if ANY noise affected bit selection
+intercept = False # if eve chooses to eavesdrop
+noise = False     # if ANY noise affected bit selection
 
 # ==================  Measuring keyboard settings ========================
-keyboard_bit_0 = pygame.K_d
-keyboard_bit_1 = pygame.K_f
-keyboard_base_x = pygame.K_j
-keyboard_base_z = pygame.K_k
+keyboard_bit_0 = pygame.K_0
+keyboard_bit_1 = pygame.K_1
+keyboard_base_x = pygame.K_x
+keyboard_base_z = pygame.K_y
 
 # piano composition by Schubert, not copyrighted
 music_file="assets/music/Schubert---Impromptu-Op.-90--No.-3_AdobeStock_501349563.wav"
