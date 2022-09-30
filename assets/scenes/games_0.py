@@ -25,7 +25,8 @@ class Games_0(Games):
 
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("assets/images/games_0.jpg")
-        self.title = self.Text(par_x=100, par_y=100, par_text="What size key should I generate?")
+        self.title = self.Text(par_x=100, par_y=60, par_text="How many clasical bits should our keys be built from? I have to hurry...")
+        self.title2 = self.Text(par_x=100, par_y=100, par_text="More bits makes the BB84 protocol safer, but it will take longer.")
         self.text2 = self.Text(par_x=100, par_y=100, par_text="Okay, I'll check __ pairs of bits in each key. Press spacebar")
 
 
@@ -88,6 +89,7 @@ class Games_0(Games):
 
         if (not self.proceed and not self.proceed2 and not self.proceed3):
             self.title.text_display(window)
+            self.title2.text_display(window)
 
         elif (not self.proceed2 and not self.proceed3):
             self.text2=self.Text(par_x=100, par_y=100, par_text="\"Hmmm I think starting with "+ str(self.bit_size)+" bits is good.\"")

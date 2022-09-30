@@ -175,13 +175,13 @@ class Games_1(Games):
                 if self.get_bit(event.key) or self.get_measurement(event.key):
                     self.point.add_value(1)
 
-                if event.key == pygame.K_d:
+                if event.key == pygame.K_0:
                     self.blink_0 = True
-                if event.key == pygame.K_f:
+                if event.key == pygame.K_1:
                     self.blink_1 = True
-                if event.key == pygame.K_j:
+                if event.key == pygame.K_x:
                     self.blink_x = True
-                if event.key == pygame.K_k:
+                if event.key == pygame.K_z:
                     self.blink_z = True
 
 

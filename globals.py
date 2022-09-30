@@ -15,7 +15,7 @@ showConfig = True   # to show the keyboard guide
 #showConfig = False
 
 #testing = True      # flag for testing or not
-testing = True
+testing = False
 phase = 2          # config for setting game phases
 
 # =========== GAME SETTINGS FOR NEW GAME ======================
