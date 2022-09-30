@@ -248,10 +248,15 @@ to view history # program
 + start
   ->startingScene
 + credits
-  Created as part of Global Quantum Game Jam 2022 # program
-  Antti Salo # program
-  Riikka-Lotta Pehkonen # program
-  Michelle Alexandra # program
+.
+  Started as part of Global Quantum Game Jam 2022 # program
+  Antti Salo # handwritten
+  Riikka-Lotta Pehkonen # handwritten
+  Michelle Alexandra # handwritten
+  .#program
+  Quantum Game Hackathon 2022 # program
+  Antti Salo # handwritten
+.
   -> titleLine
 + quit
   You are supposed to solve a murder and not terminate programs. # program
