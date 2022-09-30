@@ -6,7 +6,7 @@ screenSize = (1024, 768)  # screen size
 # =================== GAME SETTINGS ========================
 
 minBit = 1          # total min bit selection
-maxBit = 15         # total max bit selection
+maxBit = 14         # total max bit selection
 currentBit = 5
 
 showConfig = True   # to show the keyboard guide
@@ -14,7 +14,7 @@ showConfig = True   # to show the keyboard guide
 
 testing = True      # flag for testing or not
 #testing = False
-phase = 4           # config for setting game phases
+phase = 5           # config for setting game phases
 
 # =========== GAME SETTINGS FOR NEW GAME ======================
 
@@ -58,7 +58,12 @@ def refresh_after_loop():
 
     romeo_bits = []
     romeo_bases = []
+    romeo_key = []
+
+    juliet_bits = []
     juliet_bases = []
+    juliet_key = []
+
 
 # ==================  Measuring keyboard settings ========================
 keyboard_bit_0 = pygame.K_d

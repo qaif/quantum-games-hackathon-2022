@@ -35,21 +35,28 @@ class Games_3(Games):
         self.juliet_bits = globals.juliet_bits
         self.romeo_bases = globals.romeo_bases
         self.juliet_bases = []
+        self.numberofbit = 0
 
         if globals.testing:
-            for i in range(9):
+            for i in range(globals.maxBit - 1):
                 self.juliet_bits.append(random.choice(self.bit_options))
                 self.romeo_bases.append(random.choice(self.base_options))
                 self.juliet_bases.append(random.choice(self.base_options))
+                self.numberofbit = globals.maxBit
         else:
             for i in range(globals.selectedBit):
                 self.juliet_bases.append(random.choice(self.base_options))
+                self.numberofbit = globals.selectedBit
+
+        self.start_x_pos = globals.screenSize[0] / 2
+        self.start_x_pos -= (27 * self.numberofbit)
+        print(self.start_x_pos)
 
 
         self.hides = []
-        self.hides.append(random.sample(range(0, 9), random.randint(0,2)))
-        self.hides.append(random.sample(range(0, 9), random.randint(0,2)))
-        self.hides.append(random.sample(range(0, 9), random.randint(0,2)))
+        self.hides.append(random.sample(range(0, self.numberofbit - 1), random.randint(0,2)))
+        self.hides.append(random.sample(range(0, self.numberofbit - 1), random.randint(0,2)))
+        self.hides.append(random.sample(range(0, self.numberofbit - 1), random.randint(0,2)))
 
         # timer for user defined function
         pygame.time.set_timer(self.event_hide_box, 700)
@@ -67,7 +74,7 @@ class Games_3(Games):
         i = 0
         for type in self.juliet_bits: # we need to use Juliet's bits here
             b = BitBase(type, _idx=i)
-            b.rect = b.image.get_rect(topleft=(270 + 60 * i, 107))
+            b.rect = b.image.get_rect(topleft=(self.start_x_pos + 60 * i, 107))
             self.juliet_bit_display.add(b)
 
             i += 1
@@ -75,7 +82,7 @@ class Games_3(Games):
         i = 0
         for type in self.romeo_bases:
             b = MeasurementBase(type, _idx=i)
-            b.rect = b.image.get_rect(topleft=(265 + 60 * i, 175))
+            b.rect = b.image.get_rect(topleft=(self.start_x_pos + 60 * i, 175))
             self.romeo_base_display.add(b)
 
             i += 1
@@ -83,7 +90,7 @@ class Games_3(Games):
         i = 0
         for type in self.juliet_bases:
             b = MeasurementBase(type, _idx=i)
-            b.rect = b.image.get_rect(topleft=(265 + 60 * i, 245))
+            b.rect = b.image.get_rect(topleft=(self.start_x_pos + 60 * i, 245))
             self.juliet_base_display.add(b)
 
             i += 1
@@ -143,9 +150,9 @@ class Games_3(Games):
                 pygame.quit()
                 sys.exit()
             elif event.type == self.event_hide_box:
-                self.hides[0] = random.sample(range(0, 9), 2)
-                self.hides[1] = random.sample(range(0, 9), 2)
-                self.hides[2] = random.sample(range(0, 9), 2)
+                self.hides[0] = random.sample(range(0, self.numberofbit - 1), 2)
+                self.hides[1] = random.sample(range(0, self.numberofbit - 1), 2)
+                self.hides[2] = random.sample(range(0, self.numberofbit - 1), 2)
             elif event.type == self.timer_event:
                 self.process_timer()
 
@@ -168,9 +175,9 @@ class Games_3(Games):
         self.romeo_base_display.draw(window)
         self.juliet_base_display.draw(window)
 
-        self.draw_table(window, self.hides[0], 260, 100)
-        self.draw_table(window, self.hides[1], 260, 170)
-        self.draw_table(window, self.hides[2], 260, 240)
+        self.draw_table(window, self.hides[0], self.start_x_pos - 5, 100)
+        self.draw_table(window, self.hides[1], self.start_x_pos - 5, 170)
+        self.draw_table(window, self.hides[2], self.start_x_pos - 5, 240)
 
         # global drawing (score, timer, hearts
         self.draw(window)

@@ -9,6 +9,7 @@ from assets.scenes.games_1 import Games_1
 from assets.scenes.games_2 import Games_2
 from assets.scenes.games_3 import Games_3
 from assets.scenes.games_4 import Games_4
+from assets.scenes.games_5 import Games_5
 
 from assets.scenes.scene import *
 
@@ -56,6 +57,9 @@ if testing:
     elif phase == 4:
         pygame.event.clear()
         g4 = Games_4(pygame)
+    elif phase == 5:
+        pygame.event.clear()
+        g5 = Games_5(pygame)
 
 # Scene Manager
 sceneManager = SceneManager()
@@ -77,6 +81,8 @@ while run:
             g3.call_event(window)
         elif (phase==4):
             g4.call_event(window)
+        elif (phase==5):
+            g5.call_event(window)
     else:
         # this is the real game start from main screen
         inputStream.processInput()

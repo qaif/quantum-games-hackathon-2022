@@ -11,12 +11,14 @@ from assets.scenes.games_1 import Games_1
 from assets.scenes.games_2 import Games_2
 from assets.scenes.games_3 import Games_3
 from assets.scenes.games_4 import Games_4
+from assets.scenes.games_5 import Games_5
 
 from assets.scenes.story_0 import Story_0, Story_0_5
 from assets.scenes.story_1 import Story_1, Story_1_5
 from assets.scenes.story_2 import Story_2, Story_2_5
 from assets.scenes.story_3 import Story_3, Story_3_5
 from assets.scenes.story_4 import Story_4, Story_4_5
+from assets.scenes.story_5 import Story_5, Story_Ending_1, Story_Ending_2
 
 
 class Scene:
@@ -512,9 +514,6 @@ class Games4Scene(Scene):
         if inputStream.keyboard.isKeyPressed(pygame.K_SPACE):
             globals.selectedBit = globals.currentBit
 
-        # hardcode for testing stories
-        self.g4.win = True
-
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g4.win:
             #level.loadLevel(globals.curentLevel)
             sm.push(FadeTransitionScene([self], [Story4_5Scene()]))
@@ -545,8 +544,7 @@ class Story4_5Scene(Scene):
         pass
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_4_5.finish:
-            sm.pop_all()
-            sm.push(FadeTransitionScene([self], [Story_0()]))
+            sm.push(FadeTransitionScene([self], [Story5Scene()]))
 
     def update(self, sm, inputStream):
         self.enter.update(inputStream)
@@ -555,6 +553,73 @@ class Story4_5Scene(Scene):
         self.story_4_5.call_event(screen)
 
         self.enter.draw(screen)
+
+class Story5Scene(Scene):
+    def __init__(self):
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        pygame.event.clear()
+        self.story_5 = Story_5(pygame)
+    def onEnter(self):
+        #globals.soundManager.playMusicFade('solace')
+        pass
+    def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_5.finish:
+            sm.pop_all()
+            sm.push(FadeTransitionScene([self], [Story_0()]))
+
+    def update(self, sm, inputStream):
+        self.enter.update(inputStream)
+
+    def draw(self, sm, screen):
+        self.story_5.call_event(screen)
+
+        self.enter.draw(screen)
+
+class Games5Scene(Scene):
+    def __init__(self):
+        #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 50, 20)
+        self.a = ButtonUI(pygame.K_a, '[a = left]', 170, 20)
+        self.d = ButtonUI(globals.keyboard_bit_0, '[d = right]', 250, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[space = select]', 350, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue]', 500, 20)
+
+        pygame.event.clear()
+        self.g5 = Games_5(pygame)
+    def onEnter(self):
+        pass
+        #globals.soundManager.playMusicFade('solace')
+    def update(self, sm, inputStream):
+
+        #self.esc.update(inputStream)
+        self.a.update(inputStream)
+        self.d.update(inputStream)
+        self.space.update(inputStream)
+        self.enter.update(inputStream)
+
+    def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_SPACE):
+            globals.selectedBit = globals.currentBit
+
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g5.win:
+            sm.push(FadeTransitionScene([self], [Story_Ending_1()]))
+        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g5.lose:
+            sm.push(FadeTransitionScene([self], [Story_Ending_2()]))
+
+        #if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
+        #    sm.pop()
+        #    sm.push(FadeTransitionScene([self], []))
+
+    def draw(self, sm, screen):
+        self.g4.call_event(screen)
+        #self.esc.draw(screen)
+        self.a.draw(screen)
+        self.d.draw(screen)
+        self.space.draw(screen)
+        self.enter.draw(screen)
+
+        if self.g5.finish and self.g5.win:
+            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
+            self.g4.pause = True
 
 class SceneManager:
     def __init__(self):

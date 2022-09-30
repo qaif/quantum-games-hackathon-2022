@@ -11,7 +11,7 @@ class Story_4(Story):
 
     def __init__(self, pygame):
         super().__init__()
-        self.background = pygame.image.load("assets/images/2.5.jpg")
+        self.background = pygame.image.load("assets/images/games_4.jpg")
 
         self.story_text = []
         self.story_index = 0
@@ -25,7 +25,7 @@ class Story_4_5(Story):
 
     def __init__(self, pygame):
         super().__init__()
-        self.background = pygame.image.load("assets/images/2.5.jpg")
+        self.background = pygame.image.load("assets/images/games_4.jpg")
 
         self.story_text = []
         self.story_index = 0
