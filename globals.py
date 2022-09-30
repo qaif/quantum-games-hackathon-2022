@@ -72,7 +72,7 @@ noise = False     # if ANY noise affected bit selection
 keyboard_bit_0 = pygame.K_0
 keyboard_bit_1 = pygame.K_1
 keyboard_base_x = pygame.K_x
-keyboard_base_z = pygame.K_y
+keyboard_base_z = pygame.K_z
 
 # piano composition by Schubert, not copyrighted
 music_file="assets/music/Schubert---Impromptu-Op.-90--No.-3_AdobeStock_501349563.wav"

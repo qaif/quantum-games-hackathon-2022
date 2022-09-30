@@ -13,7 +13,8 @@ from assets.scenes.games_3 import Games_3
 from assets.scenes.games_4 import Games_4
 from assets.scenes.games_5 import Games_5
 
-
+# Story x = is story before game x
+# Story x.5 is story after game x
 from assets.scenes.story_0 import Story_0, Story_0_5, Story_Introduction
 from assets.scenes.story_1 import Story_1, Story_1_5
 from assets.scenes.story_2 import Story_2, Story_2_5
