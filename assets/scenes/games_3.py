@@ -116,12 +116,13 @@ class Games_3(Games):
     def get_answer_key(self):
         for i in range(len(self.romeo_bits)):
             if (self.romeo_bases[i] == self.juliet_bases[i]):
-                if (self.romeo_bits[i] == pygame.K_0):
+                if (self.romeo_bits[i] == globals.keyboard_bit_0):
                     self.answer_key += "0"
                 else:
                     self.answer_key += "1"
 
         print("answer_key", self.answer_key)
+        globals.secret_key = self.answer_key
 
     def check_answer_key(self):
         if self.answer_key == self.input_key:

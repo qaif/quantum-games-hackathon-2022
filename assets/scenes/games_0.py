@@ -16,11 +16,9 @@ class Games_0(Games):
         self.proceed3 = False
 
         self.bit_size = 0
-        globals.selectedBit = 0
-        globals.remainingHearts = 3
-        globals.romeo_bits = []
-        globals.romeo_bases = []
-        globals.juliet_bases = []
+
+        globals.refresh_after_loop()
+
         pygame.mouse.set_visible(True)
 
         # change this to one meant for this phase. for now just a white screen

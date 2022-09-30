@@ -1,34 +1,60 @@
 import pygame
 
-world = None
-
-gameTitle = "Verona 2049"
-screenSize = (1024, 768)
-
-minBit = 1
-maxBit = 15
-currentBit = 5
-selectedBit = 0
+gameTitle = "Verona 2049" # game title
+screenSize = (1024, 768)  # screen size
 
 # =================== GAME SETTINGS ========================
-showConfig = True
+
+minBit = 1          # total min bit selection
+maxBit = 15         # total max bit selection
+currentBit = 5
+
+showConfig = True   # to show the keyboard guide
 #showConfig = False
 
-testing = True
+testing = True      # flag for testing or not
 #testing = False
-phase = 3
+phase = 4           # config for setting game phases
 
-remainingHearts = 3
+# =========== GAME SETTINGS FOR NEW GAME ======================
 
-starting_timer_minute = 5
+remainingHearts = 3     # to check the remaining hearts
+
+starting_timer_minute = 5   # starting timer
 starting_timer_seconds = 0
 
-timer_minute = 5
+timer_minute = 5        # current timer
 timer_seconds = 0
 
-romeo_bits = []
-romeo_bases = []
-juliet_bases = []
+# refresh on main menu
+def refresh_new_game():
+    remainingHearts = 3
+
+    starting_timer_minute = 5
+    starting_timer_seconds = 0
+
+    timer_minute = 5
+    timer_seconds = 0
+
+    refresh_after_loop()
+
+# ====================== GLOBAL PARAMETERS NEED TO BE REFRESH AFTER LOOP ======================
+
+selectedBit = 0     # selected # of bit
+secret_key = ""     # created secret_key
+
+romeo_bits = []     # romeo bits
+romeo_bases = []    # romeo bases
+juliet_bases = []   # juliet bases
+
+# refresh on phase 0
+def refresh_after_loop():
+    selectedBit = 0
+    secret_key = ""
+
+    romeo_bits = []
+    romeo_bases = []
+    juliet_bases = []
 
 # ==================  Measuring keyboard settings ========================
 keyboard_bit_0 = pygame.K_d

@@ -42,9 +42,9 @@ class Games_4(Games):
     bits_compared = 0
     to_compare=10
 
-    def __init__(self, pygame, secret_key):
+    def __init__(self, pygame):
         super().__init__()
-        print("games 4 secret key: ", secret_key)
+        print("games 4 secret key: ", globals.secret_key)
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("assets/images/games_4.jpg")
 
