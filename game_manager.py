@@ -439,7 +439,10 @@ class Snake:
     def remove_from_tail(self):
         idx = self.body.pop()
         # self.grid.nodes[idx].occupier = OccupierType.NONE
-        self.grid.set_occupier(idx, OccupierType.NONE)
+        # self.grid.set_occupier(idx, OccupierType.NONE)
+        if self.grid.nodes[idx].occupier == OccupierType.SNAKE:
+            # if prey is on snake body, it shouldn't disappear when snake off
+            self.grid.set_occupier(idx, OccupierType.NONE)
 
     def on_collision(self):
         self.game_state.set_game_state(GameStateType.GAME_OVER)
