@@ -112,7 +112,14 @@ public class superposition_manager : MonoBehaviour
                 return;
             }
         }
-        memoryselection_start = int.Parse(word);
+        if (word == "")
+        {
+            memoryselection_start = 0;
+        }
+        else
+        { 
+            memoryselection_start = int.Parse(word);
+        }
         RefreshDisplays();
         memoryCommander.ActivateInputField();
     }
@@ -284,13 +291,31 @@ public class superposition_manager : MonoBehaviour
             inflation = 1.0;
         }
         List<Chronon> bask_subjects = DisplayChronons(current_display);
-        float height_start = (bask_subjects.Count*vertical_spacing)-3.0f;
+        float height_start = ((bask_subjects.Count)*vertical_spacing)-3.0f;
+        int deadline = bask_subjects.Count - memoryselection_start - current_linear.newSection ;
+        if (memoryselection_start > 0)
+        {
+                height_start = (deadline) * vertical_spacing ;
+        }
         float scroll_place = height_start;
         float sway_place = 0.0f;
-        int deadline = bask_subjects.Count - memoryselection_start;
+        bool inPresent = false;
         for (int i=0; i < bask_subjects.Count; i++)
         {
-            
+            if (System.Array.Exists(bask_subjects[i].notes, x => x == "readrest"))
+            {
+                inPresent = true;
+            }
+            if (inPresent == false)
+            {
+                if (memoryselection_start > 0)
+                {
+                    if (i > deadline)
+                    {
+                        continue;
+                    }
+                }
+            }
             scroll_place = scroll_place - vertical_spacing;
             if (scroll_place > 20.0)
             {
@@ -351,6 +376,7 @@ public class superposition_manager : MonoBehaviour
             display_grids.Add(noob.gameObject);
         }
         // start recall
+        /*
         height_start = (bask_subjects.Count * vertical_spacing) - 0.0f - (memoryselection_start * vertical_spacing);
         scroll_place = height_start;
         sway_place = -8.0f;
@@ -426,6 +452,7 @@ public class superposition_manager : MonoBehaviour
             noob.transform.localScale = new UnityEngine.Vector3(1.0f, 1.0f, 1.0f);
             display_grids.Add(noob.gameObject);
         }
+        */
         List<Chronon> affords = current_linear.affordanceItems();
         float horizontal_start = 5.0f;
         vertical_spacing = 0.2f;

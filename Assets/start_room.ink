@@ -159,6 +159,7 @@ VAR johnny_points=0
 ~ return "throwing dice"
 
 
+
 ===titleLine===
 Quantum Detective # program
 

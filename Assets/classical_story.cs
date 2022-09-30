@@ -87,7 +87,7 @@ public class classical_story
     public List<Chronon> DisplayChronons(double clockhand)
     {
         List<Chronon> basket = past.DisplayChronons(clockhand);
-        basket.Insert(basket.Count-newSection,new Chronon("----------------------",new string[] { "program" }));
+        basket.Insert(basket.Count-newSection,new Chronon("----------------------------",new string[] { "program" ,"readrest"}));
         return basket;
     }
 
