@@ -88,6 +88,42 @@ public class event_chain
         }
     }
 
+    public int CountMax()
+    {
+        int basket = linear_bit.Count;
+        if (trunk_branch == null)
+        {
+            if (leaf_branch == null)
+            {
+                return basket;
+            }
+            else
+            {
+                return basket+leaf_branch.CountMax();
+            }
+        }
+        else
+        {
+            if (leaf_branch == null)
+            {
+                return basket + trunk_branch.CountMax();
+            }
+            else
+            {
+                int trunk_amount = trunk_branch.CountMax();
+                int leaf_amount = leaf_branch.CountMax();
+                if (trunk_amount > leaf_amount)
+                {
+                    return basket + trunk_amount;
+                }
+                else
+                {
+                    return basket + leaf_amount;
+                }
+            }
+        }
+    }
+
     public List<Chronon> DisplayChronons(double clockhand)
     {
         double time_offset = clockhand;

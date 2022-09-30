@@ -17,6 +17,8 @@ public class classical_story
     public string bifurcateFlag;
     public double bifurcateDegree;
     public Complex realityFluid;
+    public int newSection;
+    public int oldAmount;
     // Start is called before the first frame update
 
 
@@ -29,6 +31,8 @@ public class classical_story
         the_end_is_here = false;
         quantumLord = lord;
         bifurcateFlag = "";
+        newSection = 0;
+        oldAmount = 0;
         realityFluid = new Complex(1.0, 0.0);
         numeral_glyphs = new char[] { '0','1', '2', '3', '4', '5', '6', '7', '8', '9' };
     }
@@ -82,7 +86,9 @@ public class classical_story
 
     public List<Chronon> DisplayChronons(double clockhand)
     {
-        return past.DisplayChronons(clockhand);
+        List<Chronon> basket = past.DisplayChronons(clockhand);
+        basket.Insert(basket.Count-newSection,new Chronon("----------------------",new string[] { "program" }));
+        return basket;
     }
 
     public double NextChange(double clockhand)
@@ -283,6 +289,10 @@ public class classical_story
         {
             Debug.Log("classical story stuck in non-choice");
         }
+        int depth = past.CountMax();
+        newSection = depth - oldAmount;
+        oldAmount = depth;
+
     }
 
     public string CoherentLottery(string lottery_type)
