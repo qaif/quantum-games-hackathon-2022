@@ -16,6 +16,7 @@ class Games:
 
         self.generate_hearts()
 
+
         self.timer_event = pygame.USEREVENT
         pygame.time.set_timer(self.timer_event, 1000)  # 2000 milliseconds = 2 seconds
 
@@ -124,7 +125,12 @@ class Games:
             surface.blit(point_scored, (self.x, self.y))
 
         def add_value(self, val: int):
-            self.value += val
+            globals.total_score += val
+
+            if globals.total_score <= 0:
+                globals.total_score = 0
+
+            self.value = globals.total_score
 
     class Heart(pygame.sprite.Sprite):
         def __init__(self, x: int, y: int):

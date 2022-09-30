@@ -43,9 +43,6 @@ class Games_1(Games):
         pygame.time.set_timer(self.bit_event, 2500)  # 2000 milliseconds = 2 seconds
         pygame.time.set_timer(self.move_event, 5)  # 2000 milliseconds = 2 seconds
 
-        globals.timer_minute = globals.starting_timer_minute
-        globals.timer_seconds = globals.starting_timer_seconds
-
     def get_measurement(self, key: int):
         """
         get the measurement base and put into the table
@@ -163,11 +160,11 @@ class Games_1(Games):
                 if self.get_bit(event.key) or self.get_measurement(event.key):
                     self.point.add_value(1)
 
-        #if self.is_measurement_miss():
-        #    self.missing.add_value(1)
+        if self.is_measurement_miss():
+            self.point.add_value(-1)
 
-        #if self.is_bit_miss():
-        #    self.missing.add_value(1)
+        if self.is_bit_miss():
+            self.point.add_value(-1)
 
         # this is to fix the bugs from games 2
         for r in self.bits:

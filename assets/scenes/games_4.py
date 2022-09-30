@@ -31,11 +31,14 @@ class Games_4(Games):
                 self.juliet_key.append(random.choice(self.key_options))
             self.key_size = globals.maxBit
         else:
-            self.romeo_key = [*self.get_romeo_key()]
-            self.juliet_key = [*globals.juliet_key]
+            self.romeo_key = [x for x in self.get_romeo_key()]
+            self.juliet_key = [x for x in globals.juliet_key]
             self.key_size = len(globals.juliet_key)
 
         print(self.romeo_key, self.juliet_key, self.key_size)
+        print("Romeo Key - Juliet Key : ", self.romeo_key, self.juliet_key, self.key_size)
+
+        globals.romeo_key = self.romeo_key
 
         self.romeo_key_display = pygame.sprite.Group()
         self.juliet_key_display = pygame.sprite.Group()
@@ -78,7 +81,7 @@ class Games_4(Games):
         # how many bit pairs have flashed across the screen so far
         self.bits_compared = 0
         self.to_compare = 0
-        self.current_bit = 5
+        self.current_bit = 1
 
         # start the game up when the user gives the number of bits they want to compare
         self.proceed = False
@@ -86,13 +89,9 @@ class Games_4(Games):
 
         self.text = self.Text(par_x=100, par_y=50, par_text="How many bits should I check in our keys?")
 
-        self.text3 = self.Text(par_x=100, par_y=50, par_text="Fill this in!")
-        self.text4 = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
-        self.textaccuse = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
-        self.textresponse = self.Text(par_x=100, par_y=100, par_text="Fill this in!")
-
     def get_romeo_key(self):
         romeo_key = ""
+        print("Romeo Bases - Juliet Bases : ", globals.romeo_bases, globals.juliet_bases)
         for i in range(len(globals.romeo_bits)):
             if (globals.romeo_bases[i] == globals.juliet_bases[i]):
                 if (globals.romeo_bits[i] == globals.keyboard_bit_0):
@@ -102,6 +101,7 @@ class Games_4(Games):
 
         globals.romeo_key = romeo_key
         print("Romeo Key = ", romeo_key)
+        return romeo_key
 
     def set_bit_selection(self, screen):
         # draw level select menu
@@ -126,14 +126,14 @@ class Games_4(Games):
             self.proceed = True
 
         elif event.key == pygame.K_a:
-            if self.current_bit <= globals.minBit:
-                self.current_bit = globals.minBit
+            if self.current_bit <= 1:
+                self.current_bit = 1
             else:
                 self.current_bit -= 1
 
         elif event.key == globals.keyboard_bit_0: # d
-            if self.current_bit >= globals.maxBit:
-                self.current_bit = globals.maxBit
+            if self.current_bit >= self.key_size:
+                self.current_bit = self.key_size
             else:
                 self.current_bit += 1
 

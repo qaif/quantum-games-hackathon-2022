@@ -1,5 +1,7 @@
 import pygame
 
+print("=================start global=============")
+
 gameTitle = "Verona 2049" # game title
 screenSize = (1024, 768)  # screen size
 
@@ -12,8 +14,8 @@ currentBit = 5
 showConfig = True   # to show the keyboard guide
 #showConfig = False
 
-testing = True      # flag for testing or not
-#testing = False
+#testing = True      # flag for testing or not
+testing = False
 phase = 5           # config for setting game phases
 
 # =========== GAME SETTINGS FOR NEW GAME ======================
@@ -26,6 +28,8 @@ starting_timer_seconds = 0
 timer_minute = 5        # current timer
 timer_seconds = 0
 
+total_score = 0
+
 # refresh on main menu
 def refresh_new_game():
     remainingHearts = 3
@@ -35,6 +39,8 @@ def refresh_new_game():
 
     timer_minute = 5
     timer_seconds = 0
+
+    total_score = 0
 
     refresh_after_loop()
 

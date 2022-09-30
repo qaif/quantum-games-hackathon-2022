@@ -46,11 +46,17 @@ class Games_3(Games):
         else:
             for i in range(globals.selectedBit):
                 self.juliet_bases.append(random.choice(self.base_options))
+
                 self.numberofbit = globals.selectedBit
+
+        globals.juliet_bases = self.juliet_bases
+
+        print("Romeo Bases - Juliet Bases : ", globals.romeo_bases, globals.juliet_bases)
+        print("Romeo Bits - Juliet Bits : ", globals.romeo_bits, globals.juliet_bits)
 
         self.start_x_pos = globals.screenSize[0] / 2
         self.start_x_pos -= (27 * self.numberofbit)
-        print(self.start_x_pos)
+        #print(self.start_x_pos)
 
 
         self.hides = []
@@ -130,8 +136,6 @@ class Games_3(Games):
     def check_answer_key(self):
         if self.answer_key == self.input_key:
             print("Correct")
-            self.finish = True
-            self.win = True
             self.verified_answer = True
         else:
             print("False")
@@ -160,13 +164,21 @@ class Games_3(Games):
             self.input_key = self.input_box.handle_event(event)
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_RETURN and self.verified_answer:
+                    self.finish = True
+                    self.win = True
+                if event.key == pygame.K_RETURN and self.verified_answer == False:
                     self.check_answer_key()
 
         # this is to fix the bugs from games 2
         for r in self.juliet_bit_display:
             r.get_initialize_image(r.key)
 
+        # check whether the answer is correct or false, for
+
+
+
+        # draw the input box
         self.input_box.update()
         self.input_box.draw(window)
 
@@ -175,6 +187,7 @@ class Games_3(Games):
         self.romeo_base_display.draw(window)
         self.juliet_base_display.draw(window)
 
+        # draw the tables
         self.draw_table(window, self.hides[0], self.start_x_pos - 5, 100)
         self.draw_table(window, self.hides[1], self.start_x_pos - 5, 170)
         self.draw_table(window, self.hides[2], self.start_x_pos - 5, 240)

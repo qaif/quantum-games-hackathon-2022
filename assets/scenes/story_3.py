@@ -16,7 +16,7 @@ class Story_3(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("Lalalala story 5…")
+        self.story_text.append("Lalalala story 3…")
         self.story_text.append("La lalala …")
         self.y = 350
         self.font = 20

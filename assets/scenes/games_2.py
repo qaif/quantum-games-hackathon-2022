@@ -70,11 +70,11 @@ class Games_2(Games):
             i += 1
 
         for b in self.bits:
-            b.fill(b.image, pygame.Color(250, 10, 40))
+            b.get_hidden_image()
 
         for mb in self.measured_bits:
-            mb.fill(mb.image, pygame.Color(250, 10, 40))
-            mb.image.set_alpha(2000)
+            mb.get_hidden_image()
+            mb.image.set_alpha(255)
 
     def check_wall(self):
         for b in self.bits:
@@ -156,10 +156,9 @@ class Games_2(Games):
             if mb.measured:
                 mb.get_initialize_image(mb.key)
             else:
-                #mb.fill(mb.image, pygame.Color(250, 10, 40))
                 mb.get_hidden_image()
 
-
+        # check if win then show win text in the scene files
         if self.is_win() and self.gameover == False:
             self.finish = True
             self.win = True
