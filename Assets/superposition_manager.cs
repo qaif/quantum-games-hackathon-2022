@@ -783,7 +783,7 @@ public class superposition_manager : MonoBehaviour
             {
                 RefreshDisplays();
                 coming_nudgement=NextChange(current_display);
-                Debug.Log("Next post "+coming_nudgement.ToString());
+                //Debug.Log("Next post "+coming_nudgement.ToString());
             }
             //Debug.Log(linears.Count);
             //Debug.Log("timing " + progress.ToString() + " span " + current_display.ToString() + " coming " + coming_nudgement.ToString());
