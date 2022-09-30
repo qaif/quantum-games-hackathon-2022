@@ -111,8 +111,9 @@ class Games_2(Games):
             if b.rect.collidepoint(mouse_pos):
                 b.get_initialize_image(b.key)
 
-                if self.measured_count_seconds[b.idx] <= 0:
+                if self.measured_count_seconds[b.idx] <= 0 and b.measured == False:
                     b.measured = True
+                    self.point.add_value(5)
 
             elif b.measured:
                 # if the bits measured, open the measured bit on the table below

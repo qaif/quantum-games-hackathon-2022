@@ -32,6 +32,7 @@ class Games_1(Games):
         self.measurement_event = pygame.USEREVENT + 1
         self.bit_event = pygame.USEREVENT + 2
         self.move_event = pygame.USEREVENT + 3
+        self.blink_icon = pygame.USEREVENT + 4
 
         self.total_bit = 0
         self.total_measurement = 0
@@ -42,6 +43,13 @@ class Games_1(Games):
         pygame.time.set_timer(self.measurement_event, 3000)  # 2000 milliseconds = 2 seconds
         pygame.time.set_timer(self.bit_event, 2500)  # 2000 milliseconds = 2 seconds
         pygame.time.set_timer(self.move_event, 5)  # 2000 milliseconds = 2 seconds
+        pygame.time.set_timer(self.blink_icon, 150)  # 2000 milliseconds = 2 seconds
+
+        self.blink_0 = False
+        self.blink_1 = False
+        self.blink_x = False
+        self.blink_z = False
+
 
     def get_measurement(self, key: int):
         """
@@ -154,11 +162,26 @@ class Games_1(Games):
                     b.move()
             elif event.type == self.timer_event:
                 self.process_timer()
+            elif event.type == self.blink_icon:
+                self.blink_0 = False
+                self.blink_1 = False
+                self.blink_x = False
+                self.blink_z = False
 
 
             if event.type == pygame.KEYDOWN:
                 if self.get_bit(event.key) or self.get_measurement(event.key):
                     self.point.add_value(1)
+
+                if event.key == pygame.K_d:
+                    self.blink_0 = True
+                if event.key == pygame.K_f:
+                    self.blink_1 = True
+                if event.key == pygame.K_j:
+                    self.blink_x = True
+                if event.key == pygame.K_k:
+                    self.blink_z = True
+
 
         if self.is_measurement_miss():
             self.point.add_value(-1)
@@ -169,9 +192,6 @@ class Games_1(Games):
         # this is to fix the bugs from games 2
         for r in self.bits:
             r.get_initialize_image(r.key)
-
-
-
 
         self.finish_game()
 
@@ -184,6 +204,16 @@ class Games_1(Games):
         self.static_bit_1.update(window)
         self.static_base_x.update(window)
         self.static_base_z.update(window)
+
+        if self.blink_0:
+            pygame.draw.rect(window, globals.RED, pygame.Rect(52, 42, 63, 63))
+        if self.blink_1:
+            pygame.draw.rect(window, globals.RED, pygame.Rect(52, 120, 63, 63))
+        if self.blink_x:
+            pygame.draw.rect(window, globals.RED, pygame.Rect(52, 198, 63, 63))
+        if self.blink_z:
+            pygame.draw.rect(window, globals.RED, pygame.Rect(52, 276, 63, 63))
+
 
         # global drawing (score, timer, hearts
         self.draw(window)

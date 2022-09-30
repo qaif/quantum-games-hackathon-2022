@@ -637,7 +637,8 @@ class StoryEnding1Scene(Scene):
         pass
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_ending_1.finish:
-            sm.pop_all()
+            sm.pop()
+            #sm.pop_all()
             sm.push(FadeTransitionScene([self], [Story0Scene()]))
 
     def update(self, sm, inputStream):
@@ -657,14 +658,15 @@ class StoryEnding2Scene(Scene):
         pass
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_ending_2.finish:
-            sm.pop_all()
+            sm.pop()
+            # sm.pop_all()
             sm.push(FadeTransitionScene([self], [Story0Scene()]))
 
     def update(self, sm, inputStream):
         self.enter.update(inputStream)
 
     def draw(self, sm, screen):
-        self.story_ending_1.call_event(screen)
+        self.story_ending_2.call_event(screen)
         self.enter.draw(screen)
 
 class SceneManager:

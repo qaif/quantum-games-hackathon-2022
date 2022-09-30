@@ -87,7 +87,7 @@ class Games_5(Games):
                         self.win = True
                     else:
                         self.text.text = "Fu fu fu fu .... "
-                        self.lose = False
+                        self.lose = True
                         self.reduce_hearts()
 
                     self.story_phase += 1

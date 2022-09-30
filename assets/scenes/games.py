@@ -3,11 +3,11 @@ import pygame
 
 class Games:
     def __init__(self):
-        self.point_title = self.Text(par_x=70, par_y=715, par_text="Score", font_size=16, par_colour=globals.BLACK)
-        self.point = self.Score(par_x=90, par_y=735, par_text="")
+        self.point_title = self.Text(par_x=30, par_y=728, par_text="Score :", font_size=28, par_colour=globals.BLACK)
+        self.point = self.Score(par_x=135, par_y=728, par_text="")
 
-        self.timer_title = self.Text(par_x=400, par_y=715, par_text="Remaining Time", font_size=16, par_colour=globals.BLACK)
-        self.timer_display = self.Text(par_x=430, par_y=735, par_text="01:10", font_size=28, par_colour=globals.WHITE)
+        self.timer_title = self.Text(par_x=280, par_y=730, par_text="Remaining Time : ", font_size=22, par_colour=globals.BLACK)
+        self.timer_display = self.Text(par_x=480, par_y=725, par_text="01:10", font_size=34, par_colour=globals.WHITE)
 
         self.lives_title = self.Text(par_x=780, par_y=728, par_text="Lives : ", font_size=28, par_colour=globals.BLACK)
 
@@ -108,8 +108,8 @@ class Games:
         """
         def __init__(self, val: int = 0, par_x: int = 0, par_y: int = 0, par_text: str = ""):
             super().__init__()
-            self.value = val
-            self.font = pygame.font.Font("freesansbold.ttf", 28)
+            self.value = globals.total_score
+            self.font = pygame.font.Font("freesansbold.ttf", 32)
             self.x = par_x
             self.y = par_y
             self.text = par_text

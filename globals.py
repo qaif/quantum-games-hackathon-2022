@@ -14,9 +14,9 @@ currentBit = 5
 showConfig = True   # to show the keyboard guide
 #showConfig = False
 
-#testing = True      # flag for testing or not
-testing = False
-phase = 5           # config for setting game phases
+testing = True      # flag for testing or not
+#testing = False
+phase = 1           # config for setting game phases
 
 # =========== GAME SETTINGS FOR NEW GAME ======================
 
