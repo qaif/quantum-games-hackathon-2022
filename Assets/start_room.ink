@@ -102,6 +102,9 @@ VAR com_delivery="none"
 
 VAR sender_production=false
 
+VAR animal_cruelty=false
+VAR sleep_powder=false
+
 VAR post_bomb_error=0
 VAR post_bomb_burden=0
 

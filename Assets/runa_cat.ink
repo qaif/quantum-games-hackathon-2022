@@ -45,8 +45,39 @@ Or would you rather hear me quote Nietzsche? # runa
   -else:
   Is the question about doing or thinking more important for you than the question about being? # runa
   }
+*{animal_cruelty==true}[Cat Execution]
+   It seems that the post station is killing all the cats # protagonist
+   sent through there to ease shipments. # protagonist
+   To be or not to be is not a choice the cats get to make. # runa
+   You seem to take this pretty easy # protagonist
+   Life is the best drug. In order to provide it to most cats # runa
+   {guilty=="runa":
+           {injury=="plain":
+                    I just found some sleep powder. You should take it # runa
+           }
+   -else:
+        I give you this proper sleep powder # runa
+   }
+   Hey this will find use # protagonist
+   I have tried to get them to stop using cats #runa
+   But our late professor insisted upon it # runa
+   even if it made half the univeristy hate them for it # runa
+   ~ sleep_powder=true
+   {guilty=="runa":
+          {injury=="slice":
+                   Even the cats knew that he was up to no good # runa
+                   Did they start to make trouble in the neighbourhood # protagonist
+                   There was just this one little fight and the decan got scared # runa
+                   saying I should move all my cats to classroom B # runa
+                   Did you try to make any noise about it? # protagonist
+                   My teaching licence is quite fresh so I didn't want to gamble on it # runa
+          }
+          {injury=="plunt":
+                  We will just have to live with our choices. Or I guess die by them. # runa
+          }
+   }
    -> Plea
-*Disengage
++Disengage
    -> classroom
 - 
 

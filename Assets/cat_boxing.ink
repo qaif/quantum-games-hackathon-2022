@@ -48,8 +48,9 @@ There are: animal, handle with care and express. # postWorker
    Then if it is not put the animal to sleep. # postWorker
    How do I do that? # protagonist
    By applying the neurotoxin from that cabin. # postWorker
-   That seems dangerous and not that sedative # protagonist
+   Isn't that quite deadly and not that sedative # protagonist
    Look, this place is busy and if the sender does a failure in packaging I will get creative to keep this place running smooth # postWorker
+    ~ animal_cruelty = true
    ** object
        It does seem like the animals are wanted alive at their destination. # protagonist
        Look, the zoology department already does a lot of heavy packages. # postWorker
@@ -120,11 +121,10 @@ You go get {a|yet another} box from the sorting chute. # narration
 ~ post_box_label="{~animal|handle with care|express}"
 ~ post_box_label=coherentLottery("box_label")
 {post_box_label=="animal":
-          ~ post_cat_up = true
+          ~ post_cat_up = false
           ~ splitWorld("post_cat_up")
 }
 {post_box_label=="handle with care":
-          ~ post_probe=true
           ~ post_bomb_armed=coherentLottery("bomb_fuse") // {~true|false}
           ~ post_probe=false
 }
@@ -204,7 +204,7 @@ The label on it reads "{post_box_label}"# narration
                     {post_neurotoxin<=0:
                             That was the last neurotoxin ampule. # narration
                     }
-           + apply chloroform
+           + {sleep_powder} apply chloroform
                    {post_cat_up==true:
                              The cat swirls into a small ball that periodically buffs and deflates. # narration
                              ~ post_cat_up=false
