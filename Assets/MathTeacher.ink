@@ -46,6 +46,9 @@ Math teacher Enrico Mwangi seems calculating. # narration
       I would not off my friend. # mathT
    }
    -> questioning
++ Theorethics
+   Would you care to try our new experiemental calculation machine? # mathT
+   -> computing
 +Leave
   -> Coffee.coffeetable
 

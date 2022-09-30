@@ -14,6 +14,7 @@ INCLUDE book.ink
 INCLUDE FameHall.ink
 INCLUDE cat_boxing.ink
 INCLUDE auditorium.ink
+INCLUDE computing.ink
 
 
 INCLUDE HistoryTeacher.ink
