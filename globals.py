@@ -18,8 +18,8 @@ minBit = 1          # total min bit selection
 maxBit = 13     # total max bit selection
 currentBit = 5
 
-showConfig = True   # to show the keyboard guide
-#showConfig = False
+#showConfig = True   # to show the keyboard guide
+showConfig = False
 
 testing = True      # flag for testing or not
 #testing = False
