@@ -1,7 +1,7 @@
 import sys
 
 from PyQt6.QtGui import QPainter
-from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QHBoxLayout, QPushButton, QVBoxLayout
+from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QHBoxLayout, QPushButton, QVBoxLayout, QLabel
 from PyQt6.QtCore import Qt
 
 from game_manager import GameManager, Snake, GlobalDirection, GameState, GameStateType, Grid
@@ -72,6 +72,33 @@ class GridWidget(QWidget):
     # def on_click(self, pressed_node):
     #     # TODO
     #     pass
+
+
+class ScoreWidget(QWidget):
+    def __init__(self, game_state):
+        super().__init__()
+        self.game_state = game_state
+        self.game_state.add_on_score_changed_listener(self.on_score_changed)
+
+        base_layout = QHBoxLayout()
+        self.setLayout(base_layout)
+
+        self.lives = QLabel("3")
+        base_layout.addWidget(QLabel("Lives: "))
+        base_layout.addWidget(self.lives)
+
+        self.probes = QLabel("0")
+        base_layout.addWidget(QLabel("Probes: "))
+        base_layout.addWidget(self.probes)
+
+        self.length = QLabel("2")
+        base_layout.addWidget(QLabel("Length: "))
+        base_layout.addWidget(self.length)
+
+    def on_score_changed(self):
+        self.lives.setText(str(self.game_state.lives))
+        self.probes.setText(str(self.game_state.probes))
+        self.length.setText(str(self.game_state.length))
 
 
 class ActionsWidget(QWidget):
@@ -158,6 +185,7 @@ class Window(QMainWindow):
         self.probe_info = ProbeInfo(self.game_state)
         self.game_manager = GameManager(self.game_state, self.grid, self.snake, self.probe_info)
 
+        score_widget_height = 30
         actions_widget_height = 60
 
         mw = QWidget()
@@ -165,12 +193,17 @@ class Window(QMainWindow):
         mw.setLayout(layout)
         self.setCentralWidget(mw)
 
+        score_widget = ScoreWidget(self.game_state)
+        score_widget.setFixedHeight(score_widget_height)
+
         grid_widget = GridWidget(self.grid)
+
         actions_widget = ActionsWidget(self.game_state)
         actions_widget.setFixedHeight(actions_widget_height)
 
         left_widget = QWidget()
         left_layout = QVBoxLayout()
+        left_layout.addWidget(score_widget)
         left_layout.addWidget(grid_widget)
         left_layout.addWidget(actions_widget)
         left_widget.setLayout(left_layout)
@@ -184,7 +217,7 @@ class Window(QMainWindow):
         layout.addWidget(left_widget)
         layout.addWidget(probe)
 
-        self.setGeometry(0, 0, self.grid.width + probe.width(), self.grid.height + actions_widget_height)
+        self.setGeometry(0, 0, self.grid.width + probe.width(), self.grid.height + actions_widget_height * 2 + score_widget_height)
         self.setWindowTitle('Quantum Snake')
 
         self.probe_info.set_probe_state(ProbeState.NONE)

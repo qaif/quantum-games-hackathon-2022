@@ -49,7 +49,13 @@ class GameState:
         # self.grid = grid
         # self.snake = snake
         # self.probe_info = probe_info
+
+        self.lives = 3
+        self.probes = 0
+        self.length = 2
+
         self.on_state_changed_listeners = []
+        self.on_score_changed_listeners = []
         self.state = GameStateType.TURN_START
         # self.add_on_state_changed_listener(self.on_change)
 
@@ -67,6 +73,31 @@ class GameState:
     def add_on_state_changed_listener(self, listener):
         self.on_state_changed_listeners.append(listener)
 
+    def increment_probes(self):
+        self.probes += 1
+        for listener in self.on_score_changed_listeners:
+            listener()
+
+    def set_length(self, new):
+        self.length = new
+        for listener in self.on_score_changed_listeners:
+            listener()
+
+    def decrement_lives(self):
+        self.lives -= 1
+        for listener in self.on_score_changed_listeners:
+            listener()
+
+    def set_score(self, lives, probes, length):
+        self.lives = lives
+        self.probes = probes
+        self.length = length
+        for listener in self.on_score_changed_listeners:
+            listener()
+
+    def add_on_score_changed_listener(self, listener):
+        self.on_score_changed_listeners.append(listener)
+
 
 class GameManager:
     def __init__(self, game_state, grid, snake, probe_info):
@@ -78,7 +109,7 @@ class GameManager:
         self.spawn_prey()
         self.adj_mat = self.create_grid_adj_mat(grid.size, grid.size)
         self.distances = self.calc_distances(self.adj_mat)
-        self.lives = 3
+        # self.lives = 3
         # self.probe_vector = [.3333, .3333, .3333]
         # self.probe_vector = [1, 0, 0]
         self.probe_info = probe_info
@@ -144,6 +175,7 @@ class GameManager:
             print("turn start")
             self.game_state.set_game_state(GameStateType.TURN_START)
         elif new == GameStateType.PROBE_START:
+            self.game_state.increment_probes()
             self.on_probe_start()
         elif new == GameStateType.PROBE_END:
             self.game_state.set_game_state(GameStateType.TURN_END)
@@ -151,7 +183,7 @@ class GameManager:
             self.on_strike()
         elif new == GameStateType.STRIKE_INCORRECT_GUESS:
             self.on_fail()
-            if self.lives < 1:
+            if self.game_state.lives < 1:
                 self.game_state.set_game_state(GameStateType.GAME_OVER)
             else:
                 self.game_state.set_game_state(GameStateType.STRIKE_END)
@@ -191,7 +223,8 @@ class GameManager:
 
     def on_fail(self):
         print("YOU MADE AN INCORRECT GUESS!!!")
-        self.lives -= 1  # increment the number of lives downward. (i.e. decrement lives)
+        # self.lives -= 1  # increment the number of lives downward. (i.e. decrement lives)
+        self.game_state.decrement_lives()
         # if self.lives < 1:
         #     self.game_state.set_game_state(GameStateType.GAME_OVER)
 
@@ -357,6 +390,7 @@ class Snake:
 
     def grow(self, amount):
         self.target_length += amount
+        self.game_state.set_length(self.target_length)
 
     def get_probe_idxs(self):
         # TODO: account for edges????
