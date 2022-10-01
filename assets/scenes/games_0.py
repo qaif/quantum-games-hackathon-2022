@@ -26,7 +26,8 @@ class Games_0(Games):
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("assets/images/games_0.jpg")
         self.title = self.Text(par_x=100, par_y=60, par_text="How many clasical bits should our keys be built from? I have to hurry...")
-        self.title2 = self.Text(par_x=100, par_y=100, par_text="More bits makes the BB84 protocol safer, but it will take longer.")
+        self.title2 = self.Text(par_x=100, par_y=100, par_text="More bits make the BB84 protocol more reliable, but it will take longer.")
+        self.title3 = self.Text(par_x=100, par_y=200, par_text="Too few, and we may not end up with enough viable bits...hmm...")
         self.text2 = self.Text(par_x=100, par_y=100, par_text="Okay, I'll check __ pairs of bits in each key. Press spacebar")
 
 
@@ -54,13 +55,13 @@ class Games_0(Games):
         elif event.key == pygame.K_SPACE:
             globals.selectedBit = globals.currentBit
 
-        elif event.key == pygame.K_a:
+        elif event.key == pygame.K_LEFT:
             if globals.currentBit <= globals.minBit:
                 globals.currentBit = globals.minBit
             else:
                 globals.currentBit -= 1
             # globals.curentLevel = max(globals.curentLevel-1, 1)
-        elif event.key == globals.keyboard_bit_0:
+        elif event.key == pygame.K_RIGHT:
             if globals.currentBit >= globals.maxBit:
                 globals.currentBit = globals.maxBit
             else:
@@ -90,6 +91,7 @@ class Games_0(Games):
         if (not self.proceed and not self.proceed2 and not self.proceed3):
             self.title.text_display(window)
             self.title2.text_display(window)
+            self.title3.text_display(window)
 
         elif (not self.proceed2 and not self.proceed3):
             self.text2=self.Text(par_x=100, par_y=100, par_text="\"Hmmm I think starting with "+ str(self.bit_size)+" bits is good.\"")

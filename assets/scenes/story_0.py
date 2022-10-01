@@ -60,7 +60,7 @@ class Story_0_5(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("Okay this number should be enough…")
-        self.story_text.append("Lets pick randomly the bits and bases…")
+        self.story_text.append("Before sending qubits to Juliet, I need to pick random classical bits (1/0) and bases (X/Z)")
+        self.story_text.append("I'll play a game on my computer to do so, in just a moment")
 
 

@@ -11,22 +11,25 @@ class Story_1(Story):
 
     def __init__(self, pygame):
         super().__init__()
-        self.background = pygame.image.load("assets/images/games_0.jpg")
+        # create a new background image for this that show bloch sphere stuff
+        self.background = pygame.image.load("assets/images/beforep1.jpg")
 
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("lalala story 1…")
-        self.story_text.append("lalala …")
+        self.story_text.append("I can encode these classical bits into qubits, using the bases, like so:")
+        self.story_text.append("After the game, I'll contact my old friend Eve, who can carry this information to Juliet.")
 
 class Story_1_5(Story):
 
     def __init__(self, pygame):
         super().__init__()
-        self.background = pygame.image.load("assets/images/games_0.jpg")
+        self.background = pygame.image.load("assets/images/romeoMEETSeve.jpg")
 
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("Now I have all the bits and bases that I need…")
-        self.story_text.append("I should contact Eve to help me deliver the message to Juliet…")
+        self.story_text.append("Romeo: Hello Eve! I've encoded the bits into qubits, and stored them in a special quantum scroll")
+        self.story_text.append("Romeo: Please take this to Juliet and have her measure the qubits using a random basis each time")
+        self.story_text.append("Eve: I would be happy to help. You two are such a beautiful couple. Your secret is safe with me.")
+        self.story_text.append("Eve: Juliet is at the Capulet Ball. I promise to not peek at the qubits...")

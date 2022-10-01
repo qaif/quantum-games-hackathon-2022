@@ -18,9 +18,10 @@ class Story_2(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("I figured we should meet here at a party, we can be anonymous")
-        self.story_text.append("You need to measure each qubit, and quickly. It’s so noisy in here")
-        self.story_text.append("Have juliet say “I’ll randomly pick X or Z for the basis during measurement")
+        self.story_text.append("Juliet: Welcome to the Capulet ball, all the noise in here gives us privacy.")
+        self.story_text.append("Eve: Yes, but that noise can compromise the qubits. Measure them, quickly.")
+        self.story_text.append("Juliet: I’ll randomly pick the X or Z basis during measurement.")
+        self.story_text.append("Eve: Good luck measuring them with all the commotion in here.")
 
         self.y = 350
         self.font = 20
@@ -36,8 +37,8 @@ class Story_2_5(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("Lalalala story 2_5…")
-        self.story_text.append("La lalala …")
+        self.story_text.append("Eve: Great work. The qubits were all measured and stored as 1s and 0s.")
+        self.story_text.append("Eve: You'll need those measurements for the next stage in creating the key.")
 
         self.y = 350
         self.font = 20
