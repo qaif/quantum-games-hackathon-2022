@@ -16,7 +16,7 @@ class GameOver(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("I am wondering where is my white knight horse...")
-        self.story_text.append("I think it is only in the fairy tail …")
+        self.story_text.append("which ending is this? I guess game over? ")
+        self.story_text.append("we should include the score here then! ")
         self.y = 350
         self.font = 20
