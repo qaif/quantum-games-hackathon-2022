@@ -82,6 +82,8 @@ keyboard_bit_1 = pygame.K_1
 keyboard_base_x = pygame.K_x
 keyboard_base_z = pygame.K_z
 
+time_p2S=0
+
 # piano composition by Schubert, not copyrighted
 music_file="assets/music/Schubert---Impromptu-Op.-90--No.-3_AdobeStock_501349563.wav"
 
