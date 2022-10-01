@@ -530,9 +530,17 @@ class Snake:
     # def add_on_collision_listener(self, listener):
     #     self.on_collision_listeners.append(listener)
 
+    def occupier_from_direction(self, direction):
+        if direction == ProbeDirection.FORWARD:
+            return OccupierType.PROBE_F
+        if direction == ProbeDirection.RIGHT:
+            return OccupierType.PROBE_R
+        if direction == ProbeDirection.LEFT:
+            return OccupierType.PROBE_L
+
     def on_probe(self):
         for i in self.get_probe_idxs():
-            self.grid.set_occupier(i, OccupierType.PROBE)
+            self.grid.set_occupier(i, self.occupier_from_direction(self.get_relative_direction(i)))
 
     def on_probe_finish(self):
         for i in self.get_probe_idxs():
@@ -654,8 +662,10 @@ class OccupierType(Enum):
     SNAKE = 1
     SNAKE_HEAD_V = 2
     SNAKE_HEAD_H = 3
-    PROBE = 4
-    PREY = 5
+    PROBE_F = 4
+    PROBE_R = 5
+    PROBE_L = 6
+    PREY = 7
 
 
 class GridNode:
@@ -694,11 +704,22 @@ class GridNode:
             fill_color = self.pressed_color
         elif self.occupier == OccupierType.SNAKE or self.occupier == OccupierType.SNAKE_HEAD_V or self.occupier == OccupierType.SNAKE_HEAD_H:
             fill_color = self.snake_color
-        elif self.occupier == OccupierType.PROBE:  # TODO: draw number associated with node
+        elif self.occupier == OccupierType.PROBE_F or self.occupier == OccupierType.PROBE_R or self.occupier == OccupierType.PROBE_L:  # TODO: draw number associated with node
             fill_color = self.probe_color
         elif self.occupier == OccupierType.PREY:
             fill_color = self.prey_color
         painter.fillRect(r, QBrush(fill_color))
+
+        painter.setPen(self.prey_color)
+        f = QFont()
+        f.setPointSizeF(20)
+        painter.setFont(f)
+        if self.occupier == OccupierType.PROBE_F:
+            painter.drawText(r, Qt.AlignmentFlag.AlignCenter, "f")
+        elif self.occupier == OccupierType.PROBE_R:
+            painter.drawText(r, Qt.AlignmentFlag.AlignCenter, "r")
+        elif self.occupier == OccupierType.PROBE_L:
+            painter.drawText(r, Qt.AlignmentFlag.AlignCenter, "l")
 
         if self.occupier == OccupierType.SNAKE_HEAD_V:
             for e in self.get_v_eye_rects():
