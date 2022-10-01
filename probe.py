@@ -2,7 +2,7 @@ from enum import Enum
 
 import numpy as np
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QDoubleValidator, QPixmap
+from PyQt6.QtGui import QDoubleValidator, QPixmap, QPalette, QColor
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QRadioButton, QGridLayout, QLineEdit, QLabel, QPushButton, \
     QHBoxLayout, QCheckBox, QFrame, QScrollArea
 
@@ -86,6 +86,10 @@ class ProbeInfo:
 
     def is_valid_vector(self, v):
         return len(v) > 0 and sum(v) > 0
+
+    def is_valid_unitary(self):
+        n = self.unitary.shape[1]
+        return (self.unitary.conj().T @ self.unitary - np.eye(n, dtype=complex) < 10**(-10)).all()
 
     def get_probe_vector(self):
         # TODO: normalize vector and update ui
@@ -275,6 +279,10 @@ class QueryWidget(QWidget):
         self.distance = QLabel(str(self.probe_info.measured_distance))
         row4_layout.addWidget(self.distance)
 
+        self.error_message = QLabel("Invalid vector!")
+        self.error_message.setStyleSheet("color: red;")
+        base_layout.addWidget(self.error_message)
+
         self.measure_button = QPushButton("Measure Distance")
         self.measure_button.clicked.connect(self.on_measure_distance)
         base_layout.addWidget(self.measure_button)
@@ -290,7 +298,20 @@ class QueryWidget(QWidget):
     def on_state_changed(self, state):
         if state == ProbeState.NONE:
             self.hide()
+            self.error_message.hide()
         if state == ProbeState.INPUT_PROBE_VECTOR:
+            self.error_message.hide()
+
+            self.rbn.setDisabled(False)
+            self.show()
+            self.top_half.show()
+            self.measure_button.setDisabled(False)
+            self.set_disabled()
+            self.count = len(self.probe_info.probe_idxs)
+            self.distance.setText(str(self.probe_info.measured_distance))
+        if state == ProbeState.INVALID_VECTOR_INPUT:
+            self.error_message.show()
+
             self.rbn.setDisabled(False)
             self.show()
             self.top_half.show()
@@ -299,6 +320,7 @@ class QueryWidget(QWidget):
             self.count = len(self.probe_info.probe_idxs)
             self.distance.setText(str(self.probe_info.measured_distance))
         if state == ProbeState.UNITARY_OR_MEASURE:
+            self.error_message.hide()
             # TODO: disable all
             # self.top_half.hide()
             self.rbn.setDisabled(True)
@@ -452,6 +474,10 @@ class UnitaryWidget(QWidget):
 
         base_layout.addWidget(row3)
 
+        self.error_message = QLabel("Invalid unitary matrix!")
+        self.error_message.setStyleSheet("color: red;")
+        base_layout.addWidget(self.error_message)
+
         apply_button = QPushButton("Perform")
         apply_button.clicked.connect(self.on_apply_unitary)
         base_layout.addWidget(apply_button)
@@ -465,15 +491,23 @@ class UnitaryWidget(QWidget):
     def on_state_changed(self, state):
         if state == ProbeState.NONE:
             self.hide()
+            self.error_message.hide()
         if state == ProbeState.INPUT_PROBE_VECTOR:
             self.hide()
+        if state == ProbeState.INVALID_VECTOR_INPUT:
+            self.hide()
         if state == ProbeState.UNITARY_OR_MEASURE:
+            self.reset_input()
             self.probe_info.unitary = np.eye(len(self.probe_info.probe_idxs), dtype=complex)
             self.on_show()
+            self.error_message.hide()
         if state == ProbeState.APPLY_UNITARY:
             # self.on_show()
             # TODO
+            # self.reset_input()
             pass
+        if state == ProbeState.INVALID_UNITARY_INPUT:
+            self.error_message.show()
         if state == ProbeState.MEASURED:
             self.hide()
 
@@ -490,21 +524,39 @@ class UnitaryWidget(QWidget):
         self.m8.setDisabled(self.count < 3)
         self.m9.setDisabled(self.count < 3)
 
+    def reset_input(self):
+        self.m1.setText("")
+        self.m2.setText("")
+        self.m3.setText("")
+        self.m4.setText("")
+        self.m5.setText("")
+        self.m6.setText("")
+        self.m7.setText("")
+        self.m8.setText("")
+        self.m9.setText("")
+
     def on_apply_unitary(self):
         self.probe_info.set_probe_state(ProbeState.APPLY_UNITARY)
 
     def on_unitary_changed(self):
         print("unitary changed")
-        if self.count == 1:
-            self.probe_info.unitary = np.array([[complex(self.m1.text())]])
+        try:
+            if self.count == 1:
+                self.probe_info.unitary = np.array([[complex(self.m1.text())]])
 
-        if self.count == 2:
-            self.probe_info.unitary = np.array([[complex(self.m1.text()), complex(self.m2.text())],
-                                               [complex(self.m4.text()), complex(self.m5.text())]])
-        if self.count == 3:
-            self.probe_info.unitary = np.array([[complex(self.m1.text()), complex(self.m2.text()), complex(self.m3.text())],
-                                               [complex(self.m4.text()), complex(self.m5.text()), complex(self.m6.text())],
-                                               [complex(self.m7.text()), complex(self.m8.text()), complex(self.m9.text())]])
+            if self.count == 2:
+                self.probe_info.unitary = np.array([[complex(self.m1.text()), complex(self.m2.text())],
+                                                   [complex(self.m4.text()), complex(self.m5.text())]])
+            if self.count == 3:
+                self.probe_info.unitary = np.array([[complex(self.m1.text()), complex(self.m2.text()), complex(self.m3.text())],
+                                                   [complex(self.m4.text()), complex(self.m5.text()), complex(self.m6.text())],
+                                                   [complex(self.m7.text()), complex(self.m8.text()), complex(self.m9.text())]])
+            # self.probe_info.set_probe_state(ProbeState.UNITARY_OR_MEASURE)
+            self.error_message.hide()
+        except ValueError:
+            print("INVALID MATRIX!!!")
+            # self.error_message.hide()
+            self.probe_info.set_probe_state(ProbeState.INVALID_UNITARY_INPUT)
 
 
 class MeasureWidget(QWidget):

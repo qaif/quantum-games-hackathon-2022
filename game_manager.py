@@ -23,11 +23,13 @@ class ProbeState(Enum):
     NONE = 0
     INIT_PROBE = 1
     INPUT_PROBE_VECTOR = 2
-    MEASURE_DISTANCE = 3
-    UNITARY_OR_MEASURE = 4
-    APPLY_UNITARY = 5
-    MEASURE_PROBE_VECTOR = 6
-    MEASURED = 7
+    INVALID_VECTOR_INPUT = 3
+    MEASURE_DISTANCE = 4
+    UNITARY_OR_MEASURE = 5
+    APPLY_UNITARY = 6
+    INVALID_UNITARY_INPUT = 7
+    MEASURE_PROBE_VECTOR = 8
+    MEASURED = 9
 
 
 class GameStateType(Enum):
@@ -135,7 +137,7 @@ class GameManager:
             if self.probe_info.get_probe_vector() is None or not self.probe_info.is_valid_vector(self.probe_info.get_probe_vector()):
                 print("INVALID VECTOR!!!: ", self.probe_info.get_probe_vector())
                 # TODO: error message
-                self.probe_info.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
+                self.probe_info.set_probe_state(ProbeState.INVALID_VECTOR_INPUT)
                 return
             self.measure_distance()
             self.probe_info.set_probe_state(ProbeState.UNITARY_OR_MEASURE)
@@ -143,6 +145,10 @@ class GameManager:
             pass
         elif state == ProbeState.APPLY_UNITARY:
             print("!!!applying unitary")
+            if not self.probe_info.is_valid_unitary():
+                print("INVALID MATRIX!!!")
+                self.probe_info.set_probe_state(ProbeState.INVALID_UNITARY_INPUT)
+                return
             self.apply_unitary()
             self.probe_info.set_probe_state(ProbeState.UNITARY_OR_MEASURE)
         elif state == ProbeState.MEASURE_PROBE_VECTOR:
@@ -160,12 +166,12 @@ class GameManager:
         assert n == self.probe_info.unitary.shape[0], 'Given matrix not square'
         # TODO BROKEN!!!!!
         # assert self.probe_info.unitary.conj().T @ self.probe_info.unitary == np.eye(n), 'Given matrix not unitary'
-        if (self.probe_info.unitary.conj().T @ self.probe_info.unitary - np.eye(n,dtype=complex) < 10**(-10)).all():
-            self.probe_info.probe_vector_output = self.probe_info.unitary @ self.probe_info.get_probe_vector()
+        # if (self.probe_info.unitary.conj().T @ self.probe_info.unitary - np.eye(n,dtype=complex) < 10**(-10)).all():
+        self.probe_info.probe_vector_output = self.probe_info.unitary @ self.probe_info.get_probe_vector()
             # TODO: clear text fields to signal transformation was applied
-        else:
-            print("GIVEN MATRIX NOT UNITARY!!!")
-            # TODO: display warning, transform not applied
+        # else:
+        #     print("GIVEN MATRIX NOT UNITARY!!!")
+        #     # TODO: display warning, transform not applied
 
     def measure_probe_vector(self):
         self.probe_info.set_probe_state(ProbeState.MEASURED)
