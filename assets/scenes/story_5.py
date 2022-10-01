@@ -29,7 +29,8 @@ class Story_5(Story):
 
         # need to hardcoded everything we need from phase 1 to 4 here
         if globals.testing_the_story_5:
-            
+            # play around with adding intereference, and make hte keys not match
+
             self.key_options = [globals.keyboard_bit_0, globals.keyboard_bit_1]
 
             for i in range(globals.maxBit - 1):
