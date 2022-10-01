@@ -137,8 +137,10 @@ class Games_4(Games):
             self.proceed = True
 
             print("p4 test")
-            print(globals.sample_size)
-            print(globals.selectedBit)
+            if(globals.testing):
+                globals.selectedBit=5
+                globals.juliet_key=[1,1,1,0,1]
+                globals.romeo_key=[1,0,1,0,1]
             globals.bits_2sample = randint(globals.selectedBit, size=globals.sample_size)
             globals.juliet_sample = bb84.sample_bits(globals.juliet_key, globals.bits_2sample) #[0 1 0 1 1 0]
             globals.romeo_sample = bb84.sample_bits(globals.romeo_key, globals.bits_2sample) #[0 1 0 1 1 0]
