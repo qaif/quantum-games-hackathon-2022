@@ -44,10 +44,10 @@ class Games_3(Games):
         def correct_round(num):
             """rounds a decimal properly to the nearest integer"""
             return int(num+0.5)
-        print("test123,", globals.juliet_bits)
-        print("test123,", globals.time_p2)
+        #print("test123,", globals.juliet_bits)
+        #print("test123,", globals.time_p2)
         bits2flip=correct_round(globals.time_p2*.00164*len(globals.juliet_bits))
-        print("test123 bits2flip: ",bits2flip, "rounded from ",globals.time_p2*.002*len(globals.juliet_bits))
+        #print("test123 bits2flip: ",bits2flip, "rounded from ",globals.time_p2*.002*len(globals.juliet_bits))
         if(bits2flip>=1):
             i=0
             for val in globals.juliet_bits:
@@ -58,13 +58,13 @@ class Games_3(Games):
                     print(val, "48 becomes 49")
                     globals.juliet_bits[i] = 49
                 i+=1
-                print("bits2flip iterator before -1: ",bits2flip)
+        #        print("bits2flip iterator before -1: ",bits2flip)
                 bits2flip = bits2flip-1
                 if (bits2flip<=0):
                     break
 
-        print("noise interference done")
-        print("juliet bits after noise: ",globals.juliet_bits)
+        #print("noise interference done")
+        #print("juliet bits after noise: ",globals.juliet_bits)
 
         # this came from a few lines above
         self.juliet_bits = globals.juliet_bits
