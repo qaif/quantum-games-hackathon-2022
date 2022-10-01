@@ -33,7 +33,7 @@ class ProbeInfo:
         self.probe_vector_input = None
         self.probe_vector_output = None
 
-        self.unitary = np.eye(3,dtype=complex)
+        self.unitary = np.eye(len(self.probe_idxs), dtype=complex)
 
         self.using_unitary = True
 
@@ -468,6 +468,7 @@ class UnitaryWidget(QWidget):
         if state == ProbeState.INPUT_PROBE_VECTOR:
             self.hide()
         if state == ProbeState.UNITARY_OR_MEASURE:
+            self.probe_info.unitary = np.eye(len(self.probe_info.probe_idxs), dtype=complex)
             self.on_show()
         if state == ProbeState.APPLY_UNITARY:
             # self.on_show()
