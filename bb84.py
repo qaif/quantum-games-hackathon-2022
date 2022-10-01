@@ -57,7 +57,7 @@ def measure_message(message, bases):
 
 # https://github.com/VoxelPixel/CiphersInPython/blob/master/XOR%20Cipher.py
 def cipher_encryption(msg,key):
-    print(msg)
+    print("Cipher encryption : ", msg)
     encrypt_hex = ""
     key_itr = 0
     for i in range(len(msg)):
@@ -71,7 +71,7 @@ def cipher_encryption(msg,key):
     return format(encrypt_hex)
 
 def cipher_decryption(msg,key):
-
+    print("Cipher decryption : ", msg)
     hex_to_uni = ""
     for i in range(0, len(msg), 2):
         hex_to_uni += bytes.fromhex(msg[i:i+2]).decode('utf-8')
@@ -132,7 +132,7 @@ def sample_bits(bits, selection):
 
 
 
-
+"""
 
 
 
@@ -274,3 +274,5 @@ if(globals.to_encrypt!=globals.decrypted_text):
     print("the encryption failed:   \"", globals.to_encrypt,"\"   is not \""  ,globals.decrypted_text,"\"")
 else:
     print("the encryption was a success!")
+
+"""

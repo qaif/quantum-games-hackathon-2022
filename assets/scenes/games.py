@@ -45,7 +45,7 @@ class Games:
         globals.selectedBit = 0     # selected # of bit
         globals.secret_key = ""     # created secret_key
 
-        globals.to_encrypt=""
+        #globals.to_encrypt=""
 
         # eve can eavesdrop on this, changing it
         globals.encoded_qbits = [] # romeo creates this after phase 1, and eve takes it to juliet
@@ -72,7 +72,7 @@ class Games:
         globals.encrypted_text=""
 
         # what juliet receives after decrypting
-        globals.decryped_text=""
+        globals.decrypted_text=""
 
         globals.intercept = False # if eve chooses to eavesdrop
         globals.noise = False     # if ANY noise affected bit selection

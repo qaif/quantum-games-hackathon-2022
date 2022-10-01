@@ -51,12 +51,19 @@ class Story(Games):
 
         if len(self.story_text[self.story_index]) > 60:
             # divide into two lines
-            lastspace = self.story_text[self.story_index].rfind(' ')
+            lastspace = self.story_text[self.story_index][:60].rfind(' ')
             line1 = self.story_text[self.story_index][:lastspace]
             line2 = self.story_text[self.story_index][lastspace + 1:]
+            line3 = ""
+            if len(line2) > 60:
+                lastspace = line2[:60].rfind(' ')
+                tmp = line2
+                line2 = tmp[:lastspace]
+                line3 = tmp[lastspace + 1:]
 
             drawText(window, line1, self.x, self.y, self.color, 255, self.font)
             drawText(window, line2, self.x, self.y + 30, self.color, 255, self.font)
+            drawText(window, line3, self.x, self.y + 60, self.color, 255, self.font)
         else:
            drawText(window, self.story_text[self.story_index], self.x, self.y, self.color, 255, self.font)
 

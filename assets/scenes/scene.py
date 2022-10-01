@@ -123,7 +123,7 @@ class IntroductionScene(Scene):
         pass
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.intro.finish:
-            sm.push(FadeTransitionScene([self], [Games0Scene()]))
+            sm.push(FadeTransitionScene([self], [Story0Scene()]))
 
     def update(self, sm, inputStream):
         self.space.update(inputStream)
@@ -651,9 +651,10 @@ class Games5Scene(Scene):
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
             self.g5.pause = True
             self.move_scene = True
-        if self.g5.finish and self.g5.lose:
+        if self.g5.finish and self.g5.lose and self.g5.show_next:
             drawText(screen, 'Lose! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
             self.g5.pause = True
+            self.move_scene = True
 
 class StoryEnding1Scene(Scene):
     def __init__(self):
@@ -700,7 +701,7 @@ class StoryEnding2Scene(Scene):
 class LeaderboardScene(Scene):
     def __init__(self):
         self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
-        self.enter = ButtonUI(pygame.K_ENTER, '[Enter = continue playing]', 200, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue playing]', 200, 20)
         self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = return to main menu]', 550, 20)
         pygame.event.clear()
         self.leader = Story_Leaderboard(pygame)

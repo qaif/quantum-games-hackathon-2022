@@ -64,7 +64,7 @@ juliet_sample = [] # random choices from juliet's measurements
 encrypted_text=""
 
 # what juliet receives after decrypting
-decryped_text=""
+decrypted_text=""
 
 intercept = False # if eve chooses to eavesdrop
 noise = False     # if ANY noise affected bit selection

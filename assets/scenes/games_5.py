@@ -36,6 +36,11 @@ class Games_5(Games):
         self.answer = ""
 
         print("Games 5 : ")
+        print("to_encrypt : ", globals.to_encrypt)
+        print("globals.encrypted_text", globals.encrypted_text)
+
+        print("games 5 : translated romeo key, juliet key", globals.translated_romeo_key, globals.translated_juliet_key)
+        print("games 5 : romeo key, juliet key", globals.romeo_key, globals.juliet_key)
 
         globals.encrypted_text = bb84.cipher_encryption(globals.to_encrypt, globals.romeo_key)
         globals.decrypted_text = bb84.cipher_decryption(globals.encrypted_text, globals.juliet_key)
