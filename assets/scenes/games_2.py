@@ -61,6 +61,9 @@ class Games_2(Games):
 
             measured_message = bb84.measure_message(globals.encoded_qbits, random_bases)
 
+            print("random_bases : ", random_bases)
+            print("measured_message : ", measured_message)
+
             for i in measured_message:
                 # translating from string 0/1 to int key board press
                 key = 0
@@ -80,7 +83,8 @@ class Games_2(Games):
         pygame.time.set_timer(self.event_bit_moving, 30)
         pygame.time.set_timer(self.event_bit_change_direction, 5000)
         pygame.time.set_timer(self.event_bit_diminishing, 500)
-        pygame.time.set_timer(self.event_measuring, 500)
+        #pygame.time.set_timer(self.event_measuring, 500)
+        pygame.time.set_timer(self.event_measuring, 10)
 
         self.reset_flags()
 

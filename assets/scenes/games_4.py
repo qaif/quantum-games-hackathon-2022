@@ -34,6 +34,12 @@ class Games_4(Games):
                 self.juliet_key.append(random.choice(self.key_options))
             self.key_size = globals.maxBit
         else:
+            print("games 4 RBas :", globals.romeo_bases)
+            print("games 4 JBas :", globals.juliet_bases)
+
+            print("games 4 RBit :", globals.romeo_bits)
+            print("games 4 JBit :", globals.juliet_bits)
+
             self.romeo_key = bb84.sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits)
             self.juliet_key = [x for x in globals.juliet_key]
             self.key_size = len(globals.juliet_key)
