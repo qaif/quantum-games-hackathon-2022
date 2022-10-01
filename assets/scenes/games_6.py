@@ -10,9 +10,7 @@ from assets.classes.utils import *
 
 import bb84
 
-# this is for the key checking, so 2 arrays of bits will be flsahed across the screen and the
-# player needs to keep track of how many were different
-class Games_5(Games):
+class Games_6(Games):
 
 
     def __init__(self, pygame):
@@ -21,32 +19,13 @@ class Games_5(Games):
 
         self.start_x_pos = globals.screenSize[0] / 2
 
-        self.text = self.Text(par_x=50, par_y=50, par_text="Should I accuse Eve of eavesdropping?")
-        self.text2 = self.Text(par_x=50, par_y=100, par_text="Don't forget how many bits didn't match in the garden...")
+        self.text = self.Text(par_x=50, par_y=50, par_text="Do you want to send the letter?")
 
-        string_ints = [str(int) for int in globals.translated_romeo_key]
-        str_of_ints = ",".join(string_ints)
-        globals.romeo_key = str_of_ints
-
-        string_ints = [str(int) for int in globals.translated_juliet_key]
-        str_of_ints = ",".join(string_ints)
-        globals.juliet_key = str_of_ints
         self.answer_options = ["Yes", "No"]
         self.current_selection = "Yes"
-        self.answer_accuse = ""
+        self.answer_send_letter = ""
 
-        print("Games 5 : ")
-        print("to_encrypt : ", globals.to_encrypt)
-        print("globals.encrypted_text", globals.encrypted_text)
 
-        print("games 5 : translated romeo key, juliet key", globals.translated_romeo_key, globals.translated_juliet_key)
-        print("games 5 : romeo key, juliet key", globals.romeo_key, globals.juliet_key)
-
-        globals.encrypted_text = bb84.cipher_encryption(globals.to_encrypt, globals.romeo_key)
-        globals.decrypted_text = bb84.cipher_decryption(globals.encrypted_text, globals.juliet_key)
-
-        print("encrypted_text: ", globals.encrypted_text)
-        print("decrypted_text: ", globals.decrypted_text)
 
         self.story_phase = 0
 
@@ -96,7 +75,7 @@ class Games_5(Games):
             if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_RETURN and self.story_phase == 0:
-                    self.answer_accuse = self.current_selection
+                    self.answer_send_letter = self.current_selection
                     print(self.answer)
                     self.story_phase = 1
 
@@ -108,10 +87,10 @@ class Games_5(Games):
 
                 elif self.story_phase == 3 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
                     if self.check_answers():
-                        self.text.text = "I am sorry... I didn't mean to.. I just want you and Juliet to be alive .... "
+                        self.text.text = "send the letter .... "
                         self.win = True
                     else:
-                        self.text.text = "Fu fu fu fu .... "
+                        self.text.text = "Dont send the letter .... "
                         self.lose = True
                         self.reduce_hearts()
 
@@ -124,10 +103,10 @@ class Games_5(Games):
             self.text.text_display(window)
             self.text2.text_display(window)
         elif self.story_phase == 1:
-            if self.answer_accuse == "Yes":
-                self.text.text = "Cursed you Eve! I know you are trying to seperate us !!!"
+            if self.answer_send_letter == "Yes":
+                self.text.text = "lalalala  !!!"
             else:
-                self.text.text = "Thank you for helping us Eve !!! I believe in you..."
+                self.text.text = "hohohoho !!!"
 
             self.text.text_display(window)
         elif self.story_phase == 2:

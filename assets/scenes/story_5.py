@@ -54,6 +54,34 @@ class Story_Ending_2(Story):
 
         self.font = 20
 
+class Story_Ending_3(Story):
+
+    def __init__(self, pygame):
+        super().__init__()
+        self.background = pygame.image.load("assets/images/ending_2.jpg")
+
+        self.story_text = []
+        self.story_index = 0
+
+        self.story_text.append("ENDING 3 TEST")
+        self.story_text.append("ENDING 3 TEST PART 2")
+
+        self.font = 20
+
+class Story_Ending_4(Story):
+
+    def __init__(self, pygame):
+        super().__init__()
+        self.background = pygame.image.load("assets/images/ending_2.jpg")
+
+        self.story_text = []
+        self.story_index = 0
+
+        self.story_text.append("ENDING 4 TEST")
+        self.story_text.append("ENDING 4 TEST PART 2")
+
+        self.font = 20
+
 class Story_Leaderboard(Story):
 
     def __init__(self, pygame):
