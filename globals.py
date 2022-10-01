@@ -13,7 +13,7 @@ default_help_font = 12
 default_score_font = 28
 
 #games_2_measuring_time = 500
-games_2_measuring_time = 10
+games_2_measuring_time = 500
 
 # =================== GAME SETTINGS ========================
 
