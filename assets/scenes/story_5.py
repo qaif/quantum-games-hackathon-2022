@@ -16,8 +16,13 @@ class Story_5(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("Lalalala story 5…")
-        self.story_text.append("La lalala …")
+        self.story_text.append("Romeo: It's been a long day, the sun is setting. Thank you for your help")
+        self.story_text.append("Eve: It was my pleasure. Have you encrypted your message yet, using the key?")
+        self.story_text.append("Eve: It is the same as Juliet's, I hope, so she can decrypt it.")
+        self.story_text.append("Romeo: Yes indeed. Here's what I want to say to her tonight:")
+        self.story_text.append(globals.to_encrypt)
+        self.story_text.append("Eve: I am ready to deliver this classical information for you...")
+        self.story_text.append("Romeo (thinking): I wonder if Eve is being honest about not measuring the qubits I sent to Juliet...")
         self.y = 150
         self.font = 20
 
@@ -30,8 +35,8 @@ class Story_Ending_1(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("Lalalala ending 1…")
-        self.story_text.append("La lalala …")
+        self.story_text.append("ENDING 1 TEST")
+        self.story_text.append("ENDING 1 TEST PART 2")
 
         self.font = 20
 
@@ -44,8 +49,8 @@ class Story_Ending_2(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("Lalalala ending 2…")
-        self.story_text.append("La lalala …")
+        self.story_text.append("ENDING 2 TEST")
+        self.story_text.append("ENDING 2 TEST PART 2")
 
         self.font = 20
 
@@ -58,11 +63,13 @@ class Story_Leaderboard(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("This is the ending of the journey…")
-        self.story_text.append("You can experiment by using more qubit, to get a better result…")
-        self.story_text.append("The bigger the qubit the safer it would be...")
-        self.story_text.append("Press Enter to keep playing until the time over and getting more score with new settings...")
-        self.story_text.append("or press Esc go back to main menu...")
+        # print out score here!!!!!
+
+        self.story_text.append("This is the end of the story for our star-crossed lovers…")
+        self.story_text.append("Next time, try starting with a different number of bits for your key")
+        self.story_text.append("You might discover it affects the key's sensitivity to noise and eavesdropping")
+        self.story_text.append("Press Enter to keep playing until the time ends, more score awaits you!")
+        self.story_text.append("or press Esc go back to main menu...Thanks for playing!")
 
         self.y = 300
         self.font = 20
