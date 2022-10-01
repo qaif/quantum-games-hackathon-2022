@@ -33,9 +33,8 @@ class ProbeInfo:
         self.probe_vector_input = None
         self.probe_vector_output = None
 
-        self.unitary = np.matrix([[0.0, 0.0, 0.0],
-                                 [0.0, 0.0, 0.0],
-                                 [0.0, 0.0, 0.0]])
+        self.unitary = np.eye(3,dtype=complex)
+
         self.using_unitary = True
 
         self.state = ProbeState.NONE
@@ -52,6 +51,7 @@ class ProbeInfo:
         elif state == GameStateType.TURN_END:
             pass
         elif state == GameStateType.PROBE_START:
+            self.probe_vector_input = None
             pass
         elif state == GameStateType.PROBE_END:
             self.set_probe_state(ProbeState.NONE)
@@ -84,27 +84,57 @@ class ProbeInfo:
         self.probe_directions = dirs
         self.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
 
+    def is_valid_vector(self, v):
+        return len(v) > 0 and sum(v) > 0
+
     def get_probe_vector(self):
         # TODO: normalize vector and update ui
+        # TODO: make correct length
+
         if self.input_type == ProbeInputType.NEW:
+            # self.truncate_vector()
             return self.probe_vector_input
         else:
+            if len(self.probe_vector_output) > len(self.probe_idxs):
+                # TODO: this should be disabled
+                pass
             return self.probe_vector_output
 
-    def set_x(self, x):
-        if self.probe_vector_input is None: self.probe_vector_input = [0,0,0]
-        self.probe_vector_input[0] = x
-        self.on_probe_vector_changed()
+    # def truncate_vector(self):
+    #     new = [len(self.probe_idxs)]
+    #     if ProbeDirection.FORWARD in self.probe_directions:
+    #         new[self.get_idx_of_direction(ProbeDirection.FORWARD)][self.get_idx_of_direction()]
+    #     if ProbeDirection.RIGHT in self.probe_directions:
+    #         new.append(self.probe_vector_input[1])
+    #     if ProbeDirection.LEFT in self.probe_directions:
+    #         new.append(self.probe_vector_input[2])
+    #     self.probe_vector_input = new
 
-    def set_y(self, y):
-        if self.probe_vector_input is None: self.probe_vector_input = [0, 0, 0]
-        self.probe_vector_input[1] = y
+    def set_x(self, x, count):
+        if self.probe_vector_input is None: self.probe_vector_input = np.zeros(count, dtype=complex)
+        self.probe_vector_input[self.get_idx_of_direction(ProbeDirection.FORWARD)] = x
         self.on_probe_vector_changed()
+        print("new input: ", self.probe_vector_input)
 
-    def set_z(self, z):
-        if self.probe_vector_input is None: self.probe_vector_input = [0, 0, 0]
-        self.probe_vector_input[2] = z
+    def get_idx_of_direction(self, direction):
+        i = 0
+        for d in self.probe_directions:
+            if d == direction:
+                return i
+            i += 1
+        return -1
+
+    def set_y(self, y, count):
+        if self.probe_vector_input is None: self.probe_vector_input = np.zeros(count, dtype=complex)
+        self.probe_vector_input[self.get_idx_of_direction(ProbeDirection.RIGHT)] = y
         self.on_probe_vector_changed()
+        print("new input: ", self.probe_vector_input)
+
+    def set_z(self, z, count):
+        if self.probe_vector_input is None: self.probe_vector_input = np.zeros(count, dtype=complex)
+        self.probe_vector_input[self.get_idx_of_direction(ProbeDirection.LEFT)] = z
+        self.on_probe_vector_changed()
+        print("new input: ", self.probe_vector_input)
 
     def on_probe_vector_changed(self):
         for listener in self.on_probe_vector_changed_listeners:
@@ -159,6 +189,8 @@ class QueryWidget(QWidget):
         self.probe_info = probe_info
         self.probe_info.add_on_state_changed_listener(self.on_state_changed)
 
+        self.count = len(self.probe_info.probe_idxs)
+
         base_layout = QVBoxLayout()
         base_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
         # base_layout.addStretch()
@@ -195,7 +227,7 @@ class QueryWidget(QWidget):
         row1.setLayout(row1_layout)
 
         self.v1 = QLineEdit("")
-        self.v1.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        # self.v1.setValidator(QDoubleValidator(0.99, 99.99, 2))
         self.v1.textChanged.connect(self.v1_changed)
         row1_layout.addWidget(QLabel("forward"))
         # self.v1.setDisabled(not self.probe_info.probe_directions.contains(ProbeDirection.FORWARD))
@@ -207,7 +239,7 @@ class QueryWidget(QWidget):
         row2.setLayout(row2_layout)
 
         self.v2 = QLineEdit("")
-        self.v2.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        # self.v2.setValidator(QDoubleValidator(0.99, 99.99, 2))
         self.v2.textChanged.connect(self.v2_changed)
         row2_layout.addWidget(QLabel("right"))
         # self.v2.setDisabled(not self.probe_info.probe_directions.contains(ProbeDirection.RIGHT))
@@ -219,7 +251,7 @@ class QueryWidget(QWidget):
         row3.setLayout(row3_layout)
 
         self.v3 = QLineEdit("")
-        self.v3.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        # self.v3.setValidator(QDoubleValidator(0.99, 99.99, 2))
         self.v3.textChanged.connect(self.v3_changed)
         # self.v3.setDisabled(not self.probe_info.probe_directions.contains(ProbeDirection.LEFT))
         row3_layout.addWidget(QLabel("left"))
@@ -259,10 +291,12 @@ class QueryWidget(QWidget):
         if state == ProbeState.NONE:
             self.hide()
         if state == ProbeState.INPUT_PROBE_VECTOR:
+            self.rbn.setDisabled(False)
             self.show()
             self.top_half.show()
             self.measure_button.setDisabled(False)
             self.set_disabled()
+            self.count = len(self.probe_info.probe_idxs)
             self.distance.setText(str(self.probe_info.measured_distance))
         if state == ProbeState.UNITARY_OR_MEASURE:
             # TODO: disable all
@@ -290,16 +324,33 @@ class QueryWidget(QWidget):
         self.v1.setDisabled(ProbeDirection.FORWARD not in self.probe_info.probe_directions)
         self.v2.setDisabled(ProbeDirection.RIGHT not in self.probe_info.probe_directions)
         self.v3.setDisabled(ProbeDirection.LEFT not in self.probe_info.probe_directions)
+        self.rbn.setDisabled(False)
         self.rbo.setDisabled(self.probe_info.probe_vector_output is None)
-
+    # TODO:
     def v1_changed(self, text):
-        self.probe_info.set_x(float(text))
+        print(text)
+        try:
+            c = complex(text)
+            self.probe_info.set_x(c, self.count)
+        except ValueError:
+            # TODO: display message
+            pass
 
     def v2_changed(self, text):
-        self.probe_info.set_y(float(text))
+        try:
+            c = complex(text)
+            self.probe_info.set_y(c, self.count)
+        except ValueError:
+            # TODO: display message
+            pass
 
     def v3_changed(self, text):
-        self.probe_info.set_z(float(text))
+        try:
+            c = complex(text)
+            self.probe_info.set_z(c, self.count)
+        except ValueError:
+            # TODO: display message
+            pass
 
     def on_radio_clicked(self):
         radio_button = self.sender()
@@ -444,14 +495,15 @@ class UnitaryWidget(QWidget):
     def on_unitary_changed(self):
         print("unitary changed")
         if self.count == 1:
-            self.probe_info.unitary = np.matrix([[float(self.m1.text())]])
+            self.probe_info.unitary = np.array([[complex(self.m1.text())]])
+
         if self.count == 2:
-            self.probe_info.unitary = np.matrix([[float(self.m1.text()), float(self.m2.text())],
-                                             [float(self.m4.text()), float(self.m5.text())]])
+            self.probe_info.unitary = np.array([[complex(self.m1.text()), complex(self.m2.text())],
+                                               [complex(self.m4.text()), complex(self.m5.text())]])
         if self.count == 3:
-            self.probe_info.unitary = np.matrix([[float(self.m1.text()), float(self.m2.text()), float(self.m3.text())],
-                                             [float(self.m4.text()), float(self.m5.text()), float(self.m6.text())],
-                                             [float(self.m7.text()), float(self.m8.text()), float(self.m9.text())]])
+            self.probe_info.unitary = np.array([[complex(self.m1.text()), complex(self.m2.text()), complex(self.m3.text())],
+                                               [complex(self.m4.text()), complex(self.m5.text()), complex(self.m6.text())],
+                                               [complex(self.m7.text()), complex(self.m8.text()), complex(self.m9.text())]])
 
 
 class MeasureWidget(QWidget):

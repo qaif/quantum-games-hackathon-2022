@@ -132,8 +132,9 @@ class GameManager:
             self.probe_info.clear_measurements()
         elif state == ProbeState.MEASURE_DISTANCE:
             print("!!!measuring distance")
-            if self.probe_info.get_probe_vector() is None:
-                print("INVALID VECTOR!!!")
+            if self.probe_info.get_probe_vector() is None or not self.probe_info.is_valid_vector(self.probe_info.get_probe_vector()):
+                print("INVALID VECTOR!!!: ", self.probe_info.get_probe_vector())
+                # TODO: error message
                 self.probe_info.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
                 return
             self.measure_distance()
@@ -159,7 +160,7 @@ class GameManager:
         assert n == self.probe_info.unitary.shape[0], 'Given matrix not square'
         # TODO BROKEN!!!!!
         # assert self.probe_info.unitary.conj().T @ self.probe_info.unitary == np.eye(n), 'Given matrix not unitary'
-        if self.probe_info.unitary.conj().T @ self.probe_info.unitary == np.eye(n):
+        if (self.probe_info.unitary.conj().T @ self.probe_info.unitary - np.eye(n,dtype=complex) < 10**(-10)).all():
             self.probe_info.probe_vector_output = self.probe_info.unitary @ self.probe_info.get_probe_vector()
             # TODO: clear text fields to signal transformation was applied
         else:
@@ -168,7 +169,7 @@ class GameManager:
 
     def measure_probe_vector(self):
         self.probe_info.set_probe_state(ProbeState.MEASURED)
-        probabilities = np.abs(self.probe_info.probe_vector_output) ** 2  # probabilities of different outcomes
+        probabilities = np.abs(np.array(self.probe_info.probe_vector_output)) ** 2  # probabilities of different outcomes
         self.probe_info.measured_probe = self.rng.choice(self.probe_info.probe_directions, p=probabilities)
 
     def on_game_state_changed(self, last, new):
@@ -217,6 +218,11 @@ class GameManager:
     def measure_distance(self):
         vector = self.probe_info.get_probe_vector()
         print("PROBING WITH VECTOR: ", vector)
+        if not self.probe_info.is_valid_vector(vector):
+            print("INVALID VECTOR!!!")
+            # TODO: error message
+            self.probe_info.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
+            return
         q = self.query(vector)
         dis = q[0]
         vec = q[1]
