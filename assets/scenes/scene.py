@@ -12,6 +12,7 @@ from assets.scenes.games_2 import Games_2
 from assets.scenes.games_3 import Games_3
 from assets.scenes.games_4 import Games_4
 from assets.scenes.games_5 import Games_5
+from assets.scenes.games_6 import Games_6
 
 # Story x = is story before game x
 # Story x.5 is story after game x
@@ -21,6 +22,7 @@ from assets.scenes.story_2 import Story_2, Story_2_5
 from assets.scenes.story_3 import Story_3, Story_3_5
 from assets.scenes.story_4 import Story_4, Story_4_5
 from assets.scenes.story_5 import Story_5, Story_Ending_1, Story_Ending_2, Story_Leaderboard
+from assets.scenes.story_6 import Story_6, Story_Ending_3, Story_Ending_4
 from assets.scenes.gameover import GameOver
 
 
@@ -631,10 +633,15 @@ class Games5Scene(Scene):
         self.enter.update(inputStream)
 
     def input(self, sm, inputStream):
-        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g5.win:
-            sm.push(FadeTransitionScene([self], [StoryEnding1Scene()]))
-        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g5.lose:
-            sm.push(FadeTransitionScene([self], [StoryEnding2Scene()]))
+
+        if self.g5.answer_accuse == "Yes":
+            if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g5.win:
+                sm.push(FadeTransitionScene([self], [StoryEnding1Scene()]))
+            elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g5.lose:
+                sm.push(FadeTransitionScene([self], [StoryEnding2Scene()]))
+        else:
+            if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene:
+                sm.push(FadeTransitionScene([self], [Story6Scene()]))
 
         #if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
         #    sm.pop()
@@ -646,16 +653,24 @@ class Games5Scene(Scene):
         self.a.draw(screen)
         self.d.draw(screen)
         self.space.draw(screen)
-        self.space.draw(screen)
+        self.enter.draw(screen)
 
+        
         if self.g5.finish and self.g5.win and self.g5.show_next:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
             self.g5.pause = True
             self.move_scene = True
+
         if self.g5.finish and self.g5.lose and self.g5.show_next:
             drawText(screen, 'Lose! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
             self.g5.pause = True
             self.move_scene = True
+
+        if self.g5.finish and self.g5.answer_accuse == "No" and self.g5.show_next:
+            #drawText(screen, 'CLEAR! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
+            self.g5.pause = True
+            self.move_scene = True
+        
 
 class StoryEnding1Scene(Scene):
     def __init__(self):
@@ -699,6 +714,121 @@ class StoryEnding2Scene(Scene):
         self.story_ending_2.call_event(screen)
         self.space.draw(screen)
 
+class Story6Scene(Scene):
+    def __init__(self):
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
+        pygame.event.clear()
+        self.story_6 = Story_6(pygame)
+    def onEnter(self):
+        #globals.soundManager.playMusicFade('solace')
+        pass
+    def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_6.finish:
+            sm.pop_all()
+            sm.push(FadeTransitionScene([self], [Games6Scene()]))
+
+    def update(self, sm, inputStream):
+        self.space.update(inputStream)
+
+    def draw(self, sm, screen):
+        self.story_6.call_event(screen)
+
+        self.space.draw(screen)
+
+class Games6Scene(Scene):
+    def __init__(self):
+        #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 50, 20)
+        self.a = ButtonUI(pygame.K_LEFT, '[<- = left]', 70, 20)
+        self.d = ButtonUI(pygame.K_RIGHT, '[-> = right]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[space = select]', 250, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue]', 400, 20)
+
+        self.move_scene = False
+
+        pygame.event.clear()
+        self.g6 = Games_6(pygame)
+    def onEnter(self):
+        pass
+        #globals.soundManager.playMusicFade('solace')
+    def update(self, sm, inputStream):
+
+        #self.esc.update(inputStream)
+        self.a.update(inputStream)
+        self.d.update(inputStream)
+        self.space.update(inputStream)
+        self.enter.update(inputStream)
+
+    def input(self, sm, inputStream):
+
+        
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g6.win:
+            sm.push(FadeTransitionScene([self], [StoryEnding3Scene()]))
+        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g6.lose:
+            sm.push(FadeTransitionScene([self], [StoryEnding4Scene()]))
+        
+
+    def draw(self, sm, screen):
+        self.g6.call_event(screen)
+        #self.esc.draw(screen)
+        self.a.draw(screen)
+        self.d.draw(screen)
+        self.space.draw(screen)
+        self.enter.draw(screen)
+
+        
+        if self.g6.finish and self.g6.win and self.g6.show_next:
+            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
+            self.g6.pause = True
+            self.move_scene = True
+
+        if self.g6.finish and self.g6.lose and self.g6.show_next:
+            drawText(screen, 'Lose! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
+            self.g6.pause = True
+            self.move_scene = True
+
+class StoryEnding3Scene(Scene):
+    def __init__(self):
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
+        pygame.event.clear()
+        self.story_ending_3 = Story_Ending_3(pygame)
+    def onEnter(self):
+        #globals.soundManager.playMusicFade('solace')
+        pass
+    def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_ending_3.finish:
+            sm.pop()
+            #sm.pop_all()
+            sm.push(FadeTransitionScene([self], [LeaderboardScene()]))
+
+    def update(self, sm, inputStream):
+        self.space.update(inputStream)
+
+    def draw(self, sm, screen):
+        self.story_ending_3.call_event(screen)
+        self.space.draw(screen)
+
+class StoryEnding4Scene(Scene):
+    def __init__(self):
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
+        pygame.event.clear()
+        self.story_ending_4 = Story_Ending_4(pygame)
+    def onEnter(self):
+        #globals.soundManager.playMusicFade('solace')
+        pass
+    def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_ending_4.finish:
+            sm.pop()
+            # sm.pop_all()
+            sm.push(FadeTransitionScene([self], [LeaderboardScene()]))
+
+    def update(self, sm, inputStream):
+        self.space.update(inputStream)
+
+    def draw(self, sm, screen):
+        self.story_ending_4.call_event(screen)
+        self.space.draw(screen)
+
+
 class LeaderboardScene(Scene):
     def __init__(self):
         self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
@@ -706,6 +836,7 @@ class LeaderboardScene(Scene):
         self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = return to main menu]', 550, 20)
         pygame.event.clear()
         self.leader = Story_Leaderboard(pygame)
+        self.small_scroll = pygame.image.load("assets/images/small_scroll_200.png")
 
         self.option = 0
     def onEnter(self):
@@ -738,6 +869,10 @@ class LeaderboardScene(Scene):
         if self.leader.finish:
             self.enter.draw(screen, par_colour=globals.WHITE)
             self.esc.draw(screen, par_colour=globals.WHITE)
+
+        screen.blit(self.small_scroll, (430, 100))
+        drawText(screen, "Total Score", 450, 110, globals.BLACK, 255, 18)
+        drawText(screen, str(globals.total_score), 490, 160, globals.RED, 255, 42)
 
 class SceneManager:
     def __init__(self):

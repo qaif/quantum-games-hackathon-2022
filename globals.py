@@ -13,7 +13,7 @@ default_help_font = 12
 default_score_font = 28
 
 #games_2_measuring_time = 500
-games_2_measuring_time = 500
+games_2_measuring_time = 10
 
 # =================== GAME SETTINGS ========================
 
@@ -26,7 +26,7 @@ showConfig = True   # to show the keyboard guide
 
 #testing = True      # flag for testing or not
 testing = False
-phase = 3        # config for setting game phases
+phase = 4        # config for setting game phases
 
 # =========== GAME SETTINGS FOR NEW GAME ======================
 
