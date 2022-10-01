@@ -48,25 +48,24 @@ class Games_6(Games):
     def check_answers(self):
         # we need to decide the 4 scenarios
         if self.current_selection == "Yes":            
-            if globals.noise == False:
-                # this means Romeo send the letter, and there is no noise. Juliet receive the letter and understand
+            if globals.to_encrypt == globals.decrypted_text:
+                # this means the letter is send to Juliet, and successfully decrypted -> this will go to ending 3
 
                 self.win = True
                 self.point.add_value(50)
                 return True
             else:
-                # this means Romeo send the letter, and there is noise. Juliet receive the letter and doesnt understand
+                # this means the letter is send to Juliet, and UN-successfully decrypted -> this will go to ending 4
                 self.lose = True
                 return False
         else:
-            if globals.noise == True:
-                # this means Romeo doesn't send the letter, and there is noise. Juliet doesn't receive letter
-
+            if globals.to_encrypt != globals.decrypted_text:
+                # this means Romeo doesn't send the letter, Juliet doesn't receive letter -> this will go to ending 3
                 self.win = True
                 self.point.add_value(50)
                 return True
             else:
-                # this means Romeo doesn't send the letter, and there is not noise. Juliet doesn't receive letter
+                # this means Romeo doesn't send the letter, and where actually decryption could happened. Juliet doesn't receive letter -> this will go to ending 4
                 self.lose = True
                 return False
 

@@ -70,13 +70,13 @@ class Games_5(Games):
         # we need to decide the 4 scenarios
         if self.current_selection == "Yes":            
             if globals.intercept:
-                # this means eve is intercepting, and we win and get points
+                # this means eve is intercepting, and we win and get points then goes to ending 1
 
                 self.win = True
                 self.point.add_value(50)
                 return True
             else:
-                # this means eve is intercepting, and we lose one heart
+                # this means eve is not intercepting, and we lose one heart then goes to ending 2
 
                 self.lose = True
                 return False
