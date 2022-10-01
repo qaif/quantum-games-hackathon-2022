@@ -8,12 +8,12 @@ screenSize = (1024, 768)  # screen size
 font_base = "assets/font/Grand9K-Pixel.ttf"
 #font_base = "orange-kid.ttf"
 
-default_text_font = 17
-default_help_font = 10
-default_score_font = 26
+default_text_font = 19
+default_help_font = 12
+default_score_font = 28
 
 #games_2_measuring_time = 500
-games_2_measuring_time = 500
+games_2_measuring_time = 10
 
 # =================== GAME SETTINGS ========================
 
@@ -24,8 +24,8 @@ currentBit = 5
 showConfig = True   # to show the keyboard guide
 #showConfig = False
 
-testing = True      # flag for testing or not
-#testing = False
+#testing = True      # flag for testing or not
+testing = False
 phase = 4        # config for setting game phases
 
 # =========== GAME SETTINGS FOR NEW GAME ======================

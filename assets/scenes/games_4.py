@@ -22,6 +22,7 @@ class Games_4(Games):
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("assets/images/games_4.jpg")
         self.long_scroll = pygame.image.load("assets/images/long_scroll.png")
+        
 
         # note: we have to code the sifting of romeo's key behind the scenes. player doesn't seem him do it.
         self.romeo_key = []
@@ -142,17 +143,18 @@ class Games_4(Games):
             self.start_x_pos -= (26 * globals.sample_size)
             print(self.start_x_pos)
 
-            if self.current_bit > 0:
+            
 
-                if(globals.testing):
-                    globals.romeo_sample = np.zeros(globals.sample_size)
-                    globals.juliet_sample  = np.zeros(globals.sample_size)
-                else:
-                    globals.translated_romeo_key = self.convert_key_to_int(globals.romeo_key)
-                    globals.translated_juliet_key = self.convert_string_to_int(globals.juliet_key)
+            if(globals.testing):
+                globals.romeo_sample = np.zeros(globals.sample_size)
+                globals.juliet_sample  = np.zeros(globals.sample_size)
+            else:
+                globals.translated_romeo_key = self.convert_key_to_int(globals.romeo_key)
+                globals.translated_juliet_key = self.convert_string_to_int(globals.juliet_key)
 
-                    print("games 4 : translated romeo key, juliet key", globals.translated_romeo_key, globals.translated_juliet_key)
+                print("games 4 : translated romeo key, juliet key", globals.translated_romeo_key, globals.translated_juliet_key)
 
+                if self.current_bit > 0:
                     globals.bits_2sample = randint(globals.selectedBit, size=globals.sample_size)
                     globals.juliet_sample = bb84.sample_bits(globals.translated_juliet_key, globals.bits_2sample) #[0 1 0 1 1 0]
                     globals.romeo_sample = bb84.sample_bits(globals.translated_romeo_key, globals.bits_2sample) #[0 1 0 1 1 0]
@@ -227,6 +229,9 @@ class Games_4(Games):
 
         # update background for new phase
         window.blit(self.background, (0, 0))
+
+
+        
 
         for event in pygame.event.get():
 

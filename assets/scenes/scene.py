@@ -706,6 +706,7 @@ class LeaderboardScene(Scene):
         self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = return to main menu]', 550, 20)
         pygame.event.clear()
         self.leader = Story_Leaderboard(pygame)
+        self.small_scroll = pygame.image.load("assets/images/small_scroll_200.png")
 
         self.option = 0
     def onEnter(self):
@@ -738,6 +739,10 @@ class LeaderboardScene(Scene):
         if self.leader.finish:
             self.enter.draw(screen, par_colour=globals.WHITE)
             self.esc.draw(screen, par_colour=globals.WHITE)
+
+        screen.blit(self.small_scroll, (430, 100))
+        drawText(screen, "Total Score", 450, 110, globals.BLACK, 255, 18)
+        drawText(screen, str(globals.total_score), 490, 160, globals.RED, 255, 42)
 
 class SceneManager:
     def __init__(self):
