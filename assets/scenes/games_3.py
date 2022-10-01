@@ -72,6 +72,8 @@ class Games_3(Games):
             self.no_hides = 2
         elif self.numberofbit <= 14:
             self.no_hides = 3
+        else:
+            self.no_hides = 4
 
         self.hides = []
         self.generate_hides()

@@ -14,8 +14,8 @@ default_score_font = 28
 
 # =================== GAME SETTINGS ========================
 
-minBit = 1          # total min bit selection
-maxBit = 13     # total max bit selection
+minBit = 5          # total min bit selection
+maxBit = 16    # total max bit selection
 currentBit = 5
 
 showConfig = True   # to show the keyboard guide
@@ -23,7 +23,7 @@ showConfig = True   # to show the keyboard guide
 
 #testing = True      # flag for testing or not
 testing = False
-phase = 1         # config for setting game phases
+phase = 3        # config for setting game phases
 
 # =========== GAME SETTINGS FOR NEW GAME ======================
 

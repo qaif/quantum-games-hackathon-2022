@@ -46,9 +46,8 @@ class Story_0(Story):
         # need to move this to phase 0
         globals.to_encrypt = random.choice(globals.letters)
         self.story_text.append(globals.to_encrypt)
-        self.story_text.append("We each need to create identical cryptography keys, using the BB84 protocol")
-        self.story_text.append("Only then can I safely encrypt the message")
-        self.story_text.append("How many random classical bits and bases should I start with?")
+        self.story_text.append("We need the same key to encrypt and decrypt this message.")
+        self.story_text.append("The more secure the key, the better. Our love must remain a secret.")
 
 
 
