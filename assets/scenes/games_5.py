@@ -62,7 +62,7 @@ class Games_5(Games):
             a = 255
 
 
-            drawText(screen, answer, (i * 70) + 50, 150, c, a)
+            drawText(screen, answer, (i * 90) + 50, 150, c, a)
             i += 1
 
 

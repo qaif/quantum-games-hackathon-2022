@@ -123,7 +123,7 @@ class Games_4(Games):
                 # if levelNumber > globals.lastCompletedLevel:
                 #    a = 255
 
-                drawText(screen, str(bitNumber), (i * 40) + 100, 100, c, a)
+                drawText(screen, str(bitNumber), (i * 60) + 100, 100, c, a)
                 i += 1
 
     def select_bit_event(self, event):
