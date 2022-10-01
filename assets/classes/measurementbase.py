@@ -76,8 +76,8 @@ class MeasurementBase(MovingObject):
     """
     Class for Measurement base in Phase 1
     """
-    measurements = [(pygame.image.load("assets/images/letter-x.png"), globals.keyboard_base_x, 203),
-                    (pygame.image.load("assets/images/letter-z.png"), globals.keyboard_base_z, 283)]
+    measurements = [(pygame.image.load("./assets/images/letter-x.png"), globals.keyboard_base_x, 203),
+                    (pygame.image.load("./assets/images/letter-z.png"), globals.keyboard_base_z, 283)]
 
     def __init__(self, type: int = 999, _idx: int = 0, par_x: int = 1024, par_y: int = 0):
         super().__init__()
@@ -104,8 +104,8 @@ class BitBase(MovingObject):
     """
         Class for Bit base in Phase 1
     """
-    bits = [(pygame.image.load("assets/images/number-0.png"), globals.keyboard_bit_0, 50),
-            (pygame.image.load("assets/images/number-1.png"), globals.keyboard_bit_1, 127)]
+    bits = [(pygame.image.load("./assets/images/number-0.png"), globals.keyboard_bit_0, 50),
+            (pygame.image.load("./assets/images/number-1.png"), globals.keyboard_bit_1, 127)]
 
     def __init__(self, type: int = 999, _idx: int = 0, par_x: int = 1024, par_y: int = 0):
         super().__init__()
@@ -133,14 +133,14 @@ class BitBase(MovingObject):
         # to open the image while being hovered by mouse
         self.alpha = 255
         if type == globals.keyboard_bit_0:
-            self.image = pygame.image.load("assets/images/number-0.png")
+            self.image = pygame.image.load("./assets/images/number-0.png")
         elif type == globals.keyboard_bit_1:
-            self.image = pygame.image.load("assets/images/number-1.png")
+            self.image = pygame.image.load("./assets/images/number-1.png")
         self.image.set_alpha(self.alpha)
 
     def get_hidden_image(self):
         # to show the hidden image
-        self.image = pygame.image.load("assets/images/qubit.png")
+        self.image = pygame.image.load("./assets/images/qubit.png")
         self.image.set_alpha(self.alpha)
 
     def reduce_parameter_alpha(self, minus_alpha):

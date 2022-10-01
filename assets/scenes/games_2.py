@@ -52,10 +52,13 @@ class Games_2(Games):
                 self.unmeasured_bits.append(random.choice(self.bit_options))
         else:
             # measured the encoded bits here
-            for i in range(globals.selectedBit):
-                globals.juliet_bases.append(random.choice(self.base_options))
+            #for i in range(globals.selectedBit):
+            #    globals.juliet_bases.append(random.choice(self.base_options))
 
+            # generate bases for juliet
             random_bases = randint(2, size=globals.selectedBit)
+            globals.juliet_bases = self.convert_base_int_to_key(random_bases)
+
             measured_message = bb84.measure_message(globals.encoded_qbits, random_bases)
 
             for i in measured_message:

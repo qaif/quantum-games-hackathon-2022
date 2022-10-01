@@ -146,6 +146,7 @@ class Games:
         self.lives_title.text_display(window)
         self.hearts.draw(window)
 
+    # for bit
     def convert_key_to_int(self, key):
         lstInt = []
         for i in key:
@@ -156,15 +157,27 @@ class Games:
 
         return lstInt
 
-    def convert_string_to_int(self, string):
+    # for bit
+    def convert_string_to_int(self, strings):
         lstInt = []
-        for i in string:
+        for i in strings:
             if i == "0":
                 lstInt.append(0)
             else:
                 lstInt.append(1)
 
         return lstInt
+
+    # for bases
+    def convert_base_int_to_key(self, ints):
+        lstKey = []
+        for i in ints:
+            if i == 0:
+                lstKey.append(globals.keyboard_base_z)
+            else:
+                lstKey.append(globals.keyboard_base_x)
+
+        return lstKey
 
     class Text:
         """
