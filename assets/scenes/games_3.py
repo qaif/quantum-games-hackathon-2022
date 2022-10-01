@@ -35,10 +35,40 @@ class Games_3(Games):
         self.bit_options = [globals.keyboard_bit_0, pygame.K_f]
         self.base_options = [globals.keyboard_base_x, globals.keyboard_base_z]
 
-        self.juliet_bits = globals.juliet_bits
+        # moving this a few lines down
+        #self.juliet_bits = globals.juliet_bits
 
         # apply the changes to juliet's bits here when noise accumulated
-        # in phase 2! 
+        # in phase 2!
+        #globals.time_p2
+        def correct_round(num):
+            """rounds a decimal properly to the nearest integer"""
+            return int(num+0.5)
+        print("test123,", globals.juliet_bits)
+        print("test123,", globals.time_p2)
+        bits2flip=correct_round(globals.time_p2*.00164*len(globals.juliet_bits))
+        print("test123 bits2flip: ",bits2flip, "rounded from ",globals.time_p2*.002*len(globals.juliet_bits))
+        if(bits2flip>=1):
+            i=0
+            for val in globals.juliet_bits:
+                if(val==49):
+                    print(val, "49 becomes 48")
+                    globals.juliet_bits[i] = 48
+                else:
+                    print(val, "48 becomes 49")
+                    globals.juliet_bits[i] = 49
+                i+=1
+                print("bits2flip iterator before -1: ",bits2flip)
+                bits2flip = bits2flip-1
+                if (bits2flip<=0):
+                    break
+
+        print("noise interference done")
+        print("juliet bits after noise: ",globals.juliet_bits)
+
+        # this came from a few lines above
+        self.juliet_bits = globals.juliet_bits
+
 
 
         self.romeo_bases = globals.romeo_bases

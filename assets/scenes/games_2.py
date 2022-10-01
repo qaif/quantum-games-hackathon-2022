@@ -17,6 +17,9 @@ class Games_2(Games):
     def __init__(self, pygame):
         super().__init__()
         self.background = pygame.image.load("assets/images/games_2.jpg")
+        self.time_flag=True
+        #print("TIME TEST 2", globals.time_p2, globals.timer_minute, globals.timer_seconds)
+        globals.time_p2=globals.timer_minute*60 +  globals.timer_seconds
 
         self.bits = pygame.sprite.Group()
         self.measured_bits = pygame.sprite.Group()
@@ -223,6 +226,12 @@ class Games_2(Games):
         # check if win then show win text in the scene files
         if self.is_win() and self.gameover == False:
             self.finish = True
+            # get the total time spent in p2.
+            if(self.time_flag):
+                # we only want this to happen once!
+                #print("TIME TEST 2", globals.time_p2, globals.timer_minute, globals.timer_seconds)
+                globals.time_p2 = globals.time_p2 - (globals.timer_minute * 60) - (globals.timer_seconds)
+                self.time_flag=False
             self.win = True
 
 

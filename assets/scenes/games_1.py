@@ -27,6 +27,8 @@ class Games_1(Games):
         self.static_base_x = MeasurementBase(globals.keyboard_base_x, par_x=60, par_y=203)
         self.static_base_z = MeasurementBase(globals.keyboard_base_z, par_x=60, par_y=283)
 
+        # just do this in games 2 start and finish!
+        #globals.time_p2=globals.timer_minute*60 +  globals.timer_seconds
 
         # user defined function
         self.measurement_event = pygame.USEREVENT + 1
