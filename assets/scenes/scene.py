@@ -317,7 +317,7 @@ class Games1Scene(Scene):
 
 
         if self.g1.finish and self.g1.win and self.g1.show_next:
-            drawText(screen, 'CLEAR! Press Enter to continue...', 175, 300, globals.BLACK, 255, 40)
+            drawText(screen, 'CLEAR! Press Enter to continue...', 175, 275, globals.BLACK, 255, 40)
             self.g1.pause = True
         elif self.g1.finish and self.g1.gameover:
             drawText(screen, 'Game over!', 50, 300, globals.BLACK, 255, 40)
