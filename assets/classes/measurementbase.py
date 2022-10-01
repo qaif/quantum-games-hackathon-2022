@@ -1,4 +1,3 @@
-import assets.constants as c
 import pygame
 import random
 import globals

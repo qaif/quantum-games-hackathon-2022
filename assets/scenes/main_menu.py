@@ -13,6 +13,7 @@ class MainMenu(Games):
         self.background = pygame.image.load("verona2049.jpg")
 
         self.refresh_new_game()
+        self.finish = True
 
     def call_event(self, window: pygame.Surface):
         # update background for new phase
@@ -23,4 +24,6 @@ class MainMenu(Games):
             if event.type == pygame.QUIT:  # for quiting the game
                 pygame.quit()
                 sys.exit()
+
+            self.process_blink_text(event)
 

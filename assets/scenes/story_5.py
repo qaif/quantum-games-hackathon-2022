@@ -68,8 +68,7 @@ class Story_Leaderboard(Story):
         self.story_text.append("This is the end of the story for our star-crossed lovers…")
         self.story_text.append("Next time, try starting with a different number of bits for your key")
         self.story_text.append("You might discover it affects the key's sensitivity to noise and eavesdropping")
-        self.story_text.append("Press Enter to keep playing until the time ends, more score awaits you!")
-        self.story_text.append("or press Esc go back to main menu...Thanks for playing!")
+        self.story_text.append("Press Enter to keep playing until the time ends, more score awaits you! or press Esc go back to main menu...Thanks for playing!")
 
         self.y = 300
         self.font = 20

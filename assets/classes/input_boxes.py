@@ -1,9 +1,10 @@
 import pygame
+import globals
 
 COLOR_INACTIVE = pygame.Color('lightskyblue3')
 COLOR_ACTIVE = pygame.Color('dodgerblue2')
 pygame.font.init()
-FONT = pygame.font.Font("freesansbold.ttf", 32)
+FONT = pygame.font.Font(globals.font_base, 32)
 #pygame.font.Font(None, 32)
 
 class InputBox:

@@ -1,10 +1,13 @@
 import pygame
+import globals
 
 DARK_GREY = (50,50,50)
 MUSTARD = (209,206,25)
 BLACK = (0,0,0)
 
 pygame.font.init()
+
+
 
 
 # function from:
@@ -18,8 +21,9 @@ def blit_alpha(target, source, location, opacity):
     temp.set_alpha(opacity)
     target.blit(temp, location)
 
-def drawText(screen, t, x, y, fg, alpha, fontSize: int = 30):
-    font = pygame.font.Font(pygame.font.get_default_font(), fontSize)
+def drawText(screen, t, x, y, fg, alpha, fontSize: int = 35):
+    #font = pygame.font.Font(pygame.font.get_default_font(), fontSize)
+    font = pygame.font.Font(globals.font_base, fontSize)
 
     text = font.render(t, True, fg)
     text_rectangle = text.get_rect()

@@ -50,6 +50,8 @@ class Games_4(Games):
         #self.start_x_pos -= (27 * self.numberofbit)
         #print(self.start_x_pos)
 
+        # Display the sample not the bits
+        """
         i = 0
         for type in self.romeo_key:  
             b = BitBase(type, _idx=i)
@@ -71,6 +73,7 @@ class Games_4(Games):
             self.juliet_key_display.add(b)
 
             i += 1
+        """
 
         # we will cycle through pairs one by one, letting the user compare them
         self.bit_index = 0
@@ -149,6 +152,34 @@ class Games_4(Games):
             print("games 4 : after sample romeo key, juliet key", globals.translated_romeo_key, globals.translated_juliet_key)
 
             print("games 4 : sample romeo, juliet", globals.romeo_sample, globals.juliet_sample)
+
+            i = 0
+            for type in globals.romeo_sample:  
+                key = 0
+                if type == 0:
+                    key = globals.keyboard_bit_0
+                else:
+                    key = globals.keyboard_bit_1
+
+                b = BitBase(key, _idx=i)
+                b.rect = b.image.get_rect(topleft=(self.start_x_pos, 300))
+                self.romeo_key_display.add(b)
+
+                i += 1
+
+            i = 0
+            for type in globals.juliet_sample:
+                key = 0
+                if type == 0:
+                    key = globals.keyboard_bit_0
+                else:
+                    key = globals.keyboard_bit_1
+
+                b = BitBase(key, _idx=i)
+                b.rect = b.image.get_rect(topleft=(self.start_x_pos, 370))
+                self.juliet_key_display.add(b)
+
+                i += 1
 
         elif event.key == pygame.K_LEFT:
             if self.current_bit <= 0:

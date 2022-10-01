@@ -106,7 +106,8 @@ class MainMenuScene(Scene):
         self.mainmenu.call_event(screen)
         # background
 
-        drawText(screen, 'Press [Enter] to start the game ...', 340, 350, pygame.Color(0, 0, 0), 255)
+        if self.mainmenu.show_next:
+            drawText(screen, 'Press [Enter] to start the game ...', 340, 350, pygame.Color(0, 0, 0), 255)
 
         self.space.draw(screen)
         self.esc.draw(screen)
@@ -712,13 +713,13 @@ class LeaderboardScene(Scene):
         pass
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.leader.finish:
-            sm.pop()
-            # sm.pop_all()
+            #sm.pop()
+            sm.pop_all()
             self.leader.refresh_after_loop()
             sm.push(FadeTransitionScene([self], [Story0Scene()]))
         elif inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE) and self.leader.finish:
-            sm.pop()
-            # sm.pop_all()
+            #sm.pop()
+            sm.pop_all()
             self.leader.refresh_new_game()
             sm.push(FadeTransitionScene([self], [MainMenuScene()]))
 
@@ -733,8 +734,9 @@ class LeaderboardScene(Scene):
         if self.leader.finish:
             self.enter.text = "[Enter = continue playing]"
 
-        self.enter.draw(screen, par_colour=globals.WHITE)
+        self.space.draw(screen, par_colour=globals.WHITE)
         if self.leader.finish:
+            self.enter.draw(screen, par_colour=globals.WHITE)
             self.esc.draw(screen, par_colour=globals.WHITE)
 
 class SceneManager:

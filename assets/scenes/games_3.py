@@ -14,7 +14,7 @@ from numpy.random import randint
 import bb84
 
 
-FONT = pygame.font.Font("freesansbold.ttf", 32)
+FONT = pygame.font.Font(globals.font_base, 32)
 
 class Games_3(Games):
 
@@ -171,6 +171,7 @@ class Games_3(Games):
             self.finish = True
             self.win = True
             self.lose = False
+            self.point.add_value(5 * len(self.translated_key))
         else:
             print("False")
             self.input_box.text = ""

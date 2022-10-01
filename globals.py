@@ -4,6 +4,13 @@ print("=================start global=============")
 
 gameTitle = "Verona 2049" # game title
 screenSize = (1024, 768)  # screen size
+#font_base = "assets/font/orange-kid.ttf"
+font_base = "assets/font/Grand9K-Pixel.ttf"
+#font_base = "orange-kid.ttf"
+
+default_text_font = 19
+default_help_font = 12
+default_score_font = 28
 
 # =================== GAME SETTINGS ========================
 
@@ -14,8 +21,8 @@ currentBit = 5
 showConfig = True   # to show the keyboard guide
 #showConfig = False
 
-#testing = True      # flag for testing or not
-testing = False
+testing = True      # flag for testing or not
+#testing = False
 phase = 1         # config for setting game phases
 
 # =========== GAME SETTINGS FOR NEW GAME ======================

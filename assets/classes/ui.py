@@ -11,6 +11,7 @@ class ButtonUI:
         self.pressed = False
         self.on = False
         self.timer = 20
+        self.font_size = globals.default_help_font
 
     def update(self, inputStream):
         self.pressed = inputStream.keyboard.isKeyPressed(self.keyCode)
@@ -30,4 +31,4 @@ class ButtonUI:
             colour = par_colour
 
         if globals.showConfig:
-            drawText(screen, self.text, self.x, self.y, colour, alpha, 15)
+            drawText(screen, self.text, self.x, self.y, colour, alpha, self.font_size)
