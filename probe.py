@@ -299,6 +299,7 @@ class QueryWidget(QWidget):
         if state == ProbeState.NONE:
             self.hide()
             self.error_message.hide()
+            self.reset_input()
         if state == ProbeState.INPUT_PROBE_VECTOR:
             self.error_message.hide()
 
@@ -320,6 +321,8 @@ class QueryWidget(QWidget):
             self.count = len(self.probe_info.probe_idxs)
             self.distance.setText(str(self.probe_info.measured_distance))
         if state == ProbeState.UNITARY_OR_MEASURE:
+            # self.reset_input()
+
             self.error_message.hide()
             # TODO: disable all
             # self.top_half.hide()
@@ -340,6 +343,11 @@ class QueryWidget(QWidget):
             self.v3.setDisabled(True)
             self.measure_button.setDisabled(True)
             self.distance.setText(str(self.probe_info.measured_distance))
+
+    def reset_input(self):
+        self.v1.setText("")
+        self.v2.setText("")
+        self.v3.setText("")
 
     def set_disabled(self):
         print(self.probe_info.probe_directions)
