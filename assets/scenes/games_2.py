@@ -49,6 +49,18 @@ class Games_2(Games):
 
         # choose whether to intercept or not here
 
+        # Interception! # decide this before phase 2 begins!!!!!!
+        globals.intercept = False  # TURN THIS ONE WHEN TESDTING IS READY FOR IT !
+        if random.random() < 0.33:  # eve intercepts the messge 33% of the time
+            globals.intercept = True
+
+        # still before phase 2
+        if (globals.intercept):
+            eve_bases_int = randint(2,size=globals.selectedBit)
+            intercepted_message = bb84.measure_message(globals.encoded_qbits, eve_bases_int)
+
+
+
 
 
         if globals.testing:
