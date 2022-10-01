@@ -1,7 +1,8 @@
 import sys
 
 from PyQt6.QtGui import QPainter
-from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QHBoxLayout, QPushButton, QVBoxLayout, QLabel
+from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QHBoxLayout, QPushButton, QVBoxLayout, QLabel, \
+    QScrollArea
 from PyQt6.QtCore import Qt
 
 from game_manager import GameManager, Snake, GlobalDirection, GameState, GameStateType, Grid
@@ -202,6 +203,7 @@ class Window(QMainWindow):
         actions_widget.setFixedHeight(actions_widget_height)
 
         left_widget = QWidget()
+        # left_widget = QScrollArea()
         left_layout = QVBoxLayout()
         left_layout.addWidget(score_widget)
         left_layout.addWidget(grid_widget)
@@ -210,6 +212,8 @@ class Window(QMainWindow):
         left_widget.setMaximumWidth(grid_widget.width())
         left_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
 
+        # right_widget = QScrollArea()
+        # right_layout = QVBoxLayout()
         probe = ProbeWidget(self.game_state, self.probe_info)
         probe.setMinimumWidth(336)
         # probe.setMaximumWidth(400)

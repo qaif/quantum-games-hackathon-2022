@@ -124,9 +124,12 @@ class GameManager:
 
     def on_probe_state_changed(self, state):
         if state == ProbeState.NONE:
-            pass
+            print("CLEARING MEASUREMENTS!!!!!!!!!!!!!")
+            self.probe_info.clear_measurements()
+            print("measurements: ", self.probe_info.measured_distance)
         elif state == ProbeState.INPUT_PROBE_VECTOR:
-            pass
+            print("CLEARING MEASUREMENTS!!!!!!!!!!!!!")
+            self.probe_info.clear_measurements()
         elif state == ProbeState.MEASURE_DISTANCE:
             print("!!!measuring distance")
             if self.probe_info.get_probe_vector() is None:
@@ -201,7 +204,7 @@ class GameManager:
         elif new == GameStateType.GAME_OVER:
             pass
         elif new == GameStateType.RESTART:
-            self.lives = 3
+            self.game_state.set_score(3, 0, 2)
             self.spawn_prey()
 
     def on_move(self, direction):
@@ -568,6 +571,7 @@ class Grid:
             self.dead = True
             self.on_updated()
         elif state == GameStateType.RESTART:
+            self.nodes = [GridNode(i, self) for i in range(self.size * self.size)]
             self.dead = False
 
     def draw(self, painter, event):

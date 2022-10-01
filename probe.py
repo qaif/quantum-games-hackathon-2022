@@ -4,7 +4,7 @@ import numpy as np
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QDoubleValidator, QPixmap
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QRadioButton, QGridLayout, QLineEdit, QLabel, QPushButton, \
-    QHBoxLayout, QCheckBox, QFrame
+    QHBoxLayout, QCheckBox, QFrame, QScrollArea
 
 from game_manager import GameStateType, ProbeDirection, ProbeInputType, ProbeState
 
@@ -132,6 +132,17 @@ class ProbeInfo:
         self.measured_distance = new
         self.on_distance_changed()
 
+    def set_measured_probe(self, new):
+        print("probe: ", new)
+        self.measured_probe = new
+        # self.on_probe_changed()
+
+    def clear_measurements(self):
+        self.measured_distance = None
+        if self.measured_probe is not None:
+            self.set_probe_vector_output(None)
+        self.measured_probe = None
+
     def set_probe_vector_output(self, new):
         self.probe_vector_output = new
         self.on_probe_vector_output_changed()
@@ -252,6 +263,7 @@ class QueryWidget(QWidget):
             self.top_half.show()
             self.measure_button.setDisabled(False)
             self.set_disabled()
+            self.distance.setText(str(self.probe_info.measured_distance))
         if state == ProbeState.UNITARY_OR_MEASURE:
             # TODO: disable all
             # self.top_half.hide()
@@ -302,19 +314,6 @@ class QueryWidget(QWidget):
 
     def on_measure_distance(self):
         self.probe_info.set_probe_state(ProbeState.MEASURE_DISTANCE)
-
-
-        # # TODO
-        # vector = self.probe_info.get_probe_vector()
-        # print("PROBING WITH VECTOR: ", vector)
-        # q = self.query(vector)
-        # dis = q[0]
-        # vec = q[1]
-        # print(q)
-        # self.probe_info.set_measured_distance(dis)
-        # self.probe_info.set_probe_vector_output(vec)
-        #
-        # self.probe_info.set_probe_state(ProbeState.UNITARY_MEASURE)
 
 
 class UnitaryWidget(QWidget):
@@ -487,6 +486,7 @@ class MeasureWidget(QWidget):
         if state == ProbeState.UNITARY_OR_MEASURE:
             self.measure_button.setDisabled(False)
             self.show()
+            self.vector.setText(self.probe_direction_to_string(self.probe_info.measured_probe))
         if state == ProbeState.MEASURED:
             self.measure_button.setDisabled(True)
             self.show()
@@ -553,7 +553,18 @@ class ProbeWidget(QWidget):
 
         # self.probe_info.add_on_distance_changed_listener(self.on_distance_changed)
 
+        base_base_layout = QVBoxLayout()
+        # base_base_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
+        self.setLayout(base_base_layout)
+
+        scroll = QScrollArea()
+        base_base_layout.addWidget(scroll)
+        scroll.setWidgetResizable(True)
+        scroll_content = QWidget(scroll)
+        scroll.setWidget(scroll_content)
+
         base_layout = QVBoxLayout()
+        scroll_content.setLayout(base_layout)
         base_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
 
         # QUERY
@@ -572,5 +583,5 @@ class ProbeWidget(QWidget):
         finish_widget = ContinueWidget(self.game_state, self.probe_info)
         base_layout.addWidget(finish_widget)
 
-        self.setLayout(base_layout)
+        # self.setLayout(base_layout)
 
