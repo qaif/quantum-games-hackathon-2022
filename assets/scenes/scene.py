@@ -96,7 +96,13 @@ class MainMenuScene(Scene):
         pass
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN):
-            sm.push(FadeTransitionScene([self], [IntroductionScene()]))
+
+            if globals.testing_the_story_5:
+                sm.push(FadeTransitionScene([self], [Story5Scene()]))
+            else:
+                sm.push(FadeTransitionScene([self], [IntroductionScene()]))
+            
+
         if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
             sm.pop()
 

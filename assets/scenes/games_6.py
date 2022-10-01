@@ -52,7 +52,7 @@ class Games_6(Games):
                 # this means the letter is send to Juliet, and successfully decrypted -> this will go to ending 3
 
                 self.win = True
-                self.point.add_value(50)
+                self.point.add_value(100)
                 return True
             else:
                 # this means the letter is send to Juliet, and UN-successfully decrypted -> this will go to ending 4
@@ -62,7 +62,7 @@ class Games_6(Games):
             if globals.to_encrypt != globals.decrypted_text:
                 # this means Romeo doesn't send the letter, Juliet doesn't receive letter -> this will go to ending 3
                 self.win = True
-                self.point.add_value(50)
+                self.point.add_value(100)
                 return True
             else:
                 # this means Romeo doesn't send the letter, and where actually decryption could happened. Juliet doesn't receive letter -> this will go to ending 4

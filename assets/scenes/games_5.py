@@ -73,7 +73,7 @@ class Games_5(Games):
                 # this means eve is intercepting, and we win and get points then goes to ending 1
 
                 self.win = True
-                self.point.add_value(50)
+                self.point.add_value(100)
                 return True
             else:
                 # this means eve is not intercepting, and we lose one heart then goes to ending 2

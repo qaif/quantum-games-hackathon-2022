@@ -26,6 +26,21 @@ class Story_5(Story):
         self.y = 150
         self.font = 20
 
+
+        # need to hardcoded everything we need from phase 1 to 4 here
+        if globals.testing_the_story_5:
+            
+            self.key_options = [globals.keyboard_bit_0, globals.keyboard_bit_1]
+
+            for i in range(globals.maxBit - 1):
+                globals.romeo_key.append(random.choice(self.key_options))
+                globals.juliet_key.append(random.choice(self.key_options))
+
+            
+        
+        # ===============================================
+
+
 class Story_Ending_1(Story):
 
     def __init__(self, pygame):
