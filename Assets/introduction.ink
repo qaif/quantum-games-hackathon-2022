@@ -15,7 +15,7 @@ Both enrolled and working for the university means having a particularly close r
 {protagonist_name=="Mary":
 You tought you knew everything but you just learned how the color red looks like. # narration
 -else:
-The univeristy makes a nice silhuette against the sky. # narration
+The university makes a nice silhuette against the sky. # narration
 }
 {critter==true:
      The smell of fresh cut grass brightens your mood. # narration

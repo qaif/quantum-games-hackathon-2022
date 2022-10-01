@@ -1,4 +1,4 @@
-﻿    === auditorium ===
+    === auditorium ===
     The auditorium seems empty # narration
     ...except for a lone figure jumping up and down. #narration
     {sender_compartment==true:
@@ -18,7 +18,7 @@
 
 
 =TeleportProducer
-Yes it is a very compicated machine # narration
+Yes it is a very complicated machine # narration
 However the interface seems to be pretty simple # narration
 There is just a one simple button # narration
 produce new # written

@@ -1,4 +1,4 @@
-﻿//Suspect C
+//Suspect C
 === HistoryTeacher ===
 History teacher Chloe Greenberg seems dusty. # narration
 ->questioning
@@ -23,7 +23,7 @@ History teacher Chloe Greenberg seems dusty. # narration
          But I am also glad we did end up divorcing # historyT
          I am pretty sure they are cheating on their current partner # historyT
          I found a strange communication device in their office #historyT
-         and the stuff I over heard once was not that innocent # historyT
+         and the stuff I overheard once was not that innocent # historyT
    }
    -> HistoryTeacher.questioning
 *[Guilt]

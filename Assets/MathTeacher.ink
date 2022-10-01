@@ -1,4 +1,4 @@
-﻿=== MathTeacher ===
+=== MathTeacher ===
 Math teacher Enrico Mwangi seems calculating. # narration
 -> questioning
 =questioning
@@ -35,7 +35,7 @@ Math teacher Enrico Mwangi seems calculating. # narration
               }
    }
    {guilty=="victim":
-          At times he was very stuck inthe past. Having so much regrets. # mathT
+          At times he was very stuck in the past. Having so much regrets. # mathT
           Now he never gets to make up for them. # mathT
    }
    -> questioning

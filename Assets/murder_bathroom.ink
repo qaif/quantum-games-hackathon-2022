@@ -3,7 +3,7 @@
 =EnteringBathroom
 Make a mess, {protagonist_name} will clean it up. # protagonist
 {protagonist_name} do this. {protagonist_name} do that. # protagonist
-Allways the same old. No sense to be mindful of the floor cause we allways got... # protagonist
+Always the same old. No sense to be mindful of the floor cause we always got... # protagonist
 ...something isn't quite right # narration
 You watch in horror that the bathroom is already occupied. # narration
 Not by somebody but something that used to be human. # narration

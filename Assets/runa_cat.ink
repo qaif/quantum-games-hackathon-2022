@@ -65,7 +65,7 @@ Or would you rather hear me quote Nietzsche? # runa
    Hey this will find use # protagonist
    I have tried to get them to stop using cats #runa
    But our late professor insisted upon it # runa
-   even if it made half the univeristy hate them for it # runa
+   even if it made half the university hate them for it # runa
    ~ sleep_powder=true
    {guilty=="runa":
           {injury=="slice":

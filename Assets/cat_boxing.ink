@@ -1,4 +1,4 @@
-﻿===CatDelivery===
+===CatDelivery===
 
 The mail room, while quite spacious, is not really spacious enough for the amount of letters in it. # narration
 A hurried worker is sorting letters with quite some fervor. # narration
@@ -22,7 +22,7 @@ What you want from me? # postWorker
    What do you know about the murder? # protagonist
    Nothing, I know about letters. # postWorker
    {critter==true:
-         I guess even letters knows more about murder. # narration
+         I guess even letters know more about murder. # narration
    }
 -
 -> questioning

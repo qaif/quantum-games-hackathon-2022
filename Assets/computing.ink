@@ -1,4 +1,4 @@
-﻿=== computing ===
+=== computing ===
 VAR left=false
 VAR middle=false
 VAR right=false

@@ -1,4 +1,4 @@
-﻿=== ChemistryTeacher ===
+=== ChemistryTeacher ===
 Chemistry teacher Deep Tamura seems jolty. # narration
 -> questioning
 =questioning
