@@ -29,10 +29,10 @@ phase = 3        # config for setting game phases
 
 remainingHearts = 3     # to check the remaining hearts
 
-starting_timer_minute = 10   # starting timer
+starting_timer_minute = 50   # starting timer
 starting_timer_seconds = 0
 
-timer_minute = 10        # current timer
+timer_minute = 50        # current timer
 timer_seconds = 0
 
 total_score = 0

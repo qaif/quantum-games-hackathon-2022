@@ -18,6 +18,7 @@ from qiskit.providers.aer import QasmSimulator
 #  https://qiskit.org/textbook/ch-algorithms/quantum-key-distribution.html
 # this takes place before phase 2
 def encode_message(bits, bases):
+    print("==================== ENCODE MESSAGE ======================")
     message = []
     for i in range(len(bits)):
         qc = QuantumCircuit(1,1)
@@ -33,6 +34,7 @@ def encode_message(bits, bases):
                 qc.x(0)
                 qc.h(0)
         qc.barrier()
+        print(qc.count_ops())
         message.append(qc)
     return message
 
@@ -40,14 +42,18 @@ def encode_message(bits, bases):
 # results are stored in bob's rsults
 # this is also used to do interception by eve, which will be decided probabilistically
 def measure_message(message, bases):
+    print("==================== MEASURE MESSAGE ======================")
     backend = Aer.get_backend('aer_simulator')
     measurements = []
-    for q in range(globals.selectedBit):
+    for q in range(len(bases)):
         if bases[q] == 0: # measuring in Z-basis
             message[q].measure(0,0)
         if bases[q] == 1: # measuring in X-basis
             message[q].h(0)
             message[q].measure(0,0)
+
+        print(message[q].count_ops())
+
         aer_sim = Aer.get_backend('aer_simulator')
         qobj = assemble(message[q], shots=1, memory=True)
         result = aer_sim.run(qobj).result()
@@ -114,165 +120,3 @@ def sample_bits(bits, selection):
         sample.append(bits.pop(i))
     return sample
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-
-
-
-
-
-''' This is implemented
-globals.selectedBit = 10 # get this from phase 0
-'''
-
-
-# Step 1
-''' this is implemented in a slightly different way
-globals.romeo_bits = randint(2, size=globals.selectedBit) # don't need to do this. player picks it in guitar hero
-globals.romeo_bases = randint(2, size=globals.selectedBit) # don't need to do this. player picks it in guitar hero
-'''
-
-
-# Step 2
-# this line should be run at the end of game 1, so we have the basis qbits for the rest of the
-
-''' # implemented now 
-globals.encoded_qbits = encode_message(globals.romeo_bits, globals.romeo_bases) # this is the thing that eavesdropping changes
-'''
-
-
-'''SKIPPING INTERCEPTION FOR NOW!!!'''
-
-# Interception! # decide this before phase 2 begins!!!!!!
-globals.intercept=False # TURN THIS ONE WHEN TESDTING IS READY FOR IT !
-if random.random() < .33: # eve intercepts the messge 33% of the time
-    globals.intercept=True
-
-# still before phase 2
-if(globals.intercept):
-    globals.eve_bases = randint(2, size=globals.selectedBit) # doesn't need to be a globals variable because it isn't used more than once
-    intercepted_message = measure_message(globals.encoded_qbits, globals.eve_bases)
-
-
-# also ahs to happen before phase 2.
-# Step 3
-''' tHIS IS IMEPLEMENTED
-globals.juliet_bases = randint(2, size=globals.selectedBit)
-globals.juliet_bits = measure_message(globals.encoded_qbits, globals.juliet_bases)
-'''
-
-
-
-# this has to happen before phase 3
-# Step 4 This is the sifting game in
-''' implemented
-globals.juliet_key = sift(globals.romeo_bases, globals.juliet_bases, globals.juliet_bits) # this is used in phase 4
-'''
-
-# still need to implemet this
-''' done 
-globals.romeo_key = sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits) # this is used to check the player's work in phase 3 and used in p4 too
-'''
-
-# Step 5
-# this is the choice the user makes in phase 4!
-# so in phase 4, romeo must already have his key
-
-# DO NOT LET THE PLAYER SAMPLE MORE BITS THAN EXIST IN THEIR KEYS!!!
-# ALSO, 0 IS OKAY
-
-# this is the choice the player makes in phase 4.
-''' done 
-globals.sample_size = 2 # Change this to something lower and see if interference is as easy to detect!
-
-'''
-
-# noise can make the keys different sizes i believe. as can interference!
-# this picks which bits they WILL compare (like the order basically)
-
-# HANDY WILL ADD THIS LATER!
-globals.bits_2sample = randint(globals.selectedBit, size=globals.sample_size)
-
-# this ALSO THROWS AWAY THE VALUES IN THE KEYS THAT THEY COMPARE
-# SO MUCH NUANCE: COMPARE TOO MANY, YOUR KEY IS REALLY SMALL
-# COMPARE TOO FEW, YOUR KEY IS SUBJECT TO NOISE
-
-# handy will randomize the choice later
-globals.juliet_sample = sample_bits(globals.juliet_key, globals.bits_2sample)
-globals.romeo_sample = sample_bits(globals.romeo_key, globals.bits_2sample)
-
-
-# this is what romeo and juliet say to each other on the balcony!!!
-# this can also be done through eve as the information isn't used anyway!
-# technically juliet also has to tell romeo the bases she chose. he sifts before the player sees
-
-
-# phsae 4 of the game is now over
-
-# phase 5 starts now
-# the player just picks yes or no for send the letter, and yes or no for accuse
-
-
-if (globals.intercept):
-    if globals.juliet_sample != globals.romeo_sample:
-        print("interference or noise is present, and the player knows it now")
-    else:
-        print("interference or noise is present, but the player didn't know")
-
-if (globals.juliet_sample == globals.romeo_sample):
-    print("samples match perfectly.")
-else:
-    print("samples do not match perfectly.")
-
-# so why is the below no longer working???
-
-# convert format of the keys so it can work within encryption/decryption functions
-# this has to happen at the start of phase 5
-string_ints = [str(int) for int in globals.romeo_key]
-str_of_ints = ",".join(string_ints)
-globals.romeo_key=str_of_ints
-
-string_ints = [str(int) for int in globals.juliet_key]
-str_of_ints = ",".join(string_ints)
-globals.juliet_key=str_of_ints
-
-# this is the test example message. this is already picked in the game
-''' This is implemented
-globals.to_encrypt="romeo, o romeo"
-'''
-# this has to happen at the start of phaes 5 
-globals.encrypted_text = cipher_encryption(globals.to_encrypt,globals.romeo_key)
-globals.decrypted_text = cipher_decryption(globals.encrypted_text,globals.juliet_key)
-
-''' use this for testing if you want 
-print("message that was encrypted: ", globals.to_encrypt)
-print("encrypted text: ",globals.encrypted_text )
-print("decrypted text: ", globals.decrypted_text)
-print("romeo's key: ", globals.romeo_key)
-print("juliet's key: ",globals.juliet_key)
-'''
-
-
-if(globals.to_encrypt!=globals.decrypted_text):
-    print("the encryption failed:   \"", globals.to_encrypt,"\"   is not \""  ,globals.decrypted_text,"\"")
-else:
-    print("the encryption was a success!")
-
-"""

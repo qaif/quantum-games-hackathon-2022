@@ -29,11 +29,8 @@ class Games:
     def refresh_new_game(self):
         globals.remainingHearts = 3
 
-        globals.starting_timer_minute = 5
-        globals.starting_timer_seconds = 0
-
-        globals.timer_minute = 5
-        globals.timer_seconds = 0
+        globals.timer_minute = globals.starting_timer_minute
+        globals.timer_seconds = globals.starting_timer_seconds
 
         globals.total_score = 0
 
@@ -148,36 +145,59 @@ class Games:
 
     # for bit
     def convert_key_to_int(self, key):
+        print("Convert key to int :", key)
         lstInt = []
         for i in key:
             if i == globals.keyboard_bit_0:
                 lstInt.append(0)
-            else:
+            elif i == globals.keyboard_bit_1:
                 lstInt.append(1)
+
+        print(lstInt)
 
         return lstInt
 
     # for bit
     def convert_string_to_int(self, strings):
+        print("Convert string to int :", strings)
         lstInt = []
         for i in strings:
             if i == "0":
                 lstInt.append(0)
-            else:
+            elif i == "1":
                 lstInt.append(1)
+
+        print(lstInt)
 
         return lstInt
 
     # for bases
     def convert_base_int_to_key(self, ints):
+        print("Convert int to key :", ints)
         lstKey = []
         for i in ints:
             if i == 0:
                 lstKey.append(globals.keyboard_base_z)
-            else:
+            elif i == 1:
                 lstKey.append(globals.keyboard_base_x)
 
+        print(lstKey)
+
         return lstKey
+
+    # for bases
+    def convert_base_key_to_int(self, key):
+        print("Convert key to int :", key)
+        lstInt = []
+        for i in key:
+            if i == globals.keyboard_base_z:
+                lstInt.append(0)
+            elif i == globals.keyboard_base_x:
+                lstInt.append(1)
+
+        print(lstInt)
+
+        return lstInt
 
     class Text:
         """

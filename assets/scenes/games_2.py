@@ -40,7 +40,11 @@ class Games_2(Games):
         self.romeo_bases = globals.romeo_bases
 
 
-        globals.encoded_qbits = bb84.encode_message(globals.romeo_bits, globals.romeo_bases)
+        # convert to qiskit code
+        romeo_base_int = self.convert_base_key_to_int(globals.romeo_bases)
+        romeo_bit_int = self.convert_key_to_int(globals.romeo_bits)
+
+        globals.encoded_qbits = bb84.encode_message(romeo_bit_int, romeo_base_int)
         print("globals.encoded_qbits : ", globals.encoded_qbits)
 
         # choose whether to intercept or not here
@@ -74,6 +78,13 @@ class Games_2(Games):
 
                 self.unmeasured_bits.append(key)
                 globals.juliet_bits.append(key)
+
+        print("games 2 RBas :", globals.romeo_bases)
+        print("games 2 JBas :", globals.juliet_bases)
+        print("games 2 Rand :", random_bases)
+
+        print("games 2 RBit :", globals.romeo_bits)
+        print("games 2 JBit :", globals.juliet_bits)
 
         print("Games 2: Juliet base + bits : ", globals.juliet_bases, globals.juliet_bits)
 
