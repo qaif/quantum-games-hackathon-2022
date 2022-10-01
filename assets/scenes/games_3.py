@@ -53,8 +53,6 @@ class Games_3(Games):
                 #self.juliet_bases.append(random.choice(self.base_options))
             self.numberofbit = globals.selectedBit
 
-        globals.juliet_bases = self.juliet_bases
-
         print("Romeo Bases - Juliet Bases : ", globals.romeo_bases, globals.juliet_bases)
         print("Romeo Bits - Juliet Bits : ", globals.romeo_bits, globals.juliet_bits)
 
