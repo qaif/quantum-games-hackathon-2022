@@ -106,8 +106,7 @@ class Games_2(Games):
         pygame.time.set_timer(self.event_bit_moving, 30)
         pygame.time.set_timer(self.event_bit_change_direction, 5000)
         pygame.time.set_timer(self.event_bit_diminishing, 500)
-        #pygame.time.set_timer(self.event_measuring, 500)
-        pygame.time.set_timer(self.event_measuring, 10)
+        pygame.time.set_timer(self.event_measuring, globals.games_2_measuring_time)
 
         self.reset_flags()
 

@@ -12,6 +12,9 @@ default_text_font = 19
 default_help_font = 12
 default_score_font = 28
 
+#games_2_measuring_time = 500
+games_2_measuring_time = 10
+
 # =================== GAME SETTINGS ========================
 
 minBit = 5          # total min bit selection
@@ -29,10 +32,10 @@ phase = 3        # config for setting game phases
 
 remainingHearts = 3     # to check the remaining hearts
 
-starting_timer_minute = 50   # starting timer
+starting_timer_minute = 8   # starting timer
 starting_timer_seconds = 0
 
-timer_minute = 50        # current timer
+timer_minute = 8        # current timer
 timer_seconds = 0
 
 total_score = 0
