@@ -53,12 +53,8 @@ class Games_3(Games):
                 #self.juliet_bases.append(random.choice(self.base_options))
             self.numberofbit = globals.selectedBit
 
-        print("Romeo Bases - Juliet Bases : ", globals.romeo_bases, globals.juliet_bases)
-        print("Romeo Bits - Juliet Bits : ", globals.romeo_bits, globals.juliet_bits)
-
         self.start_x_pos = globals.screenSize[0] / 2
         self.start_x_pos -= (29 * self.numberofbit)
-        print(" Start x pos games 3 : ", self.start_x_pos)
 
         self.no_hides = 0
 
