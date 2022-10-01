@@ -68,10 +68,23 @@ class Games_5(Games):
 
     def check_answers(self):
         # we need to decide the 4 scenarios
-        if self.current_selection == "Yes":
-            return True
+        if self.current_selection == "Yes":            
+            if globals.intercept:
+                # this means eve is intercepting, and we win and get points
+
+                self.win = True
+                self.point.add_value(50)
+                return True
+            else:
+                # this means eve is intercepting, and we lose one heart
+
+                self.lose = True
+                return False
         else:
-            return False
+            # goes to games 6 sending letter 
+            self.finish = True
+            self.win = True
+            return True
 
 
 
@@ -106,9 +119,16 @@ class Games_5(Games):
                     self.current_selection = "No"
 
                 elif self.story_phase == 3 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
+
                     if self.check_answers():
-                        self.text.text = "I am sorry... I didn't mean to.. I just want you and Juliet to be alive .... "
+
+                        if self.answer_accuse:
+                            self.text.text = "I am sorry... I didn't mean to.. I just want you and Juliet to be alive .... "
+                        else:
+                            self.text.text = "will send the message to juliet .... "
+                        
                         self.win = True
+
                     else:
                         self.text.text = "Fu fu fu fu .... "
                         self.lose = True

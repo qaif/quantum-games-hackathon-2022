@@ -47,10 +47,28 @@ class Games_6(Games):
 
     def check_answers(self):
         # we need to decide the 4 scenarios
-        if self.current_selection == "Yes":
-            return True
+        if self.current_selection == "Yes":            
+            if globals.noise == False:
+                # this means Romeo send the letter, and there is no noise. Juliet receive the letter and understand
+
+                self.win = True
+                self.point.add_value(50)
+                return True
+            else:
+                # this means Romeo send the letter, and there is noise. Juliet receive the letter and doesnt understand
+                self.lose = True
+                return False
         else:
-            return False
+            if globals.noise == True:
+                # this means Romeo doesn't send the letter, and there is noise. Juliet doesn't receive letter
+
+                self.win = True
+                self.point.add_value(50)
+                return True
+            else:
+                # this means Romeo doesn't send the letter, and there is not noise. Juliet doesn't receive letter
+                self.lose = True
+                return False
 
 
 
