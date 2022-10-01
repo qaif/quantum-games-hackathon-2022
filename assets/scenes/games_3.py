@@ -36,6 +36,11 @@ class Games_3(Games):
         self.base_options = [globals.keyboard_base_x, globals.keyboard_base_z]
 
         self.juliet_bits = globals.juliet_bits
+
+        # apply the changes to juliet's bits here when noise accumulated
+        # in phase 2! 
+
+
         self.romeo_bases = globals.romeo_bases
         self.juliet_bases = globals.juliet_bases
         self.numberofbit = 0
