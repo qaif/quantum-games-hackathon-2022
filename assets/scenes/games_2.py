@@ -33,6 +33,7 @@ class Games_2(Games):
         self.cursor_img_rect = self.cursor_img.get_rect()
 
         self.bit_options = [globals.keyboard_bit_0, globals.keyboard_bit_1]
+        self.base_options = [globals.keyboard_base_x, globals.keyboard_base_z]
         self.unmeasured_bits = []
 
         self.romeo_bits = globals.romeo_bits
@@ -40,28 +41,35 @@ class Games_2(Games):
 
 
         globals.encoded_qbits = bb84.encode_message(globals.romeo_bits, globals.romeo_bases)
+        print("globals.encoded_qbits : ", globals.encoded_qbits)
 
         # choose whether to intercept or not here
 
-
-        # measured the encoded bits here
-        globals.juliet_bases = randint(2, size=globals.selectedBit)
-        globals.juliet_bits = bb84.measure_message(globals.encoded_qbits, globals.juliet_bases)
 
 
         if globals.testing:
             for i in range(globals.maxBit):
                 self.unmeasured_bits.append(random.choice(self.bit_options))
         else:
-            for i in globals.juliet_bits:
+            # measured the encoded bits here
+            for i in range(globals.selectedBit):
+                globals.juliet_bases.append(random.choice(self.base_options))
+
+            random_bases = randint(2, size=globals.selectedBit)
+            measured_message = bb84.measure_message(globals.encoded_qbits, random_bases)
+
+            for i in measured_message:
                 # translating from string 0/1 to int key board press
                 key = 0
-                if i == "0":
+                if i == 0:
                     key = globals.keyboard_bit_0
                 else:
                     key = globals.keyboard_bit_1
 
                 self.unmeasured_bits.append(key)
+                globals.juliet_bits.append(key)
+
+        print("Games 2: Juliet base + bits : ", globals.juliet_bases, globals.juliet_bits)
 
         self.measured_count_seconds = np.ones(len(self.unmeasured_bits)) * 3
 
@@ -169,6 +177,9 @@ class Games_2(Games):
                     self.measured_count_seconds[b.idx] = self.measured_count_seconds[b.idx] - 1
             elif event.type == self.timer_event:
                 self.process_timer()
+
+            self.process_blink_text(event)
+
 
 
         # measuring

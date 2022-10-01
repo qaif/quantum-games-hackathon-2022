@@ -44,14 +44,15 @@ encoded_qbits = [] # romeo creates this after phase 1, and eve takes it to julie
 
 romeo_bits = []     # romeo bits
 romeo_bases = []    # romeo bases
-
 romeo_key = []    # ??? this should be their key after sifting
+translated_romeo_key = []
 
 eve_bases = []
 
 juliet_bits = []   # juliet bits
 juliet_bases = []   # juliet bases
 juliet_key = []    # ???
+translated_juliet_key = []
 
 # this is what the player is shown in phase 4
 sample_size=0

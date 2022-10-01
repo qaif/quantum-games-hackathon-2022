@@ -51,7 +51,6 @@ class Games_3(Games):
             #for i in range(globals.selectedBit):
                 #Juliet bases has been chosen in phase 2
                 #self.juliet_bases.append(random.choice(self.base_options))
-
             self.numberofbit = globals.selectedBit
 
         globals.juliet_bases = self.juliet_bases
@@ -81,8 +80,18 @@ class Games_3(Games):
         pygame.time.set_timer(self.event_hide_box, 700)
 
         self.input_box = InputBox(380, 450, 140, 44)
+        
         self.answer_key = bb84.sift(globals.romeo_bases, globals.juliet_bases, globals.juliet_bits) # this is where the Juliet key from sifting
-        globals.juliet_key = self.answer_key
+
+        self.translated_key = ""
+        for a in self.answer_key:
+            if a == globals.keyboard_bit_0:
+                self.translated_key += "0"
+            else:
+                self.translated_key += "1"
+
+        globals.juliet_key = self.translated_key
+        print(self.translated_key)
         self.input_key = ""
 
         self.finish = False
@@ -155,15 +164,20 @@ class Games_3(Games):
         globals.juliet_key = self.answer_key
 
     def check_answer_key(self):
-        if self.answer_key == self.input_key:
+        print("Games 3 : self.translated_key: ", self.translated_key)
+        if self.translated_key == self.input_key:
             print("Correct")
             self.verified_answer = True
+            self.finish = True
+            self.win = True
+            self.lose = False
         else:
             print("False")
             self.input_box.text = ""
             self.input_box.txt_surface = FONT.render("", True, self.input_box.color)
             self.reduce_hearts()
-            self.verified_answer = False
+            self.verified_answer = True
+            self.lose = True
 
     def call_event(self, window: pygame.Surface):
         # to show the background
@@ -179,15 +193,13 @@ class Games_3(Games):
             elif event.type == self.timer_event:
                 self.process_timer()
 
-
             self.input_key = self.input_box.handle_event(event)
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN and self.verified_answer:
-                    self.finish = True
-                    self.win = True
-                if event.key == pygame.K_RETURN and self.verified_answer == False:
+                if event.key == pygame.K_RETURN and (self.verified_answer == False or self.lose):
                     self.check_answer_key()
+
+            self.process_blink_text(event)
 
         # this is to fix the bugs from games 2
         for r in self.juliet_bit_display:

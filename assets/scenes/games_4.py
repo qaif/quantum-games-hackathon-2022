@@ -25,7 +25,7 @@ class Games_4(Games):
         # note: we have to code the sifting of romeo's key behind the scenes. player doesn't seem him do it.
         self.romeo_key = []
         self.juliet_key = []
-        self.key_options = ["0", "1"]
+        self.key_options = [globals.keyboard_bit_0, globals.keyboard_bit_1]
         self.key_size = 0
 
         if globals.testing:
@@ -34,7 +34,7 @@ class Games_4(Games):
                 self.juliet_key.append(random.choice(self.key_options))
             self.key_size = globals.maxBit
         else:
-            self.romeo_key = bbb84.sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits)
+            self.romeo_key = bb84.sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits)
             self.juliet_key = [x for x in globals.juliet_key]
             self.key_size = len(globals.juliet_key)
 
@@ -51,14 +51,8 @@ class Games_4(Games):
         #print(self.start_x_pos)
 
         i = 0
-        for type in self.romeo_key:  # we need to use Juliet's bits here
-            key = 0
-            if type == "0":
-                key = globals.keyboard_bit_0
-            else:
-                key = globals.keyboard_bit_1
-
-            b = BitBase(key, _idx=i)
+        for type in self.romeo_key:  
+            b = BitBase(type, _idx=i)
             b.rect = b.image.get_rect(topleft=(self.start_x_pos, 300))
             self.romeo_key_display.add(b)
 
@@ -141,19 +135,30 @@ class Games_4(Games):
                 globals.selectedBit=5
                 globals.juliet_key=[1,1,1,0,1]
                 globals.romeo_key=[1,0,1,0,1]
-            globals.bits_2sample = randint(globals.selectedBit, size=globals.sample_size)
-            globals.juliet_sample = bb84.sample_bits(globals.juliet_key, globals.bits_2sample) #[0 1 0 1 1 0]
-            globals.romeo_sample = bb84.sample_bits(globals.romeo_key, globals.bits_2sample) #[0 1 0 1 1 0]
 
-        elif event.key == pygame.K_a:
-            if self.current_bit <= 1:
-                self.current_bit = 1
+
+            globals.translated_romeo_key = self.convert_key_to_int(globals.romeo_key)
+            globals.translated_juliet_key = self.convert_string_to_int(globals.juliet_key)
+
+            print("games 4 : translated romeo key, juliet key", globals.translated_romeo_key, globals.translated_juliet_key)
+
+            globals.bits_2sample = randint(globals.selectedBit, size=globals.sample_size)
+            globals.juliet_sample = bb84.sample_bits(globals.translated_juliet_key, globals.bits_2sample) #[0 1 0 1 1 0]
+            globals.romeo_sample = bb84.sample_bits(globals.translated_romeo_key, globals.bits_2sample) #[0 1 0 1 1 0]
+
+            print("games 4 : after sample romeo key, juliet key", globals.translated_romeo_key, globals.translated_juliet_key)
+
+            print("games 4 : sample romeo, juliet", globals.romeo_sample, globals.juliet_sample)
+
+        elif event.key == pygame.K_LEFT:
+            if self.current_bit <= 0:
+                self.current_bit = 0
             else:
                 self.current_bit -= 1
 
-        elif event.key == globals.keyboard_bit_0: # d
-            if self.current_bit >= self.key_size:
-                self.current_bit = self.key_size
+        elif event.key == pygame.K_RIGHT: 
+            if self.current_bit >= self.key_size - 1:
+                self.current_bit = self.key_size - 1
             else:
                 self.current_bit += 1
 
@@ -192,6 +197,8 @@ class Games_4(Games):
             elif event.type == self.timer_event:
                 self.process_timer()
 
+            self.process_blink_text(event)
+
             if event.type == pygame.KEYDOWN:
 
                 self.select_bit_event(event)
@@ -205,7 +212,6 @@ class Games_4(Games):
                     else:
                         self.finish = True
                         self.win = True
-
 
                         print("Game Finish")
 

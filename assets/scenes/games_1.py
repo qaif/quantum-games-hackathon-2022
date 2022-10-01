@@ -170,6 +170,8 @@ class Games_1(Games):
                 self.blink_x = False
                 self.blink_z = False
 
+            self.process_blink_text(event)
+
 
             if event.type == pygame.KEYDOWN:
                 if self.get_bit(event.key) or self.get_measurement(event.key):

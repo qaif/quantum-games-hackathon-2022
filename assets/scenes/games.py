@@ -18,7 +18,12 @@ class Games:
 
 
         self.timer_event = pygame.USEREVENT
+        self.text_blinking = pygame.USEREVENT + 10
+
         pygame.time.set_timer(self.timer_event, 1000)  # 2000 milliseconds = 2 seconds
+        pygame.time.set_timer(self.text_blinking, 1000)  # 2000 milliseconds = 2 seconds
+        
+        self.show_next = False
 
     # refresh on main menu
     def refresh_new_game(self):
@@ -36,16 +41,41 @@ class Games:
 
     # refresh on phase 0
     def refresh_after_loop(self):
-        globals.selectedBit = 0
-        globals.secret_key = ""
+        
+        globals.selectedBit = 0     # selected # of bit
+        globals.secret_key = ""     # created secret_key
 
-        globals.romeo_bits = []
-        globals.romeo_bases = []
-        globals.romeo_key = []
+        globals.to_encrypt=""
 
-        globals.juliet_bits = []
-        globals.juliet_bases = []
-        globals.juliet_key = []
+        # eve can eavesdrop on this, changing it
+        globals.encoded_qbits = [] # romeo creates this after phase 1, and eve takes it to juliet
+
+        globals.romeo_bits = []     # romeo bits
+        globals.romeo_bases = []    # romeo bases
+        globals.romeo_key = []    # ??? this should be their key after sifting
+        globals.translated_romeo_key = []
+
+        globals.eve_bases = []
+
+        globals.juliet_bits = []   # juliet bits
+        globals.juliet_bases = []   # juliet bases
+        globals.juliet_key = []    # ???
+        globals.translated_juliet_key = []
+
+        # this is what the player is shown in phase 4
+        globals.sample_size=0
+        globals.bits_2sample = 0 # player choice in phase 4
+        globals.romeo_sample = [] # random choices from romeo's measurements
+        globals.juliet_sample = [] # random choices from juliet's measurements
+
+        # what romeo sends
+        globals.encrypted_text=""
+
+        # what juliet receives after decrypting
+        globals.decryped_text=""
+
+        globals.intercept = False # if eve chooses to eavesdrop
+        globals.noise = False     # if ANY noise affected bit selection
 
 
     def generate_hearts(self):
@@ -88,6 +118,13 @@ class Games:
         else:
             globals.timer_seconds -= 1
 
+    def process_blink_text(self, event):
+        if event.type == self.text_blinking and self.finish == True:
+            if self.show_next:
+                self.show_next = False
+            else:
+                self.show_next = True
+
     def reset_flags(self):
         self.finish = False
         self.win = False
@@ -109,11 +146,31 @@ class Games:
         self.lives_title.text_display(window)
         self.hearts.draw(window)
 
+    def convert_key_to_int(self, key):
+        lstInt = []
+        for i in key:
+            if i == globals.keyboard_bit_0:
+                lstInt.append(0)
+            else:
+                lstInt.append(1)
+
+        return lstInt
+
+    def convert_string_to_int(self, string):
+        lstInt = []
+        for i in string:
+            if i == "0":
+                lstInt.append(0)
+            else:
+                lstInt.append(1)
+
+        return lstInt
+
     class Text:
         """
         class to display text on the screen
         """
-        def __init__(self, par_x: int = 0, par_y: int = 0, par_text: str = "", font_size: int = 24, par_colour = globals.BLACK):
+        def __init__(self, par_x: int = 0, par_y: int = 0, par_text: str = "", font_size: int = 22, par_colour = globals.BLACK):
             self.font = pygame.font.Font("freesansbold.ttf", font_size)
             self.colour = par_colour
             self.x = par_x

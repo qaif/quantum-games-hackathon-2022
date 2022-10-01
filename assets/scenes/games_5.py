@@ -21,20 +21,27 @@ class Games_5(Games):
 
         self.start_x_pos = globals.screenSize[0] / 2
 
-        self.text = self.Text(par_x=100, par_y=50, par_text="Should I accuse Eve of eavesdropping? Don't forget how many bits didn't match in the garden...")
-        string_ints = [str(int) for int in globals.romeo_key]
+        self.text = self.Text(par_x=50, par_y=50, par_text="Should I accuse Eve of eavesdropping?")
+        self.text2 = self.Text(par_x=50, par_y=100, par_text="Don't forget how many bits didn't match in the garden...")
+
+        string_ints = [str(int) for int in globals.translated_romeo_key]
         str_of_ints = ",".join(string_ints)
         globals.romeo_key = str_of_ints
 
-        string_ints = [str(int) for int in globals.juliet_key]
+        string_ints = [str(int) for int in globals.translated_juliet_key]
         str_of_ints = ",".join(string_ints)
         globals.juliet_key = str_of_ints
         self.answer_options = ["Yes", "No"]
         self.current_selection = "Yes"
         self.answer = ""
 
+        print("Games 5 : ")
+
         globals.encrypted_text = bb84.cipher_encryption(globals.to_encrypt, globals.romeo_key)
         globals.decrypted_text = bb84.cipher_decryption(globals.encrypted_text, globals.juliet_key)
+
+        print("encrypted_text: ", globals.encrypted_text)
+        print("decrypted_text: ", globals.decrypted_text)
 
         self.story_phase = 0
 
@@ -50,7 +57,7 @@ class Games_5(Games):
             a = 255
 
 
-            drawText(screen, answer, (i * 70) + 100, 100, c, a)
+            drawText(screen, answer, (i * 70) + 50, 150, c, a)
             i += 1
 
 
@@ -79,6 +86,8 @@ class Games_5(Games):
             elif event.type == self.timer_event:
                 self.process_timer()
 
+            self.process_blink_text(event)
+
             if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_RETURN and self.story_phase == 0:
@@ -86,10 +95,10 @@ class Games_5(Games):
                     print(self.answer)
                     self.story_phase = 1
 
-                elif event.key == pygame.K_a:
+                elif event.key == pygame.K_LEFT:
                     self.current_selection = "Yes"
 
-                elif event.key == globals.keyboard_bit_0:  # d
+                elif event.key == pygame.K_RIGHT: 
                     self.current_selection = "No"
 
                 elif self.story_phase == 3 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
@@ -108,6 +117,7 @@ class Games_5(Games):
 
         if self.story_phase == 0:
             self.text.text_display(window)
+            self.text2.text_display(window)
         elif self.story_phase == 1:
             if self.answer == "Yes":
                 self.text.text = "Cursed you Eve! I know you are trying to seperate us !!!"

@@ -19,6 +19,12 @@ class Story(Games):
         self.font = 20
         self.color = globals.BLACK
 
+        # user defined function
+        self.text_blinking = pygame.USEREVENT + 10
+        self.show_next = False
+
+        pygame.time.set_timer(self.text_blinking, 1000)  # 2000 milliseconds = 2 seconds
+
     def progress_story(self):
         if self.story_index == len(self.story_text) - 1:
             self.finish = True
@@ -37,6 +43,11 @@ class Story(Games):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.progress_story()
+            elif event.type == self.text_blinking and self.finish == True:
+                if self.show_next:
+                    self.show_next = False
+                else:
+                    self.show_next = True
 
         if len(self.story_text[self.story_index]) > 60:
             # divide into two lines
@@ -47,4 +58,7 @@ class Story(Games):
             drawText(window, line1, self.x, self.y, self.color, 255, self.font)
             drawText(window, line2, self.x, self.y + 30, self.color, 255, self.font)
         else:
-            drawText(window, self.story_text[self.story_index], self.x, self.y, self.color, 255, self.font)
+           drawText(window, self.story_text[self.story_index], self.x, self.y, self.color, 255, self.font)
+
+        if self.show_next:
+            drawText(window, "Press [Enter] to continue", 50, 250, self.color, 255, self.font)

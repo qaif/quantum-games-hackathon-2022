@@ -85,8 +85,8 @@ class FadeTransitionScene(TransitionScene):
 class MainMenuScene(Scene):
     def __init__(self):
         super().__init__()
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
-        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = quit]', 270, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 50, 20)
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = quit]', 170, 20)
         pygame.event.clear()
         self.mainmenu = MainMenu(pygame)
     def onEnter(self):
@@ -99,7 +99,7 @@ class MainMenuScene(Scene):
             sm.pop()
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
         self.esc.update(inputStream)
 
     def draw(self, sm, screen):
@@ -108,13 +108,13 @@ class MainMenuScene(Scene):
 
         drawText(screen, 'Press [Enter] to start the game ...', 340, 350, pygame.Color(0, 0, 0), 255)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
         self.esc.draw(screen)
 
 class IntroductionScene(Scene):
     def __init__(self):
         super().__init__()
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.intro = Story_Introduction(pygame)
@@ -126,19 +126,18 @@ class IntroductionScene(Scene):
             sm.push(FadeTransitionScene([self], [Games0Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
         #self.esc.update(inputStream)
 
     def draw(self, sm, screen):
         self.intro.call_event(screen)
-        self.enter.draw(screen)
+        self.space.draw(screen)
         #self.esc.draw(screen)
 
 
 class GameOverScene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
-        #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         pygame.event.clear()
         self.gameover = GameOver(pygame)
     def onEnter(self):
@@ -150,18 +149,16 @@ class GameOverScene(Scene):
             sm.push(FadeTransitionScene([self], [MainMenuScene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
-        #self.esc.update(inputStream)
+        self.space.update(inputStream)
 
     def draw(self, sm, screen):
         self.gameover.call_event(screen)
 
-        self.enter.draw(screen)
-        #self.esc.draw(screen)
+        self.space.draw(screen)
 
 class Story0Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_0 = Story_0(pygame)
@@ -173,20 +170,20 @@ class Story0Scene(Scene):
             sm.push(FadeTransitionScene([self], [Games0Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
         #self.esc.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_0.call_event(screen)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
         #self.esc.draw(screen)
 
 class Games0Scene(Scene):
     def __init__(self):
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 50, 20)
-        self.a = ButtonUI(pygame.K_a, '[a = left]', 170, 20)
-        self.d = ButtonUI(globals.keyboard_bit_0, '[d = right]', 250, 20)
+        self.a = ButtonUI(pygame.K_LEFT, '[<- = left]', 170, 20)
+        self.d = ButtonUI(pygame.K_RIGHT, '[-> = right]', 250, 20)
         self.space = ButtonUI(pygame.K_SPACE, '[space = select]', 350, 20)
         self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue]', 500, 20)
 
@@ -225,7 +222,7 @@ class Games0Scene(Scene):
 
 class Story0_5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_0_5 = Story_0_5(pygame)
@@ -237,18 +234,18 @@ class Story0_5Scene(Scene):
             sm.push(FadeTransitionScene([self], [Story1Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
         #self.esc.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_0_5.call_event(screen)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
         #self.esc.draw(screen)
 
 class Story1Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_1 = Story_1(pygame)
@@ -260,22 +257,22 @@ class Story1Scene(Scene):
             sm.push(FadeTransitionScene([self], [Games1Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
         #self.esc.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_1.call_event(screen)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
         #self.esc.draw(screen)
 
 class Games1Scene(Scene):
     def __init__(self):
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 50, 20)
-        self.d = ButtonUI(globals.keyboard_bit_0, '[d = bit-0]', 150, 10)
-        self.f = ButtonUI(globals.keyboard_bit_1, '[f = bit-1]', 250, 10)
-        self.j = ButtonUI(globals.keyboard_base_x, '[j = base-X]', 340, 10)
-        self.k = ButtonUI(globals.keyboard_base_z, '[k = base-Z]', 460, 10)
+        self.d = ButtonUI(globals.keyboard_bit_0, '[0 = bit-0]', 150, 10)
+        self.f = ButtonUI(globals.keyboard_bit_1, '[1 = bit-1]', 250, 10)
+        self.j = ButtonUI(globals.keyboard_base_x, '[x = base-X]', 340, 10)
+        self.k = ButtonUI(globals.keyboard_base_z, '[z = base-Z]', 460, 10)
 
         pygame.event.clear()
         self.g1 = Games_1(pygame)
@@ -318,7 +315,7 @@ class Games1Scene(Scene):
         self.k.draw(screen, par_colour = globals.WHITE)
 
 
-        if self.g1.finish and self.g1.win:
+        if self.g1.finish and self.g1.win and self.g1.show_next:
             drawText(screen, 'CLEAR! Press Enter to continue...', 175, 300, globals.BLACK, 255, 40)
             self.g1.pause = True
         elif self.g1.finish and self.g1.gameover:
@@ -326,7 +323,7 @@ class Games1Scene(Scene):
 
 class Story1_5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_1_5 = Story_1_5(pygame)
@@ -338,18 +335,18 @@ class Story1_5Scene(Scene):
             sm.push(FadeTransitionScene([self], [Story2Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
         #self.esc.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_1_5.call_event(screen)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
         #self.esc.draw(screen)
 
 class Story2Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_2 = Story_2(pygame)
@@ -361,13 +358,13 @@ class Story2Scene(Scene):
             sm.push(FadeTransitionScene([self], [Games2Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
         #self.esc.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_2.call_event(screen)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
         #self.esc.draw(screen)
 
 class Games2Scene(Scene):
@@ -403,7 +400,7 @@ class Games2Scene(Scene):
 
         #self.esc.draw(screen)
 
-        if self.g2.finish and self.g2.win:
+        if self.g2.finish and self.g2.win and self.g2.show_next:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
             self.g2.pause = True
         elif self.g2.finish and self.g2.gameover:
@@ -411,7 +408,7 @@ class Games2Scene(Scene):
 
 class Story2_5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 170, 20)
         pygame.event.clear()
         self.story_2_5 = Story_2_5(pygame)
@@ -423,18 +420,18 @@ class Story2_5Scene(Scene):
             sm.push(FadeTransitionScene([self], [Story3Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
         #self.esc.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_2_5.call_event(screen)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
         #self.esc.draw(screen)
 
 class Story3Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         pygame.event.clear()
         self.story_3 = Story_3(pygame)
     def onEnter(self):
@@ -445,17 +442,17 @@ class Story3Scene(Scene):
             sm.push(FadeTransitionScene([self], [Games3Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_3.call_event(screen)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
 
 class Games3Scene(Scene):
     def __init__(self):
         self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc=quit]', 150, 20)
-
+        self.move_scene = False
         pygame.event.clear()
         self.g3 = Games_3(pygame)
     def onEnter(self):
@@ -466,7 +463,7 @@ class Games3Scene(Scene):
         self.esc.update(inputStream)
 
     def input(self, sm, inputStream):
-        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g3.win and self.g3.verified_answer:
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene:
             sm.push(FadeTransitionScene([self], [Story3_5Scene()]))
         elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g3.finish and self.g3.gameover:
             sm.push(FadeTransitionScene([self], [GameOverScene()]))
@@ -475,16 +472,17 @@ class Games3Scene(Scene):
         self.g3.call_event(screen)
         #self.esc.draw(screen)
 
-        if self.g3.finish and self.g3.verified_answer:
-            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
+        if self.g3.finish and self.g3.verified_answer and self.g3.show_next:
+            drawText(screen, 'CLEAR! Press Enter to continue...', 250, 360, globals.WHITE, 255, 32)
             self.g3.pause = True
-        elif self.g3.finish and self.g3.verified_answer == False:
-            drawText(screen, 'Wrong! Try again...', 50, 300, globals.BLACK, 255, 40)
-            self.g3.pause = True
+            self.move_scene = True
+        elif self.g3.verified_answer and self.g3.lose:
+            drawText(screen, 'Wrong! Try again...', 250, 360, globals.WHITE, 255, 32)
+            
 
 class Story3_5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         pygame.event.clear()
         self.story_3_5 = Story_3_5(pygame)
     def onEnter(self):
@@ -495,16 +493,16 @@ class Story3_5Scene(Scene):
             sm.push(FadeTransitionScene([self], [Story4Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_3_5.call_event(screen)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
 
 class Story4Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         pygame.event.clear()
         self.story_4 = Story_4(pygame)
     def onEnter(self):
@@ -515,18 +513,18 @@ class Story4Scene(Scene):
             sm.push(FadeTransitionScene([self], [Games4Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_4.call_event(screen)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
 
 class Games4Scene(Scene):
     def __init__(self):
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 50, 20)
-        self.a = ButtonUI(pygame.K_a, '[a = left]', 170, 20)
-        self.d = ButtonUI(globals.keyboard_bit_0, '[d = right]', 250, 20)
+        self.a = ButtonUI(pygame.K_LEFT, '[<- = left]', 170, 20)
+        self.d = ButtonUI(pygame.K_LEFT, '[-> = right]', 250, 20)
         self.space = ButtonUI(pygame.K_SPACE, '[space = select]', 350, 20)
         self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue]', 500, 20)
 
@@ -563,13 +561,13 @@ class Games4Scene(Scene):
         self.space.draw(screen)
         self.enter.draw(screen)
 
-        if self.g4.finish and self.g4.win:
+        if self.g4.finish and self.g4.win and self.g4.show_next:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
             self.g4.pause = True
 
 class Story4_5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         pygame.event.clear()
         self.story_4_5 = Story_4_5(pygame)
     def onEnter(self):
@@ -580,16 +578,16 @@ class Story4_5Scene(Scene):
             sm.push(FadeTransitionScene([self], [Story5Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_4_5.call_event(screen)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
 
 class Story5Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         pygame.event.clear()
         self.story_5 = Story_5(pygame)
     def onEnter(self):
@@ -601,20 +599,22 @@ class Story5Scene(Scene):
             sm.push(FadeTransitionScene([self], [Games5Scene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_5.call_event(screen)
 
-        self.enter.draw(screen)
+        self.space.draw(screen)
 
 class Games5Scene(Scene):
     def __init__(self):
         #self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = back]', 50, 20)
-        self.a = ButtonUI(pygame.K_a, '[a = left]', 170, 20)
-        self.d = ButtonUI(globals.keyboard_bit_0, '[d = right]', 250, 20)
-        self.space = ButtonUI(pygame.K_SPACE, '[space = select]', 350, 20)
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue]', 500, 20)
+        self.a = ButtonUI(pygame.K_LEFT, '[<- = left]', 70, 20)
+        self.d = ButtonUI(pygame.K_RIGHT, '[-> = right]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[space = select]', 250, 20)
+        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = continue]', 400, 20)
+
+        self.move_scene = False
 
         pygame.event.clear()
         self.g5 = Games_5(pygame)
@@ -630,12 +630,9 @@ class Games5Scene(Scene):
         self.enter.update(inputStream)
 
     def input(self, sm, inputStream):
-        if inputStream.keyboard.isKeyPressed(pygame.K_SPACE):
-            globals.selectedBit = globals.currentBit
-
-        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g5.win:
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g5.win:
             sm.push(FadeTransitionScene([self], [StoryEnding1Scene()]))
-        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g5.lose:
+        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g5.lose:
             sm.push(FadeTransitionScene([self], [StoryEnding2Scene()]))
 
         #if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
@@ -648,18 +645,19 @@ class Games5Scene(Scene):
         self.a.draw(screen)
         self.d.draw(screen)
         self.space.draw(screen)
-        self.enter.draw(screen)
+        self.space.draw(screen)
 
-        if self.g5.finish and self.g5.win:
-            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
+        if self.g5.finish and self.g5.win and self.g5.show_next:
+            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
             self.g5.pause = True
+            self.move_scene = True
         if self.g5.finish and self.g5.lose:
-            drawText(screen, 'Lose! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
+            drawText(screen, 'Lose! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
             self.g5.pause = True
 
 class StoryEnding1Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         pygame.event.clear()
         self.story_ending_1 = Story_Ending_1(pygame)
     def onEnter(self):
@@ -672,15 +670,15 @@ class StoryEnding1Scene(Scene):
             sm.push(FadeTransitionScene([self], [LeaderboardScene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_ending_1.call_event(screen)
-        self.enter.draw(screen)
+        self.space.draw(screen)
 
 class StoryEnding2Scene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         pygame.event.clear()
         self.story_ending_2 = Story_Ending_2(pygame)
     def onEnter(self):
@@ -693,16 +691,17 @@ class StoryEnding2Scene(Scene):
             sm.push(FadeTransitionScene([self], [LeaderboardScene()]))
 
     def update(self, sm, inputStream):
-        self.enter.update(inputStream)
+        self.space.update(inputStream)
 
     def draw(self, sm, screen):
         self.story_ending_2.call_event(screen)
-        self.enter.draw(screen)
+        self.space.draw(screen)
 
 class LeaderboardScene(Scene):
     def __init__(self):
-        self.enter = ButtonUI(pygame.K_RETURN, '[Enter = next]', 150, 20)
-        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = return to main menu]', 450, 20)
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
+        self.enter = ButtonUI(pygame.K_ENTER, '[Enter = continue playing]', 200, 20)
+        self.esc = ButtonUI(pygame.K_ESCAPE, '[Esc = return to main menu]', 550, 20)
         pygame.event.clear()
         self.leader = Story_Leaderboard(pygame)
 
@@ -723,6 +722,7 @@ class LeaderboardScene(Scene):
             sm.push(FadeTransitionScene([self], [MainMenuScene()]))
 
     def update(self, sm, inputStream):
+        self.space.update(inputStream)
         self.enter.update(inputStream)
         self.esc.update(inputStream)
 
