@@ -7,6 +7,7 @@ from assets.scenes.games import Games
 from assets.classes.measurementbase import MeasurementBase, BitBase
 from assets.classes.input_boxes import InputBox
 from assets.classes.utils import *
+from numpy.random import randint
 
 import bb84
 
@@ -135,7 +136,9 @@ class Games_4(Games):
             print(self.to_compare)
             self.proceed = True
 
-
+            print("p4 test")
+            print(globals.sample_size)
+            print(globals.selectedBit)
             globals.bits_2sample = randint(globals.selectedBit, size=globals.sample_size)
             globals.juliet_sample = bb84.sample_bits(globals.juliet_key, globals.bits_2sample) #[0 1 0 1 1 0]
             globals.romeo_sample = bb84.sample_bits(globals.romeo_key, globals.bits_2sample) #[0 1 0 1 1 0]
