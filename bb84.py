@@ -18,7 +18,6 @@ from qiskit.providers.aer import QasmSimulator
 #  https://qiskit.org/textbook/ch-algorithms/quantum-key-distribution.html
 # this takes place before phase 2
 def encode_message(bits, bases):
-    print("==================== ENCODE MESSAGE ======================")
     message = []
     for i in range(len(bits)):
         qc = QuantumCircuit(1,1)
@@ -34,7 +33,7 @@ def encode_message(bits, bases):
                 qc.x(0)
                 qc.h(0)
         qc.barrier()
-        print(qc.count_ops())
+        #print(qc.count_ops())
         message.append(qc)
     return message
 
@@ -42,7 +41,6 @@ def encode_message(bits, bases):
 # results are stored in bob's rsults
 # this is also used to do interception by eve, which will be decided probabilistically
 def measure_message(message, bases):
-    print("==================== MEASURE MESSAGE ======================")
     backend = Aer.get_backend('aer_simulator')
     measurements = []
     for q in range(len(bases)):
@@ -52,7 +50,7 @@ def measure_message(message, bases):
             message[q].h(0)
             message[q].measure(0,0)
 
-        print(message[q].count_ops())
+        #print(message[q].count_ops())
 
         aer_sim = Aer.get_backend('aer_simulator')
         qobj = assemble(message[q], shots=1, memory=True)

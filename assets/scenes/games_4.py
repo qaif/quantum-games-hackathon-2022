@@ -18,7 +18,6 @@ class Games_4(Games):
 
     def __init__(self, pygame):
         super().__init__()
-        print("games 4 secret key: ", globals.secret_key)
         # change this to one meant for this phase. for now just a white screen
         self.background = pygame.image.load("assets/images/games_4.jpg")
 
@@ -43,9 +42,6 @@ class Games_4(Games):
             self.romeo_key = bb84.sift(globals.romeo_bases, globals.juliet_bases, globals.romeo_bits)
             self.juliet_key = [x for x in globals.juliet_key]
             self.key_size = len(globals.juliet_key)
-
-        print(self.romeo_key, self.juliet_key, self.key_size)
-        print("Romeo Key - Juliet Key : ", self.romeo_key, self.juliet_key, self.key_size)
 
         globals.romeo_key = self.romeo_key
 
@@ -139,7 +135,6 @@ class Games_4(Games):
             print(self.to_compare)
             self.proceed = True
 
-            print("p4 test")
             if(globals.testing):
                 globals.selectedBit=5
                 globals.juliet_key=[1,1,1,0,1]
