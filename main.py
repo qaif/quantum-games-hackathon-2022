@@ -70,10 +70,6 @@ class GridWidget(QWidget):
 
         painter.end()
 
-    # def on_click(self, pressed_node):
-    #     # TODO
-    #     pass
-
 
 class ScoreWidget(QWidget):
     def __init__(self, game_state):
@@ -153,9 +149,10 @@ class ActionsWidget(QWidget):
             pass
         elif state == GameStateType.GAME_OVER:
             self.probe_button.setDisabled(True)
+            self.probe_button.hide()
             self.strike_button.setDisabled(True)
+            self.strike_button.hide()
             self.restart_button.show()
-        #     TODO: show reset button
         elif state == GameStateType.RESTART:
             self.probe_button.setDisabled(False)
             self.strike_button.setDisabled(False)

@@ -5,7 +5,6 @@ from PyQt6.QtGui import QPainter, QBrush, QColor, QFont, QFontMetrics
 from PyQt6.QtWidgets import QWidget
 
 
-# TODO: label outputs and inputs
 class Block:
     def __init__(self, label, num_inputs, num_outputs):
         self.x = -1
@@ -91,7 +90,7 @@ class Block:
         self.selected_output = -1
 
     def on_hover(self, event):
-        # TODO: show x on input socket with connection
+        # TOD: show x on input socket with connection
         pass
 
     def sever_input(self, selected_input):
@@ -214,7 +213,7 @@ class Block:
             i += 1
 
 
-# TODO: make Circuit class that holds reference to blocks and handles logic
+# TOD: make Circuit class that holds reference to blocks and handles logic
 
 class CircuitBuilderWidget(QWidget):
     def __init__(self, width, height):
@@ -222,7 +221,7 @@ class CircuitBuilderWidget(QWidget):
 
         self.border_color = QColor(80, 80, 80)
 
-        # TODO: move to circuit class
+        # TOD: move to circuit class
         self.blocks = [
             Block("test", 3, 3),
             Block("test2", 3, 0),
@@ -254,7 +253,7 @@ class CircuitBuilderWidget(QWidget):
         if event.button() == Qt.MouseButton.LeftButton:
             for block in self.blocks:
                 if block.get_rect_f().contains(event.position()):
-                    # TODO: check for input or output pressed
+                    # TOD: check for input or output pressed
                     self.selected_block = block
                     self.selected_block.on_selected(event)
                     self.update()

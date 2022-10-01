@@ -136,7 +136,6 @@ class GameManager:
             print("!!!measuring distance")
             if self.probe_info.get_probe_vector() is None or not self.probe_info.is_valid_vector(self.probe_info.get_probe_vector()):
                 print("INVALID VECTOR!!!: ", self.probe_info.get_probe_vector())
-                # TODO: error message
                 self.probe_info.set_probe_state(ProbeState.INVALID_VECTOR_INPUT)
                 return
             self.measure_distance()
@@ -159,19 +158,7 @@ class GameManager:
             pass
 
     def apply_unitary(self):
-        n = self.probe_info.unitary.shape[1]
-        assert self.probe_info.probe_vector_output is not None
-        print("unitary info: ", n, ", ", len(self.probe_info.probe_vector_output))
-        assert n == len(self.probe_info.probe_vector_output), 'Probe vector dimension doesn\'t match.'
-        assert n == self.probe_info.unitary.shape[0], 'Given matrix not square'
-        # TODO BROKEN!!!!!
-        # assert self.probe_info.unitary.conj().T @ self.probe_info.unitary == np.eye(n), 'Given matrix not unitary'
-        # if (self.probe_info.unitary.conj().T @ self.probe_info.unitary - np.eye(n,dtype=complex) < 10**(-10)).all():
         self.probe_info.probe_vector_output = self.probe_info.unitary @ self.probe_info.get_probe_vector()
-            # TODO: clear text fields to signal transformation was applied
-        # else:
-        #     print("GIVEN MATRIX NOT UNITARY!!!")
-        #     # TODO: display warning, transform not applied
 
     def measure_probe_vector(self):
         self.probe_info.set_probe_state(ProbeState.MEASURED)
@@ -226,7 +213,6 @@ class GameManager:
         print("PROBING WITH VECTOR: ", vector)
         if not self.probe_info.is_valid_vector(vector):
             print("INVALID VECTOR!!!")
-            # TODO: error message
             self.probe_info.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
             return
         q = self.query(vector)
@@ -246,10 +232,8 @@ class GameManager:
     def on_success(self):
         print("YOU GUESSED CORRECTLY!!!")
         self.grid.set_occupier(self.prey_location, OccupierType.PREY)
-        # TODO: [player is asked to move snake to prey location]
 
     def on_collected_food(self):
-        # TODO:
         print("COLLECTED FOOD!!!")
         self.snake.grow(1)
         self.on_reset_prey()
@@ -260,7 +244,7 @@ class GameManager:
     def on_strike(self):
         if self.grid.selected_node is None:
             print("NO SQUARE SELECTED!!!")
-            # TODO
+            # TODO: show error message
             self.game_state.set_game_state(GameStateType.STRIKE_INVALID_GUESS)
             return
         guess = self.grid.selected_node.idx
@@ -271,10 +255,9 @@ class GameManager:
             self.game_state.set_game_state(GameStateType.STRIKE_CORRECT_GUESS)
         else:
             self.game_state.set_game_state(GameStateType.STRIKE_INCORRECT_GUESS)
-        # TODO: [Take player back to "beginning of turn state" so they can continue playing]
 
     def spawn_prey(self):
-        # TODO: don't spawn on top of snake
+        # TODO: don't spawn on top of snake???
         self.prey_location = self.rng.integers(0, self.grid.size * self.grid.size)
         print("PREY LOCATED AT: ", self.prey_location)
 
@@ -408,10 +391,11 @@ class Snake:
         self.game_state.set_length(self.target_length)
 
     def get_probe_idxs(self):
-        # TODO: account for edges????
         idxs = [self.grid.up(self.body[0]), self.grid.right(self.body[0]), self.grid.down(self.body[0]),
                 self.grid.left(self.body[0])]
-        idxs.remove(self.body[1])
+        # idxs.remove(self.body[1])
+        for i in self.body:
+            if i in idxs: idxs.remove(i)
         # TODO: does this work?
         unavailable = idxs.count(-1)
         for i in range(unavailable):
@@ -533,9 +517,6 @@ class Snake:
         # for listener in self.on_collision_listeners:
         #     listener()
 
-    # def add_on_collision_listener(self, listener):
-    #     self.on_collision_listeners.append(listener)
-
     def occupier_from_direction(self, direction):
         if direction == ProbeDirection.FORWARD:
             return OccupierType.PROBE_F
@@ -623,8 +604,7 @@ class Grid:
         return y * self.size + x
 
     def get_coord_from_canvas(self, x, y):
-        return min(self.size - 1, max(0, math.floor(x / self.node_size))), min(self.size - 1,
-                                                                               max(0, math.floor(y / self.node_size)))
+        return min(self.size - 1, max(0, math.floor(x / self.node_size))), min(self.size - 1, max(0, math.floor(y / self.node_size)))
 
     def get_idx_from_canvas(self, x, y):
         coords = self.get_coord_from_canvas(x, y)

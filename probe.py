@@ -498,7 +498,7 @@ class UnitaryWidget(QWidget):
             self.hide()
         if state == ProbeState.UNITARY_OR_MEASURE:
             self.reset_input()
-            self.probe_info.unitary = np.eye(len(self.probe_info.probe_idxs), dtype=complex)
+            # self.probe_info.unitary = np.eye(len(self.probe_info.probe_idxs), dtype=complex)
             self.on_show()
             self.error_message.hide()
         if state == ProbeState.APPLY_UNITARY:
@@ -525,15 +525,16 @@ class UnitaryWidget(QWidget):
         self.m9.setDisabled(self.count < 3)
 
     def reset_input(self):
-        self.m1.setText("")
-        self.m2.setText("")
-        self.m3.setText("")
-        self.m4.setText("")
-        self.m5.setText("")
-        self.m6.setText("")
-        self.m7.setText("")
-        self.m8.setText("")
-        self.m9.setText("")
+        self.probe_info.unitary = np.eye(len(self.probe_info.probe_idxs), dtype=complex)
+        self.m1.setText("1")
+        self.m2.setText("0")
+        self.m3.setText("0")
+        self.m4.setText("0")
+        self.m5.setText("1")
+        self.m6.setText("0")
+        self.m7.setText("0")
+        self.m8.setText("0")
+        self.m9.setText("1")
 
     def on_apply_unitary(self):
         self.probe_info.set_probe_state(ProbeState.APPLY_UNITARY)
