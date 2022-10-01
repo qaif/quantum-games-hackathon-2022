@@ -667,7 +667,7 @@ class Games5Scene(Scene):
             self.move_scene = True
 
         if self.g5.finish and self.g5.answer_accuse == "No" and self.g5.show_next:
-            drawText(screen, 'CLEAR! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
+            #drawText(screen, 'CLEAR! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
             self.g5.pause = True
             self.move_scene = True
         
@@ -778,7 +778,7 @@ class Games6Scene(Scene):
         
         if self.g6.finish and self.g6.win and self.g6.show_next:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
-            self.g5.pause = True
+            self.g6.pause = True
             self.move_scene = True
 
         if self.g6.finish and self.g6.lose and self.g6.show_next:

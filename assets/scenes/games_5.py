@@ -97,7 +97,6 @@ class Games_5(Games):
 
                 if event.key == pygame.K_RETURN and self.story_phase == 0:
                     self.answer_accuse = self.current_selection
-                    print(self.answer)
                     self.story_phase = 1
 
                 elif event.key == pygame.K_LEFT:

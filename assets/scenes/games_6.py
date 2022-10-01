@@ -76,7 +76,6 @@ class Games_6(Games):
 
                 if event.key == pygame.K_RETURN and self.story_phase == 0:
                     self.answer_send_letter = self.current_selection
-                    print(self.answer)
                     self.story_phase = 1
 
                 elif event.key == pygame.K_LEFT:
@@ -101,7 +100,6 @@ class Games_6(Games):
 
         if self.story_phase == 0:
             self.text.text_display(window)
-            self.text2.text_display(window)
         elif self.story_phase == 1:
             if self.answer_send_letter == "Yes":
                 self.text.text = "lalalala  !!!"
