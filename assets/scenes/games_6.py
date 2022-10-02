@@ -109,20 +109,24 @@ class Games_6(Games):
                     if self.answer_send_letter == "Yes":
 
                         if self.win:
-                            self.text.text = "This is send letter, and the message decrypted successfully. Juliet Happy"
+                            #self.text.text = "This is send letter, and the message decrypted successfully. Juliet Happy"
+                            self.text.text = "I think Juliet will be very happy with your letter. I will bring it to her now."
                             self.win = True
                         else:
-                            self.text.text = "This is send letter, and the message decrypted WRONGLY. Juliet CONFUSED "
+                            #self.text.text = "This is send letter, and the message decrypted WRONGLY. Juliet CONFUSED "
+                            self.text.text = "I'm a little worried about this key, but I will bring the encrypted letter to Juliet."
                             self.reduce_hearts()
                             self.lose = True
                         
                     elif self.answer_send_letter == "No":
                         if self.win:
-                            self.text.text = "This is not send letter, and the message decrypted WRONGLY. Juliet doesnt receive any letter."
+                            #self.text.text = "This is not send letter, and the message decrypted WRONGLY. Juliet doesnt receive any letter."
+                            self.text.text = "Eve: I think that was a safe choice, there was a lot of noise at the party. Wanna get dinner?"
                             
                             self.win = True
                         else:
-                            self.text.text = "This is not send the letter, and the message is decrypted successfully. "
+                            #self.text.text = "This is not send the letter, and the message is decrypted successfully. "
+                            self.text.text = "Eve: I was pretty confident in that key, but I understand. Let's try again tomorrow."
                             self.reduce_hearts()
                             self.lose = True
 
