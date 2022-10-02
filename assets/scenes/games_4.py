@@ -94,7 +94,7 @@ class Games_4(Games):
         self.proceed = False
         self.proceed2 = False
 
-        self.text = self.Text(par_x=50, par_y=50, par_text="How many bits should I check in our keys?")
+        self.text = self.Text(par_x=50, par_y=50, par_text="How many bits should we sample? (max is length of key -1)")
 
     # this has been replaced by the implementation of qiskit
     """
@@ -264,7 +264,7 @@ class Games_4(Games):
         if self.proceed is False and self.proceed2 is False:
             self.text.text_display(window)
         elif self.proceed and self.proceed2 is False:
-            self.text.text = "Okay, I'll check " + str(self.to_compare) + " pairs of bits in each key. Press spacebar"
+            self.text.text = "How about " + str(self.to_compare) + " bit(s) in each key. Press spacebar to proceed."
             self.text.text_display(window)
 
         if self.proceed:

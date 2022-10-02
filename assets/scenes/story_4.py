@@ -17,8 +17,10 @@ class Story_4(Story):
         self.story_index = 0
 
         self.story_text.append("Romeo and Juliet meet in the garden, measurements in hand.")
-        self.story_text.append("They have mere seconds to finalize the quantum key distribution.")
-        self.story_text.append("They will compare a few random pairs of their keys to detect eavesdropping...and/or noise...")
+        self.story_text.append("They can compare random pairs of bits from their keys to detect eavesdropping and/or noise")
+        self.story_text.append("Are you confident you can tell eavesdropping and noise apart? Good luck...")
+        self.story_text.append("Be sure to memorize how many pairs of bits are different.")
+        self.story_text.append("Be warned: every bit compared is removed from the keys, permanently.")
         self.font = 20
 
 class Story_4_5(Story):
