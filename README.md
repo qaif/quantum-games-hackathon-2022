@@ -1,7 +1,7 @@
 # Verona-2049
 
 ## Story Lines
-In Verona, 2049 players will follow Romeo and Juliet as they attempt to create two identical keys for cryptography, using the BB84 [Quantum Key Distribution](https://qiskit.org/textbook/ch-algorithms/quantum-key-distribution.html) protocol. This is because Romeo and Juliet are from rival families, and they want to exchange love letters in secret. 
+In Verona 2049, players will follow Romeo and Juliet as they attempt to create two identical keys for cryptography, using the BB84 [Quantum Key Distribution](https://qiskit.org/textbook/ch-algorithms/quantum-key-distribution.html) protocol. This is because Romeo and Juliet are from rival families, and they want to exchange love letters in secret. 
 
 The player will help them pick bits and bases to encode qubits with, take measurements of quantum states, sift their keys, and ultimately decide whether to accuse the letter-carrier of eavesdropping and to send the letter or not.  Will you succeed in encrypting and decrypting their love letters, or will this story be a tragedy? 
 
@@ -50,3 +50,4 @@ Thanks for the following institutions / people / project for making this game ha
 - Music background: Schubert Impromptu Op. 90 No.-3 from Adobe Stock
 - Pygame: [https://www.pygame.org/news](https://www.pygame.org/news)
 - Qiskit: [https://qiskit.org/](https://qiskit.org/)
+
