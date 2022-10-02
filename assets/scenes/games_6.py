@@ -20,6 +20,7 @@ class Games_6(Games):
         self.start_x_pos = globals.screenSize[0] / 2
 
         self.text = self.Text(par_x=50, par_y=50, par_text="Do you want to send the letter?")
+        self.text2 = self.Text(par_x=50, par_y=100, par_text="")
 
         self.answer_options = ["Yes", "No"]
         self.current_selection = "Yes"
@@ -108,25 +109,30 @@ class Games_6(Games):
                     # THIS IS EVE Replies
                     if self.answer_send_letter == "Yes":
 
-                        if self.win:
+                        if self.win: # CHECKED
                             #self.text.text = "This is send letter, and the message decrypted successfully. Juliet Happy"
-                            self.text.text = "I think Juliet will be very happy with your letter. I will bring it to her now."
+                            self.text.text = "I think Juliet will be very happy with your letter. "
+                            self.text2.text = "I will bring it to her now."
+                            
                             self.win = True
-                        else:
+                        else: # CHECKED
                             #self.text.text = "This is send letter, and the message decrypted WRONGLY. Juliet CONFUSED "
-                            self.text.text = "I'm a little worried about this key, but I will bring the encrypted letter to Juliet."
+                            self.text.text = "I'm a little worried about this key,"
+                            self.text2.text = "but I will bring the encrypted letter to Juliet."
                             self.reduce_hearts()
                             self.lose = True
                         
                     elif self.answer_send_letter == "No":
-                        if self.win:
+                        if self.win: # CHECKED
                             #self.text.text = "This is not send letter, and the message decrypted WRONGLY. Juliet doesnt receive any letter."
-                            self.text.text = "Eve: I think that was a safe choice, there was a lot of noise at the party. Wanna get dinner?"
+                            self.text.text = "Eve: I think that was a safe choice, there was a lot of noise at the party."
+                            self.text2.text = "Wanna get dinner?"
                             
                             self.win = True
-                        else:
+                        else: # CHECKED
                             #self.text.text = "This is not send the letter, and the message is decrypted successfully. "
-                            self.text.text = "Eve: I was pretty confident in that key, but I understand. Let's try again tomorrow."
+                            self.text.text = "Eve: I was pretty confident in that key, but I understand. "
+                            self.text2.text = "Let's try again tomorrow."
                             self.reduce_hearts()
                             self.lose = True
 
@@ -137,19 +143,27 @@ class Games_6(Games):
 
         if self.story_phase == 0:
             self.text.text_display(window)
+            self.text2.text_display(window)
         elif self.story_phase == 1:
             if self.answer_send_letter == "Yes":
-                self.text.text = "Romeo: I will send the letter. My love is waiting to hear from me!"
+                self.text.text = "Romeo: I will send the letter."
+                self.text2.text = "My love is waiting to hear from me!"
             else:
-                self.text.text = "Romeo: My love is waiting to hear from me, but she must wait another day."
+                self.text.text = "Romeo: My love is waiting to hear from me, "
+                self.text2.text = "but she must wait another day."
 
             self.text.text_display(window)
+            self.text2.text_display(window)
+
         elif self.story_phase == 2:
             self.text.text = "..."
+            self.text2.text = ""
             self.text.text_display(window)
+            self.text2.text_display(window)
         elif self.story_phase == 4:
             self.finish = True
             self.text.text_display(window)
+            self.text2.text_display(window)
 
         if self.story_phase == 0:
             self.set_bit_selection(window)

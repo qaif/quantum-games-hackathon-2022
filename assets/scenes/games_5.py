@@ -41,9 +41,9 @@ class Games_5(Games):
         if globals.testing_the_story_5:
             # play around with adding intereference, and make hte keys not match
             #globals.to_encrypt = random.choice(globals.letters)
-            globals.intercept=False
+            globals.intercept=True
             self.key_options = [globals.keyboard_bit_0, globals.keyboard_bit_1]
-            globals.romeo_key="010"
+            globals.romeo_key="101"
             globals.juliet_key="101"
 
 
@@ -85,13 +85,13 @@ class Games_5(Games):
         # we need to decide the 4 scenarios
         print("Games 5 ==> accuse : ", self.current_selection, ", intercept: ", globals.intercept)
         if self.current_selection == "Yes":            
-            if globals.intercept:
+            if globals.intercept: # CHECKED
                 # this means eve is intercepting, and we win and get points then goes to ending 1
                 # CAT
                 self.win = True
                 self.point.add_value(100)
                 return True
-            else:
+            else: # CHECKED
                 # this means eve is not intercepting, and we lose one heart then goes to ending 2
                 # RAT
                 self.lose = True
@@ -102,14 +102,14 @@ class Games_5(Games):
             # Tyler question: shouldn't we lose a heart if we say no, and eve did intercept????
             # Handy answer: depends on what you want. it doesnt lose heart since we move on to story 6 / games 6
 
-            if globals.intercept == False:
+            if globals.intercept == False: # CHECKED
                 # this means eve is intercepting, and we win and get points then goes to ending 1
                 # CAT
                 
                 self.win = True
                 self.point.add_value(100)
                 return True
-            else:
+            else: # CHECKED
                 # this means eve is not intercepting, and we lose one heart then goes to ending 2
                 # RAT
                 self.lose = True
@@ -159,7 +159,7 @@ class Games_5(Games):
 
                     if self.answer_accuse == "Yes":
 
-                        if self.win:
+                        if self.win: # CHECKED
                             #self.text.text = "This is accuse and intercept (After dot dot dot"
                             self.text.text = "Eve: Please forgive me, I only wanted to keep you two alive!"
                             self.win = True
@@ -174,7 +174,7 @@ class Games_5(Games):
                             #self.text.text = "This is not accusse and no intercept.. both happy"
                             self.text.text = "Eve: thank you for trusting me :-)"
                             self.win = True
-                        else:
+                        else: # CHECKED
                             #self.text.text = "This is not accuse  with intecept, lose heart, eve is evil "
                             self.text.text = "Eve (thinking): Hehehe, you fool. I hope your encryption fails..."
                             self.reduce_hearts()

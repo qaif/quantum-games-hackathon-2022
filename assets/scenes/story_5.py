@@ -21,7 +21,7 @@ class Story_5(Story):
         if globals.testing_the_story_5:
             # play around with adding intereference, and make hte keys not match
             globals.to_encrypt = random.choice(globals.letters)
-            globals.intercept=False
+            globals.intercept=True
 
             self.key_options = [globals.keyboard_bit_0, globals.keyboard_bit_1]
             globals.romeo_key="010"
