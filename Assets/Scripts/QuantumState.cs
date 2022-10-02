@@ -7,19 +7,20 @@ public class QuantumState : MonoBehaviour
     [System.Serializable]
     public class State
     {
-        public bool[] state;
+        public List<bool> state = new List<bool>();
         public Color colour;
     }
 
-    public QTree[] qubits;
-    public State[] superposition;
+    public List<QTree> qubits = new List<QTree>();
+    public List<State> superposition = new List<State>();
+    public List<Measurement> measurers = new List<Measurement>();
 
     // Start is called before the first frame update
     void Start()
     {
         foreach (State state in superposition)
         {
-            for (int i = 0; i < qubits.Length; i++)
+            for (int i = 0; i < qubits.Count; i++)
             {
                 if (state.state[i])
                 {
@@ -37,14 +38,32 @@ public class QuantumState : MonoBehaviour
 
     public void CollapseTrees()
     {
-        int randomNum = Random.Range(0, superposition.Length);
+        int randomNum = Random.Range(0, superposition.Count);
 
-        for (int i = 0; i < qubits.Length; i++)
+        for (int i = 0; i < qubits.Count; i++)
         {
-            qubits[i].Collapse(superposition[randomNum].state[i]);
+            qubits[i].Collapse(!superposition[randomNum].state[i]);
         }
 
-        gameObject.SetActive(false);
+        foreach (Measurement measurer in measurers)
+        {
+            measurer.gameObject.SetActive(false);
+        }
     }
 
+    public void ShowGlow()
+    {
+        foreach (QTree tree in qubits)
+        {
+            tree.glow.SetActive(true);
+        }
+    }
+
+    public void HideGlow()
+    {
+        foreach (QTree tree in qubits)
+        {
+            tree.glow.SetActive(false);
+        }
+    }
 }

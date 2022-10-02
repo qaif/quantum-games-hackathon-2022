@@ -6,6 +6,7 @@ public class QTree : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
     public Sprite collapsedTree;
+    public GameObject glow;
 
     // Start is called before the first frame update
     void Start()

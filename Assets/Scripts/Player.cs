@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public Animator animator;
     public float speed = 2f;
+    public EntanglementPopup entanglementPopup;
     private Vector2 moveDirection;
-    private QuantumState currentCollider = null;
+    private Measurement currentCollider = null;
+    private EntanglementRoom currentEntanglementRoom = null;
+    private WinLevel winLevel = null;
+    private bool locked = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +29,10 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.position += new Vector3(moveDirection.x, moveDirection.y, 0) * Time.fixedDeltaTime * speed;
+        if (!locked)
+        {
+            transform.position += new Vector3(moveDirection.x, moveDirection.y, 0) * Time.fixedDeltaTime * speed;
+        }
     }
 
 
@@ -55,21 +63,68 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void OnInteract()
+    IEnumerator Interact()
     {
+        yield return new WaitForSeconds(0.5f);
         if (currentCollider != null)
         {
             currentCollider.CollapseTrees();
         }
+        if (currentEntanglementRoom != null)
+        {
+            entanglementPopup.SetupPopup(currentEntanglementRoom);
+            // locked = true;
+        }
+        if (winLevel != null)
+        {
+            winLevel.Activate();
+        }
+    }
+
+    public void OnInteract()
+    {
+        animator.SetTrigger("Interact");
+        StartCoroutine(Interact());
+    }
+
+    public void OnEscape()
+    {
+        locked = false;
+        entanglementPopup.ClosePopup();
+    }
+
+    IEnumerator Restart()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void OnRestart()
+    {
+        animator.SetTrigger("Die");
+        locked = true;
+        StartCoroutine(Restart());
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        currentCollider = col.GetComponent<QuantumState>();
+        currentCollider = col.GetComponent<Measurement>();
+        if (currentCollider != null)
+        {
+            currentCollider.stateToMeasure.ShowGlow();
+        }
+        currentEntanglementRoom = col.GetComponent<EntanglementRoom>();
+        winLevel = col.GetComponent<WinLevel>();
     }
 
     void OnTriggerExit2D(Collider2D col)
     {
+        if (currentCollider != null)
+        {
+            currentCollider.stateToMeasure.HideGlow();
+        }
         currentCollider = null;
+        currentEntanglementRoom = null;
+        winLevel = null;
     }
 }

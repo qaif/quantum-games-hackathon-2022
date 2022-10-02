@@ -305,6 +305,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Pointy tree centred
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 208
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f18fc57cb0339b96a92c9ad250cdb2dc
+      internalID: 1218360639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Round tree centred
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb9579ded6e061d478aaace2f20929db
+      internalID: -552616222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -320,10 +362,12 @@ TextureImporter:
       Forest tree join: 860928478
       Forest trees_0: -1924958092
       Tree stump bottom normal: -1924958092
+      Pointy tree centred: 1218360639
       Forest tree stump: -688068091
       Tree stump top: 2080894373
       Pointy tree: -1552892719
       Tree stump bottom mushrooms: -1959232743
+      Round tree centred: -552616222
       Forest tree top: -558554240
   spritePackingTag: 
   pSDRemoveMatte: 0
