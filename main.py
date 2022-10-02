@@ -28,8 +28,8 @@ window = pygame.display.set_mode(globals.screenSize)
 pygame.display.set_caption(globals.gameTitle)
 
 # set the music to loop
-#pygame.mixer.music.load(globals.music_file)
-#pygame.mixer.music.play(-1)
+pygame.mixer.music.load(globals.music_file)
+pygame.mixer.music.play(-1)
 
 #### HARD CODE #####
 testing = globals.testing

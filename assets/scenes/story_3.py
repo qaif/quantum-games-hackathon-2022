@@ -42,3 +42,20 @@ class Story_3_5(Story):
 
         self.y = 350
         self.font = 20
+
+class Story_3_Not_Enough_Key(Story):
+
+    def __init__(self, pygame):
+        super().__init__()
+        self.background = pygame.image.load("assets/images/games_0.jpg")
+
+        self.story_text = []
+        self.story_index = 0
+
+        self.story_text.append("Unfortunately, we have run out of bits for the key")
+        self.story_text.append("The BB84 protocol is somewhat probabilistic, the sifting and sampling can reduce the key size a lot")
+        self.story_text.append("The best way to avoid this problem is by starting with more bits, and also sampling less")
+        self.story_text.append("This choice will increase the risk of noise however")
+        self.story_text.append("and make it harder to detect eavesdroppers. Good luck!")
+
+        self.font = 20

@@ -19,7 +19,7 @@ from assets.scenes.games_6 import Games_6
 from assets.scenes.story_0 import Story_0, Story_0_5, Story_Introduction
 from assets.scenes.story_1 import Story_1, Story_1_5
 from assets.scenes.story_2 import Story_2, Story_2_5
-from assets.scenes.story_3 import Story_3, Story_3_5
+from assets.scenes.story_3 import Story_3, Story_3_5, Story_3_Not_Enough_Key
 from assets.scenes.story_4 import Story_4, Story_4_5
 from assets.scenes.story_5 import Story_5, Story_Ending_G5_1, Story_Ending_G5_2, Story_Leaderboard
 from assets.scenes.story_6 import Story_6, Story_Ending_3, Story_Ending_4, Story_Ending_5, Story_Ending_6
@@ -476,19 +476,23 @@ class Games3Scene(Scene):
             sm.push(FadeTransitionScene([self], [Story3_5Scene()]))
         elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g3.finish and self.g3.gameover:
             sm.push(FadeTransitionScene([self], [GameOverScene()]))
+        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g3.finish and self.g3.pick_new_bit:
+            sm.push(FadeTransitionScene([self], [Story3NotEnoughBitScene()]))
 
     def draw(self, sm, screen):
         self.g3.call_event(screen)
         #self.esc.draw(screen)
 
-        if self.g3.finish and self.g3.verified_answer and self.g3.show_next:
+        if self.g3.finish and self.g3.verified_answer and self.g3.show_next and self.g3.pick_new_bit:
             drawText(screen, 'CLEAR! Press Enter to continue...', 250, 360, globals.WHITE, 255, 32)
             self.g3.pause = True
             self.move_scene = True
         elif self.g3.verified_answer and self.g3.lose and self.g3.gameover == False:
             drawText(screen, 'Wrong! Try again...', 250, 360, globals.WHITE, 255, 32)
         elif self.g3.finish and self.g3.gameover and self.g3.show_next:
-            drawText(screen, 'Game over!! Press Enter to continue', 200, 300, globals.BLACK, 255, 40)
+            drawText(screen, 'Game over!! Press Enter to continue', 180, 360, globals.WHITE, 255, 32)
+        elif self.g3.finish and self.g3.pick_new_bit  and self.g3.show_next:
+            drawText(screen, 'Not enough key !! Press Enter to continue', 180, 360, globals.WHITE, 255, 32)
             
 
 class Story3_5Scene(Scene):
@@ -508,6 +512,26 @@ class Story3_5Scene(Scene):
 
     def draw(self, sm, screen):
         self.story_3_5.call_event(screen)
+
+        self.space.draw(screen)
+
+class Story3NotEnoughBitScene(Scene):
+    def __init__(self):
+        self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
+        pygame.event.clear()
+        self.story_3_not_enough_key = Story_3_Not_Enough_Key(pygame)
+    def onEnter(self):
+        #globals.soundManager.playMusicFade('solace')
+        pass
+    def input(self, sm, inputStream):
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.story_3_not_enough_key.finish:
+            sm.push(FadeTransitionScene([self], [Games0Scene()]))
+
+    def update(self, sm, inputStream):
+        self.space.update(inputStream)
+
+    def draw(self, sm, screen):
+        self.story_3_not_enough_key.call_event(screen)
 
         self.space.draw(screen)
 

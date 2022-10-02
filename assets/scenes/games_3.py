@@ -121,11 +121,23 @@ class Games_3(Games):
             else:
                 self.translated_key += "1"
 
+        # this will happens if there is no matching key
+        self.pick_new_bit = False
+        self.finish = False
+        if self.translated_key == "":
+            self.finish = True
+            self.pick_new_bit = True
+            self.reduce_hearts()
+
+        print("finish : ", self.finish)
+        print("pick_new_bit : ", self.pick_new_bit)
+
+
         globals.juliet_key = self.translated_key
         print(self.translated_key)
         self.input_key = ""
 
-        self.finish = False
+        
         self.win = False
         self.verified_answer = False
 
@@ -197,14 +209,14 @@ class Games_3(Games):
     def check_answer_key(self):
         print("Games 3 : self.translated_key: ", self.translated_key)
         if self.translated_key == self.input_key:
-            print("Correct")
+            print("check_answer_key : Correct")
             self.verified_answer = True
             self.finish = True
             self.win = True
             self.lose = False
             self.point.add_value(5 * len(self.translated_key))
         else:
-            print("False")
+            print("check_answer_key : False")
             self.input_box.text = ""
             self.input_box.txt_surface = FONT.render("", True, self.input_box.color)
             self.reduce_hearts()
@@ -228,7 +240,7 @@ class Games_3(Games):
             self.input_key = self.input_box.handle_event(event)
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN and (self.verified_answer == False or self.lose):
+                if event.key == pygame.K_RETURN and (self.verified_answer == False or self.lose) and self.pick_new_bit == False:
                     self.check_answer_key()
 
             self.process_blink_text(event)
