@@ -485,8 +485,10 @@ class Games3Scene(Scene):
             drawText(screen, 'CLEAR! Press Enter to continue...', 250, 360, globals.WHITE, 255, 32)
             self.g3.pause = True
             self.move_scene = True
-        elif self.g3.verified_answer and self.g3.lose:
+        elif self.g3.verified_answer and self.g3.lose and self.g3.gameover == False:
             drawText(screen, 'Wrong! Try again...', 250, 360, globals.WHITE, 255, 32)
+        elif self.g3.finish and self.g3.gameover and self.g3.show_next:
+            drawText(screen, 'Game over!! Press Enter to continue', 200, 300, globals.BLACK, 255, 40)
             
 
 class Story3_5Scene(Scene):
@@ -557,6 +559,8 @@ class Games4Scene(Scene):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g4.win:
             #level.loadLevel(globals.curentLevel)
             sm.push(FadeTransitionScene([self], [Story4_5Scene()]))
+        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g4.finish and self.g4.gameover:
+            sm.push(FadeTransitionScene([self], [GameOverScene()]))
 
         #if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
         #    sm.pop()
@@ -573,6 +577,8 @@ class Games4Scene(Scene):
         if self.g4.finish and self.g4.win and self.g4.show_next:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 300, globals.BLACK, 255, 40)
             self.g4.pause = True
+        elif self.g4.finish and self.g4.gameover and self.g4.show_next:
+            drawText(screen, 'Game over! Press Enter to continue...', 200, 300, globals.BLACK, 255, 40)
 
 class Story4_5Scene(Scene):
     def __init__(self):
@@ -649,6 +655,9 @@ class Games5Scene(Scene):
             if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene:
                 sm.push(FadeTransitionScene([self], [Story6Scene()]))
 
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g5.finish and self.g5.gameover:
+            sm.push(FadeTransitionScene([self], [GameOverScene()]))
+
         #if inputStream.keyboard.isKeyPressed(pygame.K_ESCAPE):
         #    sm.pop()
         #    sm.push(FadeTransitionScene([self], []))
@@ -667,15 +676,17 @@ class Games5Scene(Scene):
             self.g5.pause = True
             self.move_scene = True
 
-        if self.g5.finish and self.g5.lose and self.g5.show_next:
+        elif self.g5.finish and self.g5.lose and self.g5.show_next:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
             self.g5.pause = True
             self.move_scene = True
 
-        if self.g5.finish and self.g5.answer_accuse == "No" and self.g5.show_next:
+        elif self.g5.finish and self.g5.answer_accuse == "No" and self.g5.show_next:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
             self.g5.pause = True
             self.move_scene = True
+        elif self.g5.finish and self.g5.gameover and self.g5.show_next :
+            drawText(screen, 'Game over! Press Enter to continue...', 200, 300, globals.BLACK, 255, 40)
         
 
 class StoryEnding1Scene(Scene):
@@ -775,6 +786,9 @@ class Games6Scene(Scene):
             sm.push(FadeTransitionScene([self], [StoryEnding5Scene()]))
         elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g6.answer_send_letter == False and self.g6.lose:
             sm.push(FadeTransitionScene([self], [StoryEnding6Scene()]))
+        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g6.finish and self.g6.gameover:
+            sm.push(FadeTransitionScene([self], [GameOverScene()]))
+
 
         
 
@@ -792,10 +806,13 @@ class Games6Scene(Scene):
             self.g6.pause = True
             self.move_scene = True
 
-        if self.g6.finish and self.g6.lose and self.g6.show_next:
+        elif self.g6.finish and self.g6.lose and self.g6.show_next:
             drawText(screen, 'CLEAR! Press Enter to continue...', 50, 200, globals.BLACK, 255, 40)
             self.g6.pause = True
             self.move_scene = True
+
+        elif self.g6.finish and self.g6.gameover:
+            drawText(screen, 'Game over!  Press Enter to continue...', 200, 300, globals.BLACK, 255, 40)
 
 class StoryEnding3Scene(Scene):
     def __init__(self):
