@@ -483,7 +483,7 @@ class Games3Scene(Scene):
         self.g3.call_event(screen)
         #self.esc.draw(screen)
 
-        if self.g3.finish and self.g3.verified_answer and self.g3.show_next and self.g3.pick_new_bit:
+        if self.g3.finish and self.g3.verified_answer and self.g3.show_next and self.g3.pick_new_bit == False:
             drawText(screen, 'CLEAR! Press Enter to continue...', 250, 360, globals.WHITE, 255, 32)
             self.g3.pause = True
             self.move_scene = True
