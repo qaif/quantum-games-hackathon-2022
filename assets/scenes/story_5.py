@@ -61,13 +61,16 @@ class Story_Ending_G5_1(Story):
 
         self.story_text = []
         self.story_index = 0
-        self.story_text.append("CAT - G5 - Ending 1 - This is accusse and intercept")
+#        self.story_text.append("CAT - G5 - Ending 1 - This is accusse and intercept")
 
-#        self.story_text.append("Accused. Eve not here. Game 6 doesn't play")
         self.story_text.append("Juliet: I have not heard from Romeo tonight.")
         self.story_text.append("Juliet: And where is Eve?? Something must've happened")
-        self.story_text.append("Juliet: I had a bad feeling about this...")
-
+        self.story_text.append("Juliet: I have a bad feeling about this...")
+        self.story_text.append("Juliet: But I trust that Romeo made the right decision.")
+        self.story_text.append("Juliet: Eve is an old friend, but even old friends make mistakes")
+        self.story_text.append("Juliet: All this quantum business has made me tired. Tomorrow is a new day.")
+        self.story_text.append("Juliet: We will keep trying to use quantum key distribution, despite its difficulties")
+        self.story_text.append("Juliet: Goodnight, and thank you for your help, wherever you are...")
         self.font = 20
 
 class Story_Ending_G5_2(Story):
@@ -78,14 +81,16 @@ class Story_Ending_G5_2(Story):
 
         self.story_text = []
         self.story_index = 0
-        self.story_text.append("RAT - G5 - Ending 2 - This is accusre with no intecept, lose heart, eve sad crying in the corner ")
+    #    self.story_text.append("RAT - G5 - Ending 2 - This is accusre with no intecept, lose heart, eve sad crying in the corner ")
 
         self.story_text.append("Juliet: It's getting late, why haven't I heard from my dear Romeo?")
         self.story_text.append("Juliet: Perhaps we were eavesdropped upon, or the noise at the party ruined this...")
         self.story_text.append("Juliet: Surely Eve would've come and told me...unless...")
-        self.story_text.append("Juliet: Oh Eve, still jealous after all these years...I don't know if we can forgive her...")
+        self.story_text.append("Juliet: I fear Romeo accused Eve of the worst, but I still trust her.")
+        self.story_text.append("Juliet: We shouldn't have done the measurement of the qubits in such a noisy environment")
         self.story_text.append("Juliet: Well, tomorrow is a new day. All this quantum stuff has me tired.")
-        self.story_text.append("Juliet: Goodnight Romeo!")
+        self.story_text.append("Juliet: We can put this drama behind us, I believe, and repair our friendship with Eve.")
+        self.story_text.append("Juliet: Goodnight Romeo and Eve, wherever you are.")
 
         self.font = 20
 

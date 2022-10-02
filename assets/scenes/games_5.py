@@ -155,23 +155,28 @@ class Games_5(Games):
                 elif self.story_phase == 3 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
                     
                     self.check_answers()
+                    # THIS IS EVE Replied
 
                     if self.answer_accuse == "Yes":
 
                         if self.win:
-                            self.text.text = "This is accusse and intercept"
+                            #self.text.text = "This is accuse and intercept (After dot dot dot"
+                            self.text.text = "Eve: Please forgive me, I only wanted to keep you two safe!"
                             self.win = True
                         else:
-                            self.text.text = "This is accusre with no intecept, lose heart, eve sad crying in the corner "
+                            #self.text.text = "This is accusre with no intecept, lose heart, eve sad crying in the corner "
+                            self.text.text = "Eve: I never measured the qubits!! If the keys are different blame noise :-("
                             self.reduce_hearts()
                             self.lose = True
                         
                     elif self.answer_accuse == "No":
                         if self.win:
-                            self.text.text = "This is not accusse and no intercept.. both happy"
+                            #self.text.text = "This is not accusse and no intercept.. both happy"
+                            self.text.text = "Eve: thank you for trusting me :-)"
                             self.win = True
                         else:
-                            self.text.text = "This is not accuse  with intecept, lose heart, eve is evil "
+                            #self.text.text = "This is not accuse  with intecept, lose heart, eve is evil "
+                            self.text.text = "Eve (thinking): Hehehe, you fool. I hope your encryption fails..."
                             self.reduce_hearts()
                             self.lose = True
 
@@ -184,6 +189,7 @@ class Games_5(Games):
             self.text.text_display(window)
             self.text2.text_display(window)
         elif self.story_phase == 1:
+            # THIS IS ROMEO first reply
             if self.answer_accuse == "Yes":
                 self.text.text = "Romeo: Curse you Eve! I know you are trying to separate us!!!"
             else:
