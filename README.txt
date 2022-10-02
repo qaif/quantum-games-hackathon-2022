@@ -120,3 +120,6 @@ Not every detail is guaranteed to appear on the first run. The amount of stories
 Because the basis-state stories have causality correlations within them the superpositional stories also have their states entangled. For example the performance grade determines how high up the hall fo fame the player can proceed.
 
 files in folder "design_support" have additional world building / prework that is not apparent or have not been integrated to the actual game. There is also a file "reference_list" that contains information what various obscure references are trying to get at.
+
+=============== Hackathon end program state description start ====================
+
