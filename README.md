@@ -12,6 +12,8 @@ The minigames comprising this game are separated by cutscenes that advance the s
 
 It is our hope that you find this game equally entertaining, educational, and beautiful.
 
+And, here is the video presentation: [Here](https://clipchamp.com/watch/QMZUsHca6En)
+
 ## :rocket:&nbsp; Getting started 
 
 This games is made by using Pygame as the game engine, and we integrate Qiskit Simulator as to simulate the real process of Quantum Key Distribution. 
