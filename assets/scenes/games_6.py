@@ -47,10 +47,12 @@ class Games_6(Games):
 
     def check_answers(self):
         # we need to decide the 4 scenarios
-        if self.current_selection == "Yes":            
+        print("Games 6 ==> send letter : ", self.current_selection, ", decrypted: ", globals.to_encrypt == globals.decrypted_text)
+        if self.answer_send_letter == "Yes":            
             if globals.to_encrypt == globals.decrypted_text:
-                # this means the letter is send to Juliet, and successfully decrypted -> this will go to ending 3
-
+                # send the letter and decryption correct. Juliet understand the message
+                # this goes to ending 3, juliet with the eve with letter # BOB
+            
                 self.win = True
                 self.point.add_value(100)
                 return True
@@ -60,7 +62,7 @@ class Games_6(Games):
                 return False
         else:
             if globals.to_encrypt != globals.decrypted_text:
-                # this means Romeo doesn't send the letter, Juliet doesn't receive letter -> this will go to ending 3
+                # this means Romeo doesn't send the letter, Juliet doesn't receive letter -> this will go to ending 5
                 self.win = True
                 self.point.add_value(100)
                 return True
@@ -102,13 +104,27 @@ class Games_6(Games):
                     self.current_selection = "No"
 
                 elif self.story_phase == 3 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
-                    if self.check_answers():
-                        self.text.text = "Juliet eagerly awaits Eve's arrival..."
-                        self.win = True
-                    else:
-                        self.text.text = "Juliet will not hear from Romeo tonight..."
-                        self.lose = True
-                        # self.reduce_hearts() # not true!!!!!!
+                    self.check_answers()
+
+                    if self.answer_send_letter == "Yes":
+
+                        if self.win:
+                            self.text.text = "This is send letter, and the message decrypted successfully. Juliet Happy"
+                            self.win = True
+                        else:
+                            self.text.text = "This is send letter, and the message decrypted WRONGLY. Juliet CONFUSED "
+                            self.reduce_hearts()
+                            self.lose = True
+                        
+                    elif self.answer_send_letter == "No":
+                        if self.win:
+                            self.text.text = "This is not send letter, and the message decrypted WRONGLY. Juliet doesnt receive any letter."
+                            
+                            self.win = True
+                        else:
+                            self.text.text = "This is not send the letter, and the message is decrypted successfully. "
+                            self.reduce_hearts()
+                            self.lose = True
 
                     self.story_phase += 1
                 elif self.story_phase >= 1 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):

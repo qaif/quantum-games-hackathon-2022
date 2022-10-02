@@ -83,26 +83,39 @@ class Games_5(Games):
 
     def check_answers(self):
         # we need to decide the 4 scenarios
+        print("Games 5 ==> accuse : ", self.current_selection, ", intercept: ", globals.intercept)
         if self.current_selection == "Yes":            
             if globals.intercept:
                 # this means eve is intercepting, and we win and get points then goes to ending 1
-
+                # CAT
                 self.win = True
                 self.point.add_value(100)
                 return True
             else:
                 # this means eve is not intercepting, and we lose one heart then goes to ending 2
-
+                # RAT
                 self.lose = True
                 return False
         else:
             # goes to games 6 sending letter
 
             # Tyler question: shouldn't we lose a heart if we say no, and eve did intercept????
+            # Handy answer: depends on what you want. it doesnt lose heart since we move on to story 6 / games 6
 
-            self.finish = True
-            self.win = True
-            return True
+            if globals.intercept == False:
+                # this means eve is intercepting, and we win and get points then goes to ending 1
+                # CAT
+                
+                self.win = True
+                self.point.add_value(100)
+                return True
+            else:
+                # this means eve is not intercepting, and we lose one heart then goes to ending 2
+                # RAT
+                self.lose = True
+                return False
+
+            
 
 
 
@@ -140,20 +153,27 @@ class Games_5(Games):
                     self.current_selection = "No"
 
                 elif self.story_phase == 3 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
+                    
+                    self.check_answers()
 
-                    if self.check_answers():
+                    if self.answer_accuse == "Yes":
 
-                        if self.answer_accuse:
-                            self.text.text = "[?????123123123123???]"
+                        if self.win:
+                            self.text.text = "This is accusse and intercept"
+                            self.win = True
                         else:
-                            self.text.text = "will send the message to juliet .... "
+                            self.text.text = "This is accusre with no intecept, lose heart, eve sad crying in the corner "
+                            self.reduce_hearts()
+                            self.lose = True
                         
-                        self.win = True
-
-                    else:
-                        self.text.text = "Romeo accused (I think)...juliet will not hear from Romeo tonight"
-                        self.lose = True
-                        self.reduce_hearts()
+                    elif self.answer_accuse == "No":
+                        if self.win:
+                            self.text.text = "This is not accusse and no intercept.. both happy"
+                            self.win = True
+                        else:
+                            self.text.text = "This is not accuse  with intecept, lose heart, eve is evil "
+                            self.reduce_hearts()
+                            self.lose = True
 
                     self.story_phase += 1
                 elif self.story_phase >= 1 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):

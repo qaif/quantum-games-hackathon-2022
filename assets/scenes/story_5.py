@@ -22,6 +22,7 @@ class Story_5(Story):
             # play around with adding intereference, and make hte keys not match
             globals.to_encrypt = random.choice(globals.letters)
             globals.intercept=False
+
             self.key_options = [globals.keyboard_bit_0, globals.keyboard_bit_1]
             globals.romeo_key="010"
             globals.juliet_key="101"
@@ -61,6 +62,7 @@ class Story_Ending_1(Story):
         self.story_text = []
         self.story_index = 0
         self.story_text.append("CAT")
+
 #        self.story_text.append("Accused. Eve not here. Game 6 doesn't play")
         self.story_text.append("Juliet: I have not heard from Romeo tonight.")
         self.story_text.append("Juliet: And where is Eve?? Something must've happened")
@@ -77,6 +79,7 @@ class Story_Ending_2(Story):
         self.story_text = []
         self.story_index = 0
         self.story_text.append("RAT")
+
         self.story_text.append("Juliet: It's getting late, why haven't I heard from my dear Romeo?")
         self.story_text.append("Juliet: Perhaps we were eavesdropped upon, or the noise at the party ruined this...")
         self.story_text.append("Juliet: Surely Eve would've come and told me...unless...")
@@ -100,20 +103,6 @@ class Story_Ending_3(Story):
 
         self.font = 20
 
-class Story_Ending_4(Story):
-
-    def __init__(self, pygame):
-        super().__init__()
-        self.background = pygame.image.load("assets/images/ending_2.jpg")
-
-        self.story_text = []
-        self.story_index = 0
-
-        self.story_text.append("PIG..NOTHING GOES TO HERE SO FAR")
-        self.story_text.append("ENDING 4 TEST PART 2")
-        self.story_text.append("The letter is sent but not decrypted. true?")
-
-        self.font = 20
 
 class Story_Leaderboard(Story):
 
