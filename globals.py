@@ -4,15 +4,12 @@ print("=================start global=============")
 
 gameTitle = "Verona 2049" # game title
 screenSize = (1024, 768)  # screen size
-#font_base = "assets/font/orange-kid.ttf"
 font_base = "assets/font/Grand9K-Pixel.ttf"
-#font_base = "orange-kid.ttf"
 
 default_text_font = 19
 default_help_font = 12
 default_score_font = 28
 
-#games_2_measuring_time = 500
 games_2_measuring_time = 500
 
 # =================== GAME SETTINGS ========================
@@ -44,8 +41,6 @@ timer_seconds = 0
 
 total_score = 0
 
-
-
 # ====================== GLOBAL PARAMETERS NEED TO BE REFRESH AFTER LOOP ======================
 
 selectedBit = 0     # selected # of bit
@@ -58,14 +53,14 @@ encoded_qbits = [] # romeo creates this after phase 1, and eve takes it to julie
 
 romeo_bits = []     # romeo bits
 romeo_bases = []    # romeo bases
-romeo_key = []    # ??? this should be their key after sifting
+romeo_key = []      # romeo's key
 translated_romeo_key = []
 
 eve_bases = []
 
 juliet_bits = []   # juliet bits
-juliet_bases = []   # juliet bases
-juliet_key = []    # ???
+juliet_bases = []  # juliet bases
+juliet_key = []    # juliet's key (check format)
 translated_juliet_key = []
 
 # this is what the player is shown in phase 4

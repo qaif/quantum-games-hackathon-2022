@@ -20,7 +20,6 @@ import globals
 
 # init the pygame
 pygame.init()
-#clock = pygame.time.Clock()
 
 # set the window size
 window = pygame.display.set_mode(globals.screenSize)
@@ -28,19 +27,15 @@ window = pygame.display.set_mode(globals.screenSize)
 # set the window caption
 pygame.display.set_caption(globals.gameTitle)
 
-# set the music
+# set the music to loop
 pygame.mixer.music.load(globals.music_file)
 pygame.mixer.music.play(-1)
 
-
-
 #### HARD CODE #####
-# moved to globals
 testing = globals.testing
 phase = globals.phase
 
-# declare the game
-
+# testing used during development only
 if testing:
     if phase == 0:
         pygame.event.clear()
@@ -67,6 +62,7 @@ mainMenu = MainMenuScene()
 sceneManager.push(mainMenu)
 inputStream = InputStream()
 
+# run each phase of the game
 run = True
 while run:
     # this is for testing, set the phase above to start from specific phase
@@ -95,4 +91,3 @@ while run:
 
     # update the display for pygame
     pygame.display.update()
-#    clock.tick(60)
