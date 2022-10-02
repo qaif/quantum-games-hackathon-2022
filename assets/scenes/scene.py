@@ -21,7 +21,7 @@ from assets.scenes.story_1 import Story_1, Story_1_5
 from assets.scenes.story_2 import Story_2, Story_2_5
 from assets.scenes.story_3 import Story_3, Story_3_5
 from assets.scenes.story_4 import Story_4, Story_4_5
-from assets.scenes.story_5 import Story_5, Story_Ending_1, Story_Ending_2, Story_Leaderboard
+from assets.scenes.story_5 import Story_5, Story_Ending_G5_1, Story_Ending_G5_2, Story_Leaderboard
 from assets.scenes.story_6 import Story_6, Story_Ending_3, Story_Ending_4, Story_Ending_5, Story_Ending_6
 from assets.scenes.gameover import GameOver
 
@@ -682,7 +682,7 @@ class StoryEnding1Scene(Scene):
     def __init__(self):
         self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         pygame.event.clear()
-        self.story_ending_1 = Story_Ending_1(pygame)
+        self.story_ending_1 = Story_Ending_G5_1(pygame)
     def onEnter(self):
         #globals.soundManager.playMusicFade('solace')
         pass
@@ -703,7 +703,7 @@ class StoryEnding2Scene(Scene):
     def __init__(self):
         self.space = ButtonUI(pygame.K_SPACE, '[Space = next]', 50, 20)
         pygame.event.clear()
-        self.story_ending_2 = Story_Ending_2(pygame)
+        self.story_ending_2 = Story_Ending_G5_2(pygame)
     def onEnter(self):
         #globals.soundManager.playMusicFade('solace')
         pass

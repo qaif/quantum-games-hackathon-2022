@@ -53,7 +53,7 @@ class Story_5(Story):
         # ===============================================
 
 
-class Story_Ending_1(Story):
+class Story_Ending_G5_1(Story):
 
     def __init__(self, pygame):
         super().__init__()
@@ -61,7 +61,7 @@ class Story_Ending_1(Story):
 
         self.story_text = []
         self.story_index = 0
-        self.story_text.append("CAT")
+        self.story_text.append("CAT - G5 - Ending 1 - This is accusse and intercept")
 
 #        self.story_text.append("Accused. Eve not here. Game 6 doesn't play")
         self.story_text.append("Juliet: I have not heard from Romeo tonight.")
@@ -70,7 +70,7 @@ class Story_Ending_1(Story):
 
         self.font = 20
 
-class Story_Ending_2(Story):
+class Story_Ending_G5_2(Story):
 
     def __init__(self, pygame):
         super().__init__()
@@ -78,7 +78,7 @@ class Story_Ending_2(Story):
 
         self.story_text = []
         self.story_index = 0
-        self.story_text.append("RAT")
+        self.story_text.append("RAT - G5 - Ending 2 - This is accusre with no intecept, lose heart, eve sad crying in the corner ")
 
         self.story_text.append("Juliet: It's getting late, why haven't I heard from my dear Romeo?")
         self.story_text.append("Juliet: Perhaps we were eavesdropped upon, or the noise at the party ruined this...")
@@ -86,20 +86,6 @@ class Story_Ending_2(Story):
         self.story_text.append("Juliet: Oh Eve, still jealous after all these years...I don't know if we can forgive her...")
         self.story_text.append("Juliet: Well, tomorrow is a new day. All this quantum stuff has me tired.")
         self.story_text.append("Juliet: Goodnight Romeo!")
-
-        self.font = 20
-
-class Story_Ending_3(Story):
-
-    def __init__(self, pygame):
-        super().__init__()
-        self.background = pygame.image.load("assets/images/ending_2.jpg")
-
-        self.story_text = []
-        self.story_index = 0
-
-        self.story_text.append("ROACH - NOTHING GOES HERE SO FAR!!!")
-        self.story_text.append("total victory - letter sent and decrypted corectly")
 
         self.font = 20
 
