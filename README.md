@@ -50,4 +50,5 @@ Thanks for the following institutions / people / project for making this game ha
 - Music background: Schubert Impromptu Op. 90 No.-3 from Adobe Stock
 - Pygame: [https://www.pygame.org/news](https://www.pygame.org/news)
 - Qiskit: [https://qiskit.org/](https://qiskit.org/)
-
+- BB48 Protocol: https://www.qmunity.tech/tutorials/quantum-key-distribution-with-bb84
+- Encryption and Decryption: https://github.com/VoxelPixel/CiphersInPython/blob/master/XOR%20Cipher.py
