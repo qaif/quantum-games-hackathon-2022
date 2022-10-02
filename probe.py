@@ -25,11 +25,8 @@ class ProbeInfo:
 
         self.input_type = ProbeInputType.NEW
         self.measured_distance = None
-        # self.measured_vector = [-1.0, -1.0, -1.0]
-        # self.measured_probe = ProbeDirection.FORWARD
         self.measured_probe = None
 
-        # self.probe_vector = [1.0, 0.0, 0.0]
         self.probe_vector_input = None
         self.probe_vector_output = None
 
@@ -73,12 +70,6 @@ class ProbeInfo:
     def add_on_state_changed_listener(self, listener):
         self.on_state_changed_listeners.append(listener)
 
-    # def set_probe_idxs(self, probe_idxs):
-    #     self.probe_idxs = probe_idxs
-    #
-    # def set_probe_directions(self, probe_directions):
-    #     self.probe_directions = probe_directions
-
     def init_probe_info(self, idxs, dirs):
         self.probe_idxs = idxs
         self.probe_directions = dirs
@@ -104,22 +95,6 @@ class ProbeInfo:
                 pass
             return self.probe_vector_output
 
-    # def truncate_vector(self):
-    #     new = [len(self.probe_idxs)]
-    #     if ProbeDirection.FORWARD in self.probe_directions:
-    #         new[self.get_idx_of_direction(ProbeDirection.FORWARD)][self.get_idx_of_direction()]
-    #     if ProbeDirection.RIGHT in self.probe_directions:
-    #         new.append(self.probe_vector_input[1])
-    #     if ProbeDirection.LEFT in self.probe_directions:
-    #         new.append(self.probe_vector_input[2])
-    #     self.probe_vector_input = new
-
-    def set_x(self, x, count):
-        if self.probe_vector_input is None: self.probe_vector_input = np.zeros(count, dtype=complex)
-        self.probe_vector_input[self.get_idx_of_direction(ProbeDirection.FORWARD)] = x
-        self.on_probe_vector_changed()
-        print("new input: ", self.probe_vector_input)
-
     def get_idx_of_direction(self, direction):
         i = 0
         for d in self.probe_directions:
@@ -127,6 +102,12 @@ class ProbeInfo:
                 return i
             i += 1
         return -1
+
+    def set_x(self, x, count):
+        if self.probe_vector_input is None: self.probe_vector_input = np.zeros(count, dtype=complex)
+        self.probe_vector_input[self.get_idx_of_direction(ProbeDirection.FORWARD)] = x
+        self.on_probe_vector_changed()
+        print("new input: ", self.probe_vector_input)
 
     def set_y(self, y, count):
         if self.probe_vector_input is None: self.probe_vector_input = np.zeros(count, dtype=complex)

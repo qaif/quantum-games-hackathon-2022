@@ -102,8 +102,6 @@ class ActionsWidget(QWidget):
     def __init__(self, game_state):
         super().__init__()
         self.game_state = game_state
-        # self.game_manager = game_manager
-        # self.probe_info = probe_info
         self.game_state.add_on_state_changed_listener(self.on_game_state_changed)
 
         layout = QHBoxLayout()
@@ -139,8 +137,6 @@ class ActionsWidget(QWidget):
         elif state == GameStateType.PROBE_END:
             pass
         elif state == GameStateType.STRIKE_START:
-            # self.probe_button.setDisabled(True)
-            # self.strike_button.setDisabled(True)
             pass
         elif state == GameStateType.STRIKE_CORRECT_GUESS:
             self.probe_button.setDisabled(True)
@@ -149,9 +145,9 @@ class ActionsWidget(QWidget):
             pass
         elif state == GameStateType.GAME_OVER:
             self.probe_button.setDisabled(True)
-            self.probe_button.hide()
+            # self.probe_button.hide()
             self.strike_button.setDisabled(True)
-            self.strike_button.hide()
+            # self.strike_button.hide()
             self.restart_button.show()
         elif state == GameStateType.RESTART:
             self.probe_button.setDisabled(False)
@@ -161,13 +157,10 @@ class ActionsWidget(QWidget):
     def on_probe(self):
         print("probe")
         self.game_state.set_game_state(GameStateType.PROBE_START)
-        # self.game_manager.on_probe_start()
-        # self.probe_info.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
 
     def on_strike(self):
         print("strike")
         self.game_state.set_game_state(GameStateType.STRIKE_START)
-        # self.game_manager.on_strike()
 
     def on_restart(self):
         print("restart")
