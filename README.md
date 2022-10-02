@@ -35,6 +35,8 @@ Good luck and enjoy the game !!
 
 ## Citation
 
+Thanks for the following institutions / people / project for making this game happens !!
+
 - Title Pixel text : [https://fontmeme.com/pixel-fonts/](https://fontmeme.com/pixel-fonts/)
 - Dall-e-2 for images : [https://openai.com/dall-e-2/](https://openai.com/dall-e-2/)
 - Font: [https://www.dafont.com/grand9k-pixel.font](https://www.dafont.com/grand9k-pixel.font)
