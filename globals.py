@@ -26,7 +26,7 @@ testing = False
 phase = 4        # config for setting game phases
 
 #=======================================
-testing_the_story_5 = False # test for story 5 and so on
+testing_the_story_5 = True # test for story 5 and so on
 #=======================================
 
 # =========== GAME SETTINGS FOR NEW GAME ======================

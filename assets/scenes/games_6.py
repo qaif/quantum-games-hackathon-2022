@@ -105,13 +105,13 @@ class Games_6(Games):
 
                 elif self.story_phase == 3 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
                     self.check_answers()
-
+                    # THIS IS EVE Replies
                     if self.answer_send_letter == "Yes":
 
                         if self.win:
                             self.text.text = "This is send letter, and the message decrypted successfully. Juliet Happy"
                             self.win = True
-                        else:
+                        else: 
                             self.text.text = "This is send letter, and the message decrypted WRONGLY. Juliet CONFUSED "
                             self.reduce_hearts()
                             self.lose = True
