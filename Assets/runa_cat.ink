@@ -40,7 +40,7 @@ Or would you rather hear me quote Nietzsche? # runa
   -> Plea
 *[Guilt]
   Did you do it? # protagonist
-  {guilty=="runa_cat":
+  {guilty=="runa":
   Of course not # runa
   -else:
   Is the question about doing or thinking more important for you than the question about being? # runa
@@ -83,5 +83,6 @@ Or would you rather hear me quote Nietzsche? # runa
    -> Plea
 +Disengage
    -> classroom
-- 
+-
+-> Plea
 
