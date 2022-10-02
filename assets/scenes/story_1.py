@@ -29,7 +29,7 @@ class Story_1_5(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("Romeo: Hello Eve! I've encoded the bits into qubits, and stored them in a special quantum scroll")
-        self.story_text.append("Romeo: Please take this to Juliet and have her measure the qubits using a random basis each time")
+        self.story_text.append("Romeo: Hello Eve! I've encoded the bits into qubits, and stored them in a special quantum scroll.")
+        self.story_text.append("Romeo: Please take this to Juliet and have her measure the qubits using a random basis (X/Z) each time.")
         self.story_text.append("Eve: I would be happy to help. You two are such a beautiful couple. Your secret is safe with me.")
-        self.story_text.append("Eve: Juliet is at the Capulet Ball. I promise to not peek at the qubits...")
+        self.story_text.append("Eve: I promise not to peek at the qubits on my way there...old friend.")
