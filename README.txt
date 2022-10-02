@@ -6,6 +6,8 @@ The following week 8.5 hours were used to have the game to be in a good state fo
 
 Following is a prosal description of the state of the game to ease Quantum Games Hackaton judges investigation and judgement what development was done before the hackaton. It will include spoilers.
 
+Way below is description post hackahton.
+
 **SPOILERS**
 DO NOT READ BELOW IF YOU DON'T WANT TO BE SPOILED
 
@@ -122,4 +124,40 @@ Because the basis-state stories have causality correlations within them the supe
 files in folder "design_support" have additional world building / prework that is not apparent or have not been integrated to the actual game. There is also a file "reference_list" that contains information what various obscure references are trying to get at.
 
 =============== Hackathon end program state description start ====================
+
+Now with different fonts and colors for different social characters.
+Honor guard in hall of fame is actually a social character and shares feel with butler.
+
+Reading rest marks the spot of new content to read.
+
+Scrolling by numbers. Use second box to go backwards that many lines. new content is retained visible while scrolling.
+
+Tachyonic telephone has you calling from the future.
+
+More detailed motivations.
+
+New social character Post worker with own room. Can't be guilty.
+
+The post office has trouble with lively cats interupting their delivery. Runa takes issue with the method and provides an alternative.
+
+Chemistry department is also dealing with mail bombs. Mail office wants to detect duds so that not every delivery needs to be dealt with silk gloves.
+
+Express packages need to tunnel throught a solid wall to reach delivery bots.
+
+Office table is locked with key in possession of victim. No access until decay.
+
+Hallway has a grue middle arc.
+
+Auditorium has a super pass code generator in it. Ask rascal about it.
+
+Rascal might be in trouble and steal extra passcodes.
+
+Auditorium has a quantum teleportation sender and office a quantum teleportation receiver. Sorry there is no anti-correlation source so all that machinery is inoperable. Have fun thinking it somehow is (sorry, actually sorry).
+
+Math teacher provides a simple quantum circuit simulation. You should really use Qiskit or Quantum Odyssey rather if that picks your fancy.
+
+Game start with more choices now. Less reading more choosing.
+
+Game now runs on somewhat of a possibility-travel version of timewaves. They are all in the same time but otherwise pretty similar.
+
 
