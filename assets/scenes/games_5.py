@@ -161,7 +161,7 @@ class Games_5(Games):
 
                         if self.win:
                             #self.text.text = "This is accuse and intercept (After dot dot dot"
-                            self.text.text = "Eve: Please forgive me, I only wanted to keep you two safe!"
+                            self.text.text = "Eve: Please forgive me, I only wanted to keep you two alive!"
                             self.win = True
                         else:
                             #self.text.text = "This is accusre with no intecept, lose heart, eve sad crying in the corner "
