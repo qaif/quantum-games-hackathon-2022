@@ -18,6 +18,8 @@ class Story_1(Story):
         self.story_index = 0
 
         self.story_text.append("I can encode these classical bits into qubits, using the bases, like so:")
+        self.story_text.append("For example, the state |+> is 0 in the X-basis.")
+        self.story_text.append("So if Juliet (or someone else) measures it in the X-basis, the result must be 0.")
         self.story_text.append("After the game, I'll contact my old friend Eve, who can carry this information to Juliet.")
 
 class Story_1_5(Story):
