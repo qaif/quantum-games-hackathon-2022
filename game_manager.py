@@ -231,7 +231,11 @@ class GameManager:
 
     def on_success(self):
         print("YOU GUESSED CORRECTLY!!!")
-        self.grid.set_occupier(self.prey_location, OccupierType.PREY)
+        if self.snake.body[0] == self.prey_location:
+            # self.on_collected_food()
+            self.snake.on_collected_food()
+        else:
+            self.grid.set_occupier(self.prey_location, OccupierType.PREY)
 
     def on_collected_food(self):
         print("COLLECTED FOOD!!!")
@@ -291,11 +295,11 @@ class GameManager:
         # Uses the Floyd-Warshall algorithm
         N = graph.shape[0]
         dist = np.full((N, N), np.inf)
-        print(dist)
+        # print(dist)
         dist[graph == 1] = 1
-        print(dist)
+        # print(dist)
         dist[range(N), range(N)] = 0
-        print(dist)
+        # print(dist)
         for k in range(N):
             for i in range(N):
                 for j in range(N):
@@ -514,8 +518,6 @@ class Snake:
 
     def on_collision(self):
         self.game_state.set_game_state(GameStateType.GAME_OVER)
-        # for listener in self.on_collision_listeners:
-        #     listener()
 
     def occupier_from_direction(self, direction):
         if direction == ProbeDirection.FORWARD:

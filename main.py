@@ -139,10 +139,14 @@ class ActionsWidget(QWidget):
         elif state == GameStateType.STRIKE_START:
             pass
         elif state == GameStateType.STRIKE_CORRECT_GUESS:
-            self.probe_button.setDisabled(True)
-            self.strike_button.setDisabled(True)
-        elif state == GameStateType.STRIKE_END:
+            # TODO: fix
+            # self.probe_button.setDisabled(True)
+            # self.strike_button.setDisabled(True)
             pass
+        elif state == GameStateType.STRIKE_END:
+            print("enabling buttons")
+            self.probe_button.setDisabled(False)
+            self.strike_button.setDisabled(False)
         elif state == GameStateType.GAME_OVER:
             self.probe_button.setDisabled(True)
             # self.probe_button.hide()
