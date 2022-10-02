@@ -20,7 +20,7 @@ This games is made by using Pygame as the game engine, and we integrate Qiskit S
 
 To rocket right in, download Verona-2049 with [git](https://git-scm.com/) at the terminal
 ```bash
-clone https://github.com/HandyKurniawan/Verona-2049.git
+git clone https://github.com/HandyKurniawan/Verona-2049.git
 cd Verona-2049
 ```
 If you doesn't have Python yet, please download and install it here [Python](https://www.python.org/).
