@@ -1,6 +1,15 @@
 # Verona-2049
 
-This is a game to learn about the [Quantum Key Distribution](https://qiskit.org/textbook/ch-algorithms/quantum-key-distribution.html).
+## Introduction
+In Verona, 2049 players will follow Romeo and Juliet as they attempt to create two identical keys for cryptography, using the BB84 [Quantum Key Distribution](https://qiskit.org/textbook/ch-algorithms/quantum-key-distribution.html) protocol. This is because Romeo and Juliet are from rival families, and they want to exchange love letters in secret. 
+
+The player will help them pick bits and bases to encode qubits with, take measurements of quantum states, sift their keys, and ultimately decide whether to accuse the letter-carrier of eavesdropping and to send the letter or not.  Will you succeed in encrypting and decrypting their love letters, or will this story be a tragedy? 
+
+There are 6 unique endings for players to unlock. Player choices matter a lot and accumulate as the game progresses, with mechanics such as picking the key size, sampling, eavesdropping, and noise. 
+
+The minigames comprising this game are separated by cutscenes that advance the story, showcasing beautiful visual assets created by our team. With score, timer, and life systems, the player is encouraged to explore various strategies, with hints given throughout the game.  
+
+It is our hope that you find this game equally entertaining, educational, and beautiful.
 
 ## :rocket:&nbsp; Getting started 
 
@@ -23,3 +32,10 @@ python main.py
 ```
 
 Good luck and enjoy the game !!
+
+## Citation
+
+- Title Pixel text : [https://fontmeme.com/pixel-fonts/](https://fontmeme.com/pixel-fonts/)
+- Dall-e-2 for images : [https://openai.com/dall-e-2/](https://openai.com/dall-e-2/)
+- Font: [https://www.dafont.com/grand9k-pixel.font](https://www.dafont.com/grand9k-pixel.font)
+- Music background: Schubert Impromptu Op. 90 No.-3 from Adobe Stock
