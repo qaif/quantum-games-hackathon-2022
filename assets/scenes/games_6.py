@@ -105,7 +105,7 @@ class Games_6(Games):
 
                 elif self.story_phase == 3 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
                     self.check_answers()
-
+                    # THIS IS EVE Replies
                     if self.answer_send_letter == "Yes":
 
                         if self.win:

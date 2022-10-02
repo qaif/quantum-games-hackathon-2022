@@ -163,14 +163,14 @@ class Games_5(Games):
                             #self.text.text = "This is accuse and intercept (After dot dot dot"
                             self.text.text = "Eve: Please forgive me, I only wanted to keep you two alive!"
                             self.win = True
-                        else:
+                        else: # CHECKED
                             #self.text.text = "This is accusre with no intecept, lose heart, eve sad crying in the corner "
                             self.text.text = "Eve: I never measured the qubits!! If the keys are different blame noise :-("
                             self.reduce_hearts()
                             self.lose = True
                         
                     elif self.answer_accuse == "No":
-                        if self.win:
+                        if self.win: # CHECKED
                             #self.text.text = "This is not accusse and no intercept.. both happy"
                             self.text.text = "Eve: thank you for trusting me :-)"
                             self.win = True
