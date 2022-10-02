@@ -802,13 +802,13 @@ class Games6Scene(Scene):
     def input(self, sm, inputStream):
 
         
-        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g6.answer_send_letter and self.g6.win:
+        if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g6.answer_send_letter == "Yes" and self.g6.win:
             sm.push(FadeTransitionScene([self], [StoryEnding3Scene()]))
-        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g6.answer_send_letter and self.g6.lose:
+        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g6.answer_send_letter == "Yes" and self.g6.lose:
             sm.push(FadeTransitionScene([self], [StoryEnding4Scene()]))
-        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g6.answer_send_letter == False and self.g6.win:
+        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g6.answer_send_letter == "No" and self.g6.win:
             sm.push(FadeTransitionScene([self], [StoryEnding5Scene()]))
-        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g6.answer_send_letter == False and self.g6.lose:
+        elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.move_scene and self.g6.answer_send_letter == "No" and self.g6.lose:
             sm.push(FadeTransitionScene([self], [StoryEnding6Scene()]))
         elif inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.g6.finish and self.g6.gameover:
             sm.push(FadeTransitionScene([self], [GameOverScene()]))

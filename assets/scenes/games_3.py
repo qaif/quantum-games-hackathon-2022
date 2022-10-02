@@ -68,9 +68,6 @@ class Games_3(Games):
 
         # this came from a few lines above
         self.juliet_bits = globals.juliet_bits
-
-
-
         self.romeo_bases = globals.romeo_bases
         self.juliet_bases = globals.juliet_bases
         self.numberofbit = 0
@@ -143,6 +140,18 @@ class Games_3(Games):
 
         # answer key has been retrieved from the qiskit implementations
         #self.get_answer_key()
+
+        # For cleaning up
+        for i in self.juliet_bit_display:
+            i.kill()
+
+        for i in self.romeo_base_display:
+            i.kill()
+
+        for i in self.juliet_base_display:
+            i.kill()
+
+
 
         i = 0
         for type in self.juliet_bits: # we need to use Juliet's bits here
