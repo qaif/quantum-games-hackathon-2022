@@ -62,7 +62,7 @@ class ProbeInfo:
             pass
 
     def set_probe_state(self, state):
-        print("changing probe state from: ", self.state, " to: ", state)
+        # print("changing probe state from: ", self.state, " to: ", state)
         self.state = state
         for listener in self.on_state_changed_listeners:
             listener(state)
@@ -107,19 +107,19 @@ class ProbeInfo:
         if self.probe_vector_input is None: self.probe_vector_input = np.zeros(count, dtype=complex)
         self.probe_vector_input[self.get_idx_of_direction(ProbeDirection.FORWARD)] = x
         self.on_probe_vector_changed()
-        print("new input: ", self.probe_vector_input)
+        # print("new input: ", self.probe_vector_input)
 
     def set_y(self, y, count):
         if self.probe_vector_input is None: self.probe_vector_input = np.zeros(count, dtype=complex)
         self.probe_vector_input[self.get_idx_of_direction(ProbeDirection.RIGHT)] = y
         self.on_probe_vector_changed()
-        print("new input: ", self.probe_vector_input)
+        # print("new input: ", self.probe_vector_input)
 
     def set_z(self, z, count):
         if self.probe_vector_input is None: self.probe_vector_input = np.zeros(count, dtype=complex)
         self.probe_vector_input[self.get_idx_of_direction(ProbeDirection.LEFT)] = z
         self.on_probe_vector_changed()
-        print("new input: ", self.probe_vector_input)
+        # print("new input: ", self.probe_vector_input)
 
     def on_probe_vector_changed(self):
         for listener in self.on_probe_vector_changed_listeners:
@@ -143,12 +143,12 @@ class ProbeInfo:
         self.on_distance_changed_listeners.append(listener)
 
     def set_measured_distance(self, new):
-        print("distance: ", new)
+        # print("distance: ", new)
         self.measured_distance = new
         self.on_distance_changed()
 
     def set_measured_probe(self, new):
-        print("probe: ", new)
+        # print("probe: ", new)
         self.measured_probe = new
         # self.on_probe_changed()
 
@@ -331,7 +331,7 @@ class QueryWidget(QWidget):
         self.v3.setText("")
 
     def set_disabled(self):
-        print(self.probe_info.probe_directions)
+        # print(self.probe_info.probe_directions)
         self.v1.setDisabled(ProbeDirection.FORWARD not in self.probe_info.probe_directions)
         self.v2.setDisabled(ProbeDirection.RIGHT not in self.probe_info.probe_directions)
         self.v3.setDisabled(ProbeDirection.LEFT not in self.probe_info.probe_directions)
@@ -339,7 +339,7 @@ class QueryWidget(QWidget):
         self.rbo.setDisabled(self.probe_info.probe_vector_output is None)
     # TODO:
     def v1_changed(self, text):
-        print(text)
+        # print(text)
         try:
             c = complex(text)
             self.probe_info.set_x(c, self.count)
@@ -390,7 +390,7 @@ class UnitaryWidget(QWidget):
         base_layout.addWidget(QLabel("Apply Unitary Transformation Matrix"))
         # TODO: disable last row and column depending on available
         self.count = len(self.probe_info.probe_idxs)
-        print("number of probeable indices: ", self.count)
+        # print("number of probeable indices: ", self.count)
 
         row1 = QWidget()
         base_layout.addWidget(row1)
@@ -503,7 +503,7 @@ class UnitaryWidget(QWidget):
     def on_show(self):
         self.show()
         self.count = len(self.probe_info.probe_idxs)
-        print("number of probeable indices: ", self.count)
+        # print("number of probeable indices: ", self.count)
         self.m2.setDisabled(self.count < 2)
         self.m3.setDisabled(self.count < 3)
         self.m4.setDisabled(self.count < 2)
@@ -529,7 +529,7 @@ class UnitaryWidget(QWidget):
         self.probe_info.set_probe_state(ProbeState.APPLY_UNITARY)
 
     def on_unitary_changed(self):
-        print("unitary changed")
+        # print("unitary changed")
         try:
             if self.count == 1:
                 self.probe_info.unitary = np.array([[complex(self.m1.text())]])
@@ -544,7 +544,7 @@ class UnitaryWidget(QWidget):
             # self.probe_info.set_probe_state(ProbeState.UNITARY_OR_MEASURE)
             self.error_message.hide()
         except ValueError:
-            print("INVALID MATRIX!!!")
+            # print("INVALID MATRIX!!!")
             # self.error_message.hide()
             self.probe_info.set_probe_state(ProbeState.INVALID_UNITARY_INPUT)
 
@@ -596,7 +596,7 @@ class MeasureWidget(QWidget):
             return "l"
 
     def on_measure_clicked(self):
-        print("measure clicked")
+        # print("measure clicked")
         self.probe_info.set_probe_state(ProbeState.MEASURE_PROBE_VECTOR)
 
 
@@ -626,7 +626,7 @@ class ContinueWidget(QWidget):
             self.show()
 
     def on_finish_clicked(self):
-        print("finish clicked")
+        # print("finish clicked")
         self.probe_info.set_probe_state(ProbeState.NONE)
         self.game_state.set_game_state(GameStateType.PROBE_END)
 

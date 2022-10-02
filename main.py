@@ -45,7 +45,7 @@ class GridWidget(QWidget):
             self.grid.pressed_node = self.grid.nodes[
                 self.grid.get_idx_from_canvas(event.position().x(), event.position().y())]
             self.grid.pressed_node.pressed = True
-            print("pressed node: ", self.grid.pressed_node.idx)
+            # print("pressed node: ", self.grid.pressed_node.idx)
             # self.update()
             self.on_update()
 
@@ -54,7 +54,7 @@ class GridWidget(QWidget):
         # geometry of the widget; if so, emit the signal;
         if self.grid.pressed_node is not None and event.button() == Qt.MouseButton.LeftButton:
             if self.grid.pressed_node == self.grid.nodes[self.grid.get_idx_from_canvas(event.position().x(), event.position().y())]:
-                print("clicked node: ", self.grid.pressed_node.idx)
+                # print("clicked node: ", self.grid.pressed_node.idx)
                 self.update()
                 if self.grid.selected_node is not None: self.grid.selected_node.on_deselect()
                 self.grid.selected_node = self.grid.pressed_node
@@ -144,7 +144,6 @@ class ActionsWidget(QWidget):
             # self.strike_button.setDisabled(True)
             pass
         elif state == GameStateType.STRIKE_END:
-            print("enabling buttons")
             self.probe_button.setDisabled(False)
             self.strike_button.setDisabled(False)
         elif state == GameStateType.GAME_OVER:
@@ -159,15 +158,15 @@ class ActionsWidget(QWidget):
             self.restart_button.hide()
 
     def on_probe(self):
-        print("probe")
+        # print("probe")
         self.game_state.set_game_state(GameStateType.PROBE_START)
 
     def on_strike(self):
-        print("strike")
+        # print("strike")
         self.game_state.set_game_state(GameStateType.STRIKE_START)
 
     def on_restart(self):
-        print("restart")
+        # print("restart")
         self.game_state.set_game_state(GameStateType.RESTART)
 
 

@@ -66,7 +66,7 @@ class GameState:
     #         self.set_game_state(GameStateType.TURN_END)
 
     def set_game_state(self, state):
-        print("changing game state from: ", self.state, " to: ", state)
+        # print("changing game state from: ", self.state, " to: ", state)
         last = self.state
         self.state = state
         for listener in self.on_state_changed_listeners:
@@ -126,16 +126,16 @@ class GameManager:
 
     def on_probe_state_changed(self, state):
         if state == ProbeState.NONE:
-            print("CLEARING MEASUREMENTS!!!!!!!!!!!!!")
+            # print("CLEARING MEASUREMENTS!!!!!!!!!!!!!")
             self.probe_info.clear_measurements()
-            print("measurements: ", self.probe_info.measured_distance)
+            # print("measurements: ", self.probe_info.measured_distance)
         elif state == ProbeState.INPUT_PROBE_VECTOR:
-            print("CLEARING MEASUREMENTS!!!!!!!!!!!!!")
+            # print("CLEARING MEASUREMENTS!!!!!!!!!!!!!")
             self.probe_info.clear_measurements()
         elif state == ProbeState.MEASURE_DISTANCE:
-            print("!!!measuring distance")
+            # print("!!!measuring distance")
             if self.probe_info.get_probe_vector() is None or not self.probe_info.is_valid_vector(self.probe_info.get_probe_vector()):
-                print("INVALID VECTOR!!!: ", self.probe_info.get_probe_vector())
+                # print("INVALID VECTOR!!!: ", self.probe_info.get_probe_vector())
                 self.probe_info.set_probe_state(ProbeState.INVALID_VECTOR_INPUT)
                 return
             self.measure_distance()
@@ -143,15 +143,15 @@ class GameManager:
         elif state == ProbeState.UNITARY_OR_MEASURE:
             pass
         elif state == ProbeState.APPLY_UNITARY:
-            print("!!!applying unitary")
+            # print("!!!applying unitary")
             if not self.probe_info.is_valid_unitary():
-                print("INVALID MATRIX!!!")
+                # print("INVALID MATRIX!!!")
                 self.probe_info.set_probe_state(ProbeState.INVALID_UNITARY_INPUT)
                 return
             self.apply_unitary()
             self.probe_info.set_probe_state(ProbeState.UNITARY_OR_MEASURE)
         elif state == ProbeState.MEASURE_PROBE_VECTOR:
-            print("!!!measuring probe vector")
+            # print("!!!measuring probe vector")
             self.measure_probe_vector()
             self.probe_info.set_probe_state(ProbeState.MEASURED)
         elif state == ProbeState.MEASURED:
@@ -169,7 +169,7 @@ class GameManager:
         if new == GameStateType.TURN_START:
             pass
         elif new == GameStateType.TURN_END:
-            print("turn start")
+            # print("turn start")
             self.game_state.set_game_state(GameStateType.TURN_START)
         elif new == GameStateType.PROBE_START:
             self.game_state.increment_probes()
@@ -185,13 +185,13 @@ class GameManager:
             else:
                 self.game_state.set_game_state(GameStateType.STRIKE_END)
         elif new == GameStateType.STRIKE_INVALID_GUESS:
-            print("INVALID GUESS!!!")
+            # print("INVALID GUESS!!!")
             self.game_state.set_game_state(GameStateType.STRIKE_END)
         elif new == GameStateType.STRIKE_CORRECT_GUESS:
             self.on_success()
             # self.game_state.set_game_state(GameStateType.STRIKE_END)
         elif new == GameStateType.STRIKE_END:
-            print("last state = ", last)
+            # print("last state = ", last)
             if last == GameStateType.STRIKE_CORRECT_GUESS:
                 self.on_collected_food()
             self.game_state.set_game_state(GameStateType.TURN_END)
@@ -210,15 +210,15 @@ class GameManager:
 
     def measure_distance(self):
         vector = self.probe_info.get_probe_vector()
-        print("PROBING WITH VECTOR: ", vector)
+        # print("PROBING WITH VECTOR: ", vector)
         if not self.probe_info.is_valid_vector(vector):
-            print("INVALID VECTOR!!!")
+            # print("INVALID VECTOR!!!")
             self.probe_info.set_probe_state(ProbeState.INPUT_PROBE_VECTOR)
             return
         q = self.query(vector)
         dis = q[0]
         vec = q[1]
-        print(q)
+        # print(q)
         self.probe_info.set_measured_distance(dis)
         self.probe_info.set_probe_vector_output(vec)
 
@@ -238,7 +238,7 @@ class GameManager:
             self.grid.set_occupier(self.prey_location, OccupierType.PREY)
 
     def on_collected_food(self):
-        print("COLLECTED FOOD!!!")
+        # print("COLLECTED FOOD!!!")
         self.snake.grow(1)
         self.on_reset_prey()
 
@@ -252,8 +252,8 @@ class GameManager:
             self.game_state.set_game_state(GameStateType.STRIKE_INVALID_GUESS)
             return
         guess = self.grid.selected_node.idx
-        print("GUESSING: ", guess)
-        print("PREY: ", self.prey_location)
+        # print("GUESSING: ", guess)
+        # print("PREY: ", self.prey_location)
 
         if guess == self.prey_location:
             self.game_state.set_game_state(GameStateType.STRIKE_CORRECT_GUESS)
@@ -263,7 +263,7 @@ class GameManager:
     def spawn_prey(self):
         # TODO: don't spawn on top of snake???
         self.prey_location = self.rng.integers(0, self.grid.size * self.grid.size)
-        print("PREY LOCATED AT: ", self.prey_location)
+        # print("PREY LOCATED AT: ", self.prey_location)
 
     def create_grid_adj_mat(self, rows, columns):
         # Returns the adjacency matrix of a grid with rows number of rows and columns number of columns
@@ -412,8 +412,8 @@ class Snake:
         probe_directions = []
         for i in idxs:
             probe_directions.append(self.get_relative_direction(i))
-        print("probe idxs: ", idxs)
-        print("probe directions: ", probe_directions)
+        # print("probe idxs: ", idxs)
+        # print("probe directions: ", probe_directions)
         return idxs, probe_directions
 
     def get_relative_direction(self, idx):
@@ -421,7 +421,7 @@ class Snake:
         d = self.get_direction()
         if idx > head:
             if idx == head + 1:  # right
-                print("idx: ", idx, " to the right of head: ", head)
+                # print("idx: ", idx, " to the right of head: ", head)
                 if d == GlobalDirection.UP:
                     return ProbeDirection.RIGHT
                 elif d == GlobalDirection.RIGHT:
@@ -429,7 +429,7 @@ class Snake:
                 elif d == GlobalDirection.DOWN:
                     return ProbeDirection.LEFT
             else:  # down
-                print("idx: ", idx, " below head: ", head)
+                # print("idx: ", idx, " below head: ", head)
                 if d == GlobalDirection.RIGHT:
                     return ProbeDirection.RIGHT
                 elif d == GlobalDirection.DOWN:
@@ -437,7 +437,7 @@ class Snake:
                 elif d == GlobalDirection.LEFT:
                     return ProbeDirection.LEFT
         elif idx == head - 1:  # left
-            print("idx: ", idx, " left of head: ", head)
+            # print("idx: ", idx, " left of head: ", head)
             if d == GlobalDirection.UP:
                 return ProbeDirection.LEFT
             elif d == GlobalDirection.DOWN:
@@ -445,7 +445,7 @@ class Snake:
             elif d == GlobalDirection.LEFT:
                 return ProbeDirection.FORWARD
         else:  # up
-            print("idx: ", idx, " above head: ", head)
+            # print("idx: ", idx, " above head: ", head)
             if d == GlobalDirection.UP:
                 return ProbeDirection.FORWARD
             elif d == GlobalDirection.RIGHT:
@@ -456,16 +456,16 @@ class Snake:
     def get_direction(self):
         if self.body[0] > self.body[1]:
             if self.body[0] == self.body[1] + 1:
-                print("right")
+                # print("right")
                 return GlobalDirection.RIGHT
             else:
-                print("down")
+                # print("down")
                 return GlobalDirection.DOWN
         elif self.body[0] == self.body[1] - 1:
-            print("left")
+            # print("left")
             return GlobalDirection.LEFT
         else:
-            print("up")
+            # print("up")
             return GlobalDirection.UP
 
     def move(self, direction):
