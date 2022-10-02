@@ -5,8 +5,6 @@ import random
 
 from assets.scenes.story import Story
 
-
-# romeo picks the number of bits for the key (important story and game mechanic!)
 class GameOver(Story):
 
     def __init__(self, pygame):
@@ -16,7 +14,9 @@ class GameOver(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("which ending is this? I guess game over? ")
-        self.story_text.append("we should include the score here then! ")
+        self.story_text.append("GAME OVER. You've run out of time or lives!")
+        self.story_text.append("These violent delights have violent ends...")
+        self.story_text.append("Your total score is: ")
+        self.story_text.append(globals.total_score)
         self.y = 350
         self.font = 20
