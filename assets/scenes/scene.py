@@ -155,7 +155,7 @@ class GameOverScene(Scene):
     def input(self, sm, inputStream):
         if inputStream.keyboard.isKeyPressed(pygame.K_RETURN) and self.gameover.finish:
             sm.pop()
-            sm.push(FadeTransitionScene([self], [MainMenuScene()]))
+            sm.push(FadeTransitionScene([self], [LeaderboardScene()]))
 
     def update(self, sm, inputStream):
         self.space.update(inputStream)
