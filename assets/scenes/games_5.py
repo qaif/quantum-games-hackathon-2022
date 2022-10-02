@@ -22,7 +22,7 @@ class Games_5(Games):
         self.start_x_pos = globals.screenSize[0] / 2
 
         self.text = self.Text(par_x=50, par_y=50, par_text="Should I accuse Eve of eavesdropping?")
-        self.text2 = self.Text(par_x=50, par_y=100, par_text="Don't forget how many bits didn't match in the garden...")
+        self.text2 = self.Text(par_x=50, par_y=100, par_text="I need to recall if our key samples matched..It also might've been noise if not. Idk!!")
 
         string_ints = [str(int) for int in globals.translated_romeo_key]
         str_of_ints = ",".join(string_ints)
@@ -34,6 +34,21 @@ class Games_5(Games):
         self.answer_options = ["Yes", "No"]
         self.current_selection = "Yes"
         self.answer_accuse = ""
+
+
+
+        # need to hardcoded everything we need from phase 1 to 4 here
+        if globals.testing_the_story_5:
+            # play around with adding intereference, and make hte keys not match
+            #globals.to_encrypt = random.choice(globals.letters)
+            globals.intercept=False
+            self.key_options = [globals.keyboard_bit_0, globals.keyboard_bit_1]
+            globals.romeo_key="010"
+            globals.juliet_key="101"
+
+
+
+
 
         print("Games 5 : ")
         print("to_encrypt : ", globals.to_encrypt)
@@ -81,10 +96,16 @@ class Games_5(Games):
                 self.lose = True
                 return False
         else:
-            # goes to games 6 sending letter 
+            # goes to games 6 sending letter
+
+            # Tyler question: shouldn't we lose a heart if we say no, and eve did intercept????
+
             self.finish = True
             self.win = True
             return True
+
+
+
 
 
 
@@ -123,14 +144,14 @@ class Games_5(Games):
                     if self.check_answers():
 
                         if self.answer_accuse:
-                            self.text.text = "I am sorry... I didn't mean to.. I just want you and Juliet to be alive .... "
+                            self.text.text = "[?????123123123123???]"
                         else:
                             self.text.text = "will send the message to juliet .... "
                         
                         self.win = True
 
                     else:
-                        self.text.text = "Fu fu fu fu .... "
+                        self.text.text = "Romeo accused (I think)...juliet will not hear from Romeo tonight"
                         self.lose = True
                         self.reduce_hearts()
 
@@ -144,13 +165,13 @@ class Games_5(Games):
             self.text2.text_display(window)
         elif self.story_phase == 1:
             if self.answer_accuse == "Yes":
-                self.text.text = "Cursed you Eve! I know you are trying to seperate us !!!"
+                self.text.text = "Romeo: Curse you Eve! I know you are trying to separate us!!!"
             else:
-                self.text.text = "Thank you for helping us Eve !!! I believe in you..."
+                self.text.text = "Romeo: Thank you for helping us Eve! I trust you, old friend."
 
             self.text.text_display(window)
         elif self.story_phase == 2:
-            self.text.text = "....."
+            self.text.text = "..."
             self.text.text_display(window)
         elif self.story_phase == 4:
             self.finish = True

@@ -15,7 +15,9 @@ class Story_6(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("Story 6...")
+        self.story_text.append("Eve: Noise could still have altered the qubit states at the party")
+        self.story_text.append("Romeo: Yes that is true, and then our keys might not match.")
+        self.story_text.append("Romeo: I would hate for Juliet to not be able to decrypt my love letter...")
 
         self.y = 150
         self.font = 20
@@ -24,13 +26,20 @@ class Story_Ending_3(Story):
 
     def __init__(self, pygame):
         super().__init__()
-        self.background = pygame.image.load("assets/images/ending_2.jpg")
+        self.background = pygame.image.load("assets/images/ending_1.jpg")
 
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("ENDING 3 TEST")
-        self.story_text.append("ENDING 3 TEST PART 2")
+        self.story_text.append("BOB")
+        self.story_text.append("TEST ID: send letter, it 100% matches?")
+        self.story_text.append("Juliet: I can finally decrypt the letter from my lover, Romeo...")
+        self.story_text.append("\""+globals.to_encrypt+"\" - Love, Romeo")
+        self.story_text.append("Juliet: Oh, how beautiful...Thank you eve for your help! You are true friend to us both.")
+        self.story_text.append("Eve: Your secret is safe with me. I am happy to help you again!")
+        self.story_text.append("Juliet: Romeo and I can finally communicate our true feelings, in secret")
+        self.story_text.append("Juliet: and it would've been impossible without quantum key distribution.")
+        self.story_text.append("Eve: You two did great today. Congratulations!!!!")
 
         self.font = 20
 
@@ -43,8 +52,13 @@ class Story_Ending_4(Story):
         self.story_text = []
         self.story_index = 0
 
-        self.story_text.append("ENDING 4 TEST")
-        self.story_text.append("ENDING 4 TEST PART 2")
+        # NO > NO (NOT SURE IF CONTENTS OF KEYS MATTER)
+        self.story_text.append("BARK")
+        self.story_text.append("Juliet: It's getting late, why haven't I heard from my dear Romeo?")
+        self.story_text.append("Juliet: Perhaps we were eavesdropped upon, or the noise at the party ruined this...")
+        self.story_text.append("Juliet: I'm sure it was the latter, we've trusted Eve for years...")
+        self.story_text.append("Juliet: Well, tomorrow is a new day. All this quantum stuff has me tired.")
+        self.story_text.append("Juliet: Goodnight Romeo!")
 
         self.font = 20
 

@@ -103,12 +103,12 @@ class Games_6(Games):
 
                 elif self.story_phase == 3 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
                     if self.check_answers():
-                        self.text.text = "send the letter .... "
+                        self.text.text = "Juliet eagerly awaits Eve's arrival..."
                         self.win = True
                     else:
-                        self.text.text = "Dont send the letter .... "
+                        self.text.text = "Juliet will not hear from Romeo tonight..."
                         self.lose = True
-                        self.reduce_hearts()
+                        # self.reduce_hearts() # not true!!!!!!
 
                     self.story_phase += 1
                 elif self.story_phase >= 1 and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE):
@@ -119,13 +119,13 @@ class Games_6(Games):
             self.text.text_display(window)
         elif self.story_phase == 1:
             if self.answer_send_letter == "Yes":
-                self.text.text = "lalalala  !!!"
+                self.text.text = "Romeo: I will send the letter. My love is waiting to hear from me!"
             else:
-                self.text.text = "hohohoho !!!"
+                self.text.text = "Romeo: My love is waiting to hear from me, but she must wait another day."
 
             self.text.text_display(window)
         elif self.story_phase == 2:
-            self.text.text = "....."
+            self.text.text = "..."
             self.text.text_display(window)
         elif self.story_phase == 4:
             self.finish = True
