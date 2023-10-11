@@ -1,0 +1,12 @@
+coherentLottery(pool)
+takes a parameter that refers to value pool in code
+Provides every basis state the same value.
+The value is picked at random from the pool.
+New visit will pick a new random value.
+Used to make "non-flickering" randomization.
+
+
+
+splitWorld(detail)
+makes a new classical story, toggles the variable detail.
+The new variable is not in the new state to the line immediately after call to this.

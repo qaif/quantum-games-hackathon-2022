@@ -1,0 +1,11 @@
+Quick suggestion selection
+	use number keys to quickly take a suggested action
+
+
+Character recall
+	Use stat like Wis or memory to control how far back the story can be referenced to
+	NOT IMPLEMENTED
+
+Observation level
+	Use stat like Wis to control how much description a room or item gets
+	NOT IMPLEMENTED
